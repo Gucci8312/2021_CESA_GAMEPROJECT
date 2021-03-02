@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// プレイヤーの挙動
-public class PlayerMove : MonoBehaviour
+public class EnemyMove : MonoBehaviour
 {
-    // Start is called before the first frame update
     GameObject[] Mobius = new GameObject[4];                                                          // メビウスの輪
     public float MovePower;                                                                         // 移動力
     public int NowMobius;                                                                           //現在のメビウスの添え字　
@@ -139,7 +137,7 @@ public class PlayerMove : MonoBehaviour
                 //this.transform.position = new Vector3(CollisonPos.x, CollisonPos.y, 0);
 
 
-                if ((hankei/2)+(InsideLength/2) > NextLength)
+                if ((hankei / 2) + (InsideLength / 2) > NextLength)
                 {
                     SaveMobius = NowMobius;
                     NowMobius = i;
@@ -185,21 +183,6 @@ public class PlayerMove : MonoBehaviour
     public int GetNowMobiusNum()
     {
         return NowMobius;
-    }
-
-    // 衝突時
-    // private void OnTriggerEnter(Collider other)
-    private void OnCollisionEnter(Collision other)
-    {
-       
-        
-    }
-
-    // 離れた時
-    private void OnTriggerExit(Collider other)
-    //private void OnCollisionExit(Collision other)
-    {
-       
     }
 
 }
