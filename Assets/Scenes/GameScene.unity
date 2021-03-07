@@ -414,6 +414,8 @@ MonoBehaviour:
   RotateLeftFlg: 0
   InsideFlg: 0
   MobiusCollisonLength: 0
+  SlowTime: 0.5
+  NormalTime: 1
 --- !u!23 &501298118
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -677,11 +679,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovePower: 50
-  NowMobius: 0
+  NowMobius: 1
   InsideLength: 0
   RotateLeftFlg: 0
   InsideFlg: 0
   MobiusCollisonLength: 0
+  SlowTime: 0.5
+  NormalTime: 1
 --- !u!135 &864596327
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -937,11 +941,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovePower: 50
-  NowMobius: 0
+  NowMobius: 2
   InsideLength: 0
   RotateLeftFlg: 0
   InsideFlg: 0
   MobiusCollisonLength: 0
+  SlowTime: 0.5
+  NormalTime: 1
 --- !u!135 &1493642473
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1290,7 +1296,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1671426495}
   m_LocalRotation: {x: -0.002791286, y: 0.0008765897, z: 0.0013986866, w: 0.9999948}
-  m_LocalPosition: {x: -49.8, y: 103.9, z: -0.4}
+  m_LocalPosition: {x: -49.8, y: 110.2, z: -0.4}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1310,10 +1316,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovePower: 50
   NowMobius: 0
-  InsideLength: 0
   RotateLeftFlg: 0
   InsideFlg: 0
-  MobiusCollisonLength: 0
+  SlowTime: 0.5
+  NormalTime: 1
 --- !u!1 &1674757188
 GameObject:
   m_ObjectHideFlags: 0
