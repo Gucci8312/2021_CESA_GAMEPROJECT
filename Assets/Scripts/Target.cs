@@ -20,11 +20,11 @@ public class Target : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         // プレイヤーに当たった時
-       // if (other.gameObject.tag == "Player")
-      //  {            
+        if (other.gameObject.tag == "Player")
+        {
             Debug.Log("チェックポイント通過");
             Destroy(this.gameObject);
-       // }
+        }
     }
 
 

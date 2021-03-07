@@ -210,6 +210,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b0406301760e3b9448bab3ba704eee3a,
         type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b0406301760e3b9448bab3ba704eee3a,
+        type: 3}
       propertyPath: m_TagString
       value: Mobius
       objectReference: {fileID: 0}
@@ -304,6 +309,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b0406301760e3b9448bab3ba704eee3a,
         type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b0406301760e3b9448bab3ba704eee3a,
+        type: 3}
       propertyPath: m_TagString
       value: Mobius
       objectReference: {fileID: 0}
@@ -328,7 +338,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovePower: 0.5
-  AttachMobius: {fileID: 0}
+  m_layerMaskMobius:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!135 &344818103
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -358,12 +370,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!4 &344818107 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b0406301760e3b9448bab3ba704eee3a,
-    type: 3}
-  m_PrefabInstance: {fileID: 2068238758}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &501298115
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,7 +383,7 @@ GameObject:
   - component: {fileID: 501298118}
   - component: {fileID: 501298116}
   - component: {fileID: 501298117}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -409,7 +415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c54f2904d893844d9bc983cc90cf735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovePower: 50
+  MovePower: 100
   NowMobius: 0
   InsideLength: 0
   RotateLeftFlg: 0
@@ -470,7 +476,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 501298115}
   m_LocalRotation: {x: -0.002791286, y: 0.0008765897, z: 0.0013986866, w: 0.9999948}
-  m_LocalPosition: {x: -77.2, y: 103.8, z: -0.4}
+  m_LocalPosition: {x: -77.2, y: 103.8, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
@@ -535,7 +541,7 @@ GameObject:
   - component: {fileID: 585468000}
   - component: {fileID: 585468004}
   - component: {fileID: 585468005}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: CheckPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -610,13 +616,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 585467999}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0, y: -0, z: -0.0116}
-  m_LocalScale: {x: 0.0012500001, y: 0.0012499997, z: 0.004999999}
+  m_LocalRotation: {x: -0.6369396, y: -0.2680686, z: -0.27958786, w: 0.66654176}
+  m_LocalPosition: {x: -0.0078, y: -0.003, z: 0.008100003}
+  m_LocalScale: {x: 0.0012500001, y: 0.0012499996, z: 0.004999999}
   m_Children: []
-  m_Father: {fileID: 344818107}
+  m_Father: {fileID: 1560723909}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -87.426, y: -1.5270001, z: -44.052002}
 --- !u!54 &585468004
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -658,7 +664,7 @@ GameObject:
   - component: {fileID: 864596328}
   - component: {fileID: 864596327}
   - component: {fileID: 864596326}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy (1)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -677,8 +683,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c54f2904d893844d9bc983cc90cf735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovePower: 50
-  NowMobius: 0
+  MovePower: 100
+  NowMobius: 3
   InsideLength: 0
   RotateLeftFlg: 0
   InsideFlg: 0
@@ -751,7 +757,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 864596325}
   m_LocalRotation: {x: -0.002791286, y: 0.0008765897, z: 0.0013986866, w: 0.9999948}
-  m_LocalPosition: {x: 81.3, y: 87.9, z: -0.6}
+  m_LocalPosition: {x: 81.6, y: -10.2, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
@@ -776,7 +782,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovePower: 0.5
-  AttachMobius: {fileID: 0}
+  m_layerMaskMobius:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!135 &940723739
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -901,123 +909,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b0406301760e3b9448bab3ba704eee3a,
         type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b0406301760e3b9448bab3ba704eee3a,
+        type: 3}
       propertyPath: m_TagString
       value: Mobius
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0406301760e3b9448bab3ba704eee3a, type: 3}
---- !u!1 &1493642471
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1493642476}
-  - component: {fileID: 1493642475}
-  - component: {fileID: 1493642474}
-  - component: {fileID: 1493642473}
-  - component: {fileID: 1493642472}
-  m_Layer: 0
-  m_Name: Enemy (2)
-  m_TagString: Enemy
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1493642472
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493642471}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c54f2904d893844d9bc983cc90cf735, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MovePower: 50
-  NowMobius: 0
-  InsideLength: 0
-  RotateLeftFlg: 0
-  InsideFlg: 0
-  MobiusCollisonLength: 0
---- !u!135 &1493642473
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493642471}
-  m_Material: {fileID: 13400000, guid: 5eddd8769fad56944b2e6057628cf031, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &1493642474
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493642471}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: dbee6259ee321674385e9287ad405391, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &1493642475
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493642471}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1493642476
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493642471}
-  m_LocalRotation: {x: -0.002791286, y: 0.0008765897, z: 0.0013986866, w: 0.9999948}
-  m_LocalPosition: {x: -97.5, y: -41.8, z: 0.4}
-  m_LocalScale: {x: 10, y: 10, z: 10}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: -0.32, y: 0.1, z: 0.16}
 --- !u!1 &1560723904 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b0406301760e3b9448bab3ba704eee3a,
@@ -1053,7 +954,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovePower: 0.5
-  AttachMobius: {fileID: 0}
+  m_layerMaskMobius:
+    serializedVersion: 2
+    m_Bits: 512
+--- !u!4 &1560723909 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b0406301760e3b9448bab3ba704eee3a,
+    type: 3}
+  m_PrefabInstance: {fileID: 261545721}
+  m_PrefabAsset: {fileID: 0}
 --- !u!64 &1560723910
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1095,7 +1004,7 @@ GameObject:
   - component: {fileID: 1578042755}
   - component: {fileID: 1578042760}
   - component: {fileID: 1578042759}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: CheckPoint (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1218,7 +1127,7 @@ GameObject:
   - component: {fileID: 1671426497}
   - component: {fileID: 1671426501}
   - component: {fileID: 1671426496}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1293,7 +1202,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1671426495}
   m_LocalRotation: {x: -0.002791286, y: 0.0008765897, z: 0.0013986866, w: 0.9999948}
-  m_LocalPosition: {x: -49.8, y: 103.9, z: -0.4}
+  m_LocalPosition: {x: -47.6, y: 103.9, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1311,12 +1220,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f2196f8ba2354b4f8e6f06ba2a54eb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovePower: 50
+  MovePower: 100
   NowMobius: 0
-  InsideLength: 0
   RotateLeftFlg: 0
   InsideFlg: 0
-  MobiusCollisonLength: 0
 --- !u!1 &1674757188
 GameObject:
   m_ObjectHideFlags: 0
@@ -1331,7 +1238,7 @@ GameObject:
   - component: {fileID: 1674757189}
   - component: {fileID: 1674757193}
   - component: {fileID: 1674757194}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: CheckPoint (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1718,6 +1625,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b0406301760e3b9448bab3ba704eee3a,
         type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b0406301760e3b9448bab3ba704eee3a,
+        type: 3}
       propertyPath: m_TagString
       value: Mobius
       objectReference: {fileID: 0}
@@ -1946,7 +1858,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovePower: 0.5
-  AttachMobius: {fileID: 0}
+  m_layerMaskMobius:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!135 &2135974215
 SphereCollider:
   m_ObjectHideFlags: 0
