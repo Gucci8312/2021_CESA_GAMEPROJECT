@@ -44,77 +44,47 @@ public class MoveMobius : MonoBehaviour
         // プレイヤーが乗っているとき
         if (MoveFlg)
         {
+
             StickFlick();
 
             //if (Input.GetKey(KeyCode.W))
             //{
             //    this.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + MovePower, 0.0f);
-            //    // Debug.Log(MoveFlg);
+            //    //レイキャストを飛ばして指定先に衝突オブジェクトがあるかを確認
+            //    RayCastStop(m_upRay, m_hitup);
             //}
             //if (Input.GetKey(KeyCode.S))
             //{
             //    this.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y - MovePower, 0.0f);
-            //    // Debug.Log(MoveFlg);
+            //    //レイキャストを飛ばして指定先に衝突オブジェクトがあるかを確認
+            //    RayCastStop(m_downRay, m_hitdo);
             //}
             //if (Input.GetKey(KeyCode.A))
             //{
             //    this.gameObject.transform.position = new Vector3(transform.position.x - MovePower, transform.position.y, 0f);
-            //    // Debug.Log(MoveFlg);
+            //    //レイキャストを飛ばして指定先に衝突オブジェクトがあるかを確認
+            //    RayCastStop(m_backRay, m_hitl);
             //}
             //if (Input.GetKey(KeyCode.D))
             //{
             //    this.gameObject.transform.position = new Vector3(transform.position.x + MovePower, transform.position.y, 0f);
-            //    // Debug.Log(MoveFlg);
+            //    //レイキャストを飛ばして指定先に衝突オブジェクトがあるかを確認
+            //    RayCastStop(m_fowardRay, m_hitr);
             //}
-
-            //StickInput.x = Input.GetAxis("Horizontal");
-            //StickInput.y = Input.GetAxis("Vertical");
-            //if (Horizontal != 0 || Vertical != 0)//スティック入力されていたら
-            //{
-            //    this.gameObject.transform.position = new Vector3(
-            //        transform.position.x + (Horizontal*MovePower), transform.position.y + (Vertical*MovePower), 0f); //スティックを倒した分だけ移動
-            //}
+            // Debug.Log(MoveFlg);
         }
-        else
+                else
         {
             FlickVec.x = 0;
             FlickVec.y = 0;
             FlickMoveFlag = false;//弾き移動を止める
         }
 
-        //// プレイヤーが乗っているとき
-        //if (MoveFlg)
-        //{
-        //    if (Input.GetKey(KeyCode.W))
-        //    {
-        //        this.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + MovePower, 0.0f);
-        //        //レイキャストを飛ばして指定先に衝突オブジェクトがあるかを確認
-        //        RayCastStop(m_upRay, m_hitup);
-        //    }
-        //    if (Input.GetKey(KeyCode.S))
-        //    {
-        //        this.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y - MovePower, 0.0f);
-        //        //レイキャストを飛ばして指定先に衝突オブジェクトがあるかを確認
-        //        RayCastStop(m_downRay, m_hitdo);
-        //    }
-        //    if (Input.GetKey(KeyCode.A))
-        //    {
-        //        this.gameObject.transform.position = new Vector3(transform.position.x - MovePower, transform.position.y, 0f);
-        //        //レイキャストを飛ばして指定先に衝突オブジェクトがあるかを確認
-        //        RayCastStop(m_backRay, m_hitl);
-        //    }
-        //    if (Input.GetKey(KeyCode.D))
-        //    {
-        //        this.gameObject.transform.position = new Vector3(transform.position.x + MovePower, transform.position.y, 0f);
-        //        //レイキャストを飛ばして指定先に衝突オブジェクトがあるかを確認
-        //        RayCastStop(m_fowardRay, m_hitr);
-        //    }
-        //    // Debug.Log(MoveFlg);
-        //}
+
         //MoveFlg = false;
 
         //   int num = player.GetComponent<PlayerMove>().GetNowMobiusNum();//プレイヤーオブジェクトから現在のメビウスの輪の数字取得
-       // beforeVelocity = rb.velocity;
+        // beforeVelocity = rb.velocity;
         //if (this.name == "Mobius (" + num + ")")//自分が対象のメビウスの輪なら
         //{
         //    //Debug.Log("Mobius (" + num + "):対象のメビウスの輪");
@@ -125,7 +95,7 @@ public class MoveMobius : MonoBehaviour
         //    MoveFlg = false;
         //}
 
-        
+
     }
 
     // 衝突時
@@ -216,7 +186,7 @@ public class MoveMobius : MonoBehaviour
             {
                 if (FlickVec.x != 0 || FlickVec.y != 0)//端まで倒したときのベクトルを持っていれば
                 {
-                    Speed = 2.0f;
+                    Speed = 20.0f;
                     FlickMoveFlag = true;
                 }
             }
