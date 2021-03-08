@@ -61,26 +61,26 @@ public class MoveMobius : MonoBehaviour
         {
             StickFlick();
 
-            if (Input.GetKey(KeyCode.W))
-            {
-                this.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + MovePower, 0.0f);
-                // Debug.Log(MoveFlg);
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                this.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y - MovePower, 0.0f);
-                // Debug.Log(MoveFlg);
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                this.gameObject.transform.position = new Vector3(transform.position.x - MovePower, transform.position.y, 0f);
-                // Debug.Log(MoveFlg);
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                this.gameObject.transform.position = new Vector3(transform.position.x + MovePower, transform.position.y, 0f);
-                // Debug.Log(MoveFlg);
-            }
+            //if (Input.GetKey(KeyCode.W))
+            //{
+            //    this.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + MovePower, 0.0f);
+            //    // Debug.Log(MoveFlg);
+            //}
+            //if (Input.GetKey(KeyCode.S))
+            //{
+            //    this.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y - MovePower, 0.0f);
+            //    // Debug.Log(MoveFlg);
+            //}
+            //if (Input.GetKey(KeyCode.A))
+            //{
+            //    this.gameObject.transform.position = new Vector3(transform.position.x - MovePower, transform.position.y, 0f);
+            //    // Debug.Log(MoveFlg);
+            //}
+            //if (Input.GetKey(KeyCode.D))
+            //{
+            //    this.gameObject.transform.position = new Vector3(transform.position.x + MovePower, transform.position.y, 0f);
+            //    // Debug.Log(MoveFlg);
+            //}
 
             //StickInput.x = Input.GetAxis("Horizontal");
             //StickInput.y = Input.GetAxis("Vertical");
@@ -130,7 +130,7 @@ public class MoveMobius : MonoBehaviour
         //MoveFlg = false;
 
         //   int num = player.GetComponent<PlayerMove>().GetNowMobiusNum();//プレイヤーオブジェクトから現在のメビウスの輪の数字取得
-        beforeVelocity = rb.velocity;
+       // beforeVelocity = rb.velocity;
         //if (this.name == "Mobius (" + num + ")")//自分が対象のメビウスの輪なら
         //{
         //    //Debug.Log("Mobius (" + num + "):対象のメビウスの輪");
@@ -207,9 +207,14 @@ public class MoveMobius : MonoBehaviour
         StickInput.x = Input.GetAxis("Horizontal");
         StickInput.y = Input.GetAxis("Vertical");
 
+        if (Input.GetKey(KeyCode.W)) { StickInput.y = 1; }
+        if (Input.GetKey(KeyCode.S)) { StickInput.y = -1; }
+        if (Input.GetKey(KeyCode.D)) { StickInput.x = 1; }
+        if (Input.GetKey(KeyCode.A)) { StickInput.x = -1; }
+
         if (!FlickMoveFlag)
         {
-            if ((StickInput.x != 0 || StickInput.y != 0)||(Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)))//スティック入力されていたら
+            if (StickInput.x != 0 || StickInput.y != 0)//スティック入力されていたら
             {
                 Vector2 stickmax = StickInput;//スティックを端まで倒したときの値を格納用
 
@@ -226,12 +231,11 @@ public class MoveMobius : MonoBehaviour
             {
                 if (FlickVec.x != 0 || FlickVec.y != 0)//端まで倒したときのベクトルを持っていれば
                 {
-                    Speed = 200.0f;
+                    Speed = 2.0f;
                     FlickMoveFlag = true;
                 }
             }
         }
-
         else
         {
             this.gameObject.transform.position = new Vector3(
