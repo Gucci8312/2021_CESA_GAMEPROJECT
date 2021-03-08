@@ -32,16 +32,15 @@ public class MoveMobius : MonoBehaviour
         player = GameObject.Find("Player");
         m_saveMobiusPos = this.gameObject.transform.position;
 
+        m_backRay = new Ray(transform.position, new Vector3(-1, 0, 0));            //後ろに衝突するオブジェクトがあるかどうかの判断
+        m_fowardRay = new Ray(transform.position, new Vector3(1, 0, 0));            //前に衝突するオブジェクトがあるかどうかの判断
+        m_upRay = new Ray(transform.position, new Vector3(0, 1, 0));            //↑に衝突するオブジェクトがあるかどうかの判断
+        m_downRay = new Ray(transform.position, new Vector3(0, -1, 0));            //↓に衝突するオブジェクトがあるかどうかの判断
     }
 
     // Update is called once per frame
     void Update()
     {
-        m_backRay = new Ray(transform.position, new Vector3(-1, 0, 0));            //後ろに衝突するオブジェクトがあるかどうかの判断
-        m_fowardRay = new Ray(transform.position, new Vector3(1, 0, 0));            //前に衝突するオブジェクトがあるかどうかの判断
-        m_upRay = new Ray(transform.position, new Vector3(0, 1, 0));            //↑に衝突するオブジェクトがあるかどうかの判断
-        m_downRay = new Ray(transform.position, new Vector3(0, -1, 0));            //↓に衝突するオブジェクトがあるかどうかの判断
-        Debug.DrawRay(m_fowardRay.origin, m_fowardRay.direction * 38, Color.red, 1, false);
         // プレイヤーが乗っているとき
         if (MoveFlg)
         {
@@ -82,7 +81,6 @@ public class MoveMobius : MonoBehaviour
             FlickVec.y = 0;
             FlickMoveFlag = false;//弾き移動を止める
         }
-
 
         //// プレイヤーが乗っているとき
         //if (MoveFlg)
@@ -127,6 +125,7 @@ public class MoveMobius : MonoBehaviour
         //    MoveFlg = false;
         //}
 
+        
     }
 
     // 衝突時
@@ -167,15 +166,15 @@ public class MoveMobius : MonoBehaviour
     }
 
     // 離れた時
-    private void OnCollisionExit(Collision other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            MoveFlg = false;
-            // other.gameObject.transform.parent = null;
-            Debug.Log("プレイヤーから離れた");
-        }
-    }
+    //private void OnCollisionExit(Collision other)
+    //{
+    //    if (other.gameObject.tag == "Player")
+    //    {
+    //        MoveFlg = false;
+    //        // other.gameObject.transform.parent = null;
+    //        Debug.Log("プレイヤーから離れた");
+    //    }
+    //}
 
     private void RayCastStop(Ray _ray, RaycastHit _hit)
     {
