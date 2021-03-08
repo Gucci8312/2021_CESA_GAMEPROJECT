@@ -15,7 +15,6 @@ public class MoveMobius : MonoBehaviour
     Ray m_upRay;                         //前方にオブジェクトがあるかどうか
     Ray m_downRay;                         //前方にオブジェクトがあるかどうか
     Vector3 m_saveMobiusPos;
-    Vector3 moveVec ;
     RaycastHit m_hitup;
     RaycastHit m_hitdo;
     RaycastHit m_hitr;
@@ -23,14 +22,6 @@ public class MoveMobius : MonoBehaviour
     [SerializeField]
     private LayerMask m_layerMaskMobius = default;      //オブジェクトを特定のものに絞る
 
-    Rigidbody rb;
-
-    //test move;
-    private float moveX;
-    private float moveY;
-    private float moveZ;
-    public float speed = 3.0f;
-    private Vector3 beforeVelocity;
     public Vector2 StickInput;          //スティック入力時の値を取得用(-1～1)
     public Vector3 FlickVec;            //弾いた時のベクトル格納用
     bool FlickMoveFlag=false;           //弾き移動をさせるかどうか
@@ -38,11 +29,6 @@ public class MoveMobius : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        //moveX = Random.Range(-10.0f, 10.0f) * speed;
-        //moveY = Random.Range(-10.0f, 10.0f) * speed;
-        //moveZ = Random.Range(3.0f, 10.0f) * speed;
-        //rb.velocity = new Vector3(moveX, moveY, moveZ);//初期ベクトル
         player = GameObject.Find("Player");
         m_saveMobiusPos = this.gameObject.transform.position;
 
