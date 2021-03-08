@@ -8,7 +8,6 @@ public class MoveMobius : MonoBehaviour
     // Start is called before the first frame update
     public float MovePower;                 // 移動力
     bool MoveFlg;                           // 移動判定用
-    bool m_colOtherMobius;
     GameObject player;
 
     Ray m_backRay;                           //後方にオブジェクトがあるかどうか
@@ -16,6 +15,7 @@ public class MoveMobius : MonoBehaviour
     Ray m_upRay;                         //前方にオブジェクトがあるかどうか
     Ray m_downRay;                         //前方にオブジェクトがあるかどうか
     Vector3 m_saveMobiusPos;
+    Vector3 moveVec ;
     RaycastHit m_hitup;
     RaycastHit m_hitdo;
     RaycastHit m_hitr;
@@ -31,13 +31,18 @@ public class MoveMobius : MonoBehaviour
     private float moveZ;
     public float speed = 3.0f;
     private Vector3 beforeVelocity;
+    public Vector2 StickInput;          //スティック入力時の値を取得用(-1～1)
+    public Vector3 FlickVec;            //弾いた時のベクトル格納用
+    bool FlickMoveFlag=false;           //弾き移動をさせるかどうか
+    float Speed;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        moveX = Random.Range(-10.0f, 10.0f) * speed;
-        moveY = Random.Range(-10.0f, 10.0f) * speed;
-        moveZ = Random.Range(3.0f, 10.0f) * speed;
-        rb.velocity = new Vector3(moveX, moveY, moveZ);//初期ベクトル
+        //moveX = Random.Range(-10.0f, 10.0f) * speed;
+        //moveY = Random.Range(-10.0f, 10.0f) * speed;
+        //moveZ = Random.Range(3.0f, 10.0f) * speed;
+        //rb.velocity = new Vector3(moveX, moveY, moveZ);//初期ベクトル
         player = GameObject.Find("Player");
         m_saveMobiusPos = this.gameObject.transform.position;
 
@@ -51,6 +56,47 @@ public class MoveMobius : MonoBehaviour
         m_upRay = new Ray(transform.position, new Vector3(0, 1, 0));            //↑に衝突するオブジェクトがあるかどうかの判断
         m_downRay = new Ray(transform.position, new Vector3(0, -1, 0));            //↓に衝突するオブジェクトがあるかどうかの判断
         Debug.DrawRay(m_fowardRay.origin, m_fowardRay.direction * 38, Color.red, 1, false);
+        // プレイヤーが乗っているとき
+        if (MoveFlg)
+        {
+            StickFlick();
+
+            if (Input.GetKey(KeyCode.W))
+            {
+                this.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + MovePower, 0.0f);
+                // Debug.Log(MoveFlg);
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                this.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y - MovePower, 0.0f);
+                // Debug.Log(MoveFlg);
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                this.gameObject.transform.position = new Vector3(transform.position.x - MovePower, transform.position.y, 0f);
+                // Debug.Log(MoveFlg);
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                this.gameObject.transform.position = new Vector3(transform.position.x + MovePower, transform.position.y, 0f);
+                // Debug.Log(MoveFlg);
+            }
+
+            //StickInput.x = Input.GetAxis("Horizontal");
+            //StickInput.y = Input.GetAxis("Vertical");
+            //if (Horizontal != 0 || Vertical != 0)//スティック入力されていたら
+            //{
+            //    this.gameObject.transform.position = new Vector3(
+            //        transform.position.x + (Horizontal*MovePower), transform.position.y + (Vertical*MovePower), 0f); //スティックを倒した分だけ移動
+            //}
+        }
+        else
+        {
+            FlickVec.x = 0;
+            FlickVec.y = 0;
+            FlickMoveFlag = false;//弾き移動を止める
+        }
+
 
         //// プレイヤーが乗っているとき
         //if (MoveFlg)
@@ -106,6 +152,14 @@ public class MoveMobius : MonoBehaviour
             // other.gameObject.transform.parent = this.gameObject.transform;
             MoveFlg = true;
         }
+    //// 衝突時
+    //private void OnCollisionEnter(Collision other)
+    //{
+    //    // プレイヤーに当たった時
+    //    if (other.gameObject.tag == "Player")
+    //    {
+    //        MoveFlg = true;
+    //    }
 
         // メビウスの輪同士がぶつかったとき
         if (other.gameObject.tag == "Mobius")
@@ -118,12 +172,11 @@ public class MoveMobius : MonoBehaviour
 
         if (other.gameObject.tag == "Wall")
         {
-            //Vector3 refrectVec = Vector3.Reflect(this.beforeVelocity, other.contacts[0].normal);//反射ベクトル計算
             var wallNormal = other.contacts[0].normal;
-            var weight = Vector3.Dot(-this.beforeVelocity, wallNormal);
+            var weight = Vector3.Dot(-FlickVec, wallNormal);
 
-            var refrectVec = this.beforeVelocity + 2 * weight * wallNormal;
-            this.rb.velocity = refrectVec;
+            var refrectVec = this.FlickVec + 2 * weight * wallNormal;
+            FlickVec = refrectVec;
         }
     }
 
@@ -147,4 +200,53 @@ public class MoveMobius : MonoBehaviour
             this.gameObject.transform.position = new Vector3(m_saveMobiusPos.x, m_saveMobiusPos.y, m_saveMobiusPos.z);
         }
     }
+
+    //スティックの弾き移動処理
+    private void StickFlick()
+    {
+        StickInput.x = Input.GetAxis("Horizontal");
+        StickInput.y = Input.GetAxis("Vertical");
+
+        if (!FlickMoveFlag)
+        {
+            if ((StickInput.x != 0 || StickInput.y != 0)||(Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)))//スティック入力されていたら
+            {
+                Vector2 stickmax = StickInput;//スティックを端まで倒したときの値を格納用
+
+                //計算をしやすくするために正数に変化
+                if (stickmax.x < 0) { stickmax.x = -stickmax.x; }
+                if (stickmax.y < 0) { stickmax.y = -stickmax.y; }
+
+                if (stickmax.x + stickmax.y >= 1)//スティックを端まで倒した場合
+                {
+                    FlickVec = -StickInput; ;//倒した方向の逆方向の値を代入
+                }
+            }
+            else//スティックを倒していなければ（離したとき）
+            {
+                if (FlickVec.x != 0 || FlickVec.y != 0)//端まで倒したときのベクトルを持っていれば
+                {
+                    Speed = 200.0f;
+                    FlickMoveFlag = true;
+                }
+            }
+        }
+
+        else
+        {
+            this.gameObject.transform.position = new Vector3(
+                transform.position.x + FlickVec.x * Speed, transform.position.y + FlickVec.y * Speed, 0f); //弾いたほうへ移動
+
+            Speed -= Time.deltaTime;//減速させる
+
+            if (Speed < 0) //止まったら
+            {
+                FlickVec.x = 0;
+                FlickVec.y = 0;
+                FlickMoveFlag = false;
+            }
+        }
+    }
+
+
 }
