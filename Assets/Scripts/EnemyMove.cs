@@ -24,6 +24,7 @@ public class EnemyMove : MonoBehaviour
 
     GameObject RythmObj;
     Rythm rythm;
+    bool RythmOneFlg;
 
     void Start()
     {
@@ -34,6 +35,9 @@ public class EnemyMove : MonoBehaviour
             Mobius[i] = GameObject.Find("Mobius (" + i + ")");                                        //全てのメビウス取得
         }
         RythmObj = GameObject.Find("rythm_circle");
+        this.rythm = RythmObj.GetComponent<Rythm>();
+
+        RythmOneFlg = true;
 
         MobiusPointNum = 8;
         MoveAngle = 360.0f / MobiusPointNum;
@@ -65,7 +69,7 @@ public class EnemyMove : MonoBehaviour
     //void FixedUpdate()
     void Update()
     {
-        this.rythm = RythmObj.GetComponent<Rythm>();
+
         if (StartFlg)
         {
             ApproachMobius();//対象のメビウスの輪に近づける
@@ -88,14 +92,14 @@ public class EnemyMove : MonoBehaviour
 
 
 
-            TimingInput = this.rythm.rythmSendCheckFlag;
+            TimingInput = this.rythm.rythmCheckFlag;
 
-            if (TimingInput)//テンポのタイミングで入力されたら
+            if (!TimingInput && !RythmOneFlg) RythmOneFlg = true;
+
+            if (TimingInput && RythmOneFlg)//テンポのタイミングで入力されたら
             {
-                
                 counter++;
-                Debug.Log("TimindInputOn");
-
+                //Debug.Log(this.name+":TimindInputOn");
             }
 
 
@@ -105,7 +109,7 @@ public class EnemyMove : MonoBehaviour
             if (Mobius[NowMobius] != null)
             {
 
-                if (TimingInput)//キー入力あり
+                if (TimingInput && RythmOneFlg)//キー入力あり
                 {
                     ApproachMobius();//軌道に乗せる
 
@@ -118,6 +122,7 @@ public class EnemyMove : MonoBehaviour
                         transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
                     }
                     this.rythm.rythmSendCheckFlag = false;
+                    RythmOneFlg = false;
                     //Debug.Log("移動");
                 }//if (TimingInput)
 
@@ -125,7 +130,7 @@ public class EnemyMove : MonoBehaviour
                 this.gameObject.transform.position = new Vector3(this.transform.position.x + MoveMobiusSum.x, this.transform.position.y + MoveMobiusSum.y, 0);         //メビウスの動きについていく
 
 
-                CollisonMobius();//移り先のメビウスの輪を探す
+                if (!Mobius[NowMobius].GetComponent<MoveMobius>().GetFlickMoveFlag()) CollisonMobius();//移り先のメビウスの輪を探す
 
                 //移ったときに元のメビウスの輪に戻らないようにカウントする
                 if (counter > 1)//
@@ -278,6 +283,14 @@ public class EnemyMove : MonoBehaviour
     public int GetNowMobiusNum()
     {
         return NowMobius;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.name == "Player")
+        {
+            Debug.Log("敵と当たった");
+        }
     }
 
 }

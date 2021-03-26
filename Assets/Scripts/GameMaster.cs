@@ -40,8 +40,7 @@ public class GameMaster : MonoBehaviour
     public void ClickRestartBotton()
     {
         //Debug.Log("リスタートボタンが押された");
-        //Scene NowScene = SceneManager.GetActiveScene();   // エラーなくなればこっちつかう
-       SceneManager.LoadScene("Stage1");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     // タイトルボタンが押されたとき
