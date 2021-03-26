@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMove : MonoBehaviour
+// プレイヤーの挙動
+public class PlayerMove : MonoBehaviour
 {
+    // Start is called before the first frame update
     GameObject[] Mobius = new GameObject[4];                                                        // メビウスの輪
     public int NowMobius;                                                                           //現在のメビウスの添え字　初期のメビウスの輪
     int SaveMobius;                                                                                 //１つ前にいたメビウスの添え字
@@ -21,10 +23,11 @@ public class EnemyMove : MonoBehaviour
     float MoveAngle;                                                                                //移動量
     int MobiusPointNum;                                                                             //メビウス上の点の総数　今後、点の数を増やす場合publicにする
     bool StartFlg;                                                                                  //初期位置設定用フラグ　最初の一回だけ通る
-
     GameObject RythmObj;
     Rythm rythm;
 
+    float TimingCount;
+    bool TimingCountFlg;
     void Start()
     {
         //rb = GetComponent<Rigidbody>();                                                             // リジットボディを格納
@@ -35,12 +38,17 @@ public class EnemyMove : MonoBehaviour
         }
         RythmObj = GameObject.Find("rythm_circle");
 
+        TimingCountFlg = false;
+        TimingCount = 0;
+
         MobiusPointNum = 8;
         MoveAngle = 360.0f / MobiusPointNum;
 
         SideCnt = 2;
         SaveMobius = -1;
         TimingInput = false;
+
+
         StartFlg = true;
 
         //初期位置設定
@@ -58,14 +66,15 @@ public class EnemyMove : MonoBehaviour
             InsideLength = 0;
         }
 
-
     }
 
     // Update is called once per frame  
     //void FixedUpdate()
     void Update()
     {
+
         this.rythm = RythmObj.GetComponent<Rythm>();
+
         if (StartFlg)
         {
             ApproachMobius();//対象のメビウスの輪に近づける
@@ -79,28 +88,23 @@ public class EnemyMove : MonoBehaviour
         }
         else
         {
-
             Vector2 MobiusPos = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center;                // メビウスの輪の位置を取得
 
             MoveMobiusSum = MobiusPos - MobiusSavePos;
 
             MobiusSavePos = MobiusPos;
 
-
-
-            TimingInput = this.rythm.rythmSendCheckFlag;
-
+            TimingInput = this.rythm.successFlag;
             if (TimingInput)//テンポのタイミングで入力されたら
             {
-                
+            
                 counter++;
                 Debug.Log("TimindInputOn");
 
             }
 
-
-
-
+            
+            
 
             if (Mobius[NowMobius] != null)
             {
@@ -117,12 +121,14 @@ public class EnemyMove : MonoBehaviour
                     {
                         transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
                     }
-                    this.rythm.rythmSendCheckFlag = false;
+                    this.rythm.successFlag = false;
+                    this.rythm.rythmCheckFlag = false;
                     //Debug.Log("移動");
                 }//if (TimingInput)
 
 
                 this.gameObject.transform.position = new Vector3(this.transform.position.x + MoveMobiusSum.x, this.transform.position.y + MoveMobiusSum.y, 0);         //メビウスの動きについていく
+
 
 
                 CollisonMobius();//移り先のメビウスの輪を探す
@@ -139,7 +145,9 @@ public class EnemyMove : MonoBehaviour
 
             }//if (Mobius[NowMobius] != null)
         }//else if(StartFlg)
+
     }//void Update()
+
 
     private void ApproachMobius()//対象のメビウスの輪に近づける
     {
@@ -275,9 +283,32 @@ public class EnemyMove : MonoBehaviour
     }//private void CollisonMobius()//プレイヤーと対象のメビウスの輪以外の一番近いメビウスの輪との判定
 
 
-    public int GetNowMobiusNum()
+    private void StartPosSet()
+    {
+        Vector2 MobiusPos = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center;                // メビウスの輪の位置を取得
+    }
+
+    public int GetNowMobiusNum()//現在の乗っているメビウスの輪の数字を返す
     {
         return NowMobius;
+    }
+
+    // 衝突時
+    // private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
+    {
+
+        if (other.gameObject.tag == "Enemy")
+        {
+            Debug.Log("敵と当たった");
+        }
+    }
+
+    // 離れた時
+    private void OnTriggerExit(Collider other)
+    //private void OnCollisionExit(Collision other)
+    {
+
     }
 
 }
