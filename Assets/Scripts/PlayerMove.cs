@@ -27,8 +27,8 @@ public class PlayerMove : MonoBehaviour
     GameObject RythmObj;                                                                            //リズムオブジェクト
     Rythm rythm;                                                                                    //リズムスクリプト取得用
     bool MobiusMoveFlg;                                                                             //動いているとき１回だけ実行するためのフラグ
-   
-    
+
+
     void Start()
     {
         //rb = GetComponent<Rigidbody>();                                                             // リジットボディを格納
@@ -58,7 +58,7 @@ public class PlayerMove : MonoBehaviour
         this.gameObject.transform.position = new Vector3(MobiusPos.x, MobiusPos.y, 0);
         this.gameObject.transform.position += new Vector3(0, 50.0f, 0);
 
-        
+
 
         if (InsideFlg)//メビウスの輪の内側
         {
@@ -75,13 +75,13 @@ public class PlayerMove : MonoBehaviour
     //void FixedUpdate()
     void Update()
     {
-       
 
-        //if (Input.GetKeyDown(KeyCode.R))//リセット処理
-        //{
-        //    SceneManager.LoadScene(SceneManager.GetActiveScene().name); // 現在シーンのリロード
-        //}
-        
+
+        if (Input.GetKeyDown(KeyCode.R))//リセット処理
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name); // 現在シーンのリロード
+        }
+
 
         if (StartFlg)
         {
@@ -101,7 +101,7 @@ public class PlayerMove : MonoBehaviour
             Vector2 MobiusPos = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center;                // メビウスの輪の位置を取得
 
             MoveMobiusSum = MobiusPos - MobiusSavePos;
-            
+
             MobiusSavePos = MobiusPos;
 
 
@@ -122,12 +122,12 @@ public class PlayerMove : MonoBehaviour
             }
             else
             {
-                TimingInput = this.rythm.successFlag;
+                TimingInput = this.rythm.checkPlayerMove;
                 MobiusMoveFlg = false;
                 //Debug.Log("動いていない");
             }
-            
-            
+
+
 
             if (Mobius[NowMobius] != null)
             {
@@ -144,7 +144,7 @@ public class PlayerMove : MonoBehaviour
                     {
                         transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
                     }
-                    this.rythm.successFlag = false;
+                    this.rythm.checkPlayerMove = false;
                     this.rythm.rythmCheckFlag = false;
 
                     counter++;
@@ -155,7 +155,7 @@ public class PlayerMove : MonoBehaviour
                 this.gameObject.transform.position = new Vector3(this.transform.position.x + MoveMobiusSum.x, this.transform.position.y + MoveMobiusSum.y, 0);         //メビウスの動きについていく
 
 
-                if(!MobiusMoveFlg)CollisonMobius();//移り先のメビウスの輪を探す
+                if (!MobiusMoveFlg) CollisonMobius();//移り先のメビウスの輪を探す
 
                 //移ったときに元のメビウスの輪に戻らないようにカウントする
                 if (counter > 1)//
@@ -322,16 +322,16 @@ public class PlayerMove : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
 
-        
+
     }
 
     // 離れた時
     private void OnTriggerEnter(Collider other)
     //private void OnCollisionExit(Collision other)
     {
-        
+
     }
 
-    
+
 
 }

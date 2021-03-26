@@ -19,23 +19,26 @@ public class Rythm : MonoBehaviour
     float m_startTime;                      //初期タイムを設定（０でいい）
     float m_time;                           //１BPMに対する秒計算
 
-    float m_frameCount;                     //リズムスフィア補間移動用フレーム更新
     public bool rythmCheckFlag;            //円が指定されたリズムに触れたことを返す
     public bool rythmSendCheckFlag;          //円が指定されたリズムに触れたことを返す
-    public bool successFlag;                //リズムに合わせた反応が成功したかどうか
+    public bool checkPlayerMove;                //リズムに合わせた反応が成功したかどうか
+    public bool checkMoviusMove;                //リズムに合わせた反応が成功したかどうか
 
     public float SetSuccessInputTime;                    //入力待ち時間の引き伸ばし決め
 
-    private  int m_beatCount;
-    public  int EnemyTroughRing;
+    private int m_beatCount;
+    public int EnemyTroughRing;
+    static float bpm_time;
+    static float tansu;
     [SerializeField] AudioClip SE;
     AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
-        m_frameCount = 0.0f;
+        tansu = 0.0f;
         rythmCheckFlag = false;
-        successFlag = false;
+        checkPlayerMove = false;
+        checkMoviusMove = false;
         //Componentを取得
         audioSource = GetComponent<AudioSource>();
         StartCoroutine("SuccessCheck");
@@ -49,28 +52,34 @@ public class Rythm : MonoBehaviour
 
     private void OnEnable()
     {
-        m_time = (60.0f / BPM);
+        m_time = (60.0f / (float)BPM);
+        Debug.Log(m_time);
         m_targetPos = new Vector3(-m_sphere.transform.position.x, m_sphere.transform.position.y, m_sphere.transform.position.z);
-        m_startTime = 0.0f;
+        m_startTime = Time.timeSinceLevelLoad;
         m_currentPos = m_sphere.transform.position;
     }
 
     private void FixedUpdate()
     {
-        var diff = Time.timeSinceLevelLoad - m_startTime;
-        var rate = (diff / m_time);
+        float diff = Time.timeSinceLevelLoad - m_startTime;
+        float rate = (diff / m_time) + tansu;
         m_sphere.transform.position = Vector3.Lerp(m_currentPos, m_targetPos, rate);
 
         //越えたら　m_startTimeをその時の時間に設定
-        if (rate >= 1.0f) m_startTime = Time.timeSinceLevelLoad;
+        if (rate >= 1.0f)
+        {
+            m_startTime = Time.timeSinceLevelLoad;
+            tansu = rate - 1.0f;
+        }
 
         //ゴール点に達した時
         if (m_sphere.transform.position.x == m_targetPos.x)
         {
             m_targetPos = new Vector3(-m_sphere.transform.position.x, m_sphere.transform.position.y, m_sphere.transform.position.z);
             m_currentPos = m_sphere.transform.position;
-            m_frameCount = 0.0f;
         }
+
+        bpm_time = Time.timeSinceLevelLoad;
     }
 
     IEnumerator SuccessCheck()
@@ -80,8 +89,16 @@ public class Rythm : MonoBehaviour
             //Entarキーで成功かどうかを判断する
             if (Input.GetKeyDown(KeyCode.Return) && rythmCheckFlag)
             {
-                successFlag = true;
-                Debug.Log("Suceeded!!!");
+                checkPlayerMove = true;
+                rythmCheckFlag = false;
+                //  Debug.Log("Suceeded!!!");
+            }
+
+            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) && rythmCheckFlag)
+            {
+                rythmCheckFlag = false;
+                checkMoviusMove = true;
+                checkPlayerMove = true;
             }
             yield return new WaitForFixedUpdate();
         }
@@ -92,6 +109,7 @@ public class Rythm : MonoBehaviour
         {
             //   Debug.Log("TriggerOn");
             audioSource.PlayOneShot(SE);
+            Debug.Log("音の感覚 : " + bpm_time);
             rythmCheckFlag = true;
             m_beatCount++;
             if (m_beatCount >= EnemyTroughRing)
@@ -114,7 +132,7 @@ public class Rythm : MonoBehaviour
     // @brief   リングがキー入力受付判定を越えた時 
     private void TurnFalseSuccessCheck()
     {
-        if(rythmCheckFlag)
-        rythmCheckFlag = false;
+        if (rythmCheckFlag)
+            rythmCheckFlag = false;
     }
 }

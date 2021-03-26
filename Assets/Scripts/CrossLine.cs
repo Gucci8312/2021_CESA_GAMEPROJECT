@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CrossLine : MonoBehaviour
 {
-    public List<Vector2> CrossPos=new List<Vector2>();
+    public List<Vector2> CrossPos = new List<Vector2>();
 
     // Start is called before the first frame update
     void Start()
@@ -15,10 +15,10 @@ public class CrossLine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    private Vector2 RotationfromPosition(Vector2 pos,Vector2 scale,float Angle)//回転したときの座標を求める
+    private Vector2 RotationfromPosition(Vector2 pos, Vector2 scale, float Angle)//回転したときの座標を求める
     {
         Vector2 Center;
         Center.x = pos.x + scale.x / 2;
@@ -40,12 +40,12 @@ public class CrossLine : MonoBehaviour
         return outpos;
     }
 
-    private  bool CrossLinePosition(GameObject Line1, GameObject Line2,out Vector2 outvec)//交点を求める
+    private bool CrossLinePosition(GameObject Line1, GameObject Line2, out Vector2 outvec)//交点を求める
     {
-       outvec = Vector2.zero;
+        outvec = Vector2.zero;
         Vector2 p1, p2, p3, p4;
 
-        if (Line1.transform.localScale.x> Line1.transform.localScale.y)//横に長ければ
+        if (Line1.transform.localScale.x > Line1.transform.localScale.y)//横に長ければ
         {
             p1 = new Vector2(Line1.transform.position.x - Line1.transform.localScale.x / 2, Line1.transform.position.y);
             p2 = new Vector2(Line1.transform.position.x + Line1.transform.localScale.x / 2, Line1.transform.position.y);
@@ -94,22 +94,22 @@ public class CrossLine : MonoBehaviour
     {
         List<float> distance = new List<float>();//引数の座標と交点との差
         float Min = 10000;//最小値
-        for(int i=0;i< CrossPos.Count; i++)
+        for (int i = 0; i < CrossPos.Count; i++)
         {
             distance.Add((pos - CrossPos[i]).magnitude);
 
             if (distance[i] == 0)//差がない（同じ座標）場合
             {
-                distance[i]=10000;//適当に大きい値を入れて最小の値として取得させないようにする
+                distance[i] = 10000;//適当に大きい値を入れて最小の値として取得させないようにする
             }
 
             if (distance[i] <= Min)//取得している最小の値より小さければ
             {
                 Min = distance[i];//差が最小の値を取得
             }
-     }
+        }
 
-        for(int i = 0; i < distance.Count; i++)
+        for (int i = 0; i < distance.Count; i++)
         {
             if (distance[i] == Min)//差が最小の値を持った要素であれば
             {
@@ -124,7 +124,7 @@ public class CrossLine : MonoBehaviour
     {
         for (int i = 0; i < CrossPos.Count; i++)
         {
-            float distance=(_pos - CrossPos[i]).magnitude;//交点と引数との差を求める
+            float distance = (_pos - CrossPos[i]).magnitude;//交点と引数との差を求める
             if (distance <= 1) //差がほぼなければ
             {
                 return true;
