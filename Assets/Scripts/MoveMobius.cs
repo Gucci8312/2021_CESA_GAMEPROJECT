@@ -6,8 +6,11 @@ using UnityEngine;
 public class MoveMobius : MonoBehaviour
 {
     // Start is called before the first frame update
-    public float MovePower = 50.0f;                 // 移動力
+    public float MovePower = 100.0f;                 // 移動力
     public float Bairitu = 5;
+    public float Gensokuritu = 50;                  //速度を減速させる用（０にするとずっと無限に移動する）
+    private float SocialDis = 0.045f;
+
     bool MoveFlg;                           // 移動判定用
     GameObject player;
 
@@ -19,8 +22,8 @@ public class MoveMobius : MonoBehaviour
     List<CrossLine> cl = new List<CrossLine>();             //CrossLineスクリプト
     private Rigidbody Rb;
     private Vector3 MovePos;                                     //移動する位置
-    private float Radius;                                        //移動する際に使うラジアン
-    Vector3 MoveVec;
+    //private float Radius;                                        //移動する際に使うラジアン
+    public Vector3 MoveVec;
 
     Vector3 OldPos;
     void Start()
@@ -150,7 +153,7 @@ public class MoveMobius : MonoBehaviour
                 LineCol();
 
 
-                Ray ray = new Ray(new Vector3(this.transform.position.x + FlickVec.x * 15, this.transform.position.y + FlickVec.y * 15, this.transform.position.z), //Rayを飛ばす発射位置
+                Ray ray = new Ray(new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), //Rayを飛ばす発射位置
                     new Vector3(FlickVec.x * 1, FlickVec.y * 1, 0));//飛ばす方向
 
                 //Debug.DrawRay(ray.origin, ray.direction * 1000, Color.green, 100, false);//レイが見えるようになる（デバッグの時のみ）
@@ -203,11 +206,11 @@ public class MoveMobius : MonoBehaviour
                         //最終的に入力した方向にある線に沿って交点へ移動
 
                         MovePos = NearCl.CanMovePosition(this.transform.position);//移動できる交点を取得
-                        Radius = Mathf.Atan2(MovePos.y - this.transform.position.y, MovePos.x - this.transform.position.x); //自分と指定した座標とのラジアンを求める
+                        float Radius = Mathf.Atan2(MovePos.y - this.transform.position.y, MovePos.x - this.transform.position.x); //自分と指定した座標とのラジアンを求める
                         MoveVec = new Vector3(Mathf.Cos(Radius), Mathf.Sin(Radius), 0);
 
                         float distance = (this.transform.position - MovePos).magnitude;//自分の座標と移動したい座標との差
-                        Rb.AddForce(MoveVec * (MovePower + (distance * Bairitu)), ForceMode.Impulse);//瞬間的に加速させる（要調整）
+                        Rb.AddForce(MoveVec * (MovePower + (distance * Bairitu)), ForceMode.VelocityChange);//瞬間的に加速させる（要調整）
                         FlickMoveFlag = true;
 
                     }
@@ -218,10 +221,7 @@ public class MoveMobius : MonoBehaviour
 
         else//移動処理
         {
-            //Vector3 MoveVec = new Vector3(Mathf.Cos(Radius), Mathf.Sin(Radius), 0);
-            //Rb.AddForce(-MoveVec);
-
-            Rb.AddForce(-Rb.velocity / (Bairitu * 1.5f) * MovePower);//減速させる（要調整）
+            Rb.AddForce(-Rb.velocity * (Gensokuritu * 0.1f), ForceMode.Acceleration);//減速させる（要調整）
             float distance = (this.transform.position - MovePos).magnitude;
 
             if (Rb.velocity.magnitude < (MovePower / 10) + Bairitu) //勢いが一定以下になったら
@@ -322,7 +322,7 @@ public class MoveMobius : MonoBehaviour
 
     private void LineCol()//メビウスの輪が線上に乗っているかどうか調べる（縦か横の線のみ）
     {
-        float Gosa = 5;
+        float Gosa = 3;
         for (int i = 0; i < Line.Count; i++)
         {
             if ((this.transform.position.x <= Line[i].transform.position.x + Gosa && this.transform.position.x >= Line[i].transform.position.x - Gosa)
@@ -365,39 +365,26 @@ public class MoveMobius : MonoBehaviour
                 }
             }
         }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Line"))
-        {
-            Line.Remove(other.gameObject);//登録したLineリストの中に該当する要素を削除する
-            cl.Remove(other.GetComponent<CrossLine>());
-        }
-    }
-
-
-    // 衝突時
-    private void OnTriggerEnter(Collider other)
-    {
-        //// プレイヤーに当たった時
-        //if (other.gameObject.tag == "Player")
-        //{
-        //    MoveFlg = true;
-        //}
 
         // メビウスの輪同士がぶつかったとき
         if (other.gameObject.tag == "Mobius")
         {
             //MoveFlg = false;
-            if (Rb.velocity.magnitude != 0)
+            if (MoveFlg)
             {
                 //this.transform.position = OldPos;
 
                 float distance = (this.transform.position - other.transform.position).magnitude;
 
+                float Radius = Mathf.Atan2(MovePos.y - this.transform.position.y,
+                    MovePos.x - this.transform.position.x); //自分と指定した座標とのラジアンを求める
+                MoveVec = new Vector3(Mathf.Cos(Radius), Mathf.Sin(Radius), 0);
+
                 //少しだけバックさせる
-                this.transform.position = new Vector3(this.transform.position.x - (MoveVec.x * distance * 0.48f), this.transform.position.y - (MoveVec.y * distance * 0.48f), this.transform.position.z);
+                this.transform.position = new Vector3(this.transform.position.x - Rb.velocity.x * SocialDis,
+                    this.transform.position.y - Rb.velocity.y * SocialDis, this.transform.position.z);
+
+                Rb.isKinematic = true;
                 Debug.Log("メビウスの輪同士がぶつかった" + this.gameObject.name);
 
 
@@ -411,6 +398,58 @@ public class MoveMobius : MonoBehaviour
         }
 
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Line"))
+        {
+            Line.Remove(other.gameObject);//登録したLineリストの中に該当する要素を削除する
+            cl.Remove(other.GetComponent<CrossLine>());
+        }
+    }
+
+
+    // 衝突時
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    //// プレイヤーに当たった時
+    //    //if (other.gameObject.tag == "Player")
+    //    //{
+    //    //    MoveFlg = true;
+    //    //}
+
+    //    // メビウスの輪同士がぶつかったとき
+    //    if (other.gameObject.tag == "Mobius")
+    //    {
+    //        //MoveFlg = false;
+    //        if (Rb.velocity.magnitude != 0)
+    //        {
+    //           //this.transform.position = OldPos;
+
+    //            float distance = (this.transform.position - other.transform.position).magnitude;
+
+    //            float Radius = Mathf.Atan2(MovePos.y - this.transform.position.y,
+    //                MovePos.x - this.transform.position.x); //自分と指定した座標とのラジアンを求める
+    //            MoveVec = new Vector3(Mathf.Cos(Radius), Mathf.Sin(Radius), 0);
+
+    //            //少しだけバックさせる
+    //            this.transform.position = new Vector3(this.transform.position.x - Rb.velocity.x*SocialDis,
+    //                this.transform.position.y - Rb.velocity.y * SocialDis, this.transform.position.z);
+
+    //            Rb.isKinematic = true;
+    //            Debug.Log("メビウスの輪同士がぶつかった" + this.gameObject.name);
+
+
+    //        }
+    //        Rb.velocity = Vector3.zero;//勢いを止める
+    //        FlickMoveFlag = false;
+    //        //Rb.AddForce(-Rb.velocity * MovePower, ForceMode.Impulse);//瞬間的に反対方向に加速（要調整）
+    //        //Rb.velocity = -Rb.velocity;
+    //        //Debug.Log("メビウスの輪同士がぶつかった");
+
+    //    }
+
+    //}
 
     public bool GetFlickMoveFlag()
     {
