@@ -26,7 +26,6 @@ public class PlayerMove : MonoBehaviour
     bool StartFlg;                                                                                  //初期位置設定用フラグ　最初の一回だけ通る
     GameObject RythmObj;                                                                            //リズムオブジェクト
     Rythm rythm;                                                                                    //リズムスクリプト取得用
-    bool MobiusMoveFlg;                                                                             //動いているとき１回だけ実行するためのフラグ
 
 
     void Start()
@@ -51,7 +50,6 @@ public class PlayerMove : MonoBehaviour
         TimingInput = false;
         StartFlg = true;
         counter = 0;
-        MobiusMoveFlg = false;
 
         //初期位置設定
         Vector2 MobiusPos = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center;
@@ -105,27 +103,11 @@ public class PlayerMove : MonoBehaviour
             MobiusSavePos = MobiusPos;
 
 
-            if (Mobius[NowMobius].GetComponent<MoveMobius>().GetFlickMoveFlag())//松井君のスクリプトから動いているかどうかを取得
-            {
-                if (!MobiusMoveFlg)
-                {
-                    TimingInput = true;
-                    MobiusMoveFlg = true;
-
-                }
-                else
-                {
-                    TimingInput = false;
-                }
-
-                //Debug.Log("動いている");
-            }
-            else
-            {
-                TimingInput = this.rythm.checkPlayerMove;
-                MobiusMoveFlg = false;
-                //Debug.Log("動いていない");
-            }
+            
+            TimingInput = this.rythm.checkPlayerMove;//ノーツに合わせられたかを取得
+                
+            
+            
 
 
 
@@ -155,7 +137,7 @@ public class PlayerMove : MonoBehaviour
                 this.gameObject.transform.position = new Vector3(this.transform.position.x + MoveMobiusSum.x, this.transform.position.y + MoveMobiusSum.y, 0);         //メビウスの動きについていく
 
 
-                if (!MobiusMoveFlg) CollisonMobius();//移り先のメビウスの輪を探す
+                CollisonMobius();//移り先のメビウスの輪を探す
 
                 //移ったときに元のメビウスの輪に戻らないようにカウントする
                 if (counter > 1)//
