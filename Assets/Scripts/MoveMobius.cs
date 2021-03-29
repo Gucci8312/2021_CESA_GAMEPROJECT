@@ -23,18 +23,30 @@ public class MoveMobius : MonoBehaviour
     private Rigidbody Rb;
     private Vector3 MovePos;                                     //移動する位置
     //private float Radius;                                        //移動する際に使うラジアン
-    public Vector3 MoveVec;
+    private Vector3 MoveVec;
 
     Vector3 OldPos;
+
+    bool TimingInput;                                                                               //タイミング入力を管理する変数　true:入力あり　false:入力なし
+    GameObject RythmObj;                                                                            //リズムオブジェクト
+    Rythm rythm;                                                                                    //リズムスクリプト取得用
+
     void Start()
     {
         player = GameObject.Find("Player");
         RigitBodyInit();
+
+        TimingInput = false;
+        RythmObj = GameObject.Find("rythm_circle");                                                   //リズムオブジェクト取得
+        this.rythm = RythmObj.GetComponent<Rythm>();                                                  //リズムのコード
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        TimingInput = this.rythm.checkPlayerMove;//ノーツに合わせられたかを取得
+
 
         // プレイヤーが乗っているとき
         if (MoveFlg)
@@ -153,7 +165,7 @@ public class MoveMobius : MonoBehaviour
                 LineCol();
 
 
-                Ray ray = new Ray(new Vector3(this.transform.position.x , this.transform.position.y , this.transform.position.z), //Rayを飛ばす発射位置
+                Ray ray = new Ray(new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), //Rayを飛ばす発射位置
                     new Vector3(FlickVec.x * 1, FlickVec.y * 1, 0));//飛ばす方向
 
                 //Debug.DrawRay(ray.origin, ray.direction * 1000, Color.green, 100, false);//レイが見えるようになる（デバッグの時のみ）
@@ -197,7 +209,7 @@ public class MoveMobius : MonoBehaviour
                         }
                     }
 
-                    if (CrossLineFlag)
+                    if (CrossLineFlag && TimingInput)
                     {
                         Rb.isKinematic = false;//物理的な動きをありにする
 
@@ -207,11 +219,14 @@ public class MoveMobius : MonoBehaviour
 
                         MovePos = NearCl.CanMovePosition(this.transform.position);//移動できる交点を取得
                         float Radius = Mathf.Atan2(MovePos.y - this.transform.position.y, MovePos.x - this.transform.position.x); //自分と指定した座標とのラジアンを求める
-                         MoveVec = new Vector3(Mathf.Cos(Radius), Mathf.Sin(Radius), 0);
+                        MoveVec = new Vector3(Mathf.Cos(Radius), Mathf.Sin(Radius), 0);
 
                         float distance = (this.transform.position - MovePos).magnitude;//自分の座標と移動したい座標との差
                         Rb.AddForce(MoveVec * (MovePower + (distance * Bairitu)), ForceMode.VelocityChange);//瞬間的に加速させる（要調整）
                         FlickMoveFlag = true;
+
+                        this.rythm.checkMoviusMove = false;
+                        this.rythm.rythmCheckFlag = false;
 
                     }
                 }
