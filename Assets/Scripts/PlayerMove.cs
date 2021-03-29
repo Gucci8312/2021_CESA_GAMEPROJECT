@@ -104,29 +104,7 @@ public class PlayerMove : MonoBehaviour
 
             MobiusSavePos = MobiusPos;
 
-
-            if (Mobius[NowMobius].GetComponent<MoveMobius>().GetFlickMoveFlag())//松井君のスクリプトから動いているかどうかを取得
-            {
-                if (!MobiusMoveFlg)
-                {
-                    TimingInput = true;
-                    MobiusMoveFlg = true;
-
-                }
-                else
-                {
-                    TimingInput = false;
-                }
-
-                //Debug.Log("動いている");
-            }
-            else
-            {
-                TimingInput = this.rythm.checkPlayerMove;
-                MobiusMoveFlg = false;
-                //Debug.Log("動いていない");
-            }
-
+            TimingInput = this.rythm.checkPlayerMove;
 
 
             if (Mobius[NowMobius] != null)
@@ -139,15 +117,13 @@ public class PlayerMove : MonoBehaviour
                     if (RotateLeftFlg)
                     {
                         transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, this.transform.forward, MoveAngle);//左移動
-                        this.rythm.checkPlayerMove = false;
-                        this.rythm.rythmCheckFlag = false;
                     }
                     else
                     {
                         transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
-                        this.rythm.checkPlayerMove = false;
-                        this.rythm.rythmCheckFlag = false;
                     }
+                    this.rythm.checkPlayerMove = false;
+                    //this.rythm.rythmCheckFlag = false;
                     counter++;
                     //Debug.Log("移動");
                 }//if (TimingInput)
