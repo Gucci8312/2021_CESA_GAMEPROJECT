@@ -102,18 +102,7 @@ public class PlayerMove : MonoBehaviour
 
             MobiusSavePos = MobiusPos;
 
-<<<<<<< HEAD
-
-            
             TimingInput = this.rythm.checkPlayerMove;//ノーツに合わせられたかを取得
-                
-            
-            
-
-=======
-            TimingInput = this.rythm.checkPlayerMove;
->>>>>>> 長龍馬
-
 
             if (Mobius[NowMobius] != null)
             {
