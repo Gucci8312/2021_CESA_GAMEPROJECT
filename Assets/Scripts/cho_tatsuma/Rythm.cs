@@ -89,19 +89,21 @@ public class Rythm : MonoBehaviour
     {
         while (true)
         {
-            //Entarキーで成功かどうかを判断する
-            if (Input.GetKeyDown(KeyCode.Return) && rythmCheckFlag)
+            if (rythmCheckFlag)
             {
-                checkPlayerMove = true;
-                rythmCheckFlag = false;
-                //  Debug.Log("Suceeded!!!");
-            }
-
-            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) && rythmCheckFlag)
-            {
-                rythmCheckFlag = false;
-                checkMoviusMove = true;
-                checkPlayerMove = true;
+                //Entarキーで成功かどうかを判断する
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    checkPlayerMove = true;
+                    rythmCheckFlag = false;
+                    //  Debug.Log("Suceeded!!!");
+                }
+                else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)))
+                {
+                    rythmCheckFlag = false;
+                    checkMoviusMove = true;
+                    checkPlayerMove = true;
+                }
             }
             yield return new WaitForFixedUpdate();
         }
