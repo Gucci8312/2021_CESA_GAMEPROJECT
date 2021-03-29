@@ -102,6 +102,7 @@ public class PlayerMove : MonoBehaviour
 
             MobiusSavePos = MobiusPos;
 
+<<<<<<< HEAD
 
             
             TimingInput = this.rythm.checkPlayerMove;//ノーツに合わせられたかを取得
@@ -109,6 +110,9 @@ public class PlayerMove : MonoBehaviour
             
             
 
+=======
+            TimingInput = this.rythm.checkPlayerMove;
+>>>>>>> 長龍馬
 
 
             if (Mobius[NowMobius] != null)
@@ -121,15 +125,13 @@ public class PlayerMove : MonoBehaviour
                     if (RotateLeftFlg)
                     {
                         transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, this.transform.forward, MoveAngle);//左移動
-                        this.rythm.checkPlayerMove = false;
-                        this.rythm.rythmCheckFlag = false;
                     }
                     else
                     {
                         transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
-                        this.rythm.checkPlayerMove = false;
-                        this.rythm.rythmCheckFlag = false;
                     }
+                    this.rythm.checkPlayerMove = false;
+                    //this.rythm.rythmCheckFlag = false;
                     counter++;
                     //Debug.Log("移動");
                 }//if (TimingInput)

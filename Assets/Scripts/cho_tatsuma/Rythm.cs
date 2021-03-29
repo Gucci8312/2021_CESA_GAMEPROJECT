@@ -100,7 +100,6 @@ public class Rythm : MonoBehaviour
                 }
                 else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)))
                 {
-                    rythmCheckFlag = false;
                     checkMoviusMove = true;
                     checkPlayerMove = true;
                 }
@@ -120,9 +119,9 @@ public class Rythm : MonoBehaviour
             if (m_beatCount >= EnemyTroughRing)
             {
                 //田中くんのスクリプトにおくるよう
-                Invoke("TurnRythmSendCheckFlagTrue", 0.4f);
+                Invoke("TurnRythmSendCheckFlagTrue", 0.3f);
             }
-            Invoke("TurnFalseSuccessCheck", SetSuccessInputTime);
+            //Invoke("TurnFalseSuccessCheck", SetSuccessInputTime);
         }
     }
     // @name   TurnRythmSendCheckFlagTrue
