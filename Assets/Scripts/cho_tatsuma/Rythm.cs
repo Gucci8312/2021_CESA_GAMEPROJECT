@@ -42,12 +42,7 @@ public class Rythm : MonoBehaviour
         //Componentを取得
         audioSource = GetComponent<AudioSource>();
         StartCoroutine("SuccessCheck");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        m_startTime = Time.timeSinceLevelLoad;
     }
 
     private void OnEnable()
@@ -55,12 +50,16 @@ public class Rythm : MonoBehaviour
         m_time = (60.0f / (float)BPM);
         Debug.Log(m_time);
         m_targetPos = new Vector3(-m_sphere.transform.position.x, m_sphere.transform.position.y, m_sphere.transform.position.z);
-        m_startTime = Time.timeSinceLevelLoad;
         m_currentPos = m_sphere.transform.position;
     }
 
     private void FixedUpdate()
     {
+        if (Time.timeSinceLevelLoad <= (m_time / 2.0f))
+        {
+            m_startTime = Time.timeSinceLevelLoad;
+            return;
+        }
         float diff = Time.timeSinceLevelLoad - m_startTime;
         float rate = (diff / m_time) + tansu;
         m_sphere.transform.position = Vector3.Lerp(m_currentPos, m_targetPos, rate);
@@ -70,6 +69,10 @@ public class Rythm : MonoBehaviour
         {
             m_startTime = Time.timeSinceLevelLoad;
             tansu = rate - 1.0f;
+        }
+        else
+        {
+            tansu = 0.0f;
         }
 
         //ゴール点に達した時
