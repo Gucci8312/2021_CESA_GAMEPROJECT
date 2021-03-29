@@ -121,7 +121,7 @@ public class Rythm : MonoBehaviour
                 //田中くんのスクリプトにおくるよう
                 Invoke("TurnRythmSendCheckFlagTrue", 0.3f);
             }
-            //Invoke("TurnFalseSuccessCheck", SetSuccessInputTime);
+            Invoke("TurnFalseSuccessCheck", SetSuccessInputTime);
         }
     }
     // @name   TurnRythmSendCheckFlagTrue
