@@ -352,7 +352,7 @@ public class MoveMobius : MonoBehaviour
 
     private void LineCol()//メビウスの輪が線上に乗っているかどうか調べる（縦か横の線のみ）
     {
-        float Gosa = 3;
+        float Gosa = 5;
         for (int i = 0; i < Line.Count; i++)
         {
             if ((this.transform.position.x <= Line[i].transform.position.x + Gosa && this.transform.position.x >= Line[i].transform.position.x - Gosa)
@@ -402,17 +402,6 @@ public class MoveMobius : MonoBehaviour
             //MoveFlg = false;
             if (Rb.velocity.magnitude != 0)
             {
-                //this.transform.position = OldPos;
-
-                //float distance = (this.transform.position - other.transform.position).magnitude;
-
-                //float Radius = Mathf.Atan2(MovePos.y - this.transform.position.y,
-                //    MovePos.x - this.transform.position.x); //自分と指定した座標とのラジアンを求める
-                //MoveVec = new Vector3(Mathf.Cos(Radius), Mathf.Sin(Radius), 0);
-
-                ////少しだけバックさせる
-                //this.transform.position = new Vector3(this.transform.position.x - Rb.velocity.x * SocialDis,
-                //    this.transform.position.y - Rb.velocity.y * SocialDis, this.transform.position.z);
 
                 MobiusCol(other.gameObject);
 
@@ -444,7 +433,7 @@ public class MoveMobius : MonoBehaviour
     {
         float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
         float ColR = (col.GetComponent<SphereCollider>().bounds.size.x + col.GetComponent<SphereCollider>().bounds.size.y) / 4;// 相手メビウスの輪の円の半径を取得
-        float SocialDistance = ThisR+ ColR + 5;//お互いの半径分と少しだけ離す
+        float SocialDistance = ThisR+ ColR + 8;//お互いの半径分と少しだけ離す
 
 
         if (FlickVec.x > 0)//右移動の時
@@ -475,7 +464,7 @@ public class MoveMobius : MonoBehaviour
 
             float disdis = distance - SocialDistance;//差分を詰めるための変数
 
-            disdis=disdis*1.5f;//もう少し詰める
+            disdis=disdis*1.3f;//もう少し詰める
 
             //差分を詰める
             if (FlickVec.x > 0)//右移動の時
