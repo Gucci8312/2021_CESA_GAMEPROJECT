@@ -16,7 +16,8 @@ public class MoveMobius : MonoBehaviour
 
     public Vector2 StickInput;          //スティック入力時の値を取得用(-1～1)
     public Vector2 FlickVec;            //弾いた時のベクトル格納用
-    bool FlickMoveFlag = false;           //弾き移動をさせるかどうか
+    bool FlickMoveFlag = false;         //弾き移動をさせるかどうか
+    bool OneFlickFlag = false;          //スティック入力を連続でさせない用
 
     public List<GameObject> Line = new List<GameObject>();  //線のオブジェクト
     List<CrossLine> cl = new List<CrossLine>();             //CrossLineスクリプト
@@ -25,7 +26,6 @@ public class MoveMobius : MonoBehaviour
     //private float Radius;                                        //移動する際に使うラジアン
     private Vector3 MoveVec;
 
-    Vector3 OldPos;
 
     bool TimingInput;                                                                               //タイミング入力を管理する変数　true:入力あり　false:入力なし
     GameObject RythmObj;                                                                            //リズムオブジェクト
@@ -84,7 +84,6 @@ public class MoveMobius : MonoBehaviour
         //    MoveFlg = false;
         //}
 
-        OldPos = this.transform.position;
     }
 
     //スティックの弾き移動処理
@@ -274,21 +273,37 @@ public class MoveMobius : MonoBehaviour
         if (Input.GetKey(KeyCode.D)) { StickInput.x = 1; }
         if (Input.GetKey(KeyCode.A)) { StickInput.x = -1; }
 
-        if (!FlickMoveFlag)
+
+        Vector2 stickmax = StickInput;//スティックを端まで倒したときの値を格納用
+
+        //計算をしやすくするために正数に変化
+        if (stickmax.x < 0) { stickmax.x = -stickmax.x; }
+        if (stickmax.y < 0) { stickmax.y = -stickmax.y; }
+
+
+        if (!OneFlickFlag)
         {
             if (StickInput.x != 0 || StickInput.y != 0)//スティック入力されていたら
             {
-                Vector2 stickmax = StickInput;//スティックを端まで倒したときの値を格納用
-
-                //計算をしやすくするために正数に変化
-                if (stickmax.x < 0) { stickmax.x = -stickmax.x; }
-                if (stickmax.y < 0) { stickmax.y = -stickmax.y; }
-
                 if (stickmax.x + stickmax.y >= 1)//スティックを端まで倒した場合
                 {
-                    FlickVec = StickInput; ;//倒した方向の値を代入
+                    //斜めにレイを飛ばさない用
+                    if (stickmax.x > stickmax.y) { StickInput.y = 0; }
+                    else { StickInput.x = 0; }
+
+                    FlickVec = StickInput; //倒した方向の値を代入
+                    OneFlickFlag = true;
                     return true;
                 }
+            }
+        }
+
+        else
+        {
+            if (stickmax.x + stickmax.y < 1)//スティックを端まで倒していない場合
+            {
+                OneFlickFlag = false;
+                return false;
             }
         }
 
@@ -385,19 +400,21 @@ public class MoveMobius : MonoBehaviour
         if (other.gameObject.tag == "Mobius")
         {
             //MoveFlg = false;
-            if (MoveFlg)
+            if (Rb.velocity.magnitude != 0)
             {
                 //this.transform.position = OldPos;
 
-                float distance = (this.transform.position - other.transform.position).magnitude;
+                //float distance = (this.transform.position - other.transform.position).magnitude;
 
-                float Radius = Mathf.Atan2(MovePos.y - this.transform.position.y,
-                    MovePos.x - this.transform.position.x); //自分と指定した座標とのラジアンを求める
-                MoveVec = new Vector3(Mathf.Cos(Radius), Mathf.Sin(Radius), 0);
+                //float Radius = Mathf.Atan2(MovePos.y - this.transform.position.y,
+                //    MovePos.x - this.transform.position.x); //自分と指定した座標とのラジアンを求める
+                //MoveVec = new Vector3(Mathf.Cos(Radius), Mathf.Sin(Radius), 0);
 
-                //少しだけバックさせる
-                this.transform.position = new Vector3(this.transform.position.x - Rb.velocity.x * SocialDis,
-                    this.transform.position.y - Rb.velocity.y * SocialDis, this.transform.position.z);
+                ////少しだけバックさせる
+                //this.transform.position = new Vector3(this.transform.position.x - Rb.velocity.x * SocialDis,
+                //    this.transform.position.y - Rb.velocity.y * SocialDis, this.transform.position.z);
+
+                MobiusCol(other.gameObject);
 
                 Rb.isKinematic = true;
                 Debug.Log("メビウスの輪同士がぶつかった" + this.gameObject.name);
@@ -423,6 +440,64 @@ public class MoveMobius : MonoBehaviour
         }
     }
 
+    private void MobiusCol(GameObject col)
+    {
+        float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
+        float ColR = (col.GetComponent<SphereCollider>().bounds.size.x + col.GetComponent<SphereCollider>().bounds.size.y) / 4;// 相手メビウスの輪の円の半径を取得
+        float SocialDistance = ThisR+ ColR + 5;//お互いの半径分と少しだけ離す
+
+
+        if (FlickVec.x > 0)//右移動の時
+        {
+            this.transform.position = new Vector3(col.transform.position.x - SocialDistance, this.transform.position.y, this.transform.position.z);
+        }
+        else if(FlickVec.x < 0)//左移動の時
+        {
+            this.transform.position = new Vector3(col.transform.position.x + SocialDistance, this.transform.position.y, this.transform.position.z);
+        }
+        else if(FlickVec.y > 0)//上移動の時
+        {
+            this.transform.position = new Vector3(this.transform.position.x, col.transform.position.y - SocialDistance, this.transform.position.z);
+        }
+        else if (FlickVec.y < 0)//下移動の時
+        {
+            this.transform.position = new Vector3(this.transform.position.x, col.transform.position.y + SocialDistance, this.transform.position.z);
+        }
+
+
+        float distance = (this.transform.position - col.transform.position).magnitude;
+
+        if (SocialDistance < distance)//引き離したとき離れ過ぎたら 
+        {
+            Debug.Log(SocialDistance);
+            Debug.Log(distance);
+
+
+            float disdis = distance - SocialDistance;//差分を詰めるための変数
+
+            disdis=disdis*1.5f;//もう少し詰める
+
+            //差分を詰める
+            if (FlickVec.x > 0)//右移動の時
+            {
+                this.transform.position = new Vector3(this.transform.position.x + disdis, this.transform.position.y, this.transform.position.z);
+            }
+            else if (FlickVec.x < 0)//左移動の時
+            {
+                this.transform.position = new Vector3(this.transform.position.x - disdis, this.transform.position.y, this.transform.position.z);
+            }
+            else if (FlickVec.y > 0)//上移動の時
+            {
+                this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + disdis, this.transform.position.z);
+            }
+            else if (FlickVec.y < 0)//下移動の時
+            {
+                this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - disdis, this.transform.position.z);
+            }
+
+            Debug.Log("差を詰めた");
+        }
+    }
 
     // 衝突時
     //private void OnTriggerEnter(Collider other)
