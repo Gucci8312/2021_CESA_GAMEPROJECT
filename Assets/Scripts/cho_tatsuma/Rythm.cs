@@ -30,8 +30,12 @@ public class Rythm : MonoBehaviour
     public int EnemyTroughRing;
     static float bpm_time;
     static float tansu;
+
+    bool delayFrame;
+    int delayFrameCount;
     [SerializeField] AudioClip SE;
     AudioSource audioSource;
+    [SerializeField] AudioSource stageBGM;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,25 +43,33 @@ public class Rythm : MonoBehaviour
         rythmCheckFlag = false;
         checkPlayerMove = false;
         checkMoviusMove = false;
+        delayFrame = false;
         //Componentを取得
         audioSource = GetComponent<AudioSource>();
         StartCoroutine("SuccessCheck");
         m_startTime = Time.timeSinceLevelLoad;
+        stageBGM.Play();
+        stageBGM.loop = true;
+
     }
 
     private void OnEnable()
     {
         m_time = (60.0f / (float)BPM);
-        Debug.Log(m_time);
         m_targetPos = new Vector3(-m_sphere.transform.position.x, m_sphere.transform.position.y, m_sphere.transform.position.z);
         m_currentPos = m_sphere.transform.position;
     }
 
     private void FixedUpdate()
     {
-        if (Time.timeSinceLevelLoad <= (m_time / 2.0f))
+        if (Time.timeSinceLevelLoad < (m_time / 2.0f))
         {
             m_startTime = Time.timeSinceLevelLoad;
+            return;
+        }
+        if (stageBGM.time <= 0.05f)
+        {
+            m_startTime = Time.timeSinceLevelLoad;       
             return;
         }
         float diff = Time.timeSinceLevelLoad - m_startTime;
@@ -119,7 +131,7 @@ public class Rythm : MonoBehaviour
             if (m_beatCount >= EnemyTroughRing)
             {
                 //田中くんのスクリプトにおくるよう
-                Invoke("TurnRythmSendCheckFlagTrue", 0.3f);
+                Invoke("TurnRythmSendCheckFlagTrue", 0.4f);
             }
             Invoke("TurnFalseSuccessCheck", SetSuccessInputTime);
         }
