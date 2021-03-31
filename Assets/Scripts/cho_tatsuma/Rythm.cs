@@ -30,8 +30,12 @@ public class Rythm : MonoBehaviour
     public int EnemyTroughRing;
     static float bpm_time;
     static float tansu;
+
+    bool delayFrame;
+    int delayFrameCount;
     [SerializeField] AudioClip SE;
     AudioSource audioSource;
+    [SerializeField] AudioSource stageBGM;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,28 +43,35 @@ public class Rythm : MonoBehaviour
         rythmCheckFlag = false;
         checkPlayerMove = false;
         checkMoviusMove = false;
+        delayFrame = false;
         //Componentを取得
         audioSource = GetComponent<AudioSource>();
         StartCoroutine("SuccessCheck");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        m_startTime = Time.timeSinceLevelLoad;
+        stageBGM.Play();
+        stageBGM.loop = true;
 
     }
 
     private void OnEnable()
     {
         m_time = (60.0f / (float)BPM);
-        Debug.Log(m_time);
         m_targetPos = new Vector3(-m_sphere.transform.position.x, m_sphere.transform.position.y, m_sphere.transform.position.z);
-        m_startTime = Time.timeSinceLevelLoad;
         m_currentPos = m_sphere.transform.position;
     }
 
     private void FixedUpdate()
     {
+        if (Time.timeSinceLevelLoad < (m_time / 2.0f))
+        {
+            m_startTime = Time.timeSinceLevelLoad;
+            return;
+        }
+        if (stageBGM.time <= 0.05f)
+        {
+            m_startTime = Time.timeSinceLevelLoad;       
+            return;
+        }
         float diff = Time.timeSinceLevelLoad - m_startTime;
         float rate = (diff / m_time) + tansu;
         m_sphere.transform.position = Vector3.Lerp(m_currentPos, m_targetPos, rate);
@@ -70,6 +81,10 @@ public class Rythm : MonoBehaviour
         {
             m_startTime = Time.timeSinceLevelLoad;
             tansu = rate - 1.0f;
+        }
+        else
+        {
+            tansu = 0.0f;
         }
 
         //ゴール点に達した時
@@ -86,19 +101,20 @@ public class Rythm : MonoBehaviour
     {
         while (true)
         {
-            //Entarキーで成功かどうかを判断する
-            if (Input.GetKeyDown(KeyCode.Return) && rythmCheckFlag)
+            if (rythmCheckFlag)
             {
-                checkPlayerMove = true;
-                rythmCheckFlag = false;
-                //  Debug.Log("Suceeded!!!");
-            }
-
-            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) && rythmCheckFlag)
-            {
-                rythmCheckFlag = false;
-                checkMoviusMove = true;
-                checkPlayerMove = true;
+                //Entarキーで成功かどうかを判断する
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    checkPlayerMove = true;
+                    rythmCheckFlag = false;
+                    //  Debug.Log("Suceeded!!!");
+                }
+                else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)))
+                {
+                    checkMoviusMove = true;
+                    checkPlayerMove = true;
+                }
             }
             yield return new WaitForFixedUpdate();
         }

@@ -102,14 +102,7 @@ public class PlayerMove : MonoBehaviour
 
             MobiusSavePos = MobiusPos;
 
-
-            
             TimingInput = this.rythm.checkPlayerMove;//ノーツに合わせられたかを取得
-                
-            
-            
-
-
 
             if (Mobius[NowMobius] != null)
             {
@@ -127,8 +120,7 @@ public class PlayerMove : MonoBehaviour
                         transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
                     }
                     this.rythm.checkPlayerMove = false;
-                    this.rythm.rythmCheckFlag = false;
-
+                    //this.rythm.rythmCheckFlag = false;
                     counter++;
                     //Debug.Log("移動");
                 }//if (TimingInput)

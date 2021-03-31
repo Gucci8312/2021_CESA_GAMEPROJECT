@@ -10,7 +10,8 @@ public class GameMaster : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-     //   Menu= GameObject.Find("Menu");
+        //   Menu= GameObject.Find("Menu");
+        Application.targetFrameRate = 60;
     }
 
     // Update is called once per frame
