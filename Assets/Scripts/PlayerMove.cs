@@ -177,7 +177,7 @@ public class PlayerMove : MonoBehaviour
             }//if (Mobius[NowMobius] != null)
         }//else if(StartFlg)
 
-        Debug.Log(CollisionState);
+        //Debug.Log(CollisionState);
     }//void Update()
 
 
