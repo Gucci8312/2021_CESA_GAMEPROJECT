@@ -28,6 +28,8 @@ public class PlayerMove : MonoBehaviour
     Rythm rythm;                                                                                    //リズムスクリプト取得用
 
 
+    bool CollisionState;                                                                             //当たり判定を外部に渡す変数　treu:当たっている　false:当たっていない
+    
     void Start()
     {
         //rb = GetComponent<Rigidbody>();                                                             // リジットボディを格納
@@ -50,6 +52,7 @@ public class PlayerMove : MonoBehaviour
         TimingInput = false;
         StartFlg = true;
         counter = 0;
+        CollisionState = false;
 
         //初期位置設定
         Vector2 MobiusPos = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center;
@@ -80,6 +83,7 @@ public class PlayerMove : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name); // 現在シーンのリロード
         }
 
+        
 
         if (StartFlg)
         {
@@ -90,6 +94,7 @@ public class PlayerMove : MonoBehaviour
                 transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
             }
 
+            
             StartFlg = false;
         }
         else
@@ -101,6 +106,17 @@ public class PlayerMove : MonoBehaviour
             MoveMobiusSum = MobiusPos - MobiusSavePos;
 
             MobiusSavePos = MobiusPos;
+            
+            
+         float hankei = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 +                // メビウスの輪の円の半径を取得
+            GetComponent<SphereCollider>().bounds.size.x / 2;
+            this.gameObject.transform.position = new Vector3(MobiusPos.x, MobiusPos.y, 0);
+            this.gameObject.transform.position += new Vector3(0, (hankei - InsideLength), 0);
+                
+         for (int i = 0; i < StartPoint; i++)//ポイントの場所に移動させる
+         {
+            transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
+         }
 
             TimingInput = this.rythm.checkPlayerMove;//ノーツに合わせられたかを取得
 
@@ -110,23 +126,40 @@ public class PlayerMove : MonoBehaviour
                 if (TimingInput)//キー入力あり
                 {
                     ApproachMobius();//軌道に乗せる
+                    //ApproachMobius();//軌道に乗せる
 
                     if (RotateLeftFlg)
                     {
                         transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, this.transform.forward, MoveAngle);//左移動
+                        //transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, this.transform.forward, MoveAngle);//左移動
+                        StartPoint--;
+                        if (StartPoint < 0)
+                        {
+                            StartPoint = 7;
+                        }
                     }
                     else
                     {
                         transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
+                        //transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
+                        StartPoint++;
+                        if (StartPoint > 7)
+                        {
+                            StartPoint = 0;
+                        }
                     }
+                    
                     this.rythm.checkPlayerMove = false;
                     //this.rythm.rythmCheckFlag = false;
                     counter++;
                     //Debug.Log("移動");
+                    //Debug.Log(StartPoint);
                 }//if (TimingInput)
 
+                
 
                 this.gameObject.transform.position = new Vector3(this.transform.position.x + MoveMobiusSum.x, this.transform.position.y + MoveMobiusSum.y, 0);         //メビウスの動きについていく
+                //this.gameObject.transform.position = new Vector3(this.transform.position.x + MoveMobiusSum.x, this.transform.position.y + MoveMobiusSum.y, 0);         //メビウスの動きについていく
 
 
                 CollisonMobius();//移り先のメビウスの輪を探す
@@ -144,6 +177,7 @@ public class PlayerMove : MonoBehaviour
             }//if (Mobius[NowMobius] != null)
         }//else if(StartFlg)
 
+        Debug.Log(CollisionState);
     }//void Update()
 
 
@@ -229,6 +263,15 @@ public class PlayerMove : MonoBehaviour
                 if ((PlayerHankei / 2) + InsideLength > NextLength)//プレイヤーと移り先のメビウスの輪が当たった
                 {
                     transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, 180);
+                    if (StartPoint >= 4)
+                    {
+                        StartPoint -= 4;
+                    }
+                    else
+                    {
+                        StartPoint += 4;
+                    }
+                    //Debug.Log(StartPoint);
                     SaveMobius = NowMobius;
                     NowMobius = i;
                     counter = 0;
@@ -294,18 +337,35 @@ public class PlayerMove : MonoBehaviour
     // 衝突時
     // private void OnTriggerEnter(Collider other)
     private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
+    
     {
 
 
+        if (other.gameObject.tag == "Enemy")
+        {
+            CollisionState = true;
+            Debug.Log("敵と当たった");
+        }
     }
 
     // 離れた時
     private void OnTriggerEnter(Collider other)
     //private void OnCollisionExit(Collision other)
+    private void OnTriggerExit(Collider other)
     {
 
+        if (other.gameObject.tag == "Enemy")
+        {
+            CollisionState = false;
+            Debug.Log("敵と離れた");
+        }
     }
 
 
 
+    public bool GetCollisionState()//敵と当たっているかどうかを返す
+    {
+        return CollisionState;
+    }
 }
