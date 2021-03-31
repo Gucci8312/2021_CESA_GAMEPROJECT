@@ -336,7 +336,7 @@ public class PlayerMove : MonoBehaviour
 
     // 衝突時
     // private void OnTriggerEnter(Collider other)
-    private void OnCollisionEnter(Collision other)
+   // private void OnCollisionEnter(Collision other)
     private void OnTriggerEnter(Collider other)
     
     {
@@ -350,7 +350,7 @@ public class PlayerMove : MonoBehaviour
     }
 
     // 離れた時
-    private void OnTriggerEnter(Collider other)
+  //  private void OnTriggerEnter(Collider other)
     //private void OnCollisionExit(Collision other)
     private void OnTriggerExit(Collider other)
     {
