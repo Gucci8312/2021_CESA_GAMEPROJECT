@@ -26,6 +26,7 @@ public class MoveMobius : MonoBehaviour
     //private float Radius;                                        //移動する際に使うラジアン
     private Vector3 MoveVec;
     private bool MobiusColFlag;                                    //メビウスの当たり判定
+    Vector3 CollisionPos;
 
     bool TimingInput;                                                                               //タイミング入力を管理する変数　true:入力あり　false:入力なし
     GameObject RythmObj;                                                                            //リズムオブジェクト
@@ -391,7 +392,7 @@ public class MoveMobius : MonoBehaviour
                 {
                     MobiusCol(other.gameObject);
                     MobiusColFlag = true;
-
+                    CollisionPos = other.ClosestPointOnBounds(this.transform.position);
                     ZeroVelo();
                 }
                 else
@@ -508,13 +509,12 @@ public class MoveMobius : MonoBehaviour
         return Rb.velocity.magnitude;
     }
 
-
-    //// 離れた時
-    //private void OnCollisionExit(Collision other)
-    //{
-    //    if (other.gameObject.tag == "Player")
-    //    {
-    //        MoveFlg = true;
-    //    }
-    //}
+    public bool GetMobiusColFlg()
+    {
+        return MobiusColFlag;
+    } 
+    public Vector3 GetMobiusColPos()
+    {
+        return CollisionPos;
+    }
 }
