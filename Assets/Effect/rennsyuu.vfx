@@ -21,7 +21,7 @@ MonoBehaviour:
     x: 715
     y: -174
     width: 657
-    height: 1600
+    height: 1601
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -368,8 +368,8 @@ VisualEffectResource:
       Color_c);\n\t\t\t\tSetAttribute_D5151642( /*inout */attributes.scaleX,  /*inout
       */attributes.scaleY,  /*inout */attributes.scaleZ, Scale_d);\n\t\t\t\t{\n\t\t\t\t   
       CameraFade_18F(attributes.position,  /*inout */attributes.alpha,  /*inout */attributes.alive,
-      (float)1, (float)Infinity);\n\t\t\t\t}\n\t\t\t\t\n\n\t\t\t\t\n\t\t\t#if !HAS_STRIPS\n\t\t\t\tif
-      (!attributes.alive)\n\t\t\t\t\treturn o;\n\t\t\t#endif\n\t\t\t\t\n\t\t\t#if
+      (float)1, (float)0.111111112);\n\t\t\t\t}\n\t\t\t\t\n\n\t\t\t\t\n\t\t\t#if
+      !HAS_STRIPS\n\t\t\t\tif (!attributes.alive)\n\t\t\t\t\treturn o;\n\t\t\t#endif\n\t\t\t\t\n\t\t\t#if
       VFX_PRIMITIVE_QUAD\n\t\t\t\n\t\t\t#if HAS_STRIPS\n\t\t\t#if VFX_STRIPS_UV_STRECHED\n\t\t\t\to.VFX_VARYING_UV.x
       = (float)(currentIndex) / (stripData.nextIndex - 1);\n\t\t\t#elif VFX_STRIPS_UV_PER_SEGMENT\n\t\t\t\to.VFX_VARYING_UV.x
       = PARTICLE_IN_EDGE;\n\t\t\t#else\n\t\t\t\t\n\t\t\t    o.VFX_VARYING_UV.x =
@@ -611,8 +611,8 @@ VisualEffectResource:
       Color_c);\n\t\t\t\tSetAttribute_D5151642( /*inout */attributes.scaleX,  /*inout
       */attributes.scaleY,  /*inout */attributes.scaleZ, Scale_d);\n\t\t\t\t{\n\t\t\t\t   
       CameraFade_18F(attributes.position,  /*inout */attributes.alpha,  /*inout */attributes.alive,
-      (float)1, (float)Infinity);\n\t\t\t\t}\n\t\t\t\t\n\n\t\t\t\t\n\t\t\t#if !HAS_STRIPS\n\t\t\t\tif
-      (!attributes.alive)\n\t\t\t\t\treturn o;\n\t\t\t#endif\n\t\t\t\t\n\t\t\t#if
+      (float)1, (float)0.111111112);\n\t\t\t\t}\n\t\t\t\t\n\n\t\t\t\t\n\t\t\t#if
+      !HAS_STRIPS\n\t\t\t\tif (!attributes.alive)\n\t\t\t\t\treturn o;\n\t\t\t#endif\n\t\t\t\t\n\t\t\t#if
       VFX_PRIMITIVE_QUAD\n\t\t\t\n\t\t\t#if HAS_STRIPS\n\t\t\t#if VFX_STRIPS_UV_STRECHED\n\t\t\t\to.VFX_VARYING_UV.x
       = (float)(currentIndex) / (stripData.nextIndex - 1);\n\t\t\t#elif VFX_STRIPS_UV_PER_SEGMENT\n\t\t\t\to.VFX_VARYING_UV.x
       = PARTICLE_IN_EDGE;\n\t\t\t#else\n\t\t\t\t\n\t\t\t    o.VFX_VARYING_UV.x =
@@ -850,7 +850,7 @@ VisualEffectResource:
         - m_ExpressionIndex: 4
           m_Value: 1
         - m_ExpressionIndex: 12
-          m_Value: Infinity
+          m_Value: 0.11111111
       m_Vector2f:
         m_Array: []
       m_Vector3f:
@@ -7242,7 +7242,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1
+      m_SerializableObject: 10
     m_Space: 2147483647
   m_Property:
     name: VisibleDistance
