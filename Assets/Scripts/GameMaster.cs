@@ -15,6 +15,7 @@ public class GameMaster : MonoBehaviour
         Player = GameObject.Find("Player");                                        //全てのメビウス取得
 
         Application.targetFrameRate = 60;
+        Player = GameObject.Find("Player");
     }
 
     // Update is called once per frame
@@ -37,7 +38,7 @@ public class GameMaster : MonoBehaviour
     {
         if(Player.GetComponent<PlayerMove>().GetCollisionState())
         {
-            //SceneManager.LoadScene("TittleScene");
+            SceneManager.LoadScene("TittleScene");
         }
     }
 
