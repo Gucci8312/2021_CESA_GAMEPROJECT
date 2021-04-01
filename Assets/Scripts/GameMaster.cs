@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.VFX;
 
 public class GameMaster : MonoBehaviour
 {
     public GameObject Menu;
     GameObject Player;
-
+    VisualEffect vf;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,7 +39,7 @@ public class GameMaster : MonoBehaviour
     {
         if(Player.GetComponent<PlayerMove>().GetCollisionState())
         {
-          //  SceneManager.LoadScene("TittleScene");
+            SceneManager.LoadScene("TittleScene");
         }
     }
 
