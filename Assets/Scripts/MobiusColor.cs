@@ -57,14 +57,14 @@ public class MobiusColor : MonoBehaviour
 
     private void ColorCheck()//色が同じかどうか調べる
     {
-        //if (NowColorNum==player.)//自分の色番号とプレイヤーが触れているメビウスの色番号が同じ場合
-        //{
-        //    ColorSameFlag = true;
-        //}
-        //else
-        //{
-        //    ColorSameFlag = false;
-        //}
+        if (NowColorNum == player.GetNowMobiusColor())//自分の色番号とプレイヤーが触れているメビウスの色番号が同じ場合
+        {
+            ColorSameFlag = true;
+        }
+        else
+        {
+            ColorSameFlag = false;
+        }
     }
 
     public int GetNowColorNum()

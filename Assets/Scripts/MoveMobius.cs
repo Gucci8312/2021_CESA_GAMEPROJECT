@@ -9,9 +9,9 @@ public class MoveMobius : MonoBehaviour
     public float MovePower = 100.0f;                 // 移動力
     public float Bairitu = 5;
     public float Gensokuritu = 50;                  //速度を減速させる用（０にするとずっと無限に移動する）
-    private float SocialDis = 0.045f;
 
-    bool MoveFlg;                           // 移動判定用
+    private bool PlayerMoveFlg;                           // プレイヤーによる移動判定用
+
     GameObject player;
 
     public Vector2 StickInput;          //スティック入力時の値を取得用(-1～1)
@@ -52,7 +52,7 @@ public class MoveMobius : MonoBehaviour
 
 
         // プレイヤーが乗っているとき
-        if (MoveFlg)
+        if (PlayerMoveFlg || Mc.GetColorSameFlag())
         {
             //StickFlick();
             if (Line.Count != 0)
@@ -64,30 +64,21 @@ public class MoveMobius : MonoBehaviour
         }
         else
         {
-            Rb.velocity = Vector3.zero;//勢いを止める
-            Rb.isKinematic = true;//物理的な動きをなしにする
-
+            ZeroVelo();
             FlickVec.x = 0;
             FlickVec.y = 0;
-            FlickMoveFlag = false;//弾き移動を止める
         }
 
 
-        MoveFlg = false;
+        PlayerMoveFlg = false;
 
         int num = player.GetComponent<PlayerMove>().GetNowMobiusNum();//プレイヤーオブジェクトから現在のメビウスの輪の数字取得
 
-        if (this.name == "Mobius (" + num + ")" || Mc.GetColorSameFlag())//自分が対象のメビウスの輪かプレイヤーが触れているメビウスと同じ色なら
+        if (this.name == "Mobius (" + num + ")" )//自分が対象のメビウスの輪かプレイヤーが触れているメビウスと同じ色なら
         {
             //Debug.Log("Mobius (" + num + "):対象のメビウスの輪");
-            MoveFlg = true;
+            PlayerMoveFlg = true;
         }
-        //else
-        //{
-        //    MoveFlg = false;
-        //}
-
-        //MobiusColFlag = false;
     }
 
     //スティックの弾き移動処理
@@ -244,25 +235,18 @@ public class MoveMobius : MonoBehaviour
 
             if (Rb.velocity.magnitude < (MovePower / 10) + Bairitu) //勢いが一定以下になったら
             {
-                Rb.velocity = Vector3.zero;//勢いを止める
-                Rb.isKinematic = true;
+                ZeroVelo();
 
                 FlickVec.x = 0;
                 FlickVec.y = 0;
-                FlickMoveFlag = false;
-                Debug.Log("勢い");
             }
             else if (distance < (MovePower / 10) + Bairitu)  //ほぼ近ければ
             {
-                Rb.velocity = Vector3.zero;//勢いを止める
-                Rb.isKinematic = true;
+                ZeroVelo();
                 this.transform.position = MovePos;
-
 
                 FlickVec.x = 0;
                 FlickVec.y = 0;
-                FlickMoveFlag = false;
-                Debug.Log("目標地点");
             }
         }
     }
@@ -399,18 +383,26 @@ public class MoveMobius : MonoBehaviour
         if (other.gameObject.tag == "Mobius")
         {
             //MoveFlg = false;
-            if (Rb.velocity.magnitude != 0)
+            if (FlickMoveFlag)//自身が勢いがあるとき　
             {
-
-                MobiusCol(other.gameObject);
-
-                Rb.isKinematic = true;
                 Debug.Log("メビウスの輪同士がぶつかった" + this.gameObject.name);
 
-                MobiusColFlag = true;
+                if (!other.GetComponent<MoveMobius>().GetFlickMoveFlag()) //相手が動いてないとき
+                {
+                    MobiusCol(other.gameObject);
+                    MobiusColFlag = true;
+
+                    ZeroVelo();
+                }
+                else
+                {
+                    if (Rb.velocity.magnitude > other.GetComponent<MoveMobius>().Velocty())//自身の勢いが強ければ
+                    {
+                        MobiusCol(other.gameObject);
+                    }
+                }
+
             }
-            Rb.velocity = Vector3.zero;//勢いを止める
-            FlickMoveFlag = false;
         }
 
     }
@@ -426,7 +418,7 @@ public class MoveMobius : MonoBehaviour
         // メビウスの輪同士が離れたとき
         if (other.gameObject.tag == "Mobius")
         {
-            if (MoveFlg)
+            if (PlayerMoveFlg)
             {
                 Debug.Log("メビウスの輪同士が離れた" + this.gameObject.name);
                 MobiusColFlag = false;
@@ -494,10 +486,28 @@ public class MoveMobius : MonoBehaviour
         }
     }
 
+    private void ZeroVelo() //動きを止める
+    {
+        Rb.velocity = Vector3.zero;//勢いを止める
+        FlickMoveFlag = false;
+        Rb.isKinematic = true;
+    }
+
     public bool GetFlickMoveFlag()
     {
         return FlickMoveFlag;
     }
+
+    public bool GetPlayerMoveFlg()
+    {
+        return PlayerMoveFlg;
+    }
+
+    public float Velocty()
+    {
+        return Rb.velocity.magnitude;
+    }
+
 
     //// 離れた時
     //private void OnCollisionExit(Collision other)
