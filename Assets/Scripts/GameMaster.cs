@@ -6,12 +6,14 @@ using UnityEngine.SceneManagement;
 public class GameMaster : MonoBehaviour
 {
     public GameObject Menu;
+    GameObject Player;
 
     // Start is called before the first frame update
     void Start()
     {
         //   Menu= GameObject.Find("Menu");
         Application.targetFrameRate = 60;
+        Player = GameObject.Find("Player");
     }
 
     // Update is called once per frame
@@ -27,6 +29,14 @@ public class GameMaster : MonoBehaviour
             {
                 Menu.active = true;
             }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if(Player.GetComponent<PlayerMove>().GetCollisionState())
+        {
+            SceneManager.LoadScene("TittleScene");
         }
     }
 
