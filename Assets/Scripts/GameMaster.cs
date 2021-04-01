@@ -12,6 +12,8 @@ public class GameMaster : MonoBehaviour
     void Start()
     {
         //   Menu= GameObject.Find("Menu");
+        Player = GameObject.Find("Player");                                        //全てのメビウス取得
+
         Application.targetFrameRate = 60;
         Player = GameObject.Find("Player");
     }
@@ -36,7 +38,7 @@ public class GameMaster : MonoBehaviour
     {
         if(Player.GetComponent<PlayerMove>().GetCollisionState())
         {
-            SceneManager.LoadScene("TittleScene");
+          //  SceneManager.LoadScene("TittleScene");
         }
     }
 
