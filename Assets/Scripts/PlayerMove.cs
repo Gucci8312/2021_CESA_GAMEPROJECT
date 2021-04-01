@@ -339,14 +339,15 @@ public class PlayerMove : MonoBehaviour
     // private void OnTriggerEnter(Collider other)
    // private void OnCollisionEnter(Collision other)
     private void OnTriggerEnter(Collider other)
-    
     {
-
-
+        
         if (other.gameObject.tag == "Enemy")
         {
-            CollisionState = true;
-            Debug.Log("敵と当たった");
+            if (!StartFlg)//シーンを読み込むと、実行されてしまうので回避するために1ループ実行されるまで当たり判定は取らない
+            {
+                CollisionState = true;
+                Debug.Log("敵と当たった");
+            }
         }
     }
 
