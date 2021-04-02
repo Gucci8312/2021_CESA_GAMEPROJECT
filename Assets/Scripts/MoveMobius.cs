@@ -217,7 +217,7 @@ public class MoveMobius : MonoBehaviour
                         MoveVec = new Vector3(Mathf.Cos(Radius), Mathf.Sin(Radius), 0);
 
                         float distance = (this.transform.position - MovePos).magnitude;//自分の座標と移動したい座標との差
-                        Rb.AddForce(MoveVec * (MovePower + (distance * Bairitu)), ForceMode.VelocityChange);//瞬間的に加速させる（要調整）
+                        Rb.AddForce(MoveVec * (MovePower + (distance * MoveBairitu)), ForceMode.VelocityChange);//瞬間的に加速させる（要調整）
                         FlickMoveFlag = true;
 
                         this.rythm.checkMoviusMove = false;
@@ -234,7 +234,7 @@ public class MoveMobius : MonoBehaviour
             Rb.AddForce(-Rb.velocity * (Gensokuritu * 0.1f), ForceMode.Acceleration);//減速させる（要調整）
             //float distance = (this.transform.position - MovePos).magnitude;
 
-            if (Rb.velocity.magnitude < (MovePower / 10) + Bairitu) //勢いが一定以下になったら
+            if (Rb.velocity.magnitude < (MovePower / 10) + MoveBairitu) //勢いが一定以下になったら
             {
                 ZeroVelo();
 
