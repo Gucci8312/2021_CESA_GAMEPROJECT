@@ -24,18 +24,22 @@ public class Rythm : MonoBehaviour
     public bool checkPlayerMove;                //リズムに合わせた反応が成功したかどうか
     public bool checkMoviusMove;                //リズムに合わせた反応が成功したかどうか
 
-    public float SetSuccessInputTime;                    //入力待ち時間の引き伸ばし決め
+    //  public float SetSuccessInputTime;                    //入力待ち時間の引き伸ばし決め
+
+    public float distance;
 
     private int m_beatCount;
     public int EnemyTroughRing;
-    static float bpm_time;
     static float tansu;
 
-    bool delayFrame;
     int delayFrameCount;
-    [SerializeField] AudioClip SE;
+    [SerializeField] AudioClip SE = default;
     AudioSource audioSource;
-    [SerializeField] AudioSource stageBGM;
+    [SerializeField] AudioSource stageBGM = default;
+
+    [SerializeField] GameObject MobiusObj = default;                                                                            //リズムオブジェクト
+    MoveMobius mobius_script;                                                                                    //リズムスクリプト取得用
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,9 +47,9 @@ public class Rythm : MonoBehaviour
         rythmCheckFlag = false;
         checkPlayerMove = false;
         checkMoviusMove = false;
-        delayFrame = false;
         //Componentを取得
         audioSource = GetComponent<AudioSource>();
+        this.mobius_script = MobiusObj.GetComponent<MoveMobius>();                                                  //リズムのコード
         StartCoroutine("SuccessCheck");
         m_startTime = Time.timeSinceLevelLoad;
         stageBGM.Play();
@@ -69,7 +73,7 @@ public class Rythm : MonoBehaviour
         }
         if (stageBGM.time <= 0.05f)
         {
-            m_startTime = Time.timeSinceLevelLoad;       
+            m_startTime = Time.timeSinceLevelLoad;
             return;
         }
         float diff = Time.timeSinceLevelLoad - m_startTime;
@@ -94,9 +98,29 @@ public class Rythm : MonoBehaviour
             m_currentPos = m_sphere.transform.position;
         }
 
-        bpm_time = Time.timeSinceLevelLoad;
+        CheckDistanceWall();
     }
 
+    void CheckDistanceWall()
+    {
+        GameObject[] flagWall;
+        flagWall = GameObject.FindGameObjectsWithTag("Flag");
+
+
+        float diffLeft = Mathf.Abs(flagWall[0].transform.position.x) - Mathf.Abs(m_sphere.transform.position.x);
+        float diffRight = Mathf.Abs(flagWall[1].transform.position.x) - Mathf.Abs(m_sphere.transform.position.x);
+
+        if ((diffLeft < distance) || (diffRight < distance))
+        {
+            if (rythmCheckFlag) return;
+            rythmCheckFlag = true;
+        }
+        else if (rythmCheckFlag)
+        {
+            rythmCheckFlag = false;
+        }
+
+    }
     IEnumerator SuccessCheck()
     {
         while (true)
@@ -113,7 +137,6 @@ public class Rythm : MonoBehaviour
                 else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)))
                 {
                     checkMoviusMove = true;
-                    checkPlayerMove = true;
                 }
             }
             yield return new WaitForFixedUpdate();
@@ -124,16 +147,13 @@ public class Rythm : MonoBehaviour
         if (collision.gameObject.tag == "Flag")
         {
             //   Debug.Log("TriggerOn");
-            audioSource.PlayOneShot(SE);
-            Debug.Log("音の感覚 : " + bpm_time);
-            rythmCheckFlag = true;
             m_beatCount++;
             if (m_beatCount >= EnemyTroughRing)
             {
                 //田中くんのスクリプトにおくるよう
                 Invoke("TurnRythmSendCheckFlagTrue", 0.4f);
             }
-            Invoke("TurnFalseSuccessCheck", SetSuccessInputTime);
+            //     Invoke("TurnFalseSuccessCheck", SetSuccessInputTime);
         }
     }
     // @name   TurnRythmSendCheckFlagTrue
