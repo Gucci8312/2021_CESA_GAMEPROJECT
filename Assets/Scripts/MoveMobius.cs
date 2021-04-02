@@ -6,8 +6,8 @@ using UnityEngine;
 public class MoveMobius : MonoBehaviour
 {
     // Start is called before the first frame update
-    public float MovePower = 100.0f;                 // 移動力
-    public float Bairitu = 5;
+    private float MovePower = 100.0f;                //移動力
+    public float MoveBairitu = 15;                   //移動に掛ける倍率
     public float Gensokuritu = 50;                  //速度を減速させる用（０にするとずっと無限に移動する）
 
     private bool PlayerMoveFlg;                           // プレイヤーによる移動判定用
@@ -49,7 +49,7 @@ public class MoveMobius : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TimingInput = this.rythm.checkPlayerMove;//ノーツに合わせられたかを取得
+        TimingInput = this.rythm.checkMoviusMove;//ノーツに合わせられたかを取得
 
 
         // プレイヤーが乗っているとき
@@ -232,7 +232,7 @@ public class MoveMobius : MonoBehaviour
         else//移動処理
         {
             Rb.AddForce(-Rb.velocity * (Gensokuritu * 0.1f), ForceMode.Acceleration);//減速させる（要調整）
-            float distance = (this.transform.position - MovePos).magnitude;
+            //float distance = (this.transform.position - MovePos).magnitude;
 
             if (Rb.velocity.magnitude < (MovePower / 10) + Bairitu) //勢いが一定以下になったら
             {
@@ -241,7 +241,7 @@ public class MoveMobius : MonoBehaviour
                 FlickVec.x = 0;
                 FlickVec.y = 0;
             }
-            else if (distance < (MovePower / 10) + Bairitu)  //ほぼ近ければ
+            else if (MovingStop(MovePos))  //指定した座標を通れば
             {
                 ZeroVelo();
                 this.transform.position = MovePos;
@@ -252,7 +252,7 @@ public class MoveMobius : MonoBehaviour
         }
     }
 
-    private bool StickFlickInputFlag()
+    public bool StickFlickInputFlag()
     {
         StickInput.x = Input.GetAxis("Horizontal");
         StickInput.y = Input.GetAxis("Vertical");
@@ -492,6 +492,40 @@ public class MoveMobius : MonoBehaviour
         Rb.velocity = Vector3.zero;//勢いを止める
         FlickMoveFlag = false;
         Rb.isKinematic = true;
+    }
+
+    private bool MovingStop(Vector3 StopPos)//メビウスが指定した座標に着いたかどうか
+    {
+        if (FlickVec.x > 0)//右移動の時
+        {
+            if (this.transform.position.x >= StopPos.x)
+            {
+                return true;
+            }
+        }
+        else if (FlickVec.x < 0)//左移動の時
+        {
+            if (this.transform.position.x <= StopPos.x)
+            {
+                return true;
+            }
+        }
+        else if (FlickVec.y > 0)//上移動の時
+        {
+            if (this.transform.position.y >= StopPos.y)
+            {
+                return true;
+            }
+        }
+        else if (FlickVec.y < 0)//下移動の時
+        {
+            if (this.transform.position.y <= StopPos.y)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public bool GetFlickMoveFlag()
