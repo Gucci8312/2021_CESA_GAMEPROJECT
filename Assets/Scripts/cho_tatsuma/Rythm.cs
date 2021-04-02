@@ -128,15 +128,21 @@ public class Rythm : MonoBehaviour
             if (rythmCheckFlag)
             {
                 //Entarキーで成功かどうかを判断する
-                if (Input.GetKeyDown(KeyCode.Return))
+                //-----------------------------------------------------------------------------------------
+
+                //                          To 松井君
+                //                          ここのif文にRB LB の処理をお願いします。
+                //                          終わったらこのコメント消しといてください。
+                //-----------------------------------------------------------------------------------------
+                if (Input.GetKeyDown(KeyCode.Return)/* &&   RB   LB*/)
                 {
                     checkPlayerMove = true;
                     rythmCheckFlag = false;
-                    //  Debug.Log("Suceeded!!!");
                 }
-                else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)))
+                else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) || mobius_script.StickFlickInputFlag())
                 {
                     checkMoviusMove = true;
+                    rythmCheckFlag = false;
                 }
             }
             yield return new WaitForFixedUpdate();
@@ -148,6 +154,7 @@ public class Rythm : MonoBehaviour
         {
             //   Debug.Log("TriggerOn");
             m_beatCount++;
+            //rythmCheckFlag = true;
             if (m_beatCount >= EnemyTroughRing)
             {
                 //田中くんのスクリプトにおくるよう
