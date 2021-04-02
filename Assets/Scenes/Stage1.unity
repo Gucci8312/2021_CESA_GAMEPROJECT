@@ -278,8 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 736d95aebd55642429d240cfe6acb0a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovePower: 100
-  Bairitu: 3
+  MoveBairitu: 15
   Gensokuritu: 1
   StickInput: {x: 0, y: 0}
   FlickVec: {x: 0, y: 0}
@@ -964,13 +963,97 @@ RectTransform:
   m_Children:
   - {fileID: 865243315}
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1001 &403260593
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4812136582677621484, guid: 3659251827a31d3429bb79fa84a2fbf0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 74
+      objectReference: {fileID: 0}
+    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -250
+      objectReference: {fileID: 0}
+    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4812136583054531787, guid: 3659251827a31d3429bb79fa84a2fbf0,
+        type: 3}
+      propertyPath: m_Name
+      value: RythmPrefabs
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970027088312035996, guid: 3659251827a31d3429bb79fa84a2fbf0,
+        type: 3}
+      propertyPath: distance
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970027088312035996, guid: 3659251827a31d3429bb79fa84a2fbf0,
+        type: 3}
+      propertyPath: MobiusObj
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3659251827a31d3429bb79fa84a2fbf0, type: 3}
 --- !u!1 &501298115
 GameObject:
   m_ObjectHideFlags: 0
@@ -1552,8 +1635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 736d95aebd55642429d240cfe6acb0a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovePower: 100
-  Bairitu: 3
+  MoveBairitu: 15
   Gensokuritu: 1
   StickInput: {x: 0, y: 0}
   FlickVec: {x: 0, y: 0}
@@ -2261,80 +2343,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1056119574}
   m_CullTransparentMesh: 0
---- !u!1001 &1091172661
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4812136582677621484, guid: 3659251827a31d3429bb79fa84a2fbf0,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 74
-      objectReference: {fileID: 0}
-    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -250
-      objectReference: {fileID: 0}
-    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4812136583054531786, guid: 3659251827a31d3429bb79fa84a2fbf0,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4812136583054531787, guid: 3659251827a31d3429bb79fa84a2fbf0,
-        type: 3}
-      propertyPath: m_Name
-      value: RythmPrefabs
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3659251827a31d3429bb79fa84a2fbf0, type: 3}
 --- !u!1 &1198434048 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 65702495048144492, guid: 4525668be5a904146aeb27d7ede3024c,
@@ -2514,8 +2522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 736d95aebd55642429d240cfe6acb0a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovePower: 100
-  Bairitu: 3
+  MoveBairitu: 15
   Gensokuritu: 1
   StickInput: {x: 0, y: 0}
   FlickVec: {x: 0, y: 0}
@@ -2584,8 +2591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 736d95aebd55642429d240cfe6acb0a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovePower: 100
-  Bairitu: 3
+  MoveBairitu: 15
   Gensokuritu: 1
   StickInput: {x: 0, y: 0}
   FlickVec: {x: 0, y: 0}
