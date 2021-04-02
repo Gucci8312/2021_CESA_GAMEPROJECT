@@ -40,6 +40,8 @@ public class Rythm : MonoBehaviour
     [SerializeField] GameObject MobiusObj = default;                                                                            //リズムオブジェクト
     MoveMobius mobius_script;                                                                                    //リズムスクリプト取得用
 
+    private bool OneLRTriggerFlag;  //LRトリガー押し込みによる連続入力させない用
+
     // Start is called before the first frame update
     void Start()
     {
@@ -128,13 +130,7 @@ public class Rythm : MonoBehaviour
             if (rythmCheckFlag)
             {
                 //Entarキーで成功かどうかを判断する
-                //-----------------------------------------------------------------------------------------
-
-                //                          To 松井君
-                //                          ここのif文にRB LB の処理をお願いします。
-                //                          終わったらこのコメント消しといてください。
-                //-----------------------------------------------------------------------------------------
-                if (Input.GetKeyDown(KeyCode.Return)/* &&   RB   LB*/)
+                if(Input.GetKeyDown(KeyCode.Return) || LRTrigger())
                 {
                     checkPlayerMove = true;
                     rythmCheckFlag = false;
@@ -178,4 +174,31 @@ public class Rythm : MonoBehaviour
         if (rythmCheckFlag)
             rythmCheckFlag = false;
     }
+
+    //LRトリガー処理
+    private bool LRTrigger()
+    {
+        float LTrigger = Input.GetAxis("L_Trigger");//０～１
+        float RTrigger = Input.GetAxis("R_Trigger");//０～１
+
+
+        if (!OneLRTriggerFlag)
+        {
+            if (LTrigger == 1 || RTrigger == 1)
+            {
+                OneLRTriggerFlag = true;
+                return true;
+            }
+        }
+        else
+        {
+            if (LTrigger == 0 && RTrigger == 0)
+            {
+                OneLRTriggerFlag = false;
+            }
+        }
+
+        return false;
+    }
+
 }
