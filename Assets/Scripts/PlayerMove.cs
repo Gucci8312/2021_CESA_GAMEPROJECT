@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class PlayerMove : MonoBehaviour
 {
     // Start is called before the first frame update
-    GameObject[] Mobius = new GameObject[4];                                                        // メビウスの輪
+    GameObject[] Mobius ;                                                        // メビウスの輪
     public int NowMobiusColor;                                                                      //松井君に渡す用　MobiusuColorから取得した変数格納
     public int NowMobius;                                                                           //現在のメビウスの添え字　初期のメビウスの輪
     int SaveMobius;                                                                                 //１つ前にいたメビウスの添え字
@@ -35,7 +35,9 @@ public class PlayerMove : MonoBehaviour
     {
         //rb = GetComponent<Rigidbody>();                                                             // リジットボディを格納
 
-        for (int i = 0; i < 4; i++)
+        Mobius= GameObject.FindGameObjectsWithTag("Mobius");
+
+        for (int i = 0; i < Mobius.Length; i++)
         {
             Mobius[i] = GameObject.Find("Mobius (" + i + ")");                                        //全てのメビウス取得
         }
@@ -85,7 +87,7 @@ public class PlayerMove : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name); // 現在シーンのリロード
         }
 
-        
+
 
         if (StartFlg)
         {
@@ -96,7 +98,7 @@ public class PlayerMove : MonoBehaviour
                 transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
             }
 
-            
+
             StartFlg = false;
         }
         else
@@ -108,17 +110,17 @@ public class PlayerMove : MonoBehaviour
             MoveMobiusSum = MobiusPos - MobiusSavePos;
 
             MobiusSavePos = MobiusPos;
-            
-            
-         float hankei = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 +                // メビウスの輪の円の半径を取得
-            GetComponent<SphereCollider>().bounds.size.x / 2;
+
+
+            float hankei = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 +                // メビウスの輪の円の半径を取得
+               GetComponent<SphereCollider>().bounds.size.x / 2;
             this.gameObject.transform.position = new Vector3(MobiusPos.x, MobiusPos.y, 0);
             this.gameObject.transform.position += new Vector3(0, (hankei - InsideLength), 0);
-                
-         for (int i = 0; i < StartPoint; i++)//ポイントの場所に移動させる
-         {
-            transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
-         }
+
+            for (int i = 0; i < StartPoint; i++)//ポイントの場所に移動させる
+            {
+                transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
+            }
 
             TimingInput = this.rythm.checkPlayerMove;//ノーツに合わせられたかを取得
 
@@ -150,7 +152,7 @@ public class PlayerMove : MonoBehaviour
                             StartPoint = 0;
                         }
                     }
-                    
+
                     this.rythm.checkPlayerMove = false;
                     //this.rythm.rythmCheckFlag = false;
                     counter++;
@@ -158,10 +160,10 @@ public class PlayerMove : MonoBehaviour
                     //Debug.Log(StartPoint);
                 }//if (TimingInput)
 
-                
+
 
                 this.gameObject.transform.position = new Vector3(this.transform.position.x + MoveMobiusSum.x, this.transform.position.y + MoveMobiusSum.y, 0);         //メビウスの動きについていく
-                
+
 
                 CollisonMobius();//移り先のメビウスの輪を探す
 
@@ -239,7 +241,7 @@ public class PlayerMove : MonoBehaviour
         Vector2 NextMobiusPos;//次のメビウスの場所
         Vector2 NextVec;
         float NextLength = 0;
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < Mobius.Length; i++)
         {
             if (i == NowMobius) continue;//現在のメビウスの位置は処理を飛ばす
             if (i == SaveMobius) continue;
@@ -319,7 +321,7 @@ public class PlayerMove : MonoBehaviour
 
             }//if (hankei + hankei > VecLength)//メビウスの輪同士の当たり判定
 
-        }//for (int i = 0; i < 4; i++)
+        }//for (int i = 0; i < Mobius.Length; i++)
 
 
     }//private void CollisonMobius()//プレイヤーと対象のメビウスの輪以外の一番近いメビウスの輪との判定

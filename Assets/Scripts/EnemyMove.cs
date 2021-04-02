@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
-    GameObject[] Mobius = new GameObject[4];                                                        // メビウスの輪
+    GameObject[] Mobius ;                                                        // メビウスの輪
     public int NowMobius;                                                                           //現在のメビウスの添え字　初期のメビウスの輪
     int SaveMobius;                                                                                 //１つ前にいたメビウスの添え字
     float InsideLength;                                                                             //内側に入ったときの位置を調整する値
@@ -30,7 +30,9 @@ public class EnemyMove : MonoBehaviour
     {
         //rb = GetComponent<Rigidbody>();                                                             // リジットボディを格納
 
-        for (int i = 0; i < 4; i++)
+        Mobius = GameObject.FindGameObjectsWithTag("Mobius");//メビウスの輪の総数分配列生成
+
+        for (int i = 0; i < Mobius.Length; i++)
         {
             Mobius[i] = GameObject.Find("Mobius (" + i + ")");                                        //全てのメビウス取得
         }
@@ -224,7 +226,7 @@ public class EnemyMove : MonoBehaviour
         Vector2 NextMobiusPos;//次のメビウスの場所
         Vector2 NextVec;
         float NextLength = 0;
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < Mobius.Length; i++)
         {
             if (i == NowMobius) continue;//現在のメビウスの位置は処理を飛ばす
             if (i == SaveMobius) continue;
@@ -304,7 +306,7 @@ public class EnemyMove : MonoBehaviour
 
             }//if (hankei + hankei > VecLength)//メビウスの輪同士の当たり判定
 
-        }//for (int i = 0; i < 4; i++)
+        }//for (int i = 0; i <  Mobius.Length; i++)
 
 
     }//private void CollisonMobius()//プレイヤーと対象のメビウスの輪以外の一番近いメビウスの輪との判定
