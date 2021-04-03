@@ -27,14 +27,16 @@ public class Target : MonoBehaviour
     {
         // プレイヤーに当たった時
         if (other.gameObject.tag == "Player")
-        {            
-            if(this.transform.parent.name=="Mobius (" + player.GetNowMobiusNum() + ")")//同じメビウス状にいるかどうか
+        {
+            if (!player.GetStartFlg())
             {
-                Debug.Log("チェックポイント通過");
-                CheckPointUi.CheckPointNum++;
-                Destroy(this.gameObject);
+                if (this.transform.parent.name == "Mobius (" + player.GetNowMobiusNum() + ")")//同じメビウス状にいるかどうか
+                {
+                    Debug.Log("チェックポイント通過");
+                    CheckPointUi.CheckPointNum++;
+                    Destroy(this.gameObject);
+                }
             }
-            
         }
     }
 
