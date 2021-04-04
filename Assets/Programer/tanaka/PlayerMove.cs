@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class PlayerMove : MonoBehaviour
 {
     // Start is called before the first frame update
-    GameObject[] Mobius ;                                                        // メビウスの輪
+    GameObject[] Mobius;                                                        // メビウスの輪
     public int NowMobiusColor;                                                                      //松井君に渡す用　MobiusuColorから取得した変数格納
     public int NowMobius;                                                                           //現在のメビウスの添え字　初期のメビウスの輪
     int SaveMobius;                                                                                 //１つ前にいたメビウスの添え字
@@ -30,12 +30,15 @@ public class PlayerMove : MonoBehaviour
 
 
     bool CollisionState;                                                                             //当たり判定を外部に渡す変数　treu:当たっている　false:当たっていない
-    
+
+    int EnemyMax;
+    int EnemyUpdateCount;
+
     void Start()
     {
         //rb = GetComponent<Rigidbody>();                                                             // リジットボディを格納
 
-        Mobius= GameObject.FindGameObjectsWithTag("Mobius");
+        Mobius = GameObject.FindGameObjectsWithTag("Mobius");
 
         for (int i = 0; i < Mobius.Length; i++)
         {
@@ -56,6 +59,9 @@ public class PlayerMove : MonoBehaviour
         StartFlg = true;
         counter = 0;
         CollisionState = false;
+
+        EnemyMax = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        EnemyUpdateCount = 0;
 
         //初期位置設定
         Vector2 MobiusPos = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center;
@@ -99,85 +105,89 @@ public class PlayerMove : MonoBehaviour
             }
 
 
+
             StartFlg = false;
         }
         else
         {
 
-
-            Vector2 MobiusPos = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center;                // メビウスの輪の位置を取得
-
-            MoveMobiusSum = MobiusPos - MobiusSavePos;
-
-            MobiusSavePos = MobiusPos;
-
-
-            float hankei = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 +                // メビウスの輪の円の半径を取得
-               GetComponent<SphereCollider>().bounds.size.x / 2;
-            this.gameObject.transform.position = new Vector3(MobiusPos.x, MobiusPos.y, 0);
-            this.gameObject.transform.position += new Vector3(0, (hankei - InsideLength), 0);
-
-            for (int i = 0; i < StartPoint; i++)//ポイントの場所に移動させる
+            if (!Mobius[NowMobius].GetComponent<MoveMobius>().GetFlickMoveFlag())//メビウスが止まっているとき
             {
-                transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
+                Vector2 MobiusPos = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center;                // メビウスの輪の位置を取得
+
+                MoveMobiusSum = MobiusPos - MobiusSavePos;
+
+                MobiusSavePos = MobiusPos;
+
+
+                float hankei = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 +                // メビウスの輪の円の半径を取得
+                   GetComponent<SphereCollider>().bounds.size.x / 2;
+                this.gameObject.transform.position = new Vector3(MobiusPos.x, MobiusPos.y, 0);
+                this.gameObject.transform.position += new Vector3(0, (hankei - InsideLength), 0);
+
+                for (int i = 0; i < StartPoint; i++)//ポイントの場所に移動させる
+                {
+                    transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
+                }
+
+                TimingInput = this.rythm.checkPlayerMove;//ノーツに合わせられたかを取得
+
+
+
+                if (Mobius[NowMobius] != null)
+                {
+
+                    if (TimingInput)//キー入力あり
+                    {
+                        //ずれてしまうバグがあったためコメント化　万が一の際使えるように残しておく
+                        //ApproachMobius();//軌道に乗せる
+
+                        if (RotateLeftFlg)
+                        {
+                            //ずれてしまうバグがあったためコメント化　万が一の際使えるように残しておく
+                            //transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, this.transform.forward, MoveAngle);//左移動
+                            StartPoint--;
+                            if (StartPoint < 0)
+                            {
+                                StartPoint = 7;
+                            }
+                        }
+                        else
+                        {
+                            //ずれてしまうバグがあったためコメント化　万が一の際使えるように残しておく
+                            //transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
+                            StartPoint++;
+                            if (StartPoint > 7)
+                            {
+                                StartPoint = 0;
+                            }
+                        }
+
+                        this.rythm.checkPlayerMove = false;
+                        //this.rythm.rythmCheckFlag = false;
+                        counter++;
+                        //Debug.Log("移動");
+                        //Debug.Log(StartPoint);
+                    }//if (TimingInput)
+
+
+
+                    this.gameObject.transform.position = new Vector3(this.transform.position.x + MoveMobiusSum.x, this.transform.position.y + MoveMobiusSum.y, 0);         //メビウスの動きについていく
+
+
+                    CollisonMobius();//移り先のメビウスの輪を探す
+
+                    //移ったときに元のメビウスの輪に戻らないようにカウントする
+                    if (counter > 1)//
+                    {
+                        //移り変わることができるようにする
+                        SaveMobius = NowMobius;
+                        counter = 0;
+
+                    }//if (counter > 2)
+
+                }//if (Mobius[NowMobius] != null)
             }
-
-            TimingInput = this.rythm.checkPlayerMove;//ノーツに合わせられたかを取得
-
-            if (Mobius[NowMobius] != null)
-            {
-
-                if (TimingInput)//キー入力あり
-                {
-                    //ずれてしまうバグがあったためコメント化　万が一の際使えるように残しておく
-                    //ApproachMobius();//軌道に乗せる
-
-                    if (RotateLeftFlg)
-                    {
-                        //ずれてしまうバグがあったためコメント化　万が一の際使えるように残しておく
-                        //transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, this.transform.forward, MoveAngle);//左移動
-                        StartPoint--;
-                        if (StartPoint < 0)
-                        {
-                            StartPoint = 7;
-                        }
-                    }
-                    else
-                    {
-                        //ずれてしまうバグがあったためコメント化　万が一の際使えるように残しておく
-                        //transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
-                        StartPoint++;
-                        if (StartPoint > 7)
-                        {
-                            StartPoint = 0;
-                        }
-                    }
-
-                    this.rythm.checkPlayerMove = false;
-                    //this.rythm.rythmCheckFlag = false;
-                    counter++;
-                    //Debug.Log("移動");
-                    //Debug.Log(StartPoint);
-                }//if (TimingInput)
-
-
-
-                this.gameObject.transform.position = new Vector3(this.transform.position.x + MoveMobiusSum.x, this.transform.position.y + MoveMobiusSum.y, 0);         //メビウスの動きについていく
-
-
-                CollisonMobius();//移り先のメビウスの輪を探す
-
-                //移ったときに元のメビウスの輪に戻らないようにカウントする
-                if (counter > 1)//
-                {
-                    //移り変わることができるようにする
-                    SaveMobius = NowMobius;
-                    counter = 0;
-
-                }//if (counter > 2)
-
-
-            }//if (Mobius[NowMobius] != null)
         }//else if(StartFlg)
 
         //Debug.Log(CollisionState);
@@ -339,10 +349,10 @@ public class PlayerMove : MonoBehaviour
 
     // 衝突時
     // private void OnTriggerEnter(Collider other)
-   // private void OnCollisionEnter(Collision other)
+    // private void OnCollisionEnter(Collision other)
     private void OnTriggerEnter(Collider other)
     {
-        
+
         if (other.gameObject.tag == "Enemy")
         {
             if (!StartFlg)//シーンを読み込むと、実行されてしまうので回避するために1ループ実行されるまで当たり判定は取らない
@@ -354,7 +364,7 @@ public class PlayerMove : MonoBehaviour
     }
 
     // 離れた時
-  //  private void OnTriggerEnter(Collider other)
+    //  private void OnTriggerEnter(Collider other)
     //private void OnCollisionExit(Collision other)
     private void OnTriggerExit(Collider other)
     {
@@ -375,5 +385,19 @@ public class PlayerMove : MonoBehaviour
     public int GetNowMobiusColor()//松井君に渡すための関数
     {
         return NowMobiusColor;
+    }
+
+    public void EnemyUpdateCountUp()//敵が何体更新処理が実行されたかカウントする　
+    {
+        EnemyUpdateCount++;
+        if (EnemyMax <= EnemyUpdateCount)//最後の敵の更新処理が終わればrythmSendCheckFlagをfalse
+        {
+            EnemyUpdateCount = 0;
+            this.rythm.rythmSendCheckFlag = false;
+        }
+    }
+    public bool GetStartFlg()
+    {
+        return StartFlg;
     }
 }
