@@ -7,6 +7,9 @@ public class Target : MonoBehaviour
     Vector3 LocalPos;//親オブジェクトからの相対的な場所
     CheckPointCount CheckPointUi;
     PlayerMove player;
+    public bool ColFlg;
+    Vector3 ColPos;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,10 +38,20 @@ public class Target : MonoBehaviour
                     Debug.Log("チェックポイント通過");
                     CheckPointUi.CheckPointNum++;
                     Destroy(this.gameObject);
+                    ColFlg = true;
+                    ColPos= other.ClosestPointOnBounds(this.transform.position);
                 }
             }
         }
     }
 
+    public bool GetColFlg()
+    {
+        return ColFlg;
+    }
 
+    public Vector3 GetColPos()
+    {
+        return ColPos;
+    }
 }

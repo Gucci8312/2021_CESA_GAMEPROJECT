@@ -8,7 +8,6 @@ public class GameMaster : MonoBehaviour
 {
     public GameObject Menu;
     GameObject Player;
-    VisualEffect vf;
     // Start is called before the first frame update
     void Start()
     {
