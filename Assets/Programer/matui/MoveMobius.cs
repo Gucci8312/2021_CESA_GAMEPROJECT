@@ -27,6 +27,7 @@ public class MoveMobius : MonoBehaviour
     private Vector3 MoveVec;
     private bool MobiusColFlag;                                    //メビウスの当たり判定
     Vector3 CollisionPos;
+    Vector3 ColPos;   //メビウスが当たった座標（具体的には自分と相手の座標の中点）
 
     bool TimingInput;                                                                               //タイミング入力を管理する変数　true:入力あり　false:入力なし
     GameObject RythmObj;                                                                            //リズムオブジェクト
@@ -393,6 +394,10 @@ public class MoveMobius : MonoBehaviour
                     MobiusCol(other.gameObject);
                     MobiusColFlag = true;
                     CollisionPos = other.ClosestPointOnBounds(this.transform.position);
+                    ColPos = (this.transform.position + other.transform.position) / 2;//自分と相手の座標の中点を代入（見た目的に当たった場所）
+
+                    Debug.Log(ColPos);
+
                     ZeroVelo();
                 }
                 else
@@ -428,7 +433,7 @@ public class MoveMobius : MonoBehaviour
 
     }
 
-    private void MobiusCol(GameObject col)
+    private void MobiusCol(GameObject col)//メビウス同士が当たった時の処理
     {
         float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
         float ColR = (col.GetComponent<SphereCollider>().bounds.size.x + col.GetComponent<SphereCollider>().bounds.size.y) / 4;// 相手メビウスの輪の円の半径を取得
@@ -550,5 +555,9 @@ public class MoveMobius : MonoBehaviour
     public Vector3 GetMobiusColPos()
     {
         return CollisionPos;
+    }
+    public Vector3 GetColPos()
+    {
+        return ColPos;
     }
 }
