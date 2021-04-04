@@ -52,7 +52,7 @@ public class EffectMaster : MonoBehaviour
     public static void CreateColMobiusEffect(MoveMobius _Script)
     {
         GameObject obj = (GameObject)Resources.Load("ColMobiusEffect");
-        Instantiate(obj, _Script.GetMobiusColPos(), Quaternion.identity);
+        Instantiate(obj, _Script.GetColPos(), Quaternion.identity);
     }
 
     public static void CreateGetCheckPointEffect(Target _Script)
