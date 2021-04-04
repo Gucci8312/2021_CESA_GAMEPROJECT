@@ -26,10 +26,12 @@ public class GameMaster : MonoBehaviour
             if(Menu.active == true)
             {  
                 Menu.active = false;
+                Time.timeScale = 1.0f;
             }
             else
             {
                 Menu.active = true;
+                Time.timeScale = 0.0f;
             }
         }
     }
