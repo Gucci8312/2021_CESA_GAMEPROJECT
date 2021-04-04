@@ -21,7 +21,7 @@ public class ChangeFlameColor : MonoBehaviour
 		
 	}
 
-	void ChangeColor_Flame()
+	public void ChangeColor_Flame()
 	{
 		if(_material.color == Color.red)
 		{
