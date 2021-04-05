@@ -1,11 +1,13 @@
 ﻿// @file   Rythm.cs
-// @brief  
+// @brief  リズム定義用スクリプト　（主に音と合わせたノーツの移動でBPMを図る）
 // @author T,Cho
 // @date   2021/03/10 作成
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// @name   Rythm
+// @brief  リズムを定義するクラス
 public class Rythm : MonoBehaviour
 {
     [SerializeField]
@@ -26,13 +28,12 @@ public class Rythm : MonoBehaviour
 
     //  public float SetSuccessInputTime;                    //入力待ち時間の引き伸ばし決め
 
-    public float distance;
+    public float distance;                                  //円との距離を図る
 
-    private int m_beatCount;
-    public int EnemyTroughRing;
-    static float tansu;
+    private int m_beatCount;                                //ビートの回数を取得
+    public int EnemyTroughRing;                             //敵が何ビートによって進むのか（実装するかどうかわからない）
+    static float tansu;                                     //音による誤差調整用
 
-    int delayFrameCount;
     [SerializeField] AudioClip SE = default;
     AudioSource audioSource;
     [SerializeField] AudioSource stageBGM = default;
@@ -42,44 +43,65 @@ public class Rythm : MonoBehaviour
 
     private bool OneLRTriggerFlag;  //LRトリガー押し込みによる連続入力させない用
 
+
+    GameObject m_frameManager;                              //ポストエフェクトのフレーム用
+    ChangeFlameColor m_changeColorScript;                   //ポストエフェクトのフレーム用スクリプト
     // Start is called before the first frame update
     void Start()
     {
+        //変数の初期化
         tansu = 0.0f;
         rythmCheckFlag = false;
         checkPlayerMove = false;
         checkMoviusMove = false;
+        m_startTime = Time.timeSinceLevelLoad;
+
         //Componentを取得
         audioSource = GetComponent<AudioSource>();
         this.mobius_script = MobiusObj.GetComponent<MoveMobius>();                                                  //リズムのコード
         StartCoroutine("SuccessCheck");
-        m_startTime = Time.timeSinceLevelLoad;
+
+        //音を再生・ループにする
         stageBGM.Play();
         stageBGM.loop = true;
 
+        //フレームマネージャーからソースを取得
+        m_frameManager = GameObject.Find("FrameManager");
+        m_changeColorScript = m_frameManager.GetComponent<ChangeFlameColor>();
     }
 
+    // @name   OnEnable
+    // @brief  インスペクタービューから情報を取得
     private void OnEnable()
     {
+        //入力されたBPMから一分間によるビート回数を取得
         m_time = (60.0f / (float)BPM);
+        //目的地を設定
         m_targetPos = new Vector3(-m_sphere.transform.position.x, m_sphere.transform.position.y, m_sphere.transform.position.z);
+        //現在位置を設定
         m_currentPos = m_sphere.transform.position;
     }
 
+    // @name   FixedUpdate
+    // @brief  一定フレームで呼び出し（Updateだと一定じゃないためずれがどうしても生じるため）
     private void FixedUpdate()
     {
+        //音の始まりを調整
         if (Time.timeSinceLevelLoad < (m_time / 2.0f))
         {
             m_startTime = Time.timeSinceLevelLoad;
             return;
         }
+        //音のループによる読み込み時の誤差を調整
         if (stageBGM.time <= 0.05f)
         {
             m_startTime = Time.timeSinceLevelLoad;
             return;
         }
+        //徐々に移動するように設定
         float diff = Time.timeSinceLevelLoad - m_startTime;
         float rate = (diff / m_time) + tansu;
+        //ノーツの現在位置を更新
         m_sphere.transform.position = Vector3.Lerp(m_currentPos, m_targetPos, rate);
 
         //越えたら　m_startTimeをその時の時間に設定
@@ -103,6 +125,8 @@ public class Rythm : MonoBehaviour
         CheckDistanceWall();
     }
 
+    // @name   CheckDistanceWall
+    // @brief  両端にある壁との距離を取得（距離で成功・失敗のタイミングを計る）
     void CheckDistanceWall()
     {
         GameObject[] flagWall;
@@ -123,6 +147,9 @@ public class Rythm : MonoBehaviour
         }
 
     }
+
+    // @name   SuccessCheck
+    // @brief  成功したかどうかを非同期処理で調べる
     IEnumerator SuccessCheck()
     {
         while (true)
@@ -146,10 +173,12 @@ public class Rythm : MonoBehaviour
     }
     private void OnTriggerEnter(Collider collision)
     {
+        //壁に当たった＝ビートのタイミングが来た
         if (collision.gameObject.tag == "Flag")
         {
             //   Debug.Log("TriggerOn");
             m_beatCount++;
+            m_changeColorScript.ChangeColor_Flame();
             //rythmCheckFlag = true;
             if (m_beatCount >= EnemyTroughRing)
             {
@@ -175,7 +204,8 @@ public class Rythm : MonoBehaviour
             rythmCheckFlag = false;
     }
 
-    //LRトリガー処理
+    // @name   LRTrigger
+    // @brief  LRトリガー処理　（松井君実装） 
     private bool LRTrigger()
     {
         float LTrigger = Input.GetAxis("L_Trigger");//０～１
