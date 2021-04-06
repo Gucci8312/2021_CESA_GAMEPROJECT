@@ -92,8 +92,8 @@ public class Rythm : MonoBehaviour
             m_startTime = Time.timeSinceLevelLoad;
             return;
         }
-        //音のループによる読み込み時の誤差を調整
-        if (stageBGM.time <= 0.05f)
+        else if (stageBGM.time <= 0.04f)        //音のループによる読み込み時の誤差を調整
+
         {
             m_startTime = Time.timeSinceLevelLoad;
             return;
