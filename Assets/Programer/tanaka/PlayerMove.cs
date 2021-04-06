@@ -190,6 +190,8 @@ public class PlayerMove : MonoBehaviour
             }
         }//else if(StartFlg)
 
+
+        this.transform.eulerAngles = new Vector3(0, 0, 0);
         //Debug.Log(CollisionState);
     }//void Update()
 
@@ -322,7 +324,7 @@ public class PlayerMove : MonoBehaviour
                         RotateLeftFlg = true;
                     }
 
-                    Debug.Log("メビウスの輪を切り替えた");
+                    //Debug.Log("メビウスの輪を切り替えた");
                     SideCnt++;
 
                     break;
@@ -332,10 +334,10 @@ public class PlayerMove : MonoBehaviour
             }//if (hankei + hankei > VecLength)//メビウスの輪同士の当たり判定
 
         }//for (int i = 0; i < Mobius.Length; i++)
-
+        
 
     }//private void CollisonMobius()//プレイヤーと対象のメビウスの輪以外の一番近いメビウスの輪との判定
-
+    
 
     private void StartPosSet()
     {
@@ -399,5 +401,10 @@ public class PlayerMove : MonoBehaviour
     public bool GetStartFlg()
     {
         return StartFlg;
+    }
+
+    public int GetStartPoint()
+    {
+        return StartPoint;
     }
 }
