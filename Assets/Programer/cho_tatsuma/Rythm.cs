@@ -168,7 +168,7 @@ public class Rythm : MonoBehaviour
                     rythmCheckFlag = false;
                 }
             }
-            yield return new WaitForFixedUpdate();
+            yield return new WaitForSeconds(0.01f);
         }
     }
     private void OnTriggerEnter(Collider collision)
