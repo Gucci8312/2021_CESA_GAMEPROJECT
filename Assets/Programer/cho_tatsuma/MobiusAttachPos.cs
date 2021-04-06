@@ -51,15 +51,26 @@ public class MobiusAttachPos : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //現在の回転角度を格納するためにいったんトランスフォーム情報ごと取得
         Transform myTransform = transform;
         //プレイヤーが乗るメビウスの輪（単体）を探索
         m_nowMobiusNo = m_playerMoveScript.GetNowMobiusNum();
-       
+
         //前回の入力キーを取得
         BeforeDownGetKey();
+
+        if (m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled && !m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetMobiusStripFlag())
+        {
+            //メビウスの輪（二つつなぎ）のモデルをいったん隠す
+            m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            for (int i = 0; i < m_mobius.Length; i++)
+            {
+                MobiusChileMeshRenderOn(m_mobius[i]);
+            }
+            m_mobiusCol = false;
+        }
 
         //メビウスの輪（単体）同士が当たったかどうかを取得
         if (m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetMobiusStripFlag() && !m_mobiusCol)
@@ -71,14 +82,14 @@ public class MobiusAttachPos : MonoBehaviour
             Vector3 pos = m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetColPos();
             //メビウスの輪のモデルを表示
             m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled = true;
-           
+
             if (m_keyCode.ToString() == "S" || m_keyCode.ToString() == "W" || StickInput.y != 0)
             {
                 this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x + 15, pos.y, pos.z);
                 if (myTransform.eulerAngles.z == 0)
                     transform.Rotate(new Vector3(0, 0, 90));
             }
-            else if(m_keyCode.ToString() == "A" || m_keyCode.ToString() == "D" || StickInput.x != 0)
+            else if (m_keyCode.ToString() == "A" || m_keyCode.ToString() == "D" || StickInput.x != 0)
             {
                 this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x, pos.y - 15, pos.z);
                 if (myTransform.eulerAngles.z == 90)
@@ -86,18 +97,7 @@ public class MobiusAttachPos : MonoBehaviour
             }
             m_mobiusCol = true;
         }
-        else if (m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled && !m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetMobiusStripFlag())
-        {
-            //メビウスの輪（二つつなぎ）のモデルをいったん隠す
-            m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled = false;           
-            for (int i = 0; i < m_mobius.Length; i++)
-            {
-                MobiusChileMeshRenderOn(m_mobius[i]);
-            }
-            m_mobiusCol = false;
-        }
     }
-
     // @name   BeforeDownGetKey
     // @brief  前回どのキーを押したかを記憶
     void BeforeDownGetKey()
