@@ -118,7 +118,6 @@ public class Rythm : MonoBehaviour
             m_currentPos = m_sphere.transform.position;
         }
 
-        CheckDistanceWall();
     }
 
     // @name   CheckDistanceWall
@@ -150,6 +149,8 @@ public class Rythm : MonoBehaviour
     {
         while (true)
         {
+            CheckDistanceWall();
+
             if (rythmCheckFlag)
             {
                 //Entarキーで成功かどうかを判断する

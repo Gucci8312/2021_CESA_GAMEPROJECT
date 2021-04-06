@@ -161,7 +161,6 @@ public class MoveMobius : MonoBehaviour
                         FlickMoveFlag = true;
 
                         this.rythm.checkMoviusMove = false;
-                        this.rythm.rythmCheckFlag = false;
 
                     }
                 }
