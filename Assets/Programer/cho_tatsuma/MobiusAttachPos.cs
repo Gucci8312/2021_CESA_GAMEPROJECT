@@ -24,7 +24,7 @@ public class MobiusAttachPos : MonoBehaviour
 
     KeyCode m_keyCode;                  //どのキーを入力したかを保存
     Vector2 StickInput;                   //スティック入力時の値を取得用(-1～1)
-
+    GameObject otherMobius;              //キャラのいる位置とは違った当たった邦のメビウスの格納変数
     bool m_mobiusCol;                   //メビウスがくっついたかどうかを一回だけ判定。
     // Start is called before the first frame update
     void Start()
@@ -64,7 +64,7 @@ public class MobiusAttachPos : MonoBehaviour
         //メビウスの輪（単体）同士が当たったかどうかを取得
         if (m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetMobiusStripFlag() && !m_mobiusCol)
         {
-            GameObject otherMobius = m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetColMobiusObj();
+            otherMobius = m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetColMobiusObj();
             MobiusChileMeshRenderOff(m_mobius[m_nowMobiusNo]);
             MobiusChileMeshRenderOff(otherMobius);
             //当たった二つの中間点を取得→メビウスの輪の座標に設定するため
@@ -88,11 +88,12 @@ public class MobiusAttachPos : MonoBehaviour
         }
         else if (m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled && !m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetMobiusStripFlag())
         {
-            GameObject otherMobius = m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetColMobiusObj();
             //メビウスの輪（二つつなぎ）のモデルをいったん隠す
-            m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled = false;
-            MobiusChileMeshRenderOn(m_mobius[m_nowMobiusNo]);
-            MobiusChileMeshRenderOn(otherMobius);
+            m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled = false;           
+            for (int i = 0; i < m_mobius.Length; i++)
+            {
+                MobiusChileMeshRenderOn(m_mobius[i]);
+            }
             m_mobiusCol = false;
         }
     }
@@ -120,11 +121,13 @@ public class MobiusAttachPos : MonoBehaviour
     {
         //メビウスの輪（単体）のモデルのメッシュレンダーを取得（trueになっているもののみ）→子オブジェクト探索
         Component[] meshComponent = _gameObj.GetComponentsInChildren(typeof(MeshRenderer), true);
-        foreach (MeshRenderer mesh in meshComponent)
-        {
-            //メビウスの輪（単体）のモデルのメッシュレンダーを非表示に設定
-            mesh.enabled = false;
-        }
+        //foreach (MeshRenderer mesh in meshComponent)
+        //{
+        //    //メビウスの輪（単体）のモデルのメッシュレンダーを非表示に設定
+        //    mesh.enabled = false;
+        //}
+        meshComponent[0].gameObject.GetComponent<MeshRenderer>().enabled = false;
+        meshComponent[1].gameObject.GetComponent<MeshRenderer>().enabled = false;
 
     }
 
