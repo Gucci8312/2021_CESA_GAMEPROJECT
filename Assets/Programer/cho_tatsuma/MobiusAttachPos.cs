@@ -18,13 +18,14 @@ public class MobiusAttachPos : MonoBehaviour
     PlayerMove m_playerMoveScript;　//プレイヤーの移動スクリプトを取得（NowMobiusを見つけるため）
     private int m_nowMobiusNo;      //プレイヤーが現在どのメビウスに乗っているかの情報
 
-    GameObject[] m_mobius;          //すべてのメビウスの輪（単体の輪）を格納
-    GameObject m_pCylinder;   //MeshRendererが設定されているメビウスの輪のモデルオブジェクトを設定
-    Vector3 m_mobiusPosition;       //合体後のメビウスモデルの座標変数
+    GameObject[] m_mobius;                  //すべてのメビウスの輪（単体の輪）を格納
+    GameObject m_pCylinder;              //MeshRendererが設定されているメビウスの輪のモデルオブジェクトを設定
+    Vector3 m_mobiusPosition;           //合体後のメビウスモデルの座標変数
 
-    KeyCode m_keyCode;              //どのキーを入力したかを保存
-    Vector2 StickInput;          //スティック入力時の値を取得用(-1～1)
+    KeyCode m_keyCode;                  //どのキーを入力したかを保存
+    Vector2 StickInput;                   //スティック入力時の値を取得用(-1～1)
 
+    bool m_mobiusCol;                   //メビウスがくっついたかどうかを一回だけ判定。
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +45,9 @@ public class MobiusAttachPos : MonoBehaviour
         m_pCylinder = GameObject.Find("pCylinder2");
         //メビウスの輪（二つつなぎ）のモデルをいったん隠す
         m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled = false;
+
+        //一度くっついたとき回転しない用にするため。
+        m_mobiusCol = false;
     }
 
     // Update is called once per frame
@@ -58,7 +62,7 @@ public class MobiusAttachPos : MonoBehaviour
         BeforeDownGetKey();
 
         //メビウスの輪（単体）同士が当たったかどうかを取得
-        if (m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetMobiusStripFlag())
+        if (m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetMobiusStripFlag() && !m_mobiusCol)
         {
             GameObject otherMobius = m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetColMobiusObj();
             MobiusChileMeshRenderOff(m_mobius[m_nowMobiusNo]);
@@ -80,6 +84,7 @@ public class MobiusAttachPos : MonoBehaviour
                 if (myTransform.eulerAngles.z == 90)
                     transform.Rotate(new Vector3(0, 0, -90));
             }
+            m_mobiusCol = true;
         }
         else if (m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled && !m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetMobiusStripFlag())
         {
@@ -88,6 +93,7 @@ public class MobiusAttachPos : MonoBehaviour
             m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled = false;
             MobiusChileMeshRenderOn(m_mobius[m_nowMobiusNo]);
             MobiusChileMeshRenderOn(otherMobius);
+            m_mobiusCol = false;
         }
     }
 

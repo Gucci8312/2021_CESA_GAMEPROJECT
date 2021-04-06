@@ -87,15 +87,11 @@ public class Rythm : MonoBehaviour
     private void FixedUpdate()
     {
         //音の始まりを調整
-        if (Time.timeSinceLevelLoad < (m_time / 2.0f))
+        //音のループによる読み込み時の誤差を調整
+        if (stageBGM.time <= 0.05f)       
         {
             m_startTime = Time.timeSinceLevelLoad;
-            return;
-        }
-        else if (stageBGM.time <= 0.04f)        //音のループによる読み込み時の誤差を調整
-
-        {
-            m_startTime = Time.timeSinceLevelLoad;
+            m_sphere.transform.position = new Vector3(m_currentPos.x, m_currentPos.y,m_currentPos.z);
             return;
         }
         //徐々に移動するように設定
