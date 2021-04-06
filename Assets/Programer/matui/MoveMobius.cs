@@ -534,7 +534,7 @@ public class MoveMobius : MonoBehaviour
     {
         return MobiusStripFlag;
     }
-    public bool GetColMobiusObj()
+    public GameObject GetColMobiusObj()
     {
         return ColMobiusObj;
     }
