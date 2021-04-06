@@ -10,20 +10,19 @@ public class MoveMobius : MonoBehaviour
     public float MoveBairitu = 15;                   //移動に掛ける倍率
     public float Gensokuritu = 50;                  //速度を減速させる用（０にするとずっと無限に移動する）
 
-    private bool PlayerMoveFlg;                           // プレイヤーによる移動判定用
+    public bool PlayerMoveFlg;                           // プレイヤーによる移動判定用
 
     GameObject player;
 
     public Vector2 StickInput;          //スティック入力時の値を取得用(-1～1)
     public Vector2 FlickVec;            //弾いた時のベクトル格納用
-    bool FlickMoveFlag = false;         //弾き移動をさせるかどうか
+   public bool FlickMoveFlag = false;         //弾き移動をさせるかどうか
     bool OneFlickFlag = false;          //スティック入力を連続でさせない用
 
     public List<GameObject> Line = new List<GameObject>();         //線のオブジェクト
     List<CrossLine> cl = new List<CrossLine>();                    //CrossLineスクリプト
     private Rigidbody Rb;
     private Vector3 MovePos;                                       //移動する位置
-    //private float Radius;                                        //移動する際に使うラジアン
     private Vector3 MoveVec;
     private bool MobiusColFlag;                                    //メビウスの当たり判定
     Vector3 CollisionPos;
@@ -34,6 +33,9 @@ public class MoveMobius : MonoBehaviour
     Rythm rythm;                                                                                    //リズムスクリプト取得用
 
     MobiusColor Mc;         //MobiusColorスクリプト
+
+    bool MobiusStripFlag;//メビウスの輪になっているかどうか
+    GameObject ColMobiusObj;
 
     void Start()
     {
@@ -51,16 +53,15 @@ public class MoveMobius : MonoBehaviour
     void Update()
     {
         TimingInput = this.rythm.checkMoviusMove;//ノーツに合わせられたかを取得
-
+        MobiusStrip();//メビウスの輪になっているかを調べる
 
         // プレイヤーが乗っているとき
         if (PlayerMoveFlg || Mc.GetColorSameFlag())
         {
             //StickFlick();
-            if (Line.Count != 0)
-            {
-                CrossPosMove();
-            }
+           
+            CrossPosMove();
+            
             Rb.isKinematic = false;//物理的な動きをありにする
 
         }
@@ -83,80 +84,14 @@ public class MoveMobius : MonoBehaviour
         }
     }
 
-    //スティックの弾き移動処理
-    private void StickFlick()
-    {
-        StickInput.x = Input.GetAxis("Horizontal");
-        StickInput.y = Input.GetAxis("Vertical");
-
-        if (Input.GetKey(KeyCode.W)) { StickInput.y = 1; }
-        if (Input.GetKey(KeyCode.S)) { StickInput.y = -1; }
-        if (Input.GetKey(KeyCode.D)) { StickInput.x = 1; }
-        if (Input.GetKey(KeyCode.A)) { StickInput.x = -1; }
-
-        if (!FlickMoveFlag)
-        {
-            Rb.velocity = Vector3.zero;//勢いを止めておく
-
-            if (StickInput.x != 0 || StickInput.y != 0)//スティック入力されていたら
-            {
-                Vector2 stickmax = StickInput;//スティックを端まで倒したときの値を格納用
-
-                //計算をしやすくするために正数に変化
-                if (stickmax.x < 0) { stickmax.x = -stickmax.x; }
-                if (stickmax.y < 0) { stickmax.y = -stickmax.y; }
-
-                if (stickmax.x + stickmax.y >= 1)//スティックを端まで倒した場合
-                {
-                    FlickVec = -StickInput; ;//倒した方向の逆方向の値を代入
-                }
-            }
-            else//スティックを倒していなければ（離したとき）
-            {
-                if (FlickVec.x != 0 || FlickVec.y != 0)//端まで倒したときのベクトルを持っていれば
-                {
-                    FlickMoveFlag = true;
-
-                    Rb.AddForce(FlickVec * MovePower * 5, ForceMode.Impulse);//瞬間的に加速させる（要調整）
-                }
-            }
-        }
-
-        else
-        {
-            //this.gameObject.transform.position = new Vector3(
-            //    transform.position.x + FlickVec.x * Speed, transform.position.y + FlickVec.y * Speed, 0f); //弾いたほうへ移動
-
-            // Speed -= Time.deltaTime;//減速させる
-
-            Rb.AddForce(-Rb.velocity / 20 * MovePower);//減速させる（要調整）
-
-            if (Rb.velocity.magnitude < 10) //勢いが一定以下になったら
-            {
-                Rb.velocity = Vector3.zero;//勢いを止める
-
-                FlickVec.x = 0;
-                FlickVec.y = 0;
-                FlickMoveFlag = false;
-            }
-        }
-    }
-
     private void CrossPosMove()//交点へ移動する処理
     {
-        //FlickVec = Vector2.zero;
-
-        //if (Input.GetKeyDown(KeyCode.W)) { FlickVec.y = 1; }
-        //if (Input.GetKeyDown(KeyCode.S)) { FlickVec.y = -1; }
-        //if (Input.GetKeyDown(KeyCode.D)) { FlickVec.x = 1; }
-        //if (Input.GetKeyDown(KeyCode.A)) { FlickVec.x = -1; }
-
         if (!FlickMoveFlag)
         {
             Rb.velocity = Vector3.zero;//勢いを止める
             Rb.isKinematic = true;//物理的な動きをなしにする
 
-            if (StickFlickInputFlag())//キー入力またはコントローラー入力されていたら
+            if (StickFlickInputFlag() && TimingInput)//キー入力またはコントローラー入力されていたら　かつ　リズムが合えば
             {
                 LineCol();
 
@@ -205,7 +140,7 @@ public class MoveMobius : MonoBehaviour
                         }
                     }
 
-                    if (CrossLineFlag && TimingInput)
+                    if (CrossLineFlag)//交点へ移動できるなら
                     {
                         Rb.isKinematic = false;//物理的な動きをありにする
 
@@ -216,6 +151,10 @@ public class MoveMobius : MonoBehaviour
                         MovePos = NearCl.CanMovePosition(this.transform.position);//移動できる交点を取得
                         float Radius = Mathf.Atan2(MovePos.y - this.transform.position.y, MovePos.x - this.transform.position.x); //自分と指定した座標とのラジアンを求める
                         MoveVec = new Vector3(Mathf.Cos(Radius), Mathf.Sin(Radius), 0);
+
+                        Debug.Log("移動ベクトル" + MoveVec);
+                        Debug.Log("移動すべき座標" + MovePos);
+
 
                         float distance = (this.transform.position - MovePos).magnitude;//自分の座標と移動したい座標との差
                         Rb.AddForce(MoveVec * (MovePower + (distance * MoveBairitu)), ForceMode.VelocityChange);//瞬間的に加速させる（要調整）
@@ -242,7 +181,7 @@ public class MoveMobius : MonoBehaviour
                 FlickVec.x = 0;
                 FlickVec.y = 0;
             }
-            else if (MovingStop(MovePos))  //指定した座標を通れば
+            if (MovingStop(MovePos))  //指定した座標を通れば
             {
                 ZeroVelo();
                 this.transform.position = MovePos;
@@ -433,6 +372,16 @@ public class MoveMobius : MonoBehaviour
 
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Mobius")
+        {
+            ColMobiusObj = other.gameObject;//ぶつかったメビウスを格納
+            MobiusStripFlag = true;
+        }
+    }
+
+
     private void MobiusCol(GameObject col)//メビウス同士が当たった時の処理
     {
         float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
@@ -462,13 +411,13 @@ public class MoveMobius : MonoBehaviour
 
         if (SocialDistance < distance)//引き離したとき離れ過ぎたら 
         {
-            Debug.Log(SocialDistance);
-            Debug.Log(distance);
+            //Debug.Log(SocialDistance);
+            //Debug.Log(distance);
 
 
             float disdis = distance - SocialDistance;//差分を詰めるための変数
 
-            disdis=disdis*1.3f;//もう少し詰める
+            disdis=disdis*1.5f;//もう少し詰める
 
             //差分を詰める
             if (FlickVec.x > 0)//右移動の時
@@ -492,6 +441,23 @@ public class MoveMobius : MonoBehaviour
         }
     }
 
+    private void MobiusStrip()
+    {
+        if (MobiusStripFlag)
+        {
+            float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
+            float ColR = (ColMobiusObj.GetComponent<SphereCollider>().bounds.size.x + ColMobiusObj.GetComponent<SphereCollider>().bounds.size.y) / 4;// 相手メビウスの輪の円の半径を取得
+            float SocialDistance = ThisR + ColR + 15;//お互いの半径分と少しだけ離す
+
+            float distance = (this.transform.position - ColMobiusObj.transform.position).magnitude;//相手と自分の距離
+
+            if (SocialDistance < distance)//離れ過ぎたら 
+            {
+                MobiusStripFlag = false;
+            }
+        }
+    }
+
     private void ZeroVelo() //動きを止める
     {
         Rb.velocity = Vector3.zero;//勢いを止める
@@ -503,29 +469,33 @@ public class MoveMobius : MonoBehaviour
     {
         if (FlickVec.x > 0)//右移動の時
         {
-            if (this.transform.position.x >= StopPos.x)
+            if (this.transform.position.x > MovePos.x)
             {
+                Debug.Log("右を通った");
                 return true;
             }
         }
         else if (FlickVec.x < 0)//左移動の時
         {
-            if (this.transform.position.x <= StopPos.x)
+            if (this.transform.position.x < MovePos.x)
             {
+                Debug.Log("左を通った");
                 return true;
             }
         }
         else if (FlickVec.y > 0)//上移動の時
         {
-            if (this.transform.position.y >= StopPos.y)
+            if (this.transform.position.y > MovePos.y)
             {
+                Debug.Log("上を通った");
                 return true;
             }
         }
         else if (FlickVec.y < 0)//下移動の時
         {
-            if (this.transform.position.y <= StopPos.y)
+            if (this.transform.position.y < MovePos.y)
             {
+                Debug.Log("下を通った");
                 return true;
             }
         }
@@ -559,5 +529,13 @@ public class MoveMobius : MonoBehaviour
     public Vector3 GetColPos()
     {
         return ColPos;
+    }
+    public bool GetMobiusStripFlag()
+    {
+        return MobiusStripFlag;
+    }
+    public bool GetColMobiusObj()
+    {
+        return ColMobiusObj;
     }
 }
