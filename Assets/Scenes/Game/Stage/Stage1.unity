@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -444,6 +444,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: b684e8e82ae6f4b4cb5b90015e54e56c, type: 2}
   - {fileID: 2100000, guid: ee71ddf1bc18ebc40a84200ca1077a0a, type: 2}
   - {fileID: 2100000, guid: 28073e6c20558d24db0dfff7b5101f34, type: 2}
+  ColorChangeFlag: 0
 --- !u!1 &103346822
 GameObject:
   m_ObjectHideFlags: 0
@@ -2075,6 +2076,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: b684e8e82ae6f4b4cb5b90015e54e56c, type: 2}
   - {fileID: 2100000, guid: ee71ddf1bc18ebc40a84200ca1077a0a, type: 2}
   - {fileID: 2100000, guid: 28073e6c20558d24db0dfff7b5101f34, type: 2}
+  ColorChangeFlag: 0
 --- !u!1 &839502279
 GameObject:
   m_ObjectHideFlags: 0
@@ -3008,7 +3010,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: eb38783457008994f86d1fb6206f8573,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -9.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: eb38783457008994f86d1fb6206f8573,
         type: 3}
@@ -3123,6 +3125,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: b684e8e82ae6f4b4cb5b90015e54e56c, type: 2}
   - {fileID: 2100000, guid: ee71ddf1bc18ebc40a84200ca1077a0a, type: 2}
   - {fileID: 2100000, guid: 28073e6c20558d24db0dfff7b5101f34, type: 2}
+  ColorChangeFlag: 0
 --- !u!1 &1415075084 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4525668be5a904146aeb27d7ede3024c,
@@ -3200,6 +3203,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: b684e8e82ae6f4b4cb5b90015e54e56c, type: 2}
   - {fileID: 2100000, guid: ee71ddf1bc18ebc40a84200ca1077a0a, type: 2}
   - {fileID: 2100000, guid: 28073e6c20558d24db0dfff7b5101f34, type: 2}
+  ColorChangeFlag: 0
 --- !u!1001 &1438375447
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4153,7 +4157,14 @@ MonoBehaviour:
   NowMobius: 0
   RotateLeftFlg: 0
   InsideFlg: 0
+  NormalSpeed: 1
+  UpSpeed: 30
   StartPoint: 0
+  jumppow: 200
+  JumpOk: 0
+  angle: 0
+  rotateSpeed: 30
+  SpeedUpLength: 10
 --- !u!1 &1674757188
 GameObject:
   m_ObjectHideFlags: 0
