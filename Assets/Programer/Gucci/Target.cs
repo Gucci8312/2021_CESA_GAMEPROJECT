@@ -31,7 +31,7 @@ public class Target : MonoBehaviour
         // プレイヤーに当たった時
         if (other.gameObject.tag == "Player")
         {
-            if (!player.GetStartFlg())
+           // if (!player.GetStartFlg())
             {
                 if (this.transform.parent.name == "Mobius (" + player.GetNowMobiusNum() + ")")//同じメビウス状にいるかどうか
                 {

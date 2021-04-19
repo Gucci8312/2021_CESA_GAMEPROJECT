@@ -174,7 +174,7 @@ public class MobiusAttachPos : MonoBehaviour
         {
             degree = 90f;
         }
-        else if ((degree >= 170f && degree <= 190f))
+        else if ((degree >= -5f && degree <= 10f)||(degree >= 170f && degree <= 190f))
         {
             degree = 0f;
         }
