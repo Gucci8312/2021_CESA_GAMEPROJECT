@@ -61,44 +61,18 @@ public class MobiusAttachPos : MonoBehaviour
         //前回の入力キーを取得
         BeforeDownGetKey();
 
-        if (m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled && !m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetMobiusStripFlag())
+        if (!m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetMobiusStripFlag())
         {
-            //メビウスの輪（二つつなぎ）のモデルをいったん隠す
-            m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled = false;
-            for (int i = 0; i < m_mobius.Length; i++)
-            {
-                MobiusChileMeshRenderOn(m_mobius[i]);
-            }
-            m_mobiusCol = false;
-            transform.Rotate(new Vector3(0, 0, -before_degree));
+            //松井君に送りたい部分（離れた場合）
+         //   MobiusCollisionOff();
         }
 
         //メビウスの輪（単体）同士が当たったかどうかを取得
         if (m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetMobiusStripFlag() && !m_mobiusCol)
         {
-            otherMobius = m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetColMobiusObj();
-            MobiusChileMeshRenderOff(m_mobius[m_nowMobiusNo]);
-            MobiusChileMeshRenderOff(otherMobius);
-            before_degree = MobiusRotateDegree();
-            //当たった二つの中間点を取得→メビウスの輪の座標に設定するため
-            Vector3 pos = m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetColPos();
-            //メビウスの輪のモデルを表示
-            m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled = true;
-
-            if (before_degree == 90 || before_degree == 270)
-            {
-                this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x + 15, pos.y, pos.z);
-            }
-            else if (before_degree == 180 || before_degree == 0)
-            {
-                this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x, pos.y - 15, pos.z);
-            }
-            transform.Rotate(new Vector3(0, 0, before_degree));
+            //松井君に送りたい部分（くっついた場合）
+        //    MobiusCollisionOn();
             m_mobiusCol = true;
-        }
-        else if (!m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetMobiusStripFlag())
-        {
-
         }
     }
     // @name   BeforeDownGetKey
@@ -189,6 +163,46 @@ public class MobiusAttachPos : MonoBehaviour
             degree = 135f;
         }
         return degree;
+    }
+
+    // @name   MobiusCollisionOn
+    // @brief  他のメビウスと当たった時に実装したい部分
+    public void MobiusCollisionOn()
+    {
+        otherMobius = m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetColMobiusObj();
+        MobiusChileMeshRenderOff(m_mobius[m_nowMobiusNo]);
+        MobiusChileMeshRenderOff(otherMobius);
+        before_degree = MobiusRotateDegree();
+        //当たった二つの中間点を取得→メビウスの輪の座標に設定するため
+        Vector3 pos = m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetColPos();
+        //メビウスの輪のモデルを表示
+        m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled = true;
+
+        if (before_degree == 90 || before_degree == 270)
+        {
+            this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x + 15, pos.y, pos.z);
+        }
+        else if (before_degree == 180 || before_degree == 0)
+        {
+            this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x, pos.y - 15, pos.z);
+        }
+        transform.Rotate(new Vector3(0, 0, before_degree));
+    }
+    // @name   MobiusCollisionOff
+    // @brief  他のメビウスと離れた時に実装したい部分
+    public void MobiusCollisionOff()
+    {
+        if (m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled)
+        {
+            //メビウスの輪（二つつなぎ）のモデルをいったん隠す
+            m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            for (int i = 0; i < m_mobius.Length; i++)
+            {
+                MobiusChileMeshRenderOn(m_mobius[i]);
+            }
+            m_mobiusCol = false;
+            transform.Rotate(new Vector3(0, 0, -before_degree));
+        }
     }
 }
 
