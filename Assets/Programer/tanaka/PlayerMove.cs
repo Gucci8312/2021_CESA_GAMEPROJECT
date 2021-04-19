@@ -177,7 +177,7 @@ public class PlayerMove : MonoBehaviour
 
         if (TimingInput)
         {
-            if (InsideFlg)//内
+            if (InsideFlg)//内側
             {
                 if (jump)//下方向
                 {
@@ -221,7 +221,7 @@ public class PlayerMove : MonoBehaviour
                     jumpmove -= jumppow * Time.deltaTime;
                 }
             }
-            else
+            else//外側
             {
                 if (jump)//下方向
                 {
@@ -278,30 +278,16 @@ public class PlayerMove : MonoBehaviour
         {
            
             AngleCol = false;
+
+            
             for (int i = 0; i < 9; i++)
             {
+                //各点の当たり判定　スピードアップの場所の判定
                 if (angle < ((i * 45f) - 25f) + SpeedUpLength && angle > ((i * 45f) - 25f) - SpeedUpLength)
                 {
-
-                    //if (SpacePress)
-                    //{
-                    //    Speed = UpSpeed;
-                    //    Debug.Log("SpeedUp");
-                    //}
-                    //else
-                    //{
-                    //    Speed = NormalSpeed;
-                    //    //Debug.Log("NormalSpeed");
-                    //}
-
                     AngleCol = true;
                 }
-                else
-                {
-
-                    //SpacePress = false;
-
-                }
+                
             }
 
             if (AngleCol)
@@ -322,11 +308,11 @@ public class PlayerMove : MonoBehaviour
             {
                 if (AngleCol != AngleColSave)//当たり判定からでた
                 {
-                    if (SpacePress)
+                    if (SpacePress)//スピードアップ
                     {
                         Speed = UpSpeed;
                     }
-                    else
+                    else//通常スピード
                     {
                         Speed = NormalSpeed;
                     }
@@ -335,7 +321,7 @@ public class PlayerMove : MonoBehaviour
                 Debug.Log("当たっていない");
             }
 
-            AngleColSave = AngleCol;
+            AngleColSave = AngleCol;//判定を保存
 
             //プレイヤーの移動
             if (RotateLeftFlg)
@@ -374,7 +360,7 @@ public class PlayerMove : MonoBehaviour
                     SaveMobius = NowMobius;
                     counter = 0;
                     MobiusCol = false;
-                }//if (counter > 2)
+                }
             }
             else
             {

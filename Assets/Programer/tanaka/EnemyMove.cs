@@ -29,6 +29,16 @@ public class EnemyMove : MonoBehaviour
 
     GameObject player;
 
+    private Transform target;
+    private Vector3 distanceTarget = new Vector3(22f, 0f, 0f);
+    public float angle;
+    [SerializeField] private float rotateSpeed = 180f;
+    public float NormalSpeed = 1.3f;
+    private float Speed;
+    bool MobiusCol;
+    public float StanTime;
+    bool Stan;
+
     void Start()
     {
         //rb = GetComponent<Rigidbody>();                                                             // リジットボディを格納
@@ -69,115 +79,173 @@ public class EnemyMove : MonoBehaviour
         {
             InsideLength = 0;
         }
-
-
+        angle = 360 - (StartPoint * 45);
+        Speed = NormalSpeed;
+        MobiusCol = false;
+        Stan = false;
     }
 
     // Update is called once per frame  
     //void FixedUpdate()
     void Update()
     {
-        //Debug.Log(this.name + "UPDATE");
-        if (StartFlg)
+        target = Mobius[NowMobius].transform;
+
+        //メビウスの輪の中心とプレイヤーの距離を求める
+        distanceTarget.y = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 - InsideLength ;// メビウスの輪の円の半径を取得
+        //プレイヤーの位置をメビウスの位置・メビウスから見たプレイヤーの角度・距離から求める
+        transform.position = target.position + Quaternion.Euler(0f, 0f, angle) * distanceTarget;
+        //プレイヤーの角度をメビウスから見た角度を計算し、設定する
+        transform.rotation = Quaternion.LookRotation(transform.position - new Vector3(target.position.x, target.position.y, transform.position.z), -Vector3.forward);
+
+        if (Stan)//スタン中
         {
-            ApproachMobius();//対象のメビウスの輪に近づける
 
-            for (int i = 0; i < StartPoint; i++)//入力されたポイントの場所に移動させる
+        }
+        else//通常時
+        {
+            //移動
+            if (RotateLeftFlg)
             {
-                transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
+                angle += (rotateSpeed * Speed) * Time.deltaTime;
             }
+            else
+            {
+                angle -= (rotateSpeed * Speed) * Time.deltaTime;
+            }
+        }
+        
 
-            StartFlg = false;
+        //角度の範囲を指定(0～360)
+        //angle = Mathf.Repeat(angle, 360f);
+        if (angle > 360)
+        {
+            angle = angle - 360;
+        }
+        if (angle < 0)
+        {
+            angle = angle + 360;
+        }
+
+
+        if (MobiusCol)
+        {
+            counter += Time.deltaTime;
+            //移ったときに元のメビウスの輪に戻らないようにカウントする
+            if (counter > 1)//
+            {
+                //移り変わることができるようにする
+                SaveMobius = NowMobius;
+                counter = 0;
+                MobiusCol = false;
+            }
         }
         else
         {
-            if (!Mobius[NowMobius].GetComponent<MoveMobius>().GetFlickMoveFlag())//メビウスが止まっているとき
-            {
-                Vector2 MobiusPos = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center;                // メビウスの輪の位置を取得
+            CollisonMobius();//移り先のメビウスの輪を探す
+        }
 
-                MoveMobiusSum = MobiusPos - MobiusSavePos;
+        //Debug.Log(this.name + "UPDATE");
+        //if (StartFlg)
+        //{
+        //    ApproachMobius();//対象のメビウスの輪に近づける
 
-                MobiusSavePos = MobiusPos;
+        //    for (int i = 0; i < StartPoint; i++)//入力されたポイントの場所に移動させる
+        //    {
+        //        transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
+        //    }
 
+        //    StartFlg = false;
+        //}
+        //else
+        //{
+        //    if (!Mobius[NowMobius].GetComponent<MoveMobius>().GetFlickMoveFlag())//メビウスが止まっているとき
+        //    {
+        //        Vector2 MobiusPos = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center;                // メビウスの輪の位置を取得
 
-                float hankei = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 +                // メビウスの輪の円の半径を取得
-                GetComponent<SphereCollider>().bounds.size.x / 2;
-                this.gameObject.transform.position = new Vector3(MobiusPos.x, MobiusPos.y, 0);
-                this.gameObject.transform.position += new Vector3(0, (hankei - InsideLength), 0);
+        //        MoveMobiusSum = MobiusPos - MobiusSavePos;
 
-                for (int i = 0; i < StartPoint; i++)//ポイントの場所に移動させる
-                {
-                    transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
-                }
-
-
-                TimingInput = this.rythm.rythmSendCheckFlag;
-
-                if (!TimingInput && !RythmOneFlg) RythmOneFlg = true;
-
-                if (TimingInput && RythmOneFlg)//テンポのタイミングで入力されたら
-                {
-                    counter++;
-                    //Debug.Log(this.name+":TimindInputOn");
-                }
+        //        MobiusSavePos = MobiusPos;
 
 
+        //        float hankei = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 +                // メビウスの輪の円の半径を取得
+        //        GetComponent<SphereCollider>().bounds.size.x / 2;
+        //        this.gameObject.transform.position = new Vector3(MobiusPos.x, MobiusPos.y, 0);
+        //        this.gameObject.transform.position += new Vector3(0, (hankei - InsideLength), 0);
+
+        //        for (int i = 0; i < StartPoint; i++)//ポイントの場所に移動させる
+        //        {
+        //            transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
+        //        }
+
+
+        //        TimingInput = this.rythm.rythmSendCheckFlag;
+
+        //        if (!TimingInput && !RythmOneFlg) RythmOneFlg = true;
+
+        //        if (TimingInput && RythmOneFlg)//テンポのタイミングで入力されたら
+        //        {
+        //            counter++;
+        //            //Debug.Log(this.name+":TimindInputOn");
+        //        }
 
 
 
-                if (Mobius[NowMobius] != null)
-                {
-
-                    if (TimingInput && RythmOneFlg)//キー入力あり
-                    {
-                        //ApproachMobius();//軌道に乗せる
-
-                        if (RotateLeftFlg)
-                        {
-                            //transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, this.transform.forward, MoveAngle);//左移動
-                            StartPoint--;
-                            if (StartPoint < 0)
-                            {
-                                StartPoint = 7;
-                            }
-                        }
-                        else
-                        {
-                            //transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
-                            StartPoint++;
-                            if (StartPoint > 7)
-                            {
-                                StartPoint = 0;
-                            }
-                        }
 
 
-                        player.GetComponent<PlayerMove>().EnemyUpdateCountUp();//敵の更新処理が何体目まで実行されたかカウントアップする　最後の敵が更新されればrythmSendCheckFlagをfalseにする
+        //        if (Mobius[NowMobius] != null)
+        //        {
 
-                        RythmOneFlg = false;
-                        //Debug.Log("移動");
-                        //Debug.Log(StartPoint);
-                    }//if (TimingInput)
+        //            if (TimingInput && RythmOneFlg)//キー入力あり
+        //            {
+        //                //ApproachMobius();//軌道に乗せる
+
+        //                if (RotateLeftFlg)
+        //                {
+        //                    //transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, this.transform.forward, MoveAngle);//左移動
+        //                    StartPoint--;
+        //                    if (StartPoint < 0)
+        //                    {
+        //                        StartPoint = 7;
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    //transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
+        //                    StartPoint++;
+        //                    if (StartPoint > 7)
+        //                    {
+        //                        StartPoint = 0;
+        //                    }
+        //                }
 
 
-                    this.gameObject.transform.position = new Vector3(this.transform.position.x + MoveMobiusSum.x, this.transform.position.y + MoveMobiusSum.y, 0);         //メビウスの動きについていく
+        //                player.GetComponent<PlayerMove>().EnemyUpdateCountUp();//敵の更新処理が何体目まで実行されたかカウントアップする　最後の敵が更新されればrythmSendCheckFlagをfalseにする
+
+        //                RythmOneFlg = false;
+        //                //Debug.Log("移動");
+        //                //Debug.Log(StartPoint);
+        //            }//if (TimingInput)
 
 
-                    if (!Mobius[NowMobius].GetComponent<MoveMobius>().GetFlickMoveFlag()) CollisonMobius();//移り先のメビウスの輪を探す
-
-                    //移ったときに元のメビウスの輪に戻らないようにカウントする
-                    if (counter > 1)//
-                    {
-                        //移り変わることができるようにする
-                        SaveMobius = NowMobius;
-                        counter = 0;
-
-                    }//if (counter > 2)
+        //            this.gameObject.transform.position = new Vector3(this.transform.position.x + MoveMobiusSum.x, this.transform.position.y + MoveMobiusSum.y, 0);         //メビウスの動きについていく
 
 
-                }//if (Mobius[NowMobius] != null)
-            }
-        }//else if(StartFlg)
+        //            if (!Mobius[NowMobius].GetComponent<MoveMobius>().GetFlickMoveFlag()) CollisonMobius();//移り先のメビウスの輪を探す
+
+        //            //移ったときに元のメビウスの輪に戻らないようにカウントする
+        //            if (counter > 1)//
+        //            {
+        //                //移り変わることができるようにする
+        //                SaveMobius = NowMobius;
+        //                counter = 0;
+
+        //            }//if (counter > 2)
+
+
+        //        }//if (Mobius[NowMobius] != null)
+        //    }
+        //}//else if(StartFlg)
     }//void Update()
 
     private void ApproachMobius()//対象のメビウスの輪に近づける
@@ -274,7 +342,7 @@ public class EnemyMove : MonoBehaviour
                     SaveMobius = NowMobius;
                     NowMobius = i;
                     counter = 0;
-
+                    angle += 180;
 
                     if (SideCnt >= 2)//2回切り替えると
                     {
@@ -310,7 +378,7 @@ public class EnemyMove : MonoBehaviour
 
                     Debug.Log("メビウスの輪を切り替えた");
                     SideCnt++;
-
+                    MobiusCol = true;
                     break;
                 }//if ((hankei/3)+(InsideLength/2) > NextLength)//プレイヤーと移り先のメビウスの輪が当たった
 
