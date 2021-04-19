@@ -85,17 +85,20 @@ public class MobiusAttachPos : MonoBehaviour
             //メビウスの輪のモデルを表示
             m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled = true;
 
-            if (m_keyCode.ToString() == "S" || m_keyCode.ToString() == "W" || StickInput.y != 0)
+            if (before_degree == 90 || before_degree == 270)
             {
                 this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x + 15, pos.y, pos.z);
-                transform.Rotate(new Vector3(0, 0, before_degree));
             }
-            else if (m_keyCode.ToString() == "A" || m_keyCode.ToString() == "D" || StickInput.x != 0)
+            else if (before_degree == 180 || before_degree == 0)
             {
                 this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x, pos.y - 15, pos.z);
-                transform.Rotate(new Vector3(0, 0, before_degree));
             }
+            transform.Rotate(new Vector3(0, 0, before_degree));
             m_mobiusCol = true;
+        }
+        else if (!m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetMobiusStripFlag())
+        {
+
         }
     }
     // @name   BeforeDownGetKey
