@@ -192,7 +192,7 @@ public class MobiusAttachPos : MonoBehaviour
         }
         else if(before_degree == 40f || before_degree == 135f)
         {
-            this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x + 15, pos.y - 15, pos.z);
+         //   this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x + 15, pos.y - 15, pos.z);
         }
         transform.Rotate(new Vector3(0, 0, before_degree));
     }
