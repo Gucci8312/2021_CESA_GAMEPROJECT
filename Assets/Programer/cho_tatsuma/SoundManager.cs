@@ -23,8 +23,8 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     Dictionary<string, int> m_bgmIndex = new Dictionary<string, int>();   //C++でいうMap
     Dictionary<string, int> m_seIndex = new Dictionary<string, int>();    //C++でいうMap　この二つは簡単にアクセスする用
 
-    AudioSource m_bgmAudioSource;                                       //BGMを鳴らすための変数
-    AudioSource m_seAudioSource;                                        //SEを鳴らすための変数
+   [SerializeField] AudioSource m_bgmAudioSource;                                       //BGMを鳴らすための変数
+   [SerializeField] AudioSource m_seAudioSource;                                        //SEを鳴らすための変数
 
     //プロパティ変数(マスターボリューム)
     public float MasterVolume
@@ -90,9 +90,6 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         //シーンをまたいでも破壊しない変数に指定。
         DontDestroyOnLoad(this.gameObject);
 
-        //オーディオソースのコンポーネントを取得
-        m_bgmAudioSource = gameObject.GetComponent<AudioSource>();
-        m_seAudioSource = gameObject.GetComponent<AudioSource>();
 
         //リソースフォルダからBGMフォルダ/SEフォルダにアクセスして、それぞれすべてを読み込んでいく（配列要素０から自動的に読み込まれていく）
         m_bgm = Resources.LoadAll<AudioClip>("BGM");
