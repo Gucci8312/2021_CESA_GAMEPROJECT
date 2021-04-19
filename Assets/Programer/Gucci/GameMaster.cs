@@ -16,7 +16,7 @@ public class GameMaster : MonoBehaviour
 
         Application.targetFrameRate = 60;
         Player = GameObject.Find("Player");
-        SoundManager.Instance.PlayBgmName("Alley");
+       // SoundManager.Instance.PlayBgmName("Alley");
     }
 
     // Update is called once per frame
