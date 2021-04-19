@@ -8,7 +8,6 @@ public class EffectMaster : MonoBehaviour
     GameObject[] Mobius;                                                        // メビウスの輪
     public GameObject[] CheckPoint;
     //GameObject[] CheckPoint;
-    public VisualEffect vf;
 
     // Start is called before the first frame update
     void Start()

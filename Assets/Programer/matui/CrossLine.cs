@@ -4,69 +4,79 @@ using UnityEngine;
 
 public class CrossLine : MonoBehaviour
 {
-    public List<Vector2> CrossPos = new List<Vector2>();
+    public List<Vector2> CrossPos = new List<Vector2>();//自身の交点
+    private Vector2 LPos;//左端の点
+    private Vector2 RPos;//右端の点
+
+    private Vector2 Lvec;//左端の点に対してのベクトル
+    private Vector2 Rvec;//右端の点に対してのベクトル
+
+    public Vector3 RayHitPos;
 
     // Start is called before the first frame update
     void Start()
     {
         this.GetComponent<BoxCollider>().isTrigger = true;
+
+        LPos = RotationfromPosition(this.transform.position, this.transform.localScale, this.transform.localEulerAngles.z, 0);//自分の左端の回転を含めた座標を取得
+        RPos = RotationfromPosition(this.transform.position, this.transform.localScale, this.transform.localEulerAngles.z, 1);//自分の右端の回転を含めた座標を取得
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
     }
 
-    private Vector2 RotationfromPosition(Vector2 pos, Vector2 scale, float Angle)//回転したときの座標を求める
+    //回転したときの座標を求める（横長の線を基準に回転）
+    private Vector2 RotationfromPosition(Vector2 pos, Vector2 scale, float Angle,int tyouten)
     {
-        Vector2 Center;
-        Center.x = pos.x + scale.x / 2;
-        Center.y = pos.y + scale.y / 2;
+        scale.y = 0;//横長の棒の先端に点を置くために縦軸を0にする
+
         float theta = Mathf.Atan((scale.y / 2) / (scale.x / 2)) * 180 / 3.14f;
         float sha = Mathf.Sqrt((scale.x / 2) * (scale.x / 2) + (scale.y / 2) * (scale.y / 2));
 
+        
+        float deg =0;
 
-        float deg1 = theta + Angle;
-        //float deg2 = 180 - theta + kakudo;
-        //float deg3 = 360 - theta + kakudo;
-        //float deg4 = 180 + theta + kakudo;
+        switch (tyouten)
+        {
+            case 0:
+                deg = theta + Angle;
+                break;
+            case 1:
+                deg = 180-theta + Angle;
+                break;
+            //case 2:
+            //    deg = 360-theta + Angle;
+            //    break;
+            //case 3:
+            //    deg = 180+theta + Angle;
+            //    break;
+        }
 
         Vector2 outpos;
-        outpos.x = Center.x + sha * Mathf.Cos(deg1 * 3.14f / 180);
-        outpos.y = Center.y + sha * Mathf.Sin(deg1 * 3.14f / 180);
+        outpos.x = pos.x + sha * Mathf.Cos(deg * 3.14f / 180);
+        outpos.y = pos.y + sha * Mathf.Sin(deg * 3.14f / 180);
 
 
         return outpos;
     }
 
-    private bool CrossLinePosition(GameObject Line1, GameObject Line2, out Vector2 outvec)//交点を求める
+    //交点を求める（true時に交点の座標を返す）
+    private bool CrossLinePosition(GameObject Line1, GameObject Line2, out Vector2 outvec)
     {
-        outvec = Vector2.zero;
+        outvec = Vector2.zero;//出力用
         Vector2 p1, p2, p3, p4;
 
-        if (Line1.transform.localScale.x > Line1.transform.localScale.y)//横に長ければ
-        {
-            p1 = new Vector2(Line1.transform.position.x - Line1.transform.localScale.x / 2, Line1.transform.position.y);
-            p2 = new Vector2(Line1.transform.position.x + Line1.transform.localScale.x / 2, Line1.transform.position.y);
-        }
-        else//縦に長ければ
-        {
-            p1 = new Vector2(Line1.transform.position.x, Line1.transform.position.y - Line1.transform.localScale.y / 2);
-            p2 = new Vector2(Line1.transform.position.x, Line1.transform.position.y + Line1.transform.localScale.y / 2);
-        }
+        CrossLine cl1 = Line1.GetComponent<CrossLine>();//Line1のCrossLineスクリプトを取得　
+        CrossLine cl2 = Line2.GetComponent<CrossLine>();//Line2のCrossLineスクリプトを取得　
 
-        if (Line2.transform.localScale.x > Line2.transform.localScale.y)//横に長ければ
-        {
-            p3 = new Vector2(Line2.transform.position.x - Line2.transform.localScale.x / 2, Line2.transform.position.y);
-            p4 = new Vector2(Line2.transform.position.x + Line2.transform.localScale.x / 2, Line2.transform.position.y);
-        }
-        else//縦に長ければ
-        {
-            p3 = new Vector2(Line2.transform.position.x, Line2.transform.position.y - Line2.transform.localScale.y / 2);
-            p4 = new Vector2(Line2.transform.position.x, Line2.transform.position.y + Line2.transform.localScale.y / 2);
-        }
+        p1 = cl1.GetLPos();
+        p2 = cl1.GetRPos();
 
+        p3 = cl2.GetLPos();
+        p4 = cl2.GetRPos();
 
 
         var d = (p2.x - p1.x) * (p4.y - p3.y) - (p2.y - p1.y) * (p4.x - p3.x);
@@ -90,7 +100,8 @@ public class CrossLine : MonoBehaviour
         return true;
     }
 
-    public Vector2 CanMovePosition(Vector2 pos)//メビウスが移動できる座標を与える
+    //メビウスが移動できる座標を与える
+    public Vector2 CanMovePosition(Vector2 pos)
     {
         List<float> distance = new List<float>();//引数の座標と交点との差
         float Min = 10000;//最小値
@@ -120,12 +131,13 @@ public class CrossLine : MonoBehaviour
         return pos;
     }
 
-    public bool SameCrossPos(Vector2 _pos)//交点と同じ座標があるかどうか
+    //交点と同じ座標があるかどうか
+    public bool SameCrossPos(Vector2 _pos)
     {
         for (int i = 0; i < CrossPos.Count; i++)
         {
             float distance = (_pos - CrossPos[i]).magnitude;//交点と引数との差を求める
-            if (distance <= 1) //差がほぼなければ
+            if (distance <= 2) //差がほぼなければ
             {
                 return true;
             }
@@ -133,9 +145,47 @@ public class CrossLine : MonoBehaviour
         return false;
     }
 
+    //入力した方向と交点がある方向を調べる（true時に交点のある方向を返す）
+    public bool CanInputMoveVec(Vector2 _vec, out Vector2 outvec)
+    {
+
+        float Radius = Mathf.Atan2(LPos.y - RPos.y, LPos.x - RPos.x); //自分と指定した座標とのラジアンを求める
+        Lvec = new Vector3(Mathf.Cos(Radius), Mathf.Sin(Radius), 0);
+
+        Radius = Mathf.Atan2(RPos.y - LPos.y, RPos.x - LPos.x); //自分と指定した座標とのラジアンを求める
+        Rvec = new Vector3(Mathf.Cos(Radius), Mathf.Sin(Radius), 0);
+
+        float gosa = 0.2f;
+        float dis1 = (_vec - Lvec).magnitude;
+        float dis2 = (_vec - Rvec).magnitude;
+
+        if (dis1 <= gosa)
+        {
+            outvec = Lvec; Debug.Log("方向が同じLvec" + Lvec);
+            return true;
+        }
+        else if(dis2 <= gosa)
+        {
+            outvec = Rvec; Debug.Log("方向が同じRvec"+ Rvec);
+            return true;
+        }
+
+        outvec = _vec; Debug.Log("方向が違う");
+
+        return false;
+    }
+
     public List<Vector2> GetCrossPos()//交点を取得
     {
         return CrossPos;
+    }
+    public Vector2 GetRPos()
+    {
+        return RPos;
+    }
+    public Vector2 GetLPos()
+    {
+        return LPos;
     }
 
     private void OnTriggerEnter(Collider other)

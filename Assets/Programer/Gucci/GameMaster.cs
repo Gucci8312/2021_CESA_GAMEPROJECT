@@ -21,8 +21,9 @@ public class GameMaster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape)| Controler.GetMenuButtonFlg())
         {
+            Debug.Log("メニューボタン押された");
             if(Menu.active == true)
             {  
                 Menu.active = false;

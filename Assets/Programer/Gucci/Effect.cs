@@ -5,7 +5,7 @@ using UnityEngine.VFX;
 
 public class Effect : MonoBehaviour
 {
-    public bool StartFlg;
+    public bool Flg;
     VisualEffect vf;
 
     // Start is called before the first frame update
@@ -18,9 +18,13 @@ public class Effect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(StartFlg)
+        if(Flg)
         {
             vf.Play();
+        }
+        else
+        {
+            vf.Stop();
         }
     }
 }
