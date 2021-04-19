@@ -63,7 +63,7 @@ public class MoveMobius : MonoBehaviour
         MobiusColFlag = false;
 
         TimingInput = this.rythm.checkMoviusMove;//ノーツに合わせられたかを取得
-        MobiusStrip();//メビウスの輪になっているかを調べる
+        //MobiusStrip();//メビウスの輪になっているかを調べる
 
         // プレイヤーが乗っているとき
         if (PlayerMoveFlg || Mc.GetColorSameFlag())
@@ -183,6 +183,7 @@ public class MoveMobius : MonoBehaviour
 
             if (!HighSpeedCol())//何も当たらなければ
             {
+                MobiusStrip();
 
                 if (Nowtime >= GoalMovetime)//到着したら
                 {

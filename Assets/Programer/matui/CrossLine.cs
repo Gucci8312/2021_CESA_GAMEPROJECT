@@ -21,6 +21,7 @@ public class CrossLine : MonoBehaviour
         LPos = RotationfromPosition(this.transform.position, this.transform.localScale, this.transform.localEulerAngles.z, 0);//自分の左端の回転を含めた座標を取得
         RPos = RotationfromPosition(this.transform.position, this.transform.localScale, this.transform.localEulerAngles.z, 1);//自分の右端の回転を含めた座標を取得
 
+        this.GetComponent<BoxCollider>().size = new Vector3(1.05f,1,1);
     }
 
     // Update is called once per frame
