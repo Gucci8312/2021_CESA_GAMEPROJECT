@@ -502,6 +502,8 @@ public class MoveMobius : MonoBehaviour
                 //自分と指定した座標とのラジアンを求める
                 Vector3 DisVec = SearchVector(this.transform.position, otherObj.transform.position);
 
+                bool SameFlag = false;//前回当たったオブジェクトと同じかどうか
+
                 if (ColMobiusObj == null|| ColMobiusObj != otherObj)//まだぶつかってない　または　違うものとぶつかったら
                 {
                     MobiusCol(otherObj, DisVec);//メビウス同士がぶつかった時の処理を実行
@@ -509,6 +511,7 @@ public class MoveMobius : MonoBehaviour
                 else if(ColMobiusObj== otherObj)//さっきと同じものとぶつかったら
                 {
                     this.transform.position = StartMovePos;
+                    SameFlag = true;
                 }
 
                 if (!otherObj.GetComponent<MoveMobius>().GetFlickMoveFlag()) //相手が動いてないときなら止める
@@ -519,11 +522,14 @@ public class MoveMobius : MonoBehaviour
                     }
                     ColPos = (this.transform.position + otherObj.transform.position) / 2;//自分と相手の座標の中点を代入（見た目的に当たった場所）
                     ZeroVelo();
-                    
-                    //メビウスの輪にするための情報をセット
-                    SetMobiusStrip(otherObj);
-                    otherObj.GetComponent<MoveMobius>().SetMobiusStrip(this.gameObject);
-                    MaPos.MobiusCollisionOn();
+
+                    if (!SameFlag)//同じじゃなければ
+                    {
+                        //メビウスの輪にするための情報をセット
+                        SetMobiusStrip(otherObj);
+                        otherObj.GetComponent<MoveMobius>().SetMobiusStrip(this.gameObject);
+                        MaPos.MobiusCollisionOn();
+                    }
                 }
             }
         }
