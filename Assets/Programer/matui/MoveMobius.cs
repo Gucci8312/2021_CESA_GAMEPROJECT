@@ -28,7 +28,7 @@ public class MoveMobius : MonoBehaviour
     private Vector3 MovePos;                                                 //移動する位置
     private Vector3 MoveVec;
     private bool MobiusColFlag;                                              //メビウスの当たり判定
-    Vector3 ColPos;                                                          //メビウスが当たった座標（具体的には自分と相手の座標の中点）
+    public Vector3 ColPos;                                                          //メビウスが当たった座標（具体的には自分と相手の座標の中点）
     Vector3 StartMovePos;                                                    //移動開始点
 
     bool TimingInput;                                                                               //タイミング入力を管理する変数　true:入力あり　false:入力なし
@@ -36,6 +36,7 @@ public class MoveMobius : MonoBehaviour
     Rythm rythm;                                                                                    //リズムスクリプト取得用
 
     MobiusColor Mc;                                                          //MobiusColorスクリプト
+    MobiusAttachPos MaPos;                                                   //MobiusAttachPosスクリプト
 
     bool MobiusStripFlag;                                                    //メビウスの輪になっているかどうか
     GameObject ColMobiusObj;                                                 //当たった相手メビウス格納用
@@ -51,6 +52,7 @@ public class MoveMobius : MonoBehaviour
         this.rythm = RythmObj.GetComponent<Rythm>();                                                  //リズムのコード
 
         Mc = this.GetComponent<MobiusColor>();  //MobiusColor取得
+        MaPos = GameObject.Find("mebiusu").GetComponent<MobiusAttachPos>();
 
         StartMovePos = this.transform.position;
     }
@@ -399,6 +401,7 @@ public class MoveMobius : MonoBehaviour
 
         this.transform.position = new Vector3(this.transform.position.x +((ThisR + 4) * -DistanceVec.x), this.transform.position.y + ((ThisR + 4) * -DistanceVec.y),
             this.transform.position.z);
+
     }
 
     private bool HighSpeedCol()//速すぎて当たり判定をすり抜けた時の対策
@@ -480,6 +483,8 @@ public class MoveMobius : MonoBehaviour
             {
                 MobiusStripFlag = false;
                 ColMobiusObj = null;
+
+                MaPos.MobiusCollisionOff();
             }
         }
     }
@@ -517,6 +522,7 @@ public class MoveMobius : MonoBehaviour
                     //メビウスの輪にするための情報をセット
                     SetMobiusStrip(otherObj);
                     otherObj.GetComponent<MoveMobius>().SetMobiusStrip(this.gameObject);
+                    MaPos.MobiusCollisionOn();
                 }
             }
         }
