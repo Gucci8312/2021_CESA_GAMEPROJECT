@@ -143,6 +143,10 @@ public class MobiusAttachPos : MonoBehaviour
         //最終角度を求める
         degree = radian * (180.0f / 3.141592f);
 
+        if(degree < 0f)
+        {
+            degree += 360f;
+        }
         //90度、0度の補正
         if ((degree >= 80f && degree <= 100f) || (degree >= 260f && degree <= 280f))
         {
@@ -178,13 +182,17 @@ public class MobiusAttachPos : MonoBehaviour
         //メビウスの輪のモデルを表示
         m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled = true;
 
-        if (before_degree == 90 || before_degree == 270)
+        if (before_degree == 90f || before_degree == 270f)
         {
             this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x + 15, pos.y, pos.z);
         }
-        else if (before_degree == 180 || before_degree == 0)
+        else if (before_degree == 180f || before_degree == 0f)
         {
             this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x, pos.y - 15, pos.z);
+        }
+        else if(before_degree == 40f || before_degree == 135f)
+        {
+            this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x + 15, pos.y - 15, pos.z);
         }
         transform.Rotate(new Vector3(0, 0, before_degree));
     }
