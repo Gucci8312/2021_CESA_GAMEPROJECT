@@ -6,12 +6,16 @@ using UnityEngine;
 public class MoveMobius : MonoBehaviour
 {
     // Start is called before the first frame update
-    private float MovePower = 500.0f;                                        //移動力
-    public float MoveBairitu = 15;                                           //移動に掛ける倍率
-    public float Gensokuritu = 50;                                           //速度を減速させる用（０にするとずっと無限に移動する）
+    //private float MovePower = 500.0f;                                        //移動力
+    //public float MoveBairitu = 15;                                           //移動に掛ける倍率
+    //public float Gensokuritu = 50;                                           //速度を減速させる用（０にするとずっと無限に移動する）
+
+    public float GoalMovetime = 0.05f;                                       //目的地へ到達するまでの時間（秒）
+    float Nowtime = 0;                                                       //移動時間（秒）
 
     public bool PlayerMoveFlg;                                               // プレイヤーによる移動判定用
     GameObject player;
+    PlayerMove pm;                                                           //PlayerMoveスクリプト
 
     public Vector2 StickInput;                                               //スティック入力時の値を取得用(-1～1)
     public Vector2 FlickVec;                                                 //弾いた時のベクトル格納用
@@ -39,13 +43,14 @@ public class MoveMobius : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player");
+        pm = player.GetComponent<PlayerMove>();
         RigitBodyInit();
 
         TimingInput = false;
         RythmObj = GameObject.Find("rythm_circle");                                                   //リズムオブジェクト取得
         this.rythm = RythmObj.GetComponent<Rythm>();                                                  //リズムのコード
 
-        Mc = this.GetComponent<MobiusColor>();
+        Mc = this.GetComponent<MobiusColor>();  //MobiusColor取得
 
         StartMovePos = this.transform.position;
     }
@@ -92,97 +97,125 @@ public class MoveMobius : MonoBehaviour
             Rb.velocity = Vector3.zero;//勢いを止める
             Rb.isKinematic = true;//物理的な動きをなしにする
             StartMovePos = this.transform.position;
+            Nowtime = 0;
 
-            if (StickFlickInputFlag() && TimingInput)//キー入力またはコントローラー入力されていたら　かつ　リズムが合えば
+            //if (StickFlickInputFlag() && TimingInput)//キー入力またはコントローラー入力されていたら　かつ　リズムが合えば
+            if(PlayerHipDropMoveFlag())//
             {
-                LineCol();//自分の中心と線がはみ出てないか調べる
+                pm.JumpOk = false;//一応こっちでfalseしとく
 
-                Ray ray = new Ray(new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), //Rayを飛ばす発射位置
-                    new Vector3(FlickVec.x * 1, FlickVec.y * 1, 0));//飛ばす方向
-
-                //Debug.DrawRay(ray.origin, ray.direction * 1000, Color.green, 100, false);//レイが見えるようになる（デバッグの時のみ）
-                bool CrossLineFlag = false;//交点へ移動できるかどうか
-
-                List<GameObject> CrossLine = new List<GameObject>();//入力した方向にある近い交点を持つオブジェクトを格納するリスト
-
-                //貫通レイキャスト
-                foreach (RaycastHit hit in Physics.RaycastAll(ray, 1000))
+                if (LineVecFlag())//自分の中心と線がはみ出てないか調べる
                 {
-                   // Debug.Log(hit.collider.gameObject.name);//レイキャストが当たったオブジェクト
 
-                    if (hit.collider.gameObject.CompareTag("Line"))
+                    //Ray (飛ばす発射位置、飛ばす方向）
+                    Ray ray = new Ray(new Vector3(this.transform.position.x + (FlickVec.x * 10), this.transform.position.y + (FlickVec.y * 10), this.transform.position.z),
+                        new Vector3(FlickVec.x * 1, FlickVec.y * 1, 0));
+
+                    //Debug.DrawRay(ray.origin, ray.direction * 1000, Color.green, 100, false);//レイが見えるようになる（デバッグの時のみ）
+                    bool CrossLineFlag = false;//交点へ移動できるかどうか
+
+                    List<GameObject> CrossLineObj = new List<GameObject>();//入力した方向にある近い交点を持つオブジェクトを格納するリスト
+                    List<Vector3> HitPos = new List<Vector3>();            //レイがあった座標を格納するリスト
+
+                    //貫通レイキャスト
+                    foreach (RaycastHit hit in Physics.RaycastAll(ray, 1000))
                     {
-                        for (int i = 0; i < Line.Count; i++)
+                        // Debug.Log(hit.collider.gameObject.name);//レイキャストが当たったオブジェクト
+
+                        if (hit.collider.gameObject.CompareTag("Line"))
                         {
-                            if (hit.collider.gameObject != Line[i])
+                            if (SameObjListSearch(Line, hit.collider.gameObject))//Lineリストの中にレイが当たったオブジェクトがなければ
                             {
-                                CrossLine.Add(hit.collider.gameObject);//レイで当たった
-                            }
-                        }
-                        //break;
-                    }
-                }
-
-
-                if (CrossLine.Count != 0)//レイを使って探した交点があれば
-                {
-                    CrossLine NearCl = NearObjSearch(CrossLine, this.transform.position).GetComponent<CrossLine>();//CrossLineゲットコンポーネントを取得
-
-                    for (int i = 0; i < cl.Count; i++)
-                    {
-                        for (int j = 0; j < cl[i].GetCrossPos().Count; j++)
-                        {
-                            if (NearCl.SameCrossPos(cl[i].GetCrossPos()[j]))//一番近い線の交点とメビウスの輪が触れている線が持つ交点と同じ座標があれば
-                            {
-                                CrossLineFlag = true;
-                                break;
+                                CrossLineObj.Add(hit.collider.gameObject);//CrossLineObjリストの中に追加
+                                CrossLineObj[CrossLineObj.Count - 1].GetComponent<CrossLine>().RayHitPos = hit.point;
+                                HitPos.Add(hit.point);
                             }
                         }
                     }
 
-                    if (CrossLineFlag)//交点へ移動できるなら
+
+                    if (CrossLineObj.Count != 0)//レイを使って探した交点があれば
                     {
-                        Rb.isKinematic = false;//物理的な動きをありにする
+                        CrossLine NearCl = NearObjSearch(CrossLineObj,HitPos, this.transform.position).GetComponent<CrossLine>();//CrossLineゲットコンポーネントを取得
 
-                        //最終的に入力した方向にある線に沿って交点へ移動
-                        MovePos = NearCl.CanMovePosition(this.transform.position);//移動できる交点を取得
-                        float Radius = Mathf.Atan2(MovePos.y - this.transform.position.y, MovePos.x - this.transform.position.x); //自分と指定した座標とのラジアンを求める
-                        MoveVec = new Vector3(Mathf.Cos(Radius), Mathf.Sin(Radius), 0);
-                        Rb.AddForce(MoveVec * (MovePower * MoveBairitu), ForceMode.VelocityChange);//瞬間的に加速させる（要調整）
-                        FlickMoveFlag = true;
+                        for (int i = 0; i < cl.Count; i++)
+                        {
+                            for (int j = 0; j < cl[i].GetCrossPos().Count; j++)
+                            {
+                                if (NearCl.SameCrossPos(cl[i].GetCrossPos()[j]))//一番近い線の交点とメビウスの輪が触れている線が持つ交点と同じ座標があれば
+                                {
+                                    CrossLineFlag = true;
+                                    break;
+                                }
+                            }
+                        }
+                       // Debug.Log("ベクトル入手" + CrossLineFlag);
+                        if (CrossLineFlag)//交点へ移動できるなら
+                        {
 
-                        this.rythm.checkMoviusMove = false;
+                           //Debug.Log(NearObjSearch(CrossLineObj,HitPos, this.transform.position));
+                           //Rb.isKinematic = false;//物理的な動きをありにする
+
+                            //最終的に入力した方向にある線に沿って交点へ移動
+                            MovePos = cl[0].CanMovePosition(NearCl.RayHitPos);//移動できる交点を取得
+                            MoveVec = SearchVector(this.transform.position, MovePos);
+
+                            //進む方向の線の上に乗っているかどうか調べる
+                            float distance = (FlickVec - new Vector2(MoveVec.x, MoveVec.y)).magnitude;
+                            if (distance < 0.15f) //二つベクトルに誤差が無ければ
+                            {
+                                FlickMoveFlag = true;
+
+                                this.rythm.checkMoviusMove = false;
+                            }
+                        }
                     }
-                }
 
+                }
             }
         }
 
         else//移動処理
         {
-            Rb.AddForce(-Rb.velocity * (Gensokuritu * 0.1f), ForceMode.Acceleration);//減速させる（要調整）
+            // Rb.AddForce(-Rb.velocity * (Gensokuritu * 0.1f), ForceMode.Acceleration);//減速させる（要調整）
 
             if (!HighSpeedCol())//何も当たらなければ
             {
-                if (Rb.velocity.magnitude < (MovePower / 10) + MoveBairitu) //勢いが一定以下になったら
-                {
-                    ZeroVelo();
 
-                    FlickVec.x = 0;
-                    FlickVec.y = 0;
-                }
-
-                if (MovingStop(MovePos))  //指定した座標を通れば
+                if (Nowtime >= GoalMovetime)//到着したら
                 {
                     ZeroVelo();
                     this.transform.position = MovePos;
 
                     FlickVec.x = 0;
                     FlickVec.y = 0;
+
+                }
+                else
+                {
+                    //線形補間による移動
+                    this.transform.position = SenkeiHokan(StartMovePos, MovePos, Nowtime, 0,GoalMovetime);
+                    Nowtime += Time.deltaTime;
                 }
             }
-           
+
         }
+    }
+
+    //	P0：始点　,P1：終点　,t：時間　,t0：始点位置での時間　,t1：終点位置での時間
+    private Vector2 SenkeiHokan(Vector2 P0, Vector2 P1, float t, float t0, float t1)
+    {
+        Vector2 pos=Vector2.zero;
+        pos.x = P0.x + (P1.x - P0.x) * (t - t0) / (t1 - t0);
+        pos.y = P0.y + (P1.y - P0.y) * (t - t0) / (t1 - t0);
+
+        return pos;
+    }
+
+    private Vector3 SearchVector(Vector3 pos1, Vector3 pos2)//引数pos1からpos2までのベクトルを取得
+    {      
+        float Radius = Mathf.Atan2(pos2.y - pos1.y, pos2.x - pos1.x); //自分と指定した座標とのラジアンを求める
+        return  new Vector3(Mathf.Cos(Radius), Mathf.Sin(Radius), 0);
     }
 
     public bool StickFlickInputFlag()
@@ -209,9 +242,9 @@ public class MoveMobius : MonoBehaviour
             {
                 if (stickmax.x + stickmax.y >= 1)//スティックを端まで倒した場合
                 {
-                    //斜めにレイを飛ばさない用
-                    if (stickmax.x > stickmax.y) { StickInput.y = 0; }
-                    else { StickInput.x = 0; }
+                    ////斜めにレイを飛ばさない用
+                    //if (stickmax.x > stickmax.y) { StickInput.y = 0; }
+                    //else { StickInput.x = 0; }
 
                     FlickVec = StickInput; //倒した方向の値を代入
                     OneFlickFlag = true;
@@ -232,15 +265,25 @@ public class MoveMobius : MonoBehaviour
         return false;
     }
 
-    private GameObject NearObjSearch(List<GameObject> _obj,Vector3 NearPos)//レイで当たったオブジェクトで一番近いものを取得
+    private bool PlayerHipDropMoveFlag()//プレイヤーのヒップドロップによる移動フラグ
     {
-        if (_obj.Count == 0) { Debug.Log("リストがない"); }
+        FlickVec = SearchVector(this.transform.position,player.transform.position);//プレイヤーへのベクトルを取得
 
-        List<float> distance = new List<float>();//引数の座標と交点との差
+        if (!pm.GetInsideFlg()) { FlickVec = -FlickVec; }//外側に居れば反転させる
+
+        return pm.JumpOk;
+    }
+
+    private GameObject NearObjSearch(List<GameObject> Serchobj,List<Vector3> Searchpos,Vector3 NearPos)//オブジェクトのリストからで一番近いものを取得
+    {
+        //if (Serchobj.Count == 0) { Debug.Log("リストがない"); }
+
+        List<float> distance = new List<float>();//引数の座標と調べ対座標との差
         float Min = 10000;//最小値
-        for (int i = 0; i < _obj.Count; i++)
+
+        for (int i = 0; i < Searchpos.Count; i++)
         {
-            distance.Add((NearPos - _obj[i].transform.position).magnitude);
+            distance.Add((NearPos - Searchpos[i]).magnitude);
 
             if (distance[i] <= Min)//取得している最小の値より小さければ
             {
@@ -252,11 +295,10 @@ public class MoveMobius : MonoBehaviour
         {
             if (distance[i] == Min)//差が最小の値を持った要素であれば
             {
-                return _obj[i].gameObject;
+                return Serchobj[i].gameObject;
             }
         }
 
-        Debug.Log("null");
         return null;
     }
 
@@ -266,24 +308,37 @@ public class MoveMobius : MonoBehaviour
         Rb.constraints = RigidbodyConstraints.FreezePositionZ;
         Rb.freezeRotation = true;
     }
-
-    private void LineCol()//メビウスの輪が線上に乗っているかどうか調べる（縦か横の線のみ）
+    private void ZeroVelo() //動きを止める
     {
-        float Gosa = 5;
+        Rb.velocity = Vector3.zero;//勢いを止める
+        FlickMoveFlag = false;
+        Rb.isKinematic = true;
+    }
+
+    private bool LineVecFlag()//メビウスの輪が線上に乗っているかどうか調べる（縦か横の線のみ）
+    {
+        bool flag = false;
+        GameObject MoveLine=null;
+
         for (int i = 0; i < Line.Count; i++)
         {
-            if ((this.transform.position.x <= Line[i].transform.position.x + Gosa && this.transform.position.x >= Line[i].transform.position.x - Gosa)
-                || (this.transform.position.y <= Line[i].transform.position.y + Gosa && this.transform.position.y >= Line[i].transform.position.y - Gosa))
+            if (cl[i].CanInputMoveVec(FlickVec,out FlickVec))
             {
-                continue;
-            }
-            else
-            {
-                cl.Remove(Line[i].GetComponent<CrossLine>());
-                Line.Remove(Line[i].gameObject);//登録したLineリストの中に該当する要素を削除する
+                flag = true;
+                MoveLine = Line[i];
+                break;
 
             }
         }
+
+        if (flag)
+        {
+            Line.Clear();
+            Line.Add(MoveLine);
+            cl.Clear();
+            cl.Add(MoveLine.GetComponent<CrossLine>());
+        }
+        return flag;
     }
 
     private void OnTriggerStay(Collider other)
@@ -319,7 +374,7 @@ public class MoveMobius : MonoBehaviour
         {
             if (PlayerMoveFlg)
             {
-                Debug.Log("メビウスの輪同士が離れた" + this.gameObject.name);
+               // Debug.Log("メビウスの輪同士が離れた" + this.gameObject.name);
                 MobiusColFlag = false;
             }
         }
@@ -336,57 +391,14 @@ public class MoveMobius : MonoBehaviour
     }
 
 
-    private void MobiusCol(GameObject col)//メビウス同士が当たった時の処理
+    private void MobiusCol(GameObject col,Vector3 DistanceVec)//メビウスがオブジェクトに当たった時の処理
     {
         float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
-        float ColR = (col.GetComponent<SphereCollider>().bounds.size.x + col.GetComponent<SphereCollider>().bounds.size.y) / 4;// 相手メビウスの輪の円の半径を取得
-        float SocialDistance = ThisR+ ColR + 8;//お互いの半径分と少しだけ離す
+        //float ColR = (col.GetComponent<SphereCollider>().bounds.size.x + col.GetComponent<SphereCollider>().bounds.size.y) / 4;// 相手メビウスの輪の円の半径を取得
+        //float SocialDistance = ThisR + ColR + 8;//お互いの半径分と少しだけ離す
 
-        if (FlickVec.x > 0)//右移動の時
-        {
-            this.transform.position = new Vector3(col.transform.position.x - SocialDistance, this.transform.position.y, this.transform.position.z);
-        }
-        else if(FlickVec.x < 0)//左移動の時
-        {
-            this.transform.position = new Vector3(col.transform.position.x + SocialDistance, this.transform.position.y, this.transform.position.z);
-        }
-        else if(FlickVec.y > 0)//上移動の時
-        {
-            this.transform.position = new Vector3(this.transform.position.x, col.transform.position.y - SocialDistance, this.transform.position.z);
-        }
-        else if (FlickVec.y < 0)//下移動の時
-        {
-            this.transform.position = new Vector3(this.transform.position.x, col.transform.position.y + SocialDistance, this.transform.position.z);
-        }
-
-
-        float distance = (this.transform.position - col.transform.position).magnitude;
-
-        if (SocialDistance < distance)//引き離したとき離れ過ぎたら 
-        {
-            float disdis = distance - SocialDistance;//差分を詰めるための変数
-            disdis=disdis*1.5f;//もう少し詰める
-
-            //差分を詰める
-            if (FlickVec.x > 0)//右移動の時
-            {
-                this.transform.position = new Vector3(this.transform.position.x + disdis, this.transform.position.y, this.transform.position.z);
-            }
-            else if (FlickVec.x < 0)//左移動の時
-            {
-                this.transform.position = new Vector3(this.transform.position.x - disdis, this.transform.position.y, this.transform.position.z);
-            }
-            else if (FlickVec.y > 0)//上移動の時
-            {
-                this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + disdis, this.transform.position.z);
-            }
-            else if (FlickVec.y < 0)//下移動の時
-            {
-                this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - disdis, this.transform.position.z);
-            }
-
-            //Debug.Log("差を詰めた");
-        }
+        this.transform.position = new Vector3(this.transform.position.x +((ThisR + 4) * -DistanceVec.x), this.transform.position.y + ((ThisR + 4) * -DistanceVec.y),
+            this.transform.position.z);
     }
 
     private bool HighSpeedCol()//速すぎて当たり判定をすり抜けた時の対策
@@ -394,91 +406,67 @@ public class MoveMobius : MonoBehaviour
         Ray ray;
 
         float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
-        float distance = (this.transform.position - StartMovePos).magnitude + (ThisR*1.2f);      //レイを飛ばす長さ
+        float distance = (MovePos - StartMovePos).magnitude ;      //レイを飛ばす長さ
 
         List<GameObject> ColObj = new List<GameObject>();               //すり抜けたメビウスオブジェクトを格納するリスト
+        List<Vector3> HitPos = new List<Vector3>();                     //ヒットしたオブジェクトの座標
 
-        //3本のレイを飛ばしてオブヘクトを検索
-        for (int i = -1; i < 2; i++)
+        ray = new Ray(new Vector3(StartMovePos.x-(MoveVec.x*10), StartMovePos.y - (MoveVec.y * 10), StartMovePos.z),    //Rayを飛ばす発射位置
+         new Vector3(MoveVec.x, MoveVec.y, 0));                             //飛ばす方向
+
+        //貫通のレイキャスト
+        foreach (RaycastHit hit in Physics.SphereCastAll(ray, ThisR, distance))
         {
-            if (FlickVec.x != 0 && FlickVec.y == 0)//横移動なら
-            {
-                ray = new Ray(new Vector3(StartMovePos.x, StartMovePos.y + (ThisR * i), StartMovePos.z),    //Rayを飛ばす発射位置
-                 new Vector3(FlickVec.x * 1, FlickVec.y * 1, 0));                             //飛ばす方向
-            }
-            else//縦移動なら
-            {
-                ray = new Ray(new Vector3(StartMovePos.x + (ThisR * i), StartMovePos.y, StartMovePos.z),    //Rayを飛ばす発射位置
-                 new Vector3(FlickVec.x * 1, FlickVec.y * 1, 0));                             //飛ばす方向
-            }
+            // Debug.Log(hit.collider.gameObject.name);//レイキャストが当たったオブジェクト
+            GameObject hitObj = null;
 
-            //貫通のレイキャスト
-            foreach (RaycastHit hit in Physics.RaycastAll(ray, distance))
-            {
-                // Debug.Log(hit.collider.gameObject.name);//レイキャストが当たったオブジェクト
-                GameObject hitObj=null;
-
-                //レイが当たったオブジェクト
-                switch (hit.collider.gameObject.tag)
-                {
-                    case "Mobius":
-                        if (!hit.collider.gameObject.GetComponent<MoveMobius>().GetFlickMoveFlag())//動いていないメビウスなら
-                        {
-                            //ColObj.Add(hit.collider.gameObject);//レイで当たったオブジェクトをリストに格納
-                            hitObj = hit.collider.gameObject;
-                        }
-                        break;
-                }
-
-
-                if (ColObj.Count == 0 && hitObj != null) //レイが当たったオブジェクトがあれば　かつ　リストが空なら
-                {
-                    ColObj.Add(hitObj);//レイで当たったオブジェクトをリストに格納
-                }
-                else if (ColObj.Count != 0 && hitObj != null)
-                {
-                    if (SameObjListSearch(ColObj, hitObj))//ColObjリストの中に当たったものがなければ
-                    {
-                        ColObj.Add(hitObj);//レイで当たったオブジェクトをリストに格納
-                    }
-                }
-            }//foreach
-        }//for
-
-        if (ColObj.Count != 0)//リストの中に要素があれば
-        {
-            
-            GameObject otherObj = NearObjSearch(ColObj, StartMovePos);//リストの中から始点に近いオブジェクトを取得
-            Vector3 Scale=Vector3.zero;//当たったオブジェクトの大きさ（範囲内にあるか調べる用）
-
-            //オブジェクトごとに大きさを取得
-            switch (otherObj.tag)
+            //レイが当たったオブジェクト
+            switch (hit.collider.gameObject.tag)
             {
                 case "Mobius":
-                    float otherR = (otherObj.GetComponent<SphereCollider>().bounds.size.x + otherObj.GetComponent<SphereCollider>().bounds.size.y) / 2;// 相手メビウスの輪の円の直径を取得
-                    Scale = new Vector3(otherR, otherR, otherR);
+                    if (!hit.collider.gameObject.GetComponent<MoveMobius>().GetFlickMoveFlag())//動いていないメビウスなら
+                    {
+                        //ColObj.Add(hit.collider.gameObject);//レイで当たったオブジェクトをリストに格納
+                        hitObj = hit.collider.gameObject;
+                    }
                     break;
             }
 
-            if (TwoPosInObjFlag(otherObj.transform.position,Scale))//範囲内にあれば
+            if (hitObj == this.gameObject|| hit.point==Vector3.zero) { hitObj = null; }//ヒットした中に自身が含まれないようにする
+
+
+            if (ColObj.Count == 0 && hitObj != null) //レイが当たったオブジェクトがあれば　かつ　リストが空なら
             {
-               // Debug.Log("すり抜けた" + otherObj.name + " と当たり判定を実行");
-                Collision(otherObj);//当たり判定時の処理を実行
-                return true;
+                ColObj.Add(hitObj);//レイで当たったオブジェクトをリストに格納
+                HitPos.Add(hit.point);
             }
-            else
+            else if (ColObj.Count != 0 && hitObj != null)
             {
-                return false;
+                if (SameObjListSearch(ColObj, hitObj))//ColObjリストの中に当たったものがなければ
+                {
+                    ColObj.Add(hitObj);//レイで当たったオブジェクトをリストに格納
+                    HitPos.Add(hit.point);
+                }
             }
+        }//foreach
+
+        if (ColObj.Count != 0)//リストの中に要素があれば
+        {
+
+            GameObject otherObj = NearObjSearch(ColObj, HitPos, StartMovePos);//リストの中から始点に近いオブジェクトを取得
+
+            this.transform.position = HitPos[ListNumberSearch(ColObj, otherObj)];
+            Collision(otherObj);//当たり判定時の処理を実行
+            return true;
         }
         else
         {
-           //Debug.Log("すり抜けてない");
+            //Debug.Log("すり抜けてない");
             return false;
         }
     }
 
-    private void MobiusStrip()
+    private void MobiusStrip()//メビウスの輪になっているときの処理
     {
         if (MobiusStripFlag)
         {
@@ -491,53 +479,9 @@ public class MoveMobius : MonoBehaviour
             if (SocialDistance < distance)//離れ過ぎたら 
             {
                 MobiusStripFlag = false;
+                ColMobiusObj = null;
             }
         }
-    }
-
-    private void ZeroVelo() //動きを止める
-    {
-        Rb.velocity = Vector3.zero;//勢いを止める
-        FlickMoveFlag = false;
-        Rb.isKinematic = true;
-    }
-
-    private bool MovingStop(Vector3 StopPos)//メビウスが指定した座標に着いたかどうか
-    {
-        if (FlickVec.x > 0)//右移動の時
-        {
-            if (this.transform.position.x > MovePos.x)
-            {
-                Debug.Log("右を通った");
-                return true;
-            }
-        }
-        else if (FlickVec.x < 0)//左移動の時
-        {
-            if (this.transform.position.x < MovePos.x)
-            {
-                Debug.Log("左を通った");
-                return true;
-            }
-        }
-        else if (FlickVec.y > 0)//上移動の時
-        {
-            if (this.transform.position.y > MovePos.y)
-            {
-                Debug.Log("上を通った");
-                return true;
-            }
-        }
-        else if (FlickVec.y < 0)//下移動の時
-        {
-            if (this.transform.position.y < MovePos.y)
-            {
-                Debug.Log("下を通った");
-                return true;
-            }
-        }
-
-        return false;
     }
 
     private void Collision(GameObject otherObj)//当たり判定時の処理
@@ -547,11 +491,21 @@ public class MoveMobius : MonoBehaviour
         {
             if (FlickMoveFlag)//自身が勢いがあるとき　
             {
-                Debug.Log("メビウスの輪同士がぶつかった" + this.gameObject.name);
-                this.transform.position = StartMovePos;//一度、移動前の座標にする
-                MobiusCol(otherObj);
+               //Debug.Log("メビウスの輪同士がぶつかった" + this.gameObject.name);
 
-                if (!otherObj.GetComponent<MoveMobius>().GetFlickMoveFlag()) //相手が動いてないとき
+                //自分と指定した座標とのラジアンを求める
+                Vector3 DisVec = SearchVector(this.transform.position, otherObj.transform.position);
+
+                if (ColMobiusObj == null)
+                {
+                    MobiusCol(otherObj, DisVec);//メビウス同士がぶつかった時の処理を実行
+                }
+                else if(ColMobiusObj== otherObj)
+                {
+                    this.transform.position = StartMovePos;
+                }
+
+                if (!otherObj.GetComponent<MoveMobius>().GetFlickMoveFlag()) //相手が動いてないときなら止める
                 {
                     if (!MobiusStripFlag)//メビウスの輪になっていないときに
                     {
@@ -568,41 +522,20 @@ public class MoveMobius : MonoBehaviour
         }
     }
 
-    private bool TwoPosInObjFlag(Vector3 SearchPos,Vector3 Scale)//始点と終点の二つの座標の間にあるかどうか
+    private int ListNumberSearch(List<GameObject> ListObj, GameObject SearchObj)//特定のリストの要素数を調べる
     {
-        Debug.Log(Scale);
-
-        if (FlickVec.x > 0)//右移動の時
+       for(int i = 0; i < ListObj.Count; i++)
         {
-            if (StartMovePos.x <= SearchPos.x + Scale.x &&  MovePos.x >= SearchPos.x - Scale.x ) 
+            if (ListObj[i] == SearchObj)//要素が見つかれば
             {
-                return true;
-            }
-        }
-        else if (FlickVec.x < 0)//左移動の時
-        {
-            if (MovePos.x <= SearchPos.x + Scale.x && StartMovePos.x >= SearchPos.x - Scale.x)
-            {
-                return true;
-            }
-        }
-        else if (FlickVec.y > 0)//上移動の時
-        {
-            if (StartMovePos.y <= SearchPos.y + Scale.y && MovePos.y >= SearchPos.y - Scale.y)
-            {
-                return true;
-            }
-        }
-        else if (FlickVec.y < 0)//下移動の時
-        {
-            if (MovePos.y <= SearchPos.y + Scale.y && StartMovePos.y >= SearchPos.y - Scale.y)
-            {
-                return true;
+                //Debug.Log(i);
+                return i; //見つかった要素数を返す
             }
         }
 
-        return false;
+        return 10000;//false的なやつ
     }
+
     private bool SameObjListSearch(List<GameObject> ListObj,GameObject SearchObj)//オブジェクトのリストの中の要素を検索する
     {
         int Count = 0;
