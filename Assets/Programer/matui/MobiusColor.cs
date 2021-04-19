@@ -13,6 +13,8 @@ public class MobiusColor : MonoBehaviour
 
     private bool ColorSameFlag=false;//プレイヤーが触れているメビウスの色と同じかどうか
 
+    public bool ColorChangeFlag = false;//色変えるかどうか
+
     void Start()
     {
         MobiusObjs[0] = this.transform.Find("メビウス").gameObject;
@@ -36,7 +38,10 @@ public class MobiusColor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ColorChange();
+        if (ColorChangeFlag)
+        {
+            ColorChange();
+        }
         ColorCheck();
     }
 

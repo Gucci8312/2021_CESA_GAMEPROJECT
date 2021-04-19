@@ -87,15 +87,11 @@ public class Rythm : MonoBehaviour
     private void FixedUpdate()
     {
         //音の始まりを調整
-        if (Time.timeSinceLevelLoad < (m_time / 2.0f))
-        {
-            m_startTime = Time.timeSinceLevelLoad;
-            return;
-        }
         //音のループによる読み込み時の誤差を調整
-        if (stageBGM.time <= 0.05f)
+        if (stageBGM.time <= 0.05f)       
         {
             m_startTime = Time.timeSinceLevelLoad;
+            m_sphere.transform.position = new Vector3(m_currentPos.x, m_currentPos.y,m_currentPos.z);
             return;
         }
         //徐々に移動するように設定
@@ -122,7 +118,6 @@ public class Rythm : MonoBehaviour
             m_currentPos = m_sphere.transform.position;
         }
 
-        CheckDistanceWall();
     }
 
     // @name   CheckDistanceWall
@@ -154,6 +149,8 @@ public class Rythm : MonoBehaviour
     {
         while (true)
         {
+            CheckDistanceWall();
+
             if (rythmCheckFlag)
             {
                 //Entarキーで成功かどうかを判断する
@@ -168,7 +165,7 @@ public class Rythm : MonoBehaviour
                     rythmCheckFlag = false;
                 }
             }
-            yield return new WaitForFixedUpdate();
+            yield return new WaitForSeconds(0.01f);
         }
     }
     private void OnTriggerEnter(Collider collision)
