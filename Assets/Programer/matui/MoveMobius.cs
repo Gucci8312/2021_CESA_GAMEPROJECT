@@ -438,14 +438,14 @@ public class MoveMobius : MonoBehaviour
             if (ColObj.Count == 0 && hitObj != null) //レイが当たったオブジェクトがあれば　かつ　リストが空なら
             {
                 ColObj.Add(hitObj);//レイで当たったオブジェクトをリストに格納
-                HitPos.Add(hit.point);
+                HitPos.Add(hit.point); Debug.Log("HitPos" + hit.point);
             }
             else if (ColObj.Count != 0 && hitObj != null)
             {
                 if (SameObjListSearch(ColObj, hitObj))//ColObjリストの中に当たったものがなければ
                 {
                     ColObj.Add(hitObj);//レイで当たったオブジェクトをリストに格納
-                    HitPos.Add(hit.point);
+                    HitPos.Add(hit.point); Debug.Log("HitPos" + hit.point);
                 }
             }
         }//foreach
@@ -496,11 +496,11 @@ public class MoveMobius : MonoBehaviour
                 //自分と指定した座標とのラジアンを求める
                 Vector3 DisVec = SearchVector(this.transform.position, otherObj.transform.position);
 
-                if (ColMobiusObj == null)
+                if (ColMobiusObj == null|| ColMobiusObj != otherObj)//まだぶつかってない　または　違うものとぶつかったら
                 {
                     MobiusCol(otherObj, DisVec);//メビウス同士がぶつかった時の処理を実行
                 }
-                else if(ColMobiusObj== otherObj)
+                else if(ColMobiusObj== otherObj)//さっきと同じものとぶつかったら
                 {
                     this.transform.position = StartMovePos;
                 }
