@@ -429,6 +429,11 @@ public class EnemyMove : MonoBehaviour
         return NowMobius;
     }
 
+    public bool GetInsideFlg()
+    {
+        return InsideFlg;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
 
