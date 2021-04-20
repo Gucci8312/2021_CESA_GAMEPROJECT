@@ -3960,7 +3960,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 17d09853923d149408cff32fe375f958,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17d09853923d149408cff32fe375f958, type: 3}
@@ -4901,12 +4901,13 @@ MonoBehaviour:
   NormalSpeed: 5
   UpSpeed: 30
   StartPoint: 0
+  jump: 0
   jumppow: 200
   JumpOk: 0
   angle: 0
   rotateSpeed: 30
   SpeedUpLength: 10
-  AngleCollision: {fileID: 0}
+  HipDrop: 0
 --- !u!1 &1807521056
 GameObject:
   m_ObjectHideFlags: 0
