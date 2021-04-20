@@ -434,6 +434,11 @@ public class EnemyMove : MonoBehaviour
         return InsideFlg;
     }
 
+    public bool GetStanFlg()
+    {
+        return Stan;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
 
