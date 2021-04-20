@@ -158,6 +158,7 @@ public class Rythm : MonoBehaviour
                 {
                     checkPlayerMove = true;
                     rythmCheckFlag = false;
+                    Debug.Log("距離：" + distance);
                 }
                 else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) || mobius_script.StickFlickInputFlag())
                 {
