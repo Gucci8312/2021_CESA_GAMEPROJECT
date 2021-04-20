@@ -147,25 +147,25 @@ public class MobiusAttachPos : MonoBehaviour
         {
             degree += 360f;
         }
-        //90度、0度の補正
-        if ((degree >= 80f && degree <= 100f) || (degree >= 260f && degree <= 280f))
-        {
-            degree = 90f;
-        }
-        else if ((degree >= -5f && degree <= 10f)||(degree >= 170f && degree <= 190f))
-        {
-            degree = 0f;
-        }
+        ////90度、0度の補正
+        //if ((degree >= 80f && degree <= 100f) || (degree >= 260f && degree <= 280f))
+        //{
+        //    degree = 90f;
+        //}
+        //else if ((degree >= -5f && degree <= 10f)||(degree >= 170f && degree <= 190f))
+        //{
+        //    degree = 0f;
+        //}
 
-        //45度の補正
-        if ((degree >= 35f && degree <= 55f) || (degree >= 215f && degree <= 235f))
-        {
-            degree = 45f;
-        }
-        else if ((degree >= 125f && degree <= 145f) || (degree >= 305f && degree <= 325f))
-        {
-            degree = 135f;
-        }
+        ////45度の補正
+        //if ((degree >= 35f && degree <= 55f) || (degree >= 215f && degree <= 235f))
+        //{
+        //    degree = 45f;
+        //}
+        //else if ((degree >= 125f && degree <= 145f) || (degree >= 305f && degree <= 325f))
+        //{
+        //    degree = 135f;
+        //}
         return degree;
     }
 
@@ -182,18 +182,19 @@ public class MobiusAttachPos : MonoBehaviour
         //メビウスの輪のモデルを表示
         m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled = true;
 
-        if (before_degree == 90f || before_degree == 270f)
-        {
-            this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x + 15, pos.y, pos.z);
-        }
-        else if (before_degree == 180f || before_degree == 0f)
-        {
-            this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x, pos.y - 15, pos.z);
-        }
-        else if(before_degree == 40f || before_degree == 135f)
-        {
-         //   this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x + 15, pos.y - 15, pos.z);
-        }
+        //if (before_degree == 90f || before_degree == 270f)
+        //{
+        //    this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x + 15, pos.y, pos.z);
+        //}
+        //else if (before_degree == 180f || before_degree == 0f)
+        //{
+        //}
+        //else if(before_degree == 40f || before_degree == 135f)
+        //{
+        // //   this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x + 15, pos.y - 15, pos.z);
+        //}
+        this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x, pos.y, pos.z);
+
         transform.Rotate(new Vector3(0, 0, before_degree));
     }
     // @name   MobiusCollisionOff
