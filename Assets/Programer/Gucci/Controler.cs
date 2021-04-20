@@ -18,28 +18,54 @@ public class Controler : MonoBehaviour
 
     public static bool GetJumpButtonFlg()
     {
+        bool Response = false;
         if (Input.GetKeyDown("joystick button 0"))
         {
-            return true;
+            Response = true;
         }
-        return false;
-    }
-
-    public static bool GetHipDropButtonFlg()
-    {
-        if (Input.GetKeyDown("joystick button 2"))
+        else if (Input.GetKeyDown(KeyCode.J))
         {
-            return true;
+            Response = true;
         }
-        return false;
+        return Response;
     }
 
     public static bool GetMenuButtonFlg()
     {
+        bool Response = false;
         if (Input.GetKeyDown("joystick button 7"))
         {
-            return true;
+            Response = true;
         }
-        return false;
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Response = true;
+        }
+        return Response;
+    }
+
+    public static bool SubMitButtonFlg()
+    {
+        bool Response = false;
+        if (Input.GetKeyDown("joystick button 0"))
+        {
+            Response = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.Return))
+        {
+            Response = true;
+        }
+        return Response;
     }
 }
+
+// A Button                 0
+// B Button                 1
+// X Button                 2
+// Y Button                 3
+// LeftBumper Button        4
+// RightBumper Button       5
+// Buck Button              6
+// Start Button             7
+// LeftStickClik            8
+// RightStickClick          9
