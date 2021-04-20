@@ -12,6 +12,7 @@ public class CollisionMobius : MonoBehaviour
 {
     GameObject mobius;
     MobiusAttachPos m_mobiusPosScript;
+    static bool m_hitFlg;                      //当たった情報
     // Start is called before the first frame update
     void Start()
     {
@@ -27,16 +28,20 @@ public class CollisionMobius : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-       if(other.tag == "Mobius")
+        if (other.tag == "Wa" && !m_hitFlg)
         {
+            Debug.Log("Hit");
             m_mobiusPosScript.MobiusCollisionOn();
+            m_hitFlg = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Mobius")
+        if (other.tag == "Wa" && m_hitFlg)
         {
+            m_hitFlg = false;
+            Debug.Log("HitOff");
             m_mobiusPosScript.MobiusCollisionOff();
         }
     }
