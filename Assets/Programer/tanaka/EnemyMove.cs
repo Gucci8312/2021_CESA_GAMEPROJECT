@@ -37,6 +37,7 @@ public class EnemyMove : MonoBehaviour
     private float Speed;
     bool MobiusCol;
     public float StanTime;
+    float StanTimeCount;
     bool Stan;
 
     void Start()
@@ -83,6 +84,7 @@ public class EnemyMove : MonoBehaviour
         Speed = NormalSpeed;
         MobiusCol = false;
         Stan = false;
+        StanTimeCount = 0;
     }
 
     // Update is called once per frame  
@@ -92,7 +94,7 @@ public class EnemyMove : MonoBehaviour
         target = Mobius[NowMobius].transform;
 
         //メビウスの輪の中心とプレイヤーの距離を求める
-        distanceTarget.y = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 - InsideLength ;// メビウスの輪の円の半径を取得
+        distanceTarget.y = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 - InsideLength;// メビウスの輪の円の半径を取得
         //プレイヤーの位置をメビウスの位置・メビウスから見たプレイヤーの角度・距離から求める
         transform.position = target.position + Quaternion.Euler(0f, 0f, angle) * distanceTarget;
         //プレイヤーの角度をメビウスから見た角度を計算し、設定する
@@ -100,7 +102,12 @@ public class EnemyMove : MonoBehaviour
 
         if (Stan)//スタン中
         {
-
+            StanTimeCount += Time.deltaTime;
+            if (StanTimeCount > StanTime)
+            {
+                StanTimeCount = 0;
+                Stan = false;
+            }
         }
         else//通常時
         {
@@ -113,8 +120,34 @@ public class EnemyMove : MonoBehaviour
             {
                 angle -= (rotateSpeed * Speed) * Time.deltaTime;
             }
+
+            if (NowMobius == player.GetComponent<PlayerMove>().NowMobius)
+            {
+                if (player.GetComponent<PlayerMove>().jump)
+                {
+                    //Debug.Log("ヒップドロップ中");
+                    if(angle+5>player.GetComponent<PlayerMove>().angle-5&& angle - 5 < player.GetComponent<PlayerMove>().angle + 5)
+                    {
+                        Vector3 playpos = player.transform.position;
+                        Vector3 hedlength = distanceTarget;
+                        hedlength.y = hedlength.y + 10;
+                        Vector3 enemyhedpos = target.position + Quaternion.Euler(0f, 0f, angle) * hedlength;
+
+                        //Debug.Log("プレイヤーと当たった");
+
+                        if (player.GetComponent<PlayerMove>().GetPlayerLength() > hedlength.y)
+                        {
+                            StanTimeCount = 0;
+                            Stan = true;
+                            Debug.Log("ヒップドロップ成功");
+                        }
+                    }
+                    
+
+                }
+            }
         }
-        
+
 
         //角度の範囲を指定(0～360)
         //angle = Mathf.Repeat(angle, 360f);
@@ -352,13 +385,13 @@ public class EnemyMove : MonoBehaviour
                             InsideFlg = false;
                             InsideLength = 0;//内側までの距離
 
-                            Debug.Log("外側");
+                            //Debug.Log("外側");
                         }
                         else
                         {
                             InsideLength = 22;//内側までの距離
                             InsideFlg = true;
-                            Debug.Log("内側");
+                            //Debug.Log("内側");
                         }
 
 
@@ -376,7 +409,7 @@ public class EnemyMove : MonoBehaviour
                         RotateLeftFlg = true;
                     }
 
-                    Debug.Log("メビウスの輪を切り替えた");
+                    //Debug.Log("メビウスの輪を切り替えた");
                     SideCnt++;
                     MobiusCol = true;
                     break;
