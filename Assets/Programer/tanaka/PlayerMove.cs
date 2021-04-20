@@ -38,6 +38,7 @@ public class PlayerMove : MonoBehaviour
     int EnemyUpdateCount;
 
     public bool jump;//ジャンプしているかどうか
+    public float JumpTime = 0.5f;//滞空時間
     [SerializeField] float jumppow;//ジャンプ力
     float jumpmove;//ジャンプの位置
     float jumpcount;//ジャンプ処理の時間
@@ -171,7 +172,7 @@ public class PlayerMove : MonoBehaviour
 
         if (this.rythm.rythmCheckFlag)
         {
-            if (Input.GetKeyDown(KeyCode.J) || Controler.GetJumpButtonFlg())
+            if (Controler.GetJumpButtonFlg())
             {
                 TimingInput = true;
                 this.rythm.rythmCheckFlag = false;
@@ -261,7 +262,7 @@ public class PlayerMove : MonoBehaviour
 
             jumpcount += Time.deltaTime;
 
-            if (jumpcount > 0.5)
+            if (jumpcount > JumpTime)
             {
                 jump = true;
             }
