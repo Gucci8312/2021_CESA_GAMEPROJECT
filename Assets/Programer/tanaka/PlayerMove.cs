@@ -121,7 +121,7 @@ public class PlayerMove : MonoBehaviour
 
         AngleCol = false;
         AngleColSave = false;
-        hipcol = GameObject.Find("hipdrop");
+        //hipcol = GameObject.Find("hipdrop");
 
         //メビウスの輪の中心とプレイヤーの距離を求める
         distanceTarget.y = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 - InsideLength + jumpmove;// メビウスの輪の円の半径を取得
@@ -147,6 +147,11 @@ public class PlayerMove : MonoBehaviour
     //void FixedUpdate()
     void Update()
     {
+        if (StartFlg)
+        {
+            StartFlg = false;
+        }
+
         NowMobiusColor = Mobius[NowMobius].GetComponent<MobiusColor>().GetNowColorNum();//松井君のスクリプトから変数取得
 
         //SpacePress = false;
@@ -216,7 +221,7 @@ public class PlayerMove : MonoBehaviour
                 }
                 else//上方向
                 {
-
+                    HipDrop = false;
                     jumpmove -= jumppow * Time.deltaTime;
                 }
             }
@@ -255,7 +260,7 @@ public class PlayerMove : MonoBehaviour
                 }
                 else//上方向
                 {
-
+                    HipDrop = false;
                     jumpmove += jumppow * Time.deltaTime;
                 }
             }
@@ -678,14 +683,19 @@ public class PlayerMove : MonoBehaviour
 
         if (other.gameObject.tag == "Enemy")
         {
-            if (!StartFlg)//シーンを読み込むと、実行されてしまうので回避するために1ループ実行されるまで当たり判定は取らない
+            if (!StartFlg)
             {
-                
-            }
-            if (other.GetComponent<EnemyMove>().GetInsideFlg() == InsideFlg)
-            {
-                CollisionState = true;
-                Debug.Log("敵と当たった");
+                if (!HipDrop)
+                {
+                    if (!other.GetComponent<EnemyMove>().GetStanFlg())
+                    {
+                        if (other.GetComponent<EnemyMove>().GetInsideFlg() == InsideFlg)
+                        {
+                            CollisionState = true;
+                            Debug.Log("敵と当たった");
+                        }
+                    }
+                }
             }
         }
     }
@@ -738,9 +748,14 @@ public class PlayerMove : MonoBehaviour
         return InsideFlg;
     }
 
-    public float GetAngle()
+    public float GetAngle()//現在の角度を渡す
     {
         return angle;
+    }
+
+    public bool GetHipDropNow()//ヒップドロップをしたかどうか
+    {
+        return JumpOk;
     }
 
     public float GetPlayerLength()
