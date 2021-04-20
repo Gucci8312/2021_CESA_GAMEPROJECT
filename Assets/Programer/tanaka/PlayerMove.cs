@@ -680,6 +680,10 @@ public class PlayerMove : MonoBehaviour
         {
             if (!StartFlg)//シーンを読み込むと、実行されてしまうので回避するために1ループ実行されるまで当たり判定は取らない
             {
+                
+            }
+            if (other.GetComponent<EnemyMove>().GetInsideFlg() == InsideFlg)
+            {
                 CollisionState = true;
                 Debug.Log("敵と当たった");
             }
