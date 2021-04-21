@@ -93,7 +93,7 @@ public class SceneMove : MonoBehaviour
 				}
 		}
 
-		if (Input.GetKeyDown(KeyCode.A))
+		if (Controler.SubMitButtonFlg())
 		{
 			stage_select.LoadStage(1);
 		}

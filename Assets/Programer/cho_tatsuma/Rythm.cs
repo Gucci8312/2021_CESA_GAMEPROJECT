@@ -155,7 +155,7 @@ public class Rythm : MonoBehaviour
             if (rythmCheckFlag)
             {
                 //Entarキーで成功かどうかを判断する
-                if(Input.GetKeyDown(KeyCode.Return) || LRTrigger())
+                if(Controler.SubMitButtonFlg() || LRTrigger())
                 {
                     checkPlayerMove = true;
                     rythmCheckFlag = false;
