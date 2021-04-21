@@ -38,18 +38,27 @@ public class PlayerMove : MonoBehaviour
     int EnemyUpdateCount;
 
     public bool jump;//ジャンプしているかどうか
-    public float JumpTime = 0.5f;//滞空時間
-    [SerializeField] float jumppow;//ジャンプ力
     float jumpmove;//ジャンプの位置
+    float jumpmovesave;
+
+    float jumpmove_prev;
+    float pow;
+
     float jumpcount;//ジャンプ処理の時間
     public bool JumpOk;//ヒップドロップが完了したかどうか　松井君に渡す用
+
+    public float JumpTime = 0.5f;//滞空時間
+    [SerializeField] float jumppow;//ジャンプ力
+    public float JumpSpeed=1f;//ジャンプ中のスピード
+    public float HipDropSpeed=2f;//ヒップドロップ中のスピード
+
 
     Vector2 Lopos;
 
     private Transform target;//現在のメビウスのトランスフォーム
     public float angle;//現在のメビウスからのプレイヤーの角度
     [SerializeField] private float rotateSpeed = 180f;//回転速度
-    private Vector3 distanceTarget = new Vector3(22f, 0f, 0f);//メビウスからの距離
+    private Vector3 distanceTarget = new Vector3(0f, 0f, 0f);//メビウスからの距離
     bool MobiusCol;//メビウス同士の当たり判定
 
     [SerializeField] private int SpeedUpLength;//スピードアップの範囲
@@ -61,7 +70,7 @@ public class PlayerMove : MonoBehaviour
     bool AngleCol;//スピード変更範囲にいるかどうか
     bool AngleColSave;
     private GameObject hipcol;
-
+    bool SpeedUpFlg;//スピードアップしているか
 
     void Start()
     {
@@ -100,7 +109,7 @@ public class PlayerMove : MonoBehaviour
 
         if (InsideFlg)//メビウスの輪の内側
         {
-            InsideLength = 22;//内側までの距離
+            InsideLength = 50;//内側までの距離
         }
         else//外側
         {
@@ -111,6 +120,7 @@ public class PlayerMove : MonoBehaviour
         angle = 360 - (StartPoint * 45);//始まりの位置を求める
         MobiusCol = false;
         jumpmove = 0;
+        jumpmovesave = jumpmove;
         jumpcount = 0;
         jump = false;
 
@@ -121,6 +131,8 @@ public class PlayerMove : MonoBehaviour
 
         AngleCol = false;
         AngleColSave = false;
+
+        SpeedUpFlg = false;
         //hipcol = GameObject.Find("hipdrop");
 
         //メビウスの輪の中心とプレイヤーの距離を求める
@@ -155,15 +167,12 @@ public class PlayerMove : MonoBehaviour
         NowMobiusColor = Mobius[NowMobius].GetComponent<MobiusColor>().GetNowColorNum();//松井君のスクリプトから変数取得
 
         //SpacePress = false;
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SpacePress = true;
-        }
+        
 
         target = Mobius[NowMobius].transform;
 
         //メビウスの輪の中心とプレイヤーの距離を求める
-        distanceTarget.y = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 - InsideLength + jumpmove;// メビウスの輪の円の半径を取得
+        distanceTarget.y = (Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2) - InsideLength + jumpmove;// メビウスの輪の円の半径を取得
         //プレイヤーの位置をメビウスの位置・メビウスから見たプレイヤーの角度・距離から求める
         transform.position = target.position + Quaternion.Euler(0f, 0f, angle) * distanceTarget;
         //プレイヤーの角度をメビウスから見た角度を計算し、設定する
@@ -177,10 +186,29 @@ public class PlayerMove : MonoBehaviour
 
         if (this.rythm.rythmCheckFlag)
         {
-            if (Controler.GetJumpButtonFlg())
+            if (Controler.GetJumpButtonFlg()&& !TimingInput)//ジャンプ
             {
                 TimingInput = true;
                 this.rythm.rythmCheckFlag = false;
+
+                if (InsideFlg)
+                {
+                    pow = -10;
+                }
+                else
+                {
+                    pow = 10;
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))//スピードアップ
+            {
+                SpacePress = true;
+                this.rythm.rythmCheckFlag = false;
+            }
+            else
+            {
+                SpacePress = false;
             }
         }
 
@@ -188,81 +216,153 @@ public class PlayerMove : MonoBehaviour
         {
             if (InsideFlg)//内側
             {
-                if (jump)//下方向
-                {
-                    HipDrop = true;
-                    if (HipDrop)//ヒップドロップ中
-                    {
-                        jumpmove += (jumppow * 5) * Time.deltaTime;
+                //if (jump)//下方向
+                //{
+                //    HipDrop = true;
+                //    if (HipDrop)//ヒップドロップ中
+                //    {
+                //        jumpmove += (jumppow * HipDropSpeed) * Time.deltaTime;
 
-                        if (jumpmove > 0)
-                        {
-                            jumpmove = 0;
-                            this.rythm.checkPlayerMove = false;
-                            jump = false;
-                            jumpcount = 0;
-                            JumpOk = true;
-                            HipDrop = false;
-                            TimingInput = false;
-                        }
-                    }
-                    else//ジャンプ下降
-                    {
-                        jumpmove += jumppow * Time.deltaTime;
-                        if (jumpmove > 0)
-                        {
-                            jumpmove = 0;
-                            this.rythm.checkPlayerMove = false;
-                            jump = false;
-                            jumpcount = 0;
-                            TimingInput = false;
-                        }
-                    }
-                }
-                else//上方向
+                //        if (jumpmove > 0)
+                //        {
+                //            jumpmove = 0;
+                //            this.rythm.checkPlayerMove = false;
+                //            jump = false;
+                //            jumpcount = 0;
+                //            JumpOk = true;
+                //            HipDrop = false;
+                //            TimingInput = false;
+                //        }
+                //    }
+                //    else//ジャンプ下降
+                //    {
+                //        //jumpmove += jumppow * Time.deltaTime;
+                //        //if (jumpmove > 0)
+                //        //{
+                //        //    jumpmove = 0;
+                //        //    this.rythm.checkPlayerMove = false;
+                //        //    jump = false;
+                //        //    jumpcount = 0;
+                //        //    TimingInput = false;
+                //        //}
+                //    }
+                //}
+                //else//上方向
+                //{
+                //    HipDrop = false;
+                //    jumpmove -= (jumppow * JumpSpeed) * Time.deltaTime;
+                //}
+                if (HipDrop)
                 {
-                    HipDrop = false;
-                    jumpmove -= jumppow * Time.deltaTime;
+                    jumpmovesave = jumpmove;
+                    jumpmove += (jumpmove - jumpmove_prev) + pow;
+                    jumpmove_prev = jumpmovesave;
+
+                    if (jumpmove > 0)
+                    {
+                        jumpmove = 0;
+                        this.rythm.checkPlayerMove = false;
+                        jump = false;
+                        jumpcount = 0;
+                        JumpOk = true;
+                        HipDrop = false;
+                        TimingInput = false;
+                    }
                 }
+                else
+                {
+                    jumpmovesave = jumpmove;
+                    jumpmove += (jumpmove - jumpmove_prev) + pow;
+                    jumpmove_prev = jumpmovesave;
+                    
+                    pow = 1;
+
+                    if (jumpmove > jumpmovesave)
+                    {
+                        HipDrop = true;
+                    }
+                }
+
             }
             else//外側
             {
-                if (jump)//下方向
-                {
+                //if (jump)//下方向
+                //{
 
-                    HipDrop = true;
-                    if (HipDrop)//ヒップドロップ中
-                    {
-                        jumpmove -= (jumppow * 5) * Time.deltaTime;
-                        if (jumpmove < 0)
-                        {
-                            jumpmove = 0;
-                            this.rythm.checkPlayerMove = false;
-                            jump = false;
-                            jumpcount = 0;
-                            JumpOk = true;
-                            HipDrop = false;
-                            TimingInput = false;
-                        }
-                    }
-                    else//ジャンプ下降
-                    {
-                        jumpmove -= jumppow * Time.deltaTime;
-                        if (jumpmove < 0)
-                        {
-                            jumpmove = 0;
-                            this.rythm.checkPlayerMove = false;
-                            jump = false;
-                            jumpcount = 0;
-                            TimingInput = false;
-                        }
-                    }
-                }
-                else//上方向
+                //    HipDrop = true;
+                //    if (HipDrop)//ヒップドロップ中
+                //    {
+                //        jumpmove -= (jumppow * HipDropSpeed) * Time.deltaTime;
+                //        if (jumpmove < 0)
+                //        {
+                //            jumpmove = 0;
+                //            this.rythm.checkPlayerMove = false;
+                //            jump = false;
+                //            jumpcount = 0;
+                //            JumpOk = true;
+                //            HipDrop = false;
+                //            TimingInput = false;
+                //        }
+                //    }
+                //    else//ジャンプ下降
+                //    {
+                //        //jumpmove -= jumppow * Time.deltaTime;
+                //        //if (jumpmove < 0)
+                //        //{
+                //        //    jumpmove = 0;
+                //        //    this.rythm.checkPlayerMove = false;
+                //        //    jump = false;
+                //        //    jumpcount = 0;
+                //        //    TimingInput = false;
+                //        //}
+                //    }
+                //}
+                //else//上方向
+                //{
+                //    HipDrop = false;
+                //    jumpmove += (jumppow * JumpSpeed) * Time.deltaTime;
+                //}
+
+                if (HipDrop)
                 {
-                    HipDrop = false;
-                    jumpmove += jumppow * Time.deltaTime;
+                    jumpmovesave = jumpmove;
+                    jumpmove += (jumpmove - jumpmove_prev) + pow;
+                    jumpmove_prev = jumpmovesave;
+
+                    if (jumpmove < 0)
+                    {
+                        jumpmove = 0;
+                        this.rythm.checkPlayerMove = false;
+                        jump = false;
+                        jumpcount = 0;
+                        JumpOk = true;
+                        HipDrop = false;
+                        TimingInput = false;
+                    }
                 }
+                else
+                {
+                    jumpmovesave = jumpmove;
+                    jumpmove += (jumpmove - jumpmove_prev) + pow;
+                    jumpmove_prev = jumpmovesave;
+
+                    pow = -1;
+
+                    if (jumpmove < jumpmovesave)
+                    {
+                        HipDrop = true;
+                    }
+                }
+
+                
+
+                //Debug.Log("jumpmove" + jumpmove);
+                //Debug.Log("jumpmove_prev" + jumpmove_prev);
+                //Debug.Log("jumpmovesave" + jumpmovesave);
+
+                
+
+                
             }
 
             jumpcount += Time.deltaTime;
@@ -272,74 +372,60 @@ public class PlayerMove : MonoBehaviour
                 jump = true;
             }
 
-
-            //プレイヤーの移動
-            if (RotateLeftFlg)
-            {
-                angle += (rotateSpeed * Speed) * Time.deltaTime;
-            }
-            else
-            {
-                angle -= (rotateSpeed * Speed) * Time.deltaTime;
-            }
-
-            //角度の範囲を指定(0～360)
-            //angle = Mathf.Repeat(angle, 360f);
-            if (angle > 360)
-            {
-                angle = angle - 360;
-            }
-            if (angle < 0)
-            {
-                angle = angle + 360;
-            }
         }
         else
         {
 
             AngleCol = false;
 
-
-            for (int i = 0; i < 9; i++)
+            if (SpacePress)
             {
-                //各点の当たり判定　スピードアップの場所の判定
-                if (angle < ((i * 45f) - 25f) + SpeedUpLength && angle > ((i * 45f) - 25f) - SpeedUpLength)
-                {
-                    AngleCol = true;
-                }
-
+                Speed = UpSpeed;
+                SpeedUpFlg = true;
+                //Debug.Log("SpeedUp");
+            }
+            else//通常スピード
+            {
+                SpeedUpFlg = false;
+                Speed = NormalSpeed;
             }
 
-            if (AngleCol)
-            {
-                if (AngleCol != AngleColSave)//当たり判定に入った
-                {
+            //for (int i = 0; i < 9; i++)
+            //{
+            //    //各点の当たり判定　スピードアップの場所の判定
+            //    if (angle < ((i * 45f) - 25f) + SpeedUpLength && angle > ((i * 45f) - 25f) - SpeedUpLength)
+            //    {
+            //        AngleCol = true;
+            //    }
 
-                }
-                if (SpacePress)
-                {
-                    Speed = UpSpeed;
-                    Debug.Log("SpeedUp");
-                }
+            //}
 
-                //Debug.Log("スピードの変更範囲にいる");
-            }
-            else
-            {
-                if (AngleCol != AngleColSave)//当たり判定からでた
-                {
-                    if (SpacePress)//スピードアップ
-                    {
-                        Speed = UpSpeed;
-                    }
-                    else//通常スピード
-                    {
-                        Speed = NormalSpeed;
-                    }
-                }
-                SpacePress = false;
-                //Debug.Log("スピードの変更範外にいる");
-            }
+            //if (AngleCol)
+            //{
+            //    if (AngleCol != AngleColSave)//当たり判定に入った
+            //    {
+
+            //    }
+                
+
+            //    //Debug.Log("スピードの変更範囲にいる");
+            //}
+            //else
+            //{
+            //    if (AngleCol != AngleColSave)//当たり判定からでた
+            //    {
+            //        if (SpacePress)//スピードアップ
+            //        {
+            //            Speed = UpSpeed;
+            //        }
+            //        else//通常スピード
+            //        {
+            //            Speed = NormalSpeed;
+            //        }
+            //    }
+            //    SpacePress = false;
+            //    //Debug.Log("スピードの変更範外にいる");
+            //}
 
             AngleColSave = AngleCol;//判定を保存
 
@@ -616,7 +702,7 @@ public class PlayerMove : MonoBehaviour
                         }
                         else
                         {
-                            InsideLength = 22;//内側までの距離
+                            InsideLength = 50;//内側までの距離
                             InsideFlg = true;
                             Debug.Log("内側");
                         }
