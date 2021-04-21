@@ -33,7 +33,7 @@ public class Target : MonoBehaviour
         {
            // if (!player.GetStartFlg())
             {
-                if (this.transform.parent.name == "Mobius (" + player.GetNowMobiusNum() + ")")//同じメビウス状にいるかどうか
+                //if (this.transform.parent.name == "Mobius (" + player.GetNowMobiusNum() + ")")//同じメビウス状にいるかどうか
                 {
                     Debug.Log("チェックポイント通過");
                     CheckPointUi.CheckPointNum++;
