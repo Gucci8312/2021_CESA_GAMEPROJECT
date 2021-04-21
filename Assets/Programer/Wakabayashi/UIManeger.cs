@@ -14,6 +14,7 @@ public class UIManeger : MonoBehaviour
     public GameObject[] JudgeUI;
     CheckPointCount CountScript;
     GameObject[] CheackPointObj;
+    public int CrearNum;
 
     void Start()
     {
@@ -24,7 +25,9 @@ public class UIManeger : MonoBehaviour
         for (int i = 0; i < CheackPointObj.Length; i++)
         {
             CheackPointObj[i] = GameObject.Find("CheckpointJudge (" + i + ")");                                        //全てのメビウス取得
+            //Debug.Log("aa");
         }
+        //Debug.Log("bb");
     }
 
     void Update()
@@ -32,7 +35,8 @@ public class UIManeger : MonoBehaviour
         checkpointobjects = GameObject.FindGameObjectsWithTag("CheckPoint");    //CheckPointのタグを鉾に入れる
         print(checkpointobjects.Length);
 
-        if (CountScript.CheckPointNum==3)  //チェックポイント0になったら
+        //if (CountScript.CheckPointNum== CrearNum)  //チェックポイント0になったら
+        if (CountScript.CheckPointNum== CrearNum)  //チェックポイント0になったら
         {
             Debug.Log(" ゲームクリア");
 

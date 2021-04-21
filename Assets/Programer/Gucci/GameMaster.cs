@@ -13,9 +13,9 @@ public class GameMaster : MonoBehaviour
     {
         //   Menu= GameObject.Find("Menu");
         Player = GameObject.Find("Player");                                        //全てのメビウス取得
+       // Menu = GameObject.Find("Menu");                                        //全てのメビウス取得
 
         Application.targetFrameRate = 60;
-        Player = GameObject.Find("Player");
        // SoundManager.Instance.PlayBgmName("Alley");
     }
 
