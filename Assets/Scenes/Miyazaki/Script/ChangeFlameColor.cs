@@ -23,13 +23,16 @@ public class ChangeFlameColor : MonoBehaviour
 
 	public void ChangeColor_Flame()
 	{
-		if(_material.color == Color.red)
-		{
-			_material.color = Color.blue;
-		}
-		else if (_material.color == Color.blue)
-		{
-			_material.color = Color.red;
-		}
+		_material.color = Color.red;
+		
+	}
+	public void Flame_Color_Attenuation()
+	{
+		
+		Color color =_material.color;
+		color.r -=0.05f;
+		color.g -= 0.05f;
+		color.b -= 0.05f;
+		_material.color = color;
 	}
 }
