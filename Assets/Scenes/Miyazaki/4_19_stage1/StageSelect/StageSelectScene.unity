@@ -202,7 +202,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 213b61fb43a60ae449f62d617e52e3a6, type: 2}
+      objectReference: {fileID: 2100000, guid: dbfce4e1c68251540908286d80ac181f, type: 2}
     - target: {fileID: 919132149155446097, guid: b0406301760e3b9448bab3ba704eee3a,
         type: 3}
       propertyPath: m_Name
@@ -297,7 +297,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 940dd7cff4c31094182d47165a0cdde2, type: 2}
+      objectReference: {fileID: 2100000, guid: 3f127cfd6f3b216468cbf70096840a71, type: 2}
     - target: {fileID: 919132149155446097, guid: b0406301760e3b9448bab3ba704eee3a,
         type: 3}
       propertyPath: m_Name
@@ -322,7 +322,7 @@ GameObject:
   - component: {fileID: 302252231}
   - component: {fileID: 302252232}
   m_Layer: 0
-  m_Name: 'Point Light '
+  m_Name: Stage3_Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -484,7 +484,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 4c306287f9c53104f91a2a9f22a8977e, type: 2}
+      objectReference: {fileID: 2100000, guid: 4ce2d1c69c1843349895a8ebf727e733, type: 2}
     - target: {fileID: 919132149155446097, guid: b0406301760e3b9448bab3ba704eee3a,
         type: 3}
       propertyPath: m_Name
@@ -509,7 +509,7 @@ GameObject:
   - component: {fileID: 600006511}
   - component: {fileID: 600006512}
   m_Layer: 0
-  m_Name: Point Light
+  m_Name: Stage1_Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -869,7 +869,7 @@ GameObject:
   - component: {fileID: 1678373088}
   - component: {fileID: 1678373089}
   m_Layer: 0
-  m_Name: Point Light
+  m_Name: Stage2_Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1055,7 +1055,7 @@ GameObject:
   - component: {fileID: 1993029070}
   - component: {fileID: 1993029071}
   m_Layer: 0
-  m_Name: 'Point Light '
+  m_Name: Stage4_Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1166,7 +1166,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b0406301760e3b9448bab3ba704eee3a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.7
+      value: -6.27
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b0406301760e3b9448bab3ba704eee3a,
         type: 3}
@@ -1217,7 +1217,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 511249766125db0429e5230129d8cb26, type: 2}
+      objectReference: {fileID: 2100000, guid: 55d7125acc894064b91434e31a8e042d, type: 2}
     - target: {fileID: 919132149155446097, guid: b0406301760e3b9448bab3ba704eee3a,
         type: 3}
       propertyPath: m_Name
@@ -1231,3 +1231,50 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2012376261}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2130165942
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2130165943}
+  - component: {fileID: 2130165944}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2130165943
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130165942}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.441942, y: -11.33296, z: 384.93997}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2130165944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130165942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34176424b03d716498d81e9cb0075777, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Stage1: {fileID: 600006510}
+  Stage2: {fileID: 1678373087}
+  Stage3: {fileID: 302252230}
+  Stage4: {fileID: 1993029069}
