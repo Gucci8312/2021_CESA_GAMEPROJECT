@@ -37,7 +37,7 @@ public class StageSelect : MonoBehaviour
     {
         m_fade.StartFadeOut();
         Debug.Log("StartFadeOut");
-        StartCoroutine(Loading("AreaSelectScene"));
+        StartCoroutine(Loading("StageSelectScene"));
     }
 
     public void LoadStage(int _num)
