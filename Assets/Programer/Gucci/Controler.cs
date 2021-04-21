@@ -57,6 +57,20 @@ public class Controler : MonoBehaviour
         }
         return Response;
     }
+
+    public static bool GetRythmButtonFlg()
+    {
+        bool Response = false;
+        if (Input.GetKeyDown("joystick button 1"))
+        {
+            Response = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.F))
+        {
+            Response = true;
+        }
+        return Response;
+    }
 }
 
 // A Button                 0
