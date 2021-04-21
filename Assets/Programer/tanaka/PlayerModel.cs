@@ -29,11 +29,11 @@ public class PlayerModel : MonoBehaviour
 
         if (PlayerScript.RotateLeftFlg)
         {
-            this.transform.eulerAngles = new Vector3(0, 180, 360f - PlayerScript.angle + InsideAngleSum+20);
+            this.transform.eulerAngles = new Vector3(0, 180, 360f - PlayerScript.angle + InsideAngleSum);
         }
         else
         {
-            this.transform.eulerAngles = new Vector3(0, 0, PlayerScript.angle + InsideAngleSum-20);
+            this.transform.eulerAngles = new Vector3(0, 0, PlayerScript.angle + InsideAngleSum);
         }
 
         this.transform.Rotate(0, InsideAngleSum, 0);
