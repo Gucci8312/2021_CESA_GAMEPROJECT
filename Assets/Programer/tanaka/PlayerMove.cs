@@ -190,7 +190,15 @@ public class PlayerMove : MonoBehaviour
             {
                 TimingInput = true;
                 this.rythm.rythmCheckFlag = false;
-                pow = 10;
+
+                if (InsideFlg)
+                {
+                    pow = -10;
+                }
+                else
+                {
+                    pow = 10;
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.Space))//スピードアップ
@@ -247,7 +255,7 @@ public class PlayerMove : MonoBehaviour
                 if (HipDrop)
                 {
                     jumpmovesave = jumpmove;
-                    jumpmove -= (jumpmove - jumpmove_prev) + pow;
+                    jumpmove += (jumpmove - jumpmove_prev) + pow;
                     jumpmove_prev = jumpmovesave;
 
                     if (jumpmove > 0)
@@ -264,12 +272,12 @@ public class PlayerMove : MonoBehaviour
                 else
                 {
                     jumpmovesave = jumpmove;
-                    jumpmove -= (jumpmove - jumpmove_prev) + pow;
+                    jumpmove += (jumpmove - jumpmove_prev) + pow;
                     jumpmove_prev = jumpmovesave;
+                    
+                    pow = 1;
 
-                    pow = -1;
-
-                    if (jumpmove < jumpmovesave)
+                    if (jumpmove > jumpmovesave)
                     {
                         HipDrop = true;
                     }
