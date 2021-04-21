@@ -12,12 +12,12 @@ public class EffectMaster : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Mobius = GameObject.FindGameObjectsWithTag("Mobius");
+        Mobius = GameObject.FindGameObjectsWithTag("Mobius");
 
-        //for (int i = 0; i < Mobius.Length; i++)
-        //{
-        //    Mobius[i] = GameObject.Find("Mobius (" + i + ")");                                        //全てのメビウス取得
-        //}
+        for (int i = 0; i < Mobius.Length; i++)
+        {
+            Mobius[i] = GameObject.Find("Mobius (" + i + ")");                                        //全てのメビウス取得
+        }
 
         //CheckPoint = GameObject.FindGameObjectsWithTag("CheckPoint");
 
@@ -30,14 +30,14 @@ public class EffectMaster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //for (int i = 0; i < Mobius.Length; i++)
-        //{
-        //    MoveMobius Script = Mobius[i].GetComponent<MoveMobius>();
-        //    if (Script.GetMobiusColFlg())
-        //    {
-        //        CreateColMobiusEffect(Script);
-        //    }
-        //}
+        for (int i = 0; i < Mobius.Length; i++)
+        {
+            MoveMobius Script = Mobius[i].GetComponent<MoveMobius>();
+            if (Script.GetMobiusColFlg())
+            {
+                CreateColMobiusEffect(Script);
+            }
+        }
 
         //for (int i = 0; i < 3; i++)
         //{
