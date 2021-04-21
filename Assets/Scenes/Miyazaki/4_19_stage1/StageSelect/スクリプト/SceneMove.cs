@@ -8,8 +8,17 @@ public class SceneMove : MonoBehaviour
 	public GameObject Stage2;
 	public GameObject Stage3;
 	public GameObject Stage4;
+
+	//public Material Stage1_color;
+	//public Material Stage2_color;
+	//public Material Stage3_color;
+	//public Material Stage4_color;
+	
+
 	float LightPower;
+
 	StageSelect stage_select;
+
 	int Select_Scene;
 	// Start is called before the first frame update
 	void Start()
@@ -52,7 +61,6 @@ public class SceneMove : MonoBehaviour
 		{
 			case 1:
 				{
-
 					Stage1.GetComponent<Light>().intensity = a;
 					Stage2.GetComponent<Light>().intensity = b;
 					Stage3.GetComponent<Light>().intensity = b;
