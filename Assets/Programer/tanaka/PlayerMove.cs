@@ -46,11 +46,9 @@ public class PlayerMove : MonoBehaviour
 
     float jumpcount;//ジャンプ処理の時間
     public bool JumpOk;//ヒップドロップが完了したかどうか　松井君に渡す用
-
-    public float JumpTime = 0.5f;//滞空時間
+    
     [SerializeField] float jumppow;//ジャンプ力
-    public float JumpSpeed = 1f;//ジャンプ中のスピード
-    public float HipDropSpeed = 2f;//ヒップドロップ中のスピード
+    
 
 
     Vector2 Lopos;
@@ -72,6 +70,8 @@ public class PlayerMove : MonoBehaviour
     private GameObject hipcol;
     bool SpeedUpFlg;//スピードアップしているか
 
+    bool RythmSaveFlg;//リズムの切り替わりで判定させる
+    bool RythmFlg;//リズムが来ているかどうか
     void Start()
     {
         //rb = GetComponent<Rigidbody>();                                                             // リジットボディを格納
@@ -133,6 +133,9 @@ public class PlayerMove : MonoBehaviour
         AngleColSave = false;
 
         SpeedUpFlg = false;
+
+        RythmFlg = this.rythm.rythmCheckFlag;
+        RythmSaveFlg=RythmFlg;
         //hipcol = GameObject.Find("hipdrop");
 
         //メビウスの輪の中心とプレイヤーの距離を求める
@@ -184,47 +187,60 @@ public class PlayerMove : MonoBehaviour
 
         //Debug.Log(TimingInput);
 
-        if (this.rythm.rythmCheckFlag)
+        RythmFlg = this.rythm.rythmCheckFlag;
+
+        if (RythmFlg)
         {
             if (Controler.GetJumpButtonFlg() && !TimingInput)//ジャンプ
             {
                 TimingInput = true;
                 this.rythm.rythmCheckFlag = false;
 
-                if (InsideFlg)
+                if (InsideFlg)//ジャンプの力をセット
                 {
-                    pow = -10;
+                    pow = -jumppow;
                 }
                 else
                 {
-                    pow = 10;
+                    pow = jumppow;
                 }
             }
 
-            if (Controler.GetRythmButtonFlg())//スピードアップ
-            {
-                SpacePress = true;
-                Speed = UpSpeed;
-                SpeedUpFlg = true;
-                this.rythm.rythmCheckFlag = false;
-            }
-            else
+
+            if (RythmSaveFlg != RythmFlg)//タイミングがtrueになった瞬間
             {
                 SpacePress = false;
             }
 
-            Debug.Log("押す");
+            if (Controler.GetRythmButtonFlg())//スピードアップのキー入力
+            {
+                SpacePress = true;
+                Speed = UpSpeed;
+                SpeedUpFlg = true;
+            }
+            
+            
+            
         }
         else
         {
-            if (!SpacePress)
+            if(RythmSaveFlg!=RythmFlg)//タイミングがfalseになった瞬間
             {
-                SpeedUpFlg = false;
-                Speed = NormalSpeed;
+                if (SpacePress)//キー入力があった
+                {
+                    Speed = UpSpeed;
+                    SpeedUpFlg = true;
+                }
+                else//キー入力がなかった
+                {
+                    SpeedUpFlg = false;
+                    Speed = NormalSpeed;
+                }
             }
-            Debug.Log("押さない");
-        }
 
+            
+        }
+        RythmSaveFlg = RythmFlg;
 
         if (TimingInput)
         {
@@ -379,12 +395,7 @@ public class PlayerMove : MonoBehaviour
 
             }
 
-            jumpcount += Time.deltaTime;
-
-            if (jumpcount > JumpTime)
-            {
-                jump = true;
-            }
+            
 
         }
         else
