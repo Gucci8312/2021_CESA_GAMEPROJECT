@@ -21,7 +21,7 @@ public class TittleMaster : MonoBehaviour
     public void ClickAreaSelectBotton()
     {
         //Debug.Log("エリアセレクトボタンが押された");
-        SceneManager.LoadScene("AreaSelectScene");
+        SceneManager.LoadScene("StageSelectScene");
     }
 
     // ゲーム終了ボタン
