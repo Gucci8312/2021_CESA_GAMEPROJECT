@@ -40,10 +40,10 @@ public class GameMaster : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //if(Player.GetComponent<PlayerMove>().GetCollisionState())
-        //{
-        //    SceneManager.LoadScene("TittleScene");
-        //}
+        if (Player.GetComponent<PlayerMove>().GetCollisionState())
+        {
+            SceneManager.LoadScene("TittleScene");
+        }
     }
 
     // エスケープボタンが押されたとき
