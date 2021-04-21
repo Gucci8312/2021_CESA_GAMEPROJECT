@@ -201,7 +201,7 @@ public class PlayerMove : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))//スピードアップ
+            if (Controler.SubMitButtonFlg())//スピードアップ
             {
                 SpacePress = true;
                 this.rythm.rythmCheckFlag = false;
