@@ -8,8 +8,9 @@ public class ChangeFlameColor : MonoBehaviour
 
 	public GameObject _DirectionLight;
 
-	float LightPower = 0.1f;
-	float LightAt = -0.0001f;
+	float LightPower = 0.03f;
+	float LightAt = -0.0000f;
+	int cnt = 0;
 	Color mat;
     // Start is called before the first frame update
     void Start()
@@ -36,18 +37,24 @@ public class ChangeFlameColor : MonoBehaviour
 		//color.g = 0;
 		//color.b = 0;
 		_material.color = mat;
-		//_DirectionLight.GetComponent<Light>().color = mat;
-		//_DirectionLight.GetComponent<Light>().intensity = LightPower;
-		
+		_DirectionLight.GetComponent<Light>().color = mat;
+		_DirectionLight.GetComponent<Light>().intensity = LightPower;
+
 	}
 	public void Flame_Color_Attenuation()
 	{
 		
 		Color color =_material.color;
+		
 		color.r -=0.05f;
 		color.g -= 0.05f;
 		color.b -= 0.05f;
-		//_DirectionLight.GetComponent<Light>().intensity = LightAt;
+		if(cnt==10)
+		{
+			_DirectionLight.GetComponent<Light>().intensity = LightAt;
+			cnt = 0;
+		}
+		cnt++;
 		_material.color = color;
 	}
 }
