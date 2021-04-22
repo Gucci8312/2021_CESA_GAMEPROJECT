@@ -8,26 +8,26 @@ using UnityEngine;
 
 // @name   SoundManager
 // @brief  音を管理するクラス
-public class SoundManager : SingletonMonoBehaviour<SoundManager>
+public class SoundManager : MonoBehaviour
 {
     [SerializeField, Range(0, 1), Tooltip("マスタ音量")]             //マスターボリューム用変数（Serializeでprivate化、Rangeで0 ~ 1 に変更, Tooltipでインスペクタービュー上でわかりやすく）
-    float masterVolume = 1.0f;
+    static float masterVolume = 1.0f;
     [SerializeField, Range(0, 1), Tooltip("BGM音量")]                 //BGMボリューム用変数（Serializeでprivate化、Rangeで0 ~ 1 に変更, Tooltipでインスペクタービュー上でわかりやすく
-    float bgmVolume = 1.0f;
+    static float bgmVolume = 1.0f;
     [SerializeField, Range(0, 1), Tooltip("SE音量")]                //SEボリューム用変数（Serializeでprivate化、Rangeで0 ~ 1 に変更, Tooltipでインスペクタービュー上でわかりやすく
-    float seVolume = 1.0f;
+    static float seVolume = 1.0f;
 
-    AudioClip[] m_bgm;                                              //BGMを格納する配列
-    AudioClip[] m_se;                                               //SEを格納する配列
+    static AudioClip[] m_bgm;                                              //BGMを格納する配列
+    static AudioClip[] m_se;                                               //SEを格納する配列
 
-    Dictionary<string, int> m_bgmIndex = new Dictionary<string, int>();   //C++でいうMap
-    Dictionary<string, int> m_seIndex = new Dictionary<string, int>();    //C++でいうMap　この二つは簡単にアクセスする用
+    static Dictionary<string, int> m_bgmIndex = new Dictionary<string, int>();   //C++でいうMap
+    static Dictionary<string, int> m_seIndex = new Dictionary<string, int>();    //C++でいうMap　この二つは簡単にアクセスする用
 
-   [SerializeField] AudioSource m_bgmAudioSource;                                       //BGMを鳴らすための変数
-   [SerializeField] AudioSource m_seAudioSource;                                        //SEを鳴らすための変数
+   [SerializeField] static AudioSource m_bgmAudioSource;                                       //BGMを鳴らすための変数
+   [SerializeField] static AudioSource m_seAudioSource;                                        //SEを鳴らすための変数
 
     //プロパティ変数(マスターボリューム)
-    public float MasterVolume
+    static public float MasterVolume
     {
         set
         {
@@ -45,7 +45,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     }
 
     //プロパティ変数(BGMボリューム)
-    public float BgmVolume
+    static public float BgmVolume
     {
         set
         {
@@ -62,7 +62,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     }
 
     //プロパティ変数(SEボリューム)
-    public float SeVolume
+    static public float SeVolume
     {
         set
         {
@@ -81,11 +81,11 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     //始まった瞬間Start関数よりも早い関数
     new private void Awake()
     {
-        if(this != Instance)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
+        //if(this != Instance)
+        //{
+        //    Destroy(this.gameObject);
+        //    return;
+        //}
 
         //シーンをまたいでも破壊しない変数に指定。
         DontDestroyOnLoad(this.gameObject);
@@ -111,7 +111,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     // @name   GetBgmIndex
     // @brief  名前からBGM配列の要素を返す
     // @param  BGＭの名前
-    private int GetBgmIndex(string name)
+    static private int GetBgmIndex(string name)
     {
         //配列の中にその名前のＢＧＭがあるのかどうかを返す
         if (m_bgmIndex.ContainsKey(name))
@@ -126,7 +126,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     // @name   GetSeIndex
     // @brief  名前からSE配列の要素を返す
     // @param  SEの名前
-    private int GetSeIndex(string name)
+    static private int GetSeIndex(string name)
     {
         //配列の中にその名前のＳＥがあるのかどうかを返す
         if (m_seIndex.ContainsKey(name))
@@ -141,7 +141,7 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     // @name   PlayBGM
     // @brief  BGMの再生(GetBgmIndexから要素を拾ってきて鳴らす)
-    private void PlayBGM(int num)
+    static private void PlayBGM(int num)
     {
         num = Mathf.Clamp(num, 0, m_bgm.Length);
 
@@ -153,14 +153,14 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     // @name   PlayBgmName
     // @brief  BGMの再生(名前から音を鳴らす。基本これを呼んで使う)
-    public void PlayBgmName(string name)
+    static public void PlayBgmName(string name)
     {
         PlayBGM(GetBgmIndex(name));
     }
 
     // @name   StopBGM
     // @brief  BGMの停止(名前から音を停止。基本これを呼んで使う)
-    public void StopBGM()
+    static public void StopBGM()
     {
         m_bgmAudioSource.Stop();
         m_bgmAudioSource.clip = null;   //音を止めたのでClipをNullに
@@ -168,21 +168,21 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
 
     // @name   PlaySE
     // @brief  GetSeIndexから要素を拾ってきて鳴らす
-    private void PlaySE(int num)
+    static private void PlaySE(int num)
     {
         num = Mathf.Clamp(num, 0, m_se.Length);
         m_seAudioSource.PlayOneShot(m_se[num], SeVolume * MasterVolume);
     }
     // @name   PlaySeName
     // @brief  BGMの再生(名前から音を鳴らす。基本これを呼んで使う)
-    public void PlaySeName(string name)
+    static public void PlaySeName(string name)
     {
         PlaySE(GetSeIndex(name));
     }
 
     // @name   StopSE
     // @brief  SEの停止(名前から音を停止。基本これを呼んで使う)
-    public void StopSE()
+    static public void StopSE()
     {
         m_seAudioSource.Stop();
         m_seAudioSource.clip = null;    //音を止めたのでClipをNullに
