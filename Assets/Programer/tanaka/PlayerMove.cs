@@ -16,6 +16,7 @@ public class PlayerMove : MonoBehaviour
     public bool InsideFlg;                                                                          //メビウスの輪の内側か外側かを判定　true:内側　false:外側
     public float NormalSpeed;
     public float UpSpeed;
+    public float InsideSpeed = 2;//内側のスピードを調整するための変数
     private float Speed;
     int SideCnt;                                                                                    //メビウスの輪に沿った動きにするためメビウスの輪を何回切り替えたかをカウント  2以上で外側内側入れ替える
     float counter;                                                                                  //乗り移るとき、元のメビウスの輪に戻らないようにカウントする値
@@ -48,8 +49,9 @@ public class PlayerMove : MonoBehaviour
     public bool JumpOk;//ヒップドロップが完了したかどうか　松井君に渡す用
     
     [SerializeField] float jumppow;//ジャンプ力
-    
+    [SerializeField] float HipDropSpeed;//ヒップドロップスピード
 
+    public bool CollisionOn;//
 
     Vector2 Lopos;
 
@@ -72,6 +74,9 @@ public class PlayerMove : MonoBehaviour
 
     bool RythmSaveFlg;//リズムの切り替わりで判定させる
     bool RythmFlg;//リズムが来ているかどうか
+
+    
+
     void Start()
     {
         //rb = GetComponent<Rigidbody>();                                                             // リジットボディを格納
@@ -189,12 +194,19 @@ public class PlayerMove : MonoBehaviour
 
         RythmFlg = this.rythm.rythmCheckFlag;
 
+        
+
         if (RythmFlg)
         {
+
             if (Controler.GetJumpButtonFlg() && !TimingInput)//ジャンプ
             {
                 TimingInput = true;
                 this.rythm.rythmCheckFlag = false;
+
+                jumpmove = 0;
+                jumpmovesave = 0;
+                jumpmove_prev = 0;
 
                 if (InsideFlg)//ジャンプの力をセット
                 {
@@ -205,7 +217,6 @@ public class PlayerMove : MonoBehaviour
                     pow = jumppow;
                 }
             }
-
 
             if (RythmSaveFlg != RythmFlg)//タイミングがtrueになった瞬間
             {
@@ -284,9 +295,11 @@ public class PlayerMove : MonoBehaviour
                 //}
                 if (HipDrop)
                 {
-                    jumpmovesave = jumpmove;
-                    jumpmove += (jumpmove - jumpmove_prev) + pow;
-                    jumpmove_prev = jumpmovesave;
+                    //jumpmovesave = jumpmove;
+                    //jumpmove += (jumpmove - jumpmove_prev) + pow;
+                    //jumpmove_prev = jumpmovesave;
+
+                    jumpmove += HipDropSpeed;
 
                     if (jumpmove > 0)
                     {
@@ -355,9 +368,12 @@ public class PlayerMove : MonoBehaviour
 
                 if (HipDrop)
                 {
-                    jumpmovesave = jumpmove;
-                    jumpmove += (jumpmove - jumpmove_prev) + pow;
-                    jumpmove_prev = jumpmovesave;
+                    //pow = -HipDropSpeed;
+                    //jumpmovesave = jumpmove;
+                    //jumpmove = jumpmove + ((jumpmove - jumpmove_prev) + pow);
+                    //jumpmove_prev = jumpmovesave;
+
+                    jumpmove -= HipDropSpeed * Time.deltaTime;
 
                     if (jumpmove < 0)
                     {
@@ -373,7 +389,7 @@ public class PlayerMove : MonoBehaviour
                 else
                 {
                     jumpmovesave = jumpmove;
-                    jumpmove += (jumpmove - jumpmove_prev) + pow;
+                    jumpmove = jumpmove + ((jumpmove - jumpmove_prev) + pow);
                     jumpmove_prev = jumpmovesave;
 
                     pow = -1;
@@ -454,6 +470,25 @@ public class PlayerMove : MonoBehaviour
 
             AngleColSave = AngleCol;//判定を保存
 
+            if (InsideFlg)//内側
+            {
+                //Speed = NormalSpeed * (InsideLength/25);
+                if (SpeedUpFlg)
+                {
+                    Speed = UpSpeed * InsideSpeed;
+                }
+                else
+                {
+                    Speed = NormalSpeed * InsideSpeed;
+                }
+                
+
+            }
+            else
+            {
+                
+            }
+
             //プレイヤーの移動
             if (RotateLeftFlg)
             {
@@ -485,7 +520,7 @@ public class PlayerMove : MonoBehaviour
             {
                 counter += Time.deltaTime;
                 //移ったときに元のメビウスの輪に戻らないようにカウントする
-                if (counter > 2)//
+                if (counter > 1)//移り変わり制御
                 {
                     //移り変わることができるようにする
                     SaveMobius = NowMobius;
@@ -498,7 +533,7 @@ public class PlayerMove : MonoBehaviour
                 CollisonMobius();//移り先のメビウスの輪を探す
             }
         }
-
+        //Debug.Log(angle);
 
         if (StartFlg)
         {
@@ -729,13 +764,13 @@ public class PlayerMove : MonoBehaviour
                             InsideFlg = false;
                             InsideLength = 0;//内側までの距離
 
-                            Debug.Log("外側");
+                            //Debug.Log("外側");
                         }
                         else
                         {
                             InsideLength = 50;//内側までの距離
                             InsideFlg = true;
-                            Debug.Log("内側");
+                            //Debug.Log("内側");
                         }
 
 
@@ -817,12 +852,18 @@ public class PlayerMove : MonoBehaviour
             {
                 if (!HipDrop)
                 {
-                    if (!other.GetComponent<EnemyMove>().GetStanFlg())
+                    if (other.GetComponent<EnemyMove>().GetNowMobiusNum() == NowMobius)
                     {
-                        if (other.GetComponent<EnemyMove>().GetInsideFlg() == InsideFlg)
+                        if (!other.GetComponent<EnemyMove>().GetStanFlg())
                         {
-                            CollisionState = true;
-                            Debug.Log("敵と当たった");
+                            if (other.GetComponent<EnemyMove>().GetInsideFlg() == InsideFlg)
+                            {
+                                if (CollisionOn)
+                                {
+                                    CollisionState = true;
+                                    //Debug.Log("敵と当たった");
+                                }
+                            }
                         }
                     }
                 }
@@ -839,7 +880,7 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             CollisionState = false;
-            Debug.Log("敵と離れた");
+            //Debug.Log("敵と離れた");
         }
     }
 
@@ -893,5 +934,10 @@ public class PlayerMove : MonoBehaviour
     public float GetPlayerLength()
     {
         return distanceTarget.y;
+    }
+
+    public bool GetSpeedUp()//スピードアップしているか
+    {
+        return SpeedUpFlg;
     }
 }
