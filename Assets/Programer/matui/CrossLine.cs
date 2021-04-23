@@ -157,7 +157,7 @@ public class CrossLine : MonoBehaviour
         Radius = Mathf.Atan2(RPos.y - LPos.y, RPos.x - LPos.x); //自分と指定した座標とのラジアンを求める
         Rvec = new Vector3(Mathf.Cos(Radius), Mathf.Sin(Radius), 0);
 
-        float gosa = 0.2f;
+        float gosa = 0.4f;
         float dis1 = (_vec - Lvec).magnitude;
         float dis2 = (_vec - Rvec).magnitude;
 
