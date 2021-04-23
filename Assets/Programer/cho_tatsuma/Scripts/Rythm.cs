@@ -82,6 +82,11 @@ public class Rythm : MonoBehaviour
         m_currentPos = m_sphere.transform.position;
     }
 
+    private void OnDisable()
+    {
+        StopCoroutine("SuccessCheck");
+    }
+
     // @name   FixedUpdate
     // @brief  一定フレームで呼び出し（Updateだと一定じゃないためずれがどうしても生じるため）
     private void FixedUpdate()
@@ -89,7 +94,7 @@ public class Rythm : MonoBehaviour
 		m_changeColorScript.Flame_Color_Attenuation();
 		//音の始まりを調整
 		//音のループによる読み込み時の誤差を調整
-		if (stageBGM.time <= 0.05f)       
+		if (!SoundManager.BgmIsPlaying())       
         {
             m_startTime = Time.timeSinceLevelLoad;
             m_sphere.transform.position = new Vector3(m_currentPos.x, m_currentPos.y,m_currentPos.z);
@@ -118,7 +123,6 @@ public class Rythm : MonoBehaviour
             m_targetPos = new Vector3(-m_sphere.transform.position.x, m_sphere.transform.position.y, m_sphere.transform.position.z);
             m_currentPos = m_sphere.transform.position;
         }
-
     }
 
     // @name   CheckDistanceWall

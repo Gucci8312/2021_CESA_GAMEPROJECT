@@ -23,9 +23,11 @@ public class SoundManager : MonoBehaviour
     static Dictionary<string, int> m_bgmIndex = new Dictionary<string, int>();   //C++でいうMap
     static Dictionary<string, int> m_seIndex = new Dictionary<string, int>();    //C++でいうMap　この二つは簡単にアクセスする用
 
-   [SerializeField] static AudioSource m_bgmAudioSource;                                       //BGMを鳴らすための変数
-   [SerializeField] static AudioSource m_seAudioSource;                                        //SEを鳴らすための変数
+    static AudioSource m_bgmAudioSource;                                       //BGMを鳴らすための変数
+    static AudioSource m_bgmAudioSourceSub;                                       //BGMを鳴らすための変数
+    static AudioSource m_seAudioSource;                                        //SEを鳴らすための変数
 
+    static int m_stageBgmNameNo;
     //プロパティ変数(マスターボリューム)
     static public float MasterVolume
     {
@@ -90,6 +92,9 @@ public class SoundManager : MonoBehaviour
         //シーンをまたいでも破壊しない変数に指定。
         DontDestroyOnLoad(this.gameObject);
 
+        m_bgmAudioSource = GameObject.Find("BGMAudioSource").GetComponent<AudioSource>();
+        m_bgmAudioSourceSub = GameObject.Find("BGMAudioSource2").GetComponent<AudioSource>();
+        m_seAudioSource = GameObject.Find("SEAudioSource").GetComponent<AudioSource>();
 
         //リソースフォルダからBGMフォルダ/SEフォルダにアクセスして、それぞれすべてを読み込んでいく（配列要素０から自動的に読み込まれていく）
         m_bgm = Resources.LoadAll<AudioClip>("BGM");
@@ -98,7 +103,7 @@ public class SoundManager : MonoBehaviour
         //bgmIndex連想配列（簡易アクセス用BGM配列）に情報を格納していく
         for (int i = 0; i < m_bgm.Length; i++)
         {
-            m_bgmIndex.Add(m_bgm[i].name,i);
+            m_bgmIndex.Add(m_bgm[i].name, i);
         }
 
         //seIndex連想配列（簡易アクセス用SE配列）に情報を格納していく
@@ -144,11 +149,15 @@ public class SoundManager : MonoBehaviour
     static private void PlayBGM(int num)
     {
         num = Mathf.Clamp(num, 0, m_bgm.Length);
-
+        m_stageBgmNameNo = num;
         m_bgmAudioSource.clip = m_bgm[num];
         m_bgmAudioSource.loop = true;
         m_bgmAudioSource.volume = BgmVolume * MasterVolume;
         m_bgmAudioSource.Play();
+
+        m_bgmAudioSourceSub.clip = m_bgm[num];
+        m_bgmAudioSourceSub.loop = true;
+        m_bgmAudioSourceSub.volume = BgmVolume * MasterVolume;
     }
 
     // @name   PlayBgmName
@@ -156,6 +165,33 @@ public class SoundManager : MonoBehaviour
     static public void PlayBgmName(string name)
     {
         PlayBGM(GetBgmIndex(name));
+    }
+
+    // @name   CheckLoop
+    // @brief  片方のBGMが再生停止したかどうかのチェック
+    static public void CheckLoop()
+    {
+        m_bgmAudioSource.clip = m_bgm[m_stageBgmNameNo];
+        m_bgmAudioSourceSub.clip = m_bgm[m_stageBgmNameNo];
+        if (m_bgmAudioSource.time >= m_bgmAudioSource.clip.length - 0.1f)
+        {
+            if (!m_bgmAudioSourceSub.isPlaying)
+            {
+                m_bgmAudioSourceSub.Play();
+            }
+            m_bgmAudioSource.Stop();
+            m_bgmAudioSource.time = 0.0f;
+
+        }
+        else if (m_bgmAudioSourceSub.time >= m_bgmAudioSourceSub.clip.length - 0.1f)
+        {
+            if (!m_bgmAudioSource.isPlaying)
+            {
+                m_bgmAudioSource.Play();
+            }
+            m_bgmAudioSourceSub.Stop();
+            m_bgmAudioSourceSub.time = 0.0f;
+        }
     }
 
     // @name   StopBGM
@@ -186,5 +222,18 @@ public class SoundManager : MonoBehaviour
     {
         m_seAudioSource.Stop();
         m_seAudioSource.clip = null;    //音を止めたのでClipをNullに
+    }
+
+    static public bool BgmIsPlaying()
+    {
+        if (m_bgmAudioSource.isPlaying)
+        {
+            return true;
+        }
+        if(m_bgmAudioSourceSub.isPlaying)
+        {
+            return true;
+        }    
+        return false;
     }
 }

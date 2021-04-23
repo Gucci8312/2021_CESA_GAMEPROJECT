@@ -31,12 +31,6 @@ public class VolumeSlider : MonoBehaviour
         m_slider = GetComponent<Slider>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     // @name   VolumeChange
     // @brief  音量を変える
     public void VolumeChange()
