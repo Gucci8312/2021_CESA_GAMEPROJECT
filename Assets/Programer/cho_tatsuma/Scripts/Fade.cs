@@ -12,7 +12,7 @@ using UnityEngine.UI;
 public class Fade : MonoBehaviour
 {
     [SerializeField] Image m_image = default;                 //フェードイン・アウトに使うためのイメージボード
-    static bool fadeFlg;                            //フェードするかしないかを判定するためのフラグ
+    bool fadeFlg = false;                            //フェードするかしないかを判定するためのフラグ
     public bool fadeFinished;                       //フェードが完了したかどうかを返す
     // Start is called before the first frame update
     void Start()

@@ -5,8 +5,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
+using UnityEngine.SceneManagement;
+using UnityEditor.UI;
 // @name   TtilePLight
 // @brief  Titleのライトを管理するクラス
 public class TtilePLight : MonoBehaviour
@@ -31,17 +31,19 @@ public class TtilePLight : MonoBehaviour
     bool m_down;                    //ピンクのライトのIntensityが下がるかどうかの変数
 
     float batibati_count;           //バチバチする回数カウント
-    Color m_textColor;              
+    Color m_textColor;
 
-    float whiteIntensity;          
+    float whiteIntensity;
     float pinkIntensity;
+    // CoroutineDelegate
 
-    // @name   OnEnable
-    // @brief  インスペクタービュー参照できるクラス
-    private void OnEnable()
+    // @name   OnInit
+    // @brief  初期化関数
+    public void OnInit()
     {
         m_light = GetComponent<Light>();
         whiteIntensity = m_light.intensity;
+        m_light.intensity = 0f;
         m_pinkLight = m_pinkPointLight.GetComponent<Light>();
         pinkIntensity = m_pinkLight.intensity;
         m_pinkLight.intensity = 0f;
@@ -49,12 +51,16 @@ public class TtilePLight : MonoBehaviour
         ChangeTextColorClear(m_beatText);
         ChangeTextColorClear(m_runText);
 
-        m_areaSelectButtonObj.SetActive(false);
-        m_endButtonObj.SetActive(false);
-        StartCoroutine("MomentChangeSpotLight");
-
+        m_areaSelectButtonObj.SetActive(true);
+        m_endButtonObj.SetActive(true);
+        StartCoroutine(MomentChangeSpotLight());
     }
 
+    private void OnDisable()
+    {
+        StopCoroutine(MomentChangeSpotLight());
+        StopCoroutine(SlowChangeSpotLight());
+    }
     // @name   ChangeTextColorClear
     // @brief  文字がに透明になる
     void ChangeTextColorClear(GameObject _textObj)
@@ -75,53 +81,49 @@ public class TtilePLight : MonoBehaviour
     // @brief  文字が徐々に色付きになる
     void ChangeTextColorWhite(GameObject _textObj)
     {
-        if (m_textColor.r >= 1.0f) {
+        if (m_textColor.r >= 1.0f)
+        {
             m_areaSelectButtonObj.SetActive(true);
             m_endButtonObj.SetActive(true);
-            return; 
+            return;
         }
-        m_textColor.r += 0.1f * (1f/50f);
-        m_textColor.g += 0.1f * (1f/50f);
-        m_textColor.b += 0.1f * (1f/50f);
+        m_textColor.r += 0.1f * (1f / 20f);
+        m_textColor.g += 0.1f * (1f / 20f);
+        m_textColor.b += 0.1f * (1f / 20f);
         m_textColor.a += 0.1f * (1f / 10f);
         _textObj.GetComponent<SpriteRenderer>().color = m_textColor;
-            
+
     }
 
     // @name   MomentChangeSpotLight
     // @brief  白色のライトが瞬間で点滅する
     IEnumerator MomentChangeSpotLight()
     {
-        while (batibati_count < 6.0f)
+        for (int i = 0; i < 4; i++)
         {
-
             if (m_light.intensity <= 0f)
             {
-                m_light.intensity = whiteIntensity;
-                batibati_count += 1f;
+                m_light.intensity = 50;
                 ChangeTextColorBlack(m_beatText);
                 ChangeTextColorBlack(m_runText);
                 yield return new WaitForSeconds(0.1f);
             }
 
-            if (m_light.intensity >= whiteIntensity)
+            if (m_light.intensity >= 50)
             {
                 m_light.intensity = 0f;
-                batibati_count += 1f;
                 ChangeTextColorClear(m_beatText);
                 ChangeTextColorClear(m_runText);
                 yield return new WaitForSeconds(0.1f);
             }
-            Debug.Log(batibati_count);
-            if (batibati_count == 3f)
+            if (i == 1f)
             {
                 yield return new WaitForSeconds(0.4f);
             }
-            if (batibati_count == 7f)
+            if (i == 3f)
             {
                 yield return new WaitForSeconds(1.0f);
-                StartCoroutine("SlowChangeSpotLight");
-                yield return null;
+                yield return StartCoroutine("SlowChangeSpotLight");
             }
             yield return null;
         }
@@ -131,7 +133,7 @@ public class TtilePLight : MonoBehaviour
     // @brief  Pinkのライトがスローに点滅する
     IEnumerator SlowChangeSpotLight()
     {
-        while (true)
+        while (SceneManager.GetActiveScene().name == "TittleScene")
         {
 
             if (m_pinkLight.intensity <= 0)
