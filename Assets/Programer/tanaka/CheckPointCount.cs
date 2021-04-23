@@ -17,9 +17,9 @@ public class CheckPointCount : MonoBehaviour
     void Update()
     {
         //Textコンポーネント取得
-        Text checkpoint_text = this.GetComponent<Text>();
+      //  Text checkpoint_text = this.GetComponent<Text>();
 
         //Text表示
-        checkpoint_text.text = "チェックポイント　" + CheckPointNum + "/3";
+       // checkpoint_text.text = "チェックポイント　" + CheckPointNum + "/3";
     }
 }
