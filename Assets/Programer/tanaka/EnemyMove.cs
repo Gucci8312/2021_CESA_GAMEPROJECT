@@ -36,10 +36,10 @@ public class EnemyMove : MonoBehaviour
     public float NormalSpeed = 1.3f;
     private float Speed;
     bool MobiusCol;
-    public float StanTime;
+    public float StanTime=1;
     float StanTimeCount;
     bool Stan;
-    public float InsideSpeed;
+    public float InsideSpeed=2;
 
     void Start()
     {
