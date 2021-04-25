@@ -63,6 +63,8 @@ public class PlayerMove : MonoBehaviour
 
    
     bool SpacePress;//スピードアップボタンの判定
+    bool Mashing;//連打されているかどうか
+    bool JumpMashing;//ジャンプボタンが連打されているか
     public bool HipDrop;//ヒップドロップ中
 
     private GameObject hipcol;
@@ -98,6 +100,8 @@ public class PlayerMove : MonoBehaviour
         StartFlg = true;
         counter = -1;
         CollisionState = false;
+        Mashing = false;
+        JumpMashing = false;
 
         EnemyMax = GameObject.FindGameObjectsWithTag("Enemy").Length;
         EnemyUpdateCount = 0;
@@ -176,49 +180,67 @@ public class PlayerMove : MonoBehaviour
 
         RythmFlg = this.rythm.rythmCheckFlag;
 
-        
+
 
         if (RythmFlg)
         {
 
             if (Controler.GetJumpButtonFlg() && !TimingInput)//ジャンプ
             {
-                TimingInput = true;
-                this.rythm.rythmCheckFlag = false;
-
-                jumpmove = 0;
-                jumpmovesave = 0;
-                jumpmove_prev = 0;
-
-                if (InsideFlg)//ジャンプの力をセット
+                if (!JumpMashing)
                 {
-                    pow = -jumppow;
-                }
-                else
-                {
-                    pow = jumppow;
+                    TimingInput = true;
+
+                    jumpmove = 0;
+                    jumpmovesave = 0;
+                    jumpmove_prev = 0;
+
+                    if (InsideFlg)//ジャンプの力をセット
+                    {
+                        pow = -jumppow;
+                    }
+                    else
+                    {
+                        pow = jumppow;
+                    }
                 }
             }
 
             if (RythmSaveFlg != RythmFlg)//タイミングがtrueになった瞬間
             {
                 SpacePress = false;
+                
             }
 
             if (Controler.GetRythmButtonFlg())//スピードアップのキー入力
             {
-                SpacePress = true;
-                Speed = UpSpeed;
-                SpeedUpFlg = true;
+                if (!Mashing)
+                {
+                    if (!SpacePress)//１回目のボタン入力
+                    {
+                        SpacePress = true;
+                        Speed = UpSpeed;
+                        SpeedUpFlg = true;
+                    }
+                    else
+                    {
+                        Mashing = true;
+                        SpacePress = false;
+                        Speed = NormalSpeed;
+                        SpeedUpFlg = false;
+                    }
+                }
             }
-            
-            
-            
+
+
+
         }
         else
         {
-            if(RythmSaveFlg!=RythmFlg)//タイミングがfalseになった瞬間
+            if (RythmSaveFlg != RythmFlg)//タイミングがfalseになった瞬間
             {
+                JumpMashing = false;
+
                 if (SpacePress)//キー入力があった
                 {
                     Speed = UpSpeed;
@@ -229,9 +251,26 @@ public class PlayerMove : MonoBehaviour
                     SpeedUpFlg = false;
                     Speed = NormalSpeed;
                 }
+                Mashing = false;
+            }
+
+            if (Controler.GetRythmButtonFlg())//スピードアップのキー入力
+            {
+                SpacePress = false;
+                Speed = NormalSpeed;
+                SpeedUpFlg = false;
+                Mashing = true;
+
+            }
+
+            if (Controler.GetJumpButtonFlg())
+            {
+                JumpMashing = true;
             }
 
             
+
+
         }
         RythmSaveFlg = RythmFlg;
 
