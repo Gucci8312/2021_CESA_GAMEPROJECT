@@ -33,7 +33,7 @@ public class PlayerMove : MonoBehaviour
     Rythm rythm;                                                                                    //リズムスクリプト取得用
 
 
-    bool CollisionState;                                                                             //当たり判定を外部に渡す変数　treu:当たっている　false:当たっていない
+    public bool CollisionState;                                                                             //当たり判定を外部に渡す変数　treu:当たっている　false:当たっていない
 
     int EnemyMax;
     int EnemyUpdateCount;
@@ -63,7 +63,7 @@ public class PlayerMove : MonoBehaviour
 
    
     bool SpacePress;//スピードアップボタンの判定
-    bool Mashing;//連打されているかどうか
+    bool SpeedUpMashing;//スピードアップが連打されているかどうか
     bool JumpMashing;//ジャンプボタンが連打されているか
     public bool HipDrop;//ヒップドロップ中
 
@@ -72,8 +72,8 @@ public class PlayerMove : MonoBehaviour
 
     bool RythmSaveFlg;//リズムの切り替わりで判定させる
     bool RythmFlg;//リズムが来ているかどうか
-
     
+
 
     void Start()
     {
@@ -100,7 +100,7 @@ public class PlayerMove : MonoBehaviour
         StartFlg = true;
         counter = -1;
         CollisionState = false;
-        Mashing = false;
+        SpeedUpMashing = false;
         JumpMashing = false;
 
         EnemyMax = GameObject.FindGameObjectsWithTag("Enemy").Length;
@@ -160,8 +160,7 @@ public class PlayerMove : MonoBehaviour
 
         NowMobiusColor = Mobius[NowMobius].GetComponent<MobiusColor>().GetNowColorNum();//松井君のスクリプトから変数取得
 
-        //SpacePress = false;
-
+        
 
         target = Mobius[NowMobius].transform;
 
@@ -214,7 +213,7 @@ public class PlayerMove : MonoBehaviour
 
             if (Controler.GetRythmButtonFlg())//スピードアップのキー入力
             {
-                if (!Mashing)
+                if (!SpeedUpMashing)
                 {
                     if (!SpacePress)//１回目のボタン入力
                     {
@@ -224,7 +223,7 @@ public class PlayerMove : MonoBehaviour
                     }
                     else
                     {
-                        Mashing = true;
+                        SpeedUpMashing = true;
                         SpacePress = false;
                         Speed = NormalSpeed;
                         SpeedUpFlg = false;
@@ -239,7 +238,9 @@ public class PlayerMove : MonoBehaviour
         {
             if (RythmSaveFlg != RythmFlg)//タイミングがfalseになった瞬間
             {
+
                 JumpMashing = false;
+                SpeedUpMashing = false;
 
                 if (SpacePress)//キー入力があった
                 {
@@ -251,7 +252,7 @@ public class PlayerMove : MonoBehaviour
                     SpeedUpFlg = false;
                     Speed = NormalSpeed;
                 }
-                Mashing = false;
+                
             }
 
             if (Controler.GetRythmButtonFlg())//スピードアップのキー入力
@@ -259,7 +260,7 @@ public class PlayerMove : MonoBehaviour
                 SpacePress = false;
                 Speed = NormalSpeed;
                 SpeedUpFlg = false;
-                Mashing = true;
+                SpeedUpMashing = true;
 
             }
 
@@ -436,6 +437,13 @@ public class PlayerMove : MonoBehaviour
         //Debug.Log(CollisionState);
     }//void Update()
 
+    void OnDrawGizmos()//当たり判定描画
+    {
+        Gizmos.color = new Vector4(0,1,0,0.5f); //色指定
+        Gizmos.DrawSphere(transform.position, GetComponent<SphereCollider>().bounds.size.x/2); //中心点とサイズ
+
+    }
+
 
     private void ApproachMobius()//対象のメビウスの輪に近づける
     {
@@ -598,25 +606,7 @@ public class PlayerMove : MonoBehaviour
         return degree;
     }
 
-    private void MovePlayer()
-    {
-
-        if (RotateLeftFlg)
-        {
-            transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, this.transform.forward, NormalSpeed);//左移動    
-        }
-        else
-        {
-            transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, NormalSpeed);//右移動
-        }
-
-
-    }
-
-    private void StartPosSet()
-    {
-        Vector2 MobiusPos = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center;                // メビウスの輪の位置を取得
-    }
+    
 
     public int GetNowMobiusNum()//現在の乗っているメビウスの輪の数字を返す
     {
@@ -631,25 +621,25 @@ public class PlayerMove : MonoBehaviour
 
         if (other.gameObject.tag == "Enemy")
         {
+            
             if (!StartFlg)
             {
-                if (!HipDrop)
+
+                if (other.GetComponent<EnemyMove>().GetNowMobiusNum() == NowMobius)
                 {
-                    if (other.GetComponent<EnemyMove>().GetNowMobiusNum() == NowMobius)
+                    if (!other.GetComponent<EnemyMove>().GetStanFlg())
                     {
-                        if (!other.GetComponent<EnemyMove>().GetStanFlg())
+                        if (other.GetComponent<EnemyMove>().GetInsideFlg() == InsideFlg)
                         {
-                            if (other.GetComponent<EnemyMove>().GetInsideFlg() == InsideFlg)
+                            if (CollisionOn)
                             {
-                                if (CollisionOn)
-                                {
-                                    CollisionState = true;
-                                    //Debug.Log("敵と当たった");
-                                }
+                                CollisionState = true;
+                                Debug.Log("敵と当たった");
                             }
                         }
                     }
                 }
+                
             }
         }
     }
@@ -711,6 +701,7 @@ public class PlayerMove : MonoBehaviour
 
     public bool GetHipDropNow()//ヒップドロップをしたかどうか
     {
+
         return JumpOk;
     }
 
@@ -722,5 +713,15 @@ public class PlayerMove : MonoBehaviour
     public bool GetSpeedUp()//スピードアップしているか
     {
         return SpeedUpFlg;
+    }
+
+    public bool GetJumpNow()//ジャンプしているかどうか
+    {
+        if (jumpmove == 0)
+        {
+            return false;
+        }
+
+        return true;
     }
 }
