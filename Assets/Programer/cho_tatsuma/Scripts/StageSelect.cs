@@ -26,18 +26,21 @@ public class StageSelect : MonoBehaviour
         m_fade = m_fadeImage.gameObject.GetComponent<Fade>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     // @name   GoStageSelect
     // @brief  ステージセレクト画面への遷移
     public void GoStageSelect()
     {
         m_fade.StartFadeOut();
-        Debug.Log("StartFadeOut");
         StartCoroutine(Loading("StageSelectScene"));
+    }
+
+    // @name   GoStageSelect
+    // @brief  ステージセレクト画面への遷移
+    public void GoTitleScene()
+    {
+        if (Time.timeScale == 0f) Time.timeScale = 1.0f;
+        m_fade.StartFadeOut();
+        StartCoroutine(Loading("TittleScene"));
     }
 
     public void LoadStage(int _num)
@@ -68,7 +71,7 @@ public class StageSelect : MonoBehaviour
                     yield return null;
                 }
                 //終了処理
-                m_fadeImage.gameObject.SetActive(false);
+               // m_fadeImage.gameObject.SetActive(false);
                 m_fade.fadeFinished = false;
             }
             yield return new WaitForSeconds(0.1f);

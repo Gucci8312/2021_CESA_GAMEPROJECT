@@ -9,6 +9,7 @@ public class SceneMove : MonoBehaviour
 	public GameObject Stage3;
 	public GameObject Stage4;
 
+	[SerializeField] GameObject[] stage_picture;
 	//public Material Stage1_color;
 	//public Material Stage2_color;
 	//public Material Stage3_color;
@@ -33,6 +34,12 @@ public class SceneMove : MonoBehaviour
 		//Stage2 = GameObject.Find("Stage2");
 		//Stage3 = GameObject.Find("Stage3");
 		//Stage4 = GameObject.Find("Stage4");
+		for(int i= 0; i < stage_picture.Length; i++)
+        {
+			stage_picture[i].SetActive(false);
+		}
+		//stage4_picture.SetActive(false);
+
 	}
 
 	// Update is called once per frame
@@ -65,6 +72,7 @@ public class SceneMove : MonoBehaviour
 					Stage2.GetComponent<Light>().intensity = b;
 					Stage3.GetComponent<Light>().intensity = b;
 					Stage4.GetComponent<Light>().intensity = b;
+					StagePictureActiveTrue(0);
 					break;
 				}
 			case 2:
@@ -73,6 +81,8 @@ public class SceneMove : MonoBehaviour
 					Stage2.GetComponent<Light>().intensity = a;
 					Stage3.GetComponent<Light>().intensity = b;
 					Stage4.GetComponent<Light>().intensity = b;
+					StagePictureActiveTrue(1);
+
 					break;
 				}
 			case 3:
@@ -81,6 +91,7 @@ public class SceneMove : MonoBehaviour
 					Stage2.GetComponent<Light>().intensity = b;
 					Stage3.GetComponent<Light>().intensity = a;
 					Stage4.GetComponent<Light>().intensity = b;
+					StagePictureActiveTrue(2);
 					break;
 				}
 			case 4:
@@ -89,6 +100,7 @@ public class SceneMove : MonoBehaviour
 					Stage2.GetComponent<Light>().intensity = b;
 					Stage3.GetComponent<Light>().intensity = b;
 					Stage4.GetComponent<Light>().intensity = a;
+					AllStagePictureSetActiveFlase();
 					break;
 				}
 		}
@@ -96,6 +108,24 @@ public class SceneMove : MonoBehaviour
 		if (Controler.SubMitButtonFlg())
 		{
 			stage_select.LoadStage(1);
+		}
+	}
+
+	void AllStagePictureSetActiveFlase()
+    {
+		for (int i = 0; i < stage_picture.Length; i++)
+		{
+			stage_picture[i].SetActive(false);
+		}
+	}
+
+	void StagePictureActiveTrue(int _num)
+    {
+		if (!stage_picture[_num].activeSelf)
+		{
+			AllStagePictureSetActiveFlase();
+			stage_picture[_num].GetComponentInChildren<MaterialChangeColor>().Init();
+			stage_picture[_num].SetActive(true);
 		}
 	}
 }

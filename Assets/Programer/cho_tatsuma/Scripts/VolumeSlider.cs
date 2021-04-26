@@ -31,12 +31,6 @@ public class VolumeSlider : MonoBehaviour
         m_slider = GetComponent<Slider>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     // @name   VolumeChange
     // @brief  音量を変える
     public void VolumeChange()
@@ -45,15 +39,15 @@ public class VolumeSlider : MonoBehaviour
         {
             //マスター音量
             case Type.MASTER:
-                SoundManager.Instance.MasterVolume = m_slider.value;
+                SoundManager.MasterVolume = m_slider.value;
                 break;
             //BGM音量
             case Type.BGM:
-                SoundManager.Instance.BgmVolume = m_slider.value;
+                SoundManager.BgmVolume = m_slider.value;
                 break;
             //SE音量
             case Type.SE:
-                SoundManager.Instance.SeVolume = m_slider.value;
+                SoundManager.SeVolume = m_slider.value;
                 break;
         }
     }

@@ -8,6 +8,7 @@ public class Cusour : MonoBehaviour
     public GameObject[] MenuButton;
     public GameObject Menu;
     int Idx = 0;
+    bool InputFlg;
 
     // Start is called before the first frame update
     void Start()
@@ -21,25 +22,32 @@ public class Cusour : MonoBehaviour
     {
         Vector3 Pos = this.gameObject.transform.position;
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow) | 0 < Input.GetAxis("Vertical") & InputFlg == false)
+       // if (Controler.Up())
         {
             Idx--;
-            if(Idx<0)
+            if (Idx < 0)
             {
                 Idx++;
             }
             transform.position = new Vector3(Pos.x, MenuButton[Idx].transform.position.y, Pos.z);
+            InputFlg = true;
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (Input.GetKeyDown(KeyCode.DownArrow) | 0 > Input.GetAxis("Vertical") & InputFlg == false)
         {
             Idx++;
-            if(Idx>2)
+            if (Idx > 2)
             {
                 Idx--;
             }
             transform.position = new Vector3(Pos.x, MenuButton[Idx].transform.position.y, Pos.z);
+            InputFlg = true;
         }
-
+        else if (0.0f == Input.GetAxis("Vertical"))
+        // else if(-0.1 > Input.GetAxis("Vertical")| 0.1 < Input.GetAxis("Vertical"))
+        {
+            InputFlg = false;
+        }
 
         if (Controler.SubMitButtonFlg())
         {

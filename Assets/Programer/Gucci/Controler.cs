@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Controler : MonoBehaviour
 {
+    static bool StickFlg = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +23,11 @@ public class Controler : MonoBehaviour
         if (Input.GetKeyDown("joystick button 0"))
         {
             Response = true;
+        }
+        else if(Input.GetKeyDown("joystick button 8"))
+        {
+            Response = true;
+
         }
         else if (Input.GetKeyDown(KeyCode.J))
         {
@@ -70,6 +76,21 @@ public class Controler : MonoBehaviour
             Response = true;
         }
         return Response;
+    }
+
+    public static bool Up()
+    {
+        if(Input.GetKeyDown(KeyCode.UpArrow) | 0 < Input.GetAxis("Vertical") & StickFlg == false)
+        {
+            StickFlg = true;
+            return true;
+        }
+        else if (0== Input.GetAxis("Vertical"))
+        {
+            StickFlg = false;
+            return true;
+        }
+        return false;
     }
 }
 

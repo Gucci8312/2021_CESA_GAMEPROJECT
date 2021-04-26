@@ -7,6 +7,7 @@ using UnityEngine.VFX;
 public class GameMaster : MonoBehaviour
 {
     public GameObject Menu;
+    public string BgmName;
     GameObject Player;
     // Start is called before the first frame update
     void Start()
@@ -16,9 +17,14 @@ public class GameMaster : MonoBehaviour
        // Menu = GameObject.Find("Menu");                                        //全てのメビウス取得
 
         Application.targetFrameRate = 60;
-       // SoundManager.Instance.PlayBgmName("Alley");
+        StartCoroutine("CheckLoop");
+        Invoke("OnStartBGM", 0.1f);
     }
 
+    void OnStartBGM()
+    {
+        SoundManager.PlayBgmName(BgmName);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -46,6 +52,14 @@ public class GameMaster : MonoBehaviour
         }
     }
 
+    IEnumerator CheckLoop()
+    {
+        while (true)
+        {
+            SoundManager.CheckLoop();
+            yield return new WaitForSeconds(0.01f);
+        }
+    }
     // エスケープボタンが押されたとき
     public void ClickEscapeBotton()
     {
