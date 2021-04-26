@@ -48,7 +48,7 @@ public class GameMaster : MonoBehaviour
     {
         if (Player.GetComponent<PlayerMove>().GetCollisionState())
         {
-            SceneManager.LoadScene("TittleScene");
+            SceneManager.LoadScene("TitleScene");
         }
     }
 
@@ -78,6 +78,6 @@ public class GameMaster : MonoBehaviour
     public void ClickTittleBotton()
     {
         //Debug.Log("タイトルボタンが押された");
-        SceneManager.LoadScene("TittleScene");
+        SceneManager.LoadScene("TitleScene");
     }
 }

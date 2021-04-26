@@ -145,8 +145,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 10.503719
-  m_Center: {x: 5.07008e-16, y: 0.27348328, z: -0.10291596}
+  m_Radius: 11
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &9009114842599050448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,10 +537,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GoalMovetime: 0.05
   PlayerMoveFlg: 0
-  StickInput: {x: 0, y: 0}
-  FlickVec: {x: 0, y: 0}
+  EnemyMoveFlag: 0
+  Enemy:
+  - {fileID: 0}
+  - {fileID: 0}
   FlickMoveFlag: 0
   Line: []
+  MovePos: {x: 0, y: 0, z: 0}
   ColPos: {x: 0, y: 0, z: 0}
 --- !u!1 &9009114843927730499
 GameObject:

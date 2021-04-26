@@ -3,23 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Cusour : MonoBehaviour
+public class CrearOverCursor : MonoBehaviour
 {
-    public GameObject[] MenuButton;
-    public GameObject Menu;
-    // GameObject SoundObj;
+    public GameObject[] Button;
     public int Idx = 0;
     bool InputFlg;
-
 
     // Start is called before the first frame update
     void Start()
     {
         Vector3 Pos = this.gameObject.transform.position;
-        transform.position = new Vector3(Pos.x, MenuButton[0].transform.position.y, Pos.z);
-        Idx = 0;
-        InputFlg = false;
-        // SoundObj = GameObject.Find("VolumeSettings");
+        transform.position = new Vector3(Pos.x, Button[0].transform.position.y, Pos.z);
     }
 
     // Update is called once per frame
@@ -35,17 +29,17 @@ public class Cusour : MonoBehaviour
             {
                 Idx++;
             }
-            transform.position = new Vector3(Pos.x, MenuButton[Idx].transform.position.y, Pos.z);
+            transform.position = new Vector3(Pos.x, Button[Idx].transform.position.y, Pos.z);
             InputFlg = true;
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow) | 0 > Input.GetAxis("Vertical") & InputFlg == false)
         {
             Idx++;
-            if (Idx > MenuButton.Length - 1)
+            if (Idx > Button.Length - 1)
             {
                 Idx--;
             }
-            transform.position = new Vector3(Pos.x, MenuButton[Idx].transform.position.y, Pos.z);
+            transform.position = new Vector3(Pos.x, Button[Idx].transform.position.y, Pos.z);
             InputFlg = true;
         }
         else if (0.0f == Input.GetAxis("Vertical"))
@@ -56,22 +50,14 @@ public class Cusour : MonoBehaviour
 
         if (Controler.SubMitButtonFlg())
         {
-            if (Pos.y == MenuButton[0].transform.position.y)
-            {
-                Time.timeScale = 1.0f;
-                Menu.SetActive(!Menu.activeSelf);
-            }
-            else if (Pos.y == MenuButton[1].transform.position.y)
-            {
+            if (Pos.y == Button[0].transform.position.y)
+            {        
                 RestartBotton();
+
             }
-            else if (Pos.y == MenuButton[2].transform.position.y)
+            else if (Pos.y == Button[1].transform.position.y)
             {
                 TitleButton();
-            }
-            else if (Pos.y == MenuButton[3].transform.position.y)
-            {
-                // SoundObj.SetActive(true);
             }
         }
     }
@@ -79,7 +65,7 @@ public class Cusour : MonoBehaviour
     public void CursorPosSet(int _Idx)
     {
         Vector3 Pos = this.gameObject.transform.position;
-        transform.position = new Vector3(Pos.x, MenuButton[_Idx].transform.position.y, Pos.z);
+        transform.position = new Vector3(Pos.x, Button[_Idx].transform.position.y, Pos.z);
     }
 
     // エスケープボタンが押されたとき

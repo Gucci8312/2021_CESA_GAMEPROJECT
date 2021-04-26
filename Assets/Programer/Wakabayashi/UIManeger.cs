@@ -48,6 +48,7 @@ public class UIManeger : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.K))
             {
+                Time.timeScale = 1.0f;
                 SceneManager.LoadScene("TittleScene");
             }
         }
@@ -64,7 +65,13 @@ public class UIManeger : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.K))
             {
+                Time.timeScale = 1.0f;
                 SceneManager.LoadScene("TittleScene");
+            } 
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                Time.timeScale = 1.0f;
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
         }
 

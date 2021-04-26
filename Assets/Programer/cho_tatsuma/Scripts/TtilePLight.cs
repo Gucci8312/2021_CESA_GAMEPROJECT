@@ -6,7 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEditor.UI;
 // @name   TtilePLight
 // @brief  Titleのライトを管理するクラス
 public class TtilePLight : MonoBehaviour
@@ -116,14 +115,15 @@ public class TtilePLight : MonoBehaviour
                 ChangeTextColorClear(m_runText);
                 yield return new WaitForSeconds(0.1f);
             }
-            if (i == 1f)
+            if (i == 1)
             {
                 yield return new WaitForSeconds(0.4f);
             }
-            if (i == 3f)
+            if (i == 3)
             {
+                Debug.Log("StartCoroutine");
                 yield return new WaitForSeconds(1.0f);
-                yield return StartCoroutine("SlowChangeSpotLight");
+                StartCoroutine("SlowChangeSpotLight");
             }
             yield return null;
         }
@@ -133,7 +133,7 @@ public class TtilePLight : MonoBehaviour
     // @brief  Pinkのライトがスローに点滅する
     IEnumerator SlowChangeSpotLight()
     {
-        while (SceneManager.GetActiveScene().name == "TittleScene")
+        while (true)
         {
 
             if (m_pinkLight.intensity <= 0)
