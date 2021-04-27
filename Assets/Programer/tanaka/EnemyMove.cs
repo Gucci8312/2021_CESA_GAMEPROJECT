@@ -201,22 +201,22 @@ public class EnemyMove : MonoBehaviour
         {
             counter += Time.deltaTime;
 
-            if (angle > anglesave + 90 || angle < anglesave - 90)//90度以上移動すれば
-            {
-                //移り変わることができるようにする
-                SaveMobius = NowMobius;
-                counter = 0;
-                MobiusCol = false;
-            }
-
-            ////移ったときに元のメビウスの輪に戻らないようにカウントする
-            //if (counter > 0.5)//移り変わりを制御
+            //if (angle > anglesave + 180 || angle < anglesave - 180)//90度以上移動すれば
             //{
             //    //移り変わることができるようにする
             //    SaveMobius = NowMobius;
             //    counter = 0;
             //    MobiusCol = false;
             //}
+
+            //移ったときに元のメビウスの輪に戻らないようにカウントする
+            if (counter > 0.2)//移り変わりを制御
+            {
+                //移り変わることができるようにする
+                SaveMobius = NowMobius;
+                counter = 0;
+                MobiusCol = false;
+            }
         }
         else
         {
@@ -379,6 +379,7 @@ public class EnemyMove : MonoBehaviour
                         }
                         else
                         {
+                            angle += 40;
                             //Debug.Log("3");
                         }
                     }

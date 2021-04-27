@@ -660,11 +660,41 @@ public class PlayerMove : MonoBehaviour
         float ans = 0;
         if (RotateLeftFlg)
         {
-            ans = (((360 - angle) / 2f) - 180f);
+            
+            if (InsideFlg)
+            {
+                ans = (angle / 2f) - 270f;
+                Debug.Log("1");
+            }
+            else
+            {
+                ans = (angle / 2f) - 270f;
+                Debug.Log("2");
+            }
         }
         else
         {
-            ans = (angle / 2f) - 180f;
+            
+
+            if (InsideFlg)
+            {
+                ans = (angle / 2f) - 180f;
+                Debug.Log("3");
+            }
+            else
+            {
+                ans = (angle / 2f) - 180f;
+                Debug.Log("4");
+            }
+        }
+
+        if (ans > 180)
+        {
+            ans = ans - 180;
+        }
+        if (ans < 0)
+        {
+            ans = ans + 180;
         }
 
         return ans;
