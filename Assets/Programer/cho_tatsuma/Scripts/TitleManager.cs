@@ -14,19 +14,30 @@ public class TitleManager : MonoBehaviour
     public string titleBgm;                                     //タイトルBGM
 
     static GameObject m_titlePointLight;              //ポイントライトオブジェクト
-
+    [SerializeField]
+    GameObject m_pressTextObj;
+    FadeTitleText m_fadeTextScript;
     // Start is called before the first frame update
     void Start()
-    {     
+    {
+        m_fadeTextScript = m_pressTextObj.gameObject.GetComponent<FadeTitleText>();
     }
-
     private void OnEnable()
     {
         if (Time.timeScale == 0f) Time.timeScale = 1.0f;
         m_titlePointLight = GameObject.Find("YellowLight");
         m_titlePointLight.GetComponent<TtilePLight>().OnInit();
     }
-
+    private void Update()
+    {
+        if (m_fadeTextScript.gameStartFlg)
+        {
+            if (Controler.SubMitButtonFlg())
+            {
+                StageSelect.GoStageSelect(this);
+            }
+        }
+    }
     private void Awake()
     {
         GameObject m_soundManager = GameObject.Find("SoundManager(Clone)");     //サウンドマネージャー検索
