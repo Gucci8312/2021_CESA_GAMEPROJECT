@@ -4,20 +4,38 @@ using UnityEngine;
 
 public class CrossLine : MonoBehaviour
 {
+    //[HideInInspector]
     public List<Vector2> CrossPos = new List<Vector2>();//自身の交点
+
+    public List<GameObject> Line = new List<GameObject>();                   //線のオブジェクト
+    List<CrossLine> cl = new List<CrossLine>();                              //CrossLineスクリプト
+
     private Vector2 LPos;//左端の点
     private Vector2 RPos;//右端の点
 
     private Vector2 Lvec;//左端の点に対してのベクトル
     private Vector2 Rvec;//右端の点に対してのベクトル
 
+    [HideInInspector]
     public Vector3 RayHitPos;
 
     // Start is called before the first frame update
     void Start()
     {
         this.GetComponent<BoxCollider>().isTrigger = true;
+        this.GetComponent<BoxCollider>().size = new Vector3(1.1f, 1, 1);
 
+        LRPosVecUpdate();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        LRPosVecUpdate();
+    }
+
+    private void LRPosVecUpdate()
+    {
         LPos = RotationfromPosition(this.transform.position, this.transform.localScale, this.transform.localEulerAngles.z, 0);//自分の左端の回転を含めた座標を取得
         RPos = RotationfromPosition(this.transform.position, this.transform.localScale, this.transform.localEulerAngles.z, 1);//自分の右端の回転を含めた座標を取得
 
@@ -26,14 +44,6 @@ public class CrossLine : MonoBehaviour
 
         Radius = Mathf.Atan2(RPos.y - LPos.y, RPos.x - LPos.x); //自分と指定した座標とのラジアンを求める
         Rvec = new Vector3(Mathf.Cos(Radius), Mathf.Sin(Radius), 0);
-
-
-        this.GetComponent<BoxCollider>().size = new Vector3(1.1f, 1, 1);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 
     //回転したときの座標を求める（横長の線を基準に回転）
@@ -127,7 +137,7 @@ public class CrossLine : MonoBehaviour
     //入力した方向と交点がある方向を調べる（true時に交点のある方向を返す）
     public bool CanInputMoveVec(Vector2 _vec, out Vector2 outvec)
     {
-        float gosa = 0.4f;//許容範囲（0～0.9）
+        float gosa = 0.5f;//許容範囲（0～0.9）
         float dis1 = (_vec - Lvec).magnitude;
         float dis2 = (_vec - Rvec).magnitude;
 
@@ -243,6 +253,24 @@ public class CrossLine : MonoBehaviour
         return SerchPos;
     }
 
+    public Vector2 NearListCrossPos(List <Vector2> SerchPos)
+    {
+        for(int i = 0; i < CrossPos.Count; i++)
+        {
+            for(int j=0;j<SerchPos.Count;j++)
+            {
+                float distance = (CrossPos[i] - SerchPos[j]).magnitude;
+                if (distance < 2)
+                {
+                    return CrossPos[i];
+                }
+            }
+        }
+
+        return Vector2.zero;
+    }
+
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Line"))
@@ -255,6 +283,33 @@ public class CrossLine : MonoBehaviour
             else
             {
                 Debug.Log("交点が求められなかった");
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Line"))
+        {
+            
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Line"))
+        {
+            CrossLine otherCL= other.GetComponent<CrossLine>();
+
+            //お互いの交点の座標を取得（ほんのわずかなずれがあるので二つとも取得する）
+            Vector2 pos1 = NearListCrossPos(otherCL.GetCrossPos());
+            Vector2 pos2 = otherCL.NearListCrossPos(CrossPos);
+
+            if (pos1 != Vector2.zero)
+            {
+                //お互いに該当する交点を削除する
+                CrossPos.Remove(pos1);
+                other.GetComponent<CrossLine>().CrossPos.Remove(pos2);
             }
         }
     }
