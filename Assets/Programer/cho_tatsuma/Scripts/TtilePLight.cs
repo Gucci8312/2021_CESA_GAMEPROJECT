@@ -16,10 +16,7 @@ public class TtilePLight : MonoBehaviour
     GameObject m_runText;        //Runテキストオブジェクト
 
     [SerializeField]
-    GameObject m_areaSelectButtonObj;
-
-    [SerializeField]
-    GameObject m_endButtonObj;
+    GameObject m_pressAButtonText;  //PressAButtonテキストオブジェクト
 
     [SerializeField]
     GameObject m_pinkPointLight;    //ピンクのライトオブジェクト
@@ -50,8 +47,7 @@ public class TtilePLight : MonoBehaviour
         ChangeTextColorClear(m_beatText);
         ChangeTextColorClear(m_runText);
 
-        m_areaSelectButtonObj.SetActive(true);
-        m_endButtonObj.SetActive(true);
+        m_pressAButtonText.SetActive(false);
         StartCoroutine(MomentChangeSpotLight());
     }
 
@@ -82,8 +78,7 @@ public class TtilePLight : MonoBehaviour
     {
         if (m_textColor.r >= 1.0f)
         {
-            m_areaSelectButtonObj.SetActive(true);
-            m_endButtonObj.SetActive(true);
+            m_pressAButtonText.SetActive(true);
             return;
         }
         m_textColor.r += 0.1f * (1f / 20f);
@@ -148,11 +143,11 @@ public class TtilePLight : MonoBehaviour
                 m_up = false;
             }
 
-            if (m_down && !m_up)
+            if (m_down)
             {
-                m_pinkLight.intensity--;
+             //   m_pinkLight.intensity--;
             }
-            else if (!m_down && m_up)
+            else if (m_up)
             {
                 m_pinkLight.intensity++;
             }
