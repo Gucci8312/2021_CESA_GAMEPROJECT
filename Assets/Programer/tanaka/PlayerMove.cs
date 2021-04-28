@@ -73,7 +73,7 @@ public class PlayerMove : MonoBehaviour
     bool RythmSaveFlg;//リズムの切り替わりで判定させる
     bool RythmFlg;//リズムが来ているかどうか
 
-
+    public float effectangle;
 
     void Start()
     {
@@ -392,7 +392,7 @@ public class PlayerMove : MonoBehaviour
         }//else
 
 
-        Debug.Log(angle);
+        //Debug.Log(angle);
     }//void Update()
 
     void OnDrawGizmos()//当たり判定描画
@@ -658,18 +658,18 @@ public class PlayerMove : MonoBehaviour
     public float GetAngle()//現在の角度を渡す
     {
         float ans = 0;
-        if (RotateLeftFlg)
+        if (RotateLeftFlg)//イレギュラー処理
         {
             
             if (InsideFlg)
             {
-                ans = (angle / 2f) - 270f;
-                Debug.Log("1");
+                ans = (angle / 2f) - 270f+100;
+                //Debug.Log("1");
             }
             else
             {
-                ans = (angle / 2f) - 270f;
-                Debug.Log("2");
+                ans = (angle / 2f) - 270f+100;
+                //Debug.Log("2");
             }
         }
         else
@@ -679,24 +679,19 @@ public class PlayerMove : MonoBehaviour
             if (InsideFlg)
             {
                 ans = (angle / 2f) - 180f;
-                Debug.Log("3");
+                //Debug.Log("3");
             }
             else
             {
                 ans = (angle / 2f) - 180f;
-                Debug.Log("4");
+                //Debug.Log("4");
             }
         }
 
-        if (ans > 180)
-        {
-            ans = ans - 180;
-        }
-        if (ans < 0)
-        {
-            ans = ans + 180;
-        }
+       
 
+        //ans = effectangle;
+        Debug.Log(ans);
         return ans;
     }
 
