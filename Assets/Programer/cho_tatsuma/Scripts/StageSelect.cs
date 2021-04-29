@@ -8,51 +8,45 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+//すべての引数はthisでお願いします。
+
 // @name   StageSelect
 // @brief  ステージセレクト定義
-public class StageSelect : MonoBehaviour
+public static class StageSelect
 {
-    
-    [SerializeField] private Image m_fadeImage = default;           //フェードゲームオブジェクトを選択（UIImage）
-    private Fade m_fade;                                            //フェードクラスを取得
+    static public Image m_fadeImage;           //フェードゲームオブジェクトを選択（UIImage）
+    static public Fade m_fade;                                            //フェードクラスを取得
 
-    [SerializeField] private Slider m_gauge = default;              //ローディング画面のスライダー
-    private AsyncOperation m_async;                                 //同期処理
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        //フェードオブジェクトからフェードクラスコンポーネントを取得
-        m_fade = m_fadeImage.gameObject.GetComponent<Fade>();
-    }
+    [SerializeField] static private Slider m_gauge = default;              //ローディング画面のスライダー
+    static private AsyncOperation m_async;                                 //同期処理
 
     // @name   GoStageSelect
     // @brief  ステージセレクト画面への遷移
-    public void GoStageSelect()
+    static public void GoStageSelect(MonoBehaviour monoBehaviour)
     {
         m_fade.StartFadeOut();
-        StartCoroutine(Loading("StageSelectScene"));
+        monoBehaviour.StartCoroutine(Loading("StageSelectScene"));
     }
 
     // @name   GoStageSelect
     // @brief  ステージセレクト画面への遷移
-    public void GoTitleScene()
+    static public void GoTitleScene(MonoBehaviour monoBehaviour)
     {
         if (Time.timeScale == 0f) Time.timeScale = 1.0f;
         m_fade.StartFadeOut();
-        StartCoroutine(Loading("TittleScene"));
+        monoBehaviour.StartCoroutine(Loading("TittleScene"));
     }
 
-    public void LoadStage(int _num)
+   static public void LoadStage(int _num, MonoBehaviour monoBehaviour)
     {
         m_fade.gameObject.SetActive(true);
         m_fade.StartFadeOut();
-        StartCoroutine(Loading("Stage" + _num));
+        monoBehaviour.StartCoroutine(Loading("Stage" + _num));
     }
 
     // @name   Loading
     // @brief  NowLodingに対応させるための関数
-    IEnumerator Loading(string _stageName)
+   public static IEnumerator Loading(string _stageName)
     {
         while (true)
         {
@@ -80,7 +74,7 @@ public class StageSelect : MonoBehaviour
 
     // @name   ClickGameEndBotton
     // @brief  ゲーム終了ボタン
-    public void ClickGameEndBotton()
+   static public void ClickGameEndBotton()
     {
         //Debug.Log("ゲーム終了ボタンが押された");
         Application.Quit();
