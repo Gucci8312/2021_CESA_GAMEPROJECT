@@ -36,7 +36,7 @@ public class Rythm : MonoBehaviour
 
     [SerializeField] AudioClip SE = default;
     AudioSource audioSource;
-    [SerializeField] AudioSource stageBGM = default;
+    //[SerializeField] AudioSource stageBGM = default;
 
     [SerializeField] GameObject MobiusObj = default;                                                                            //リズムオブジェクト
     MoveMobius mobius_script;                                                                                    //リズムスクリプト取得用
@@ -65,6 +65,13 @@ public class Rythm : MonoBehaviour
        // stageBGM.Play();
        // stageBGM.loop = true;
 
+        ////フレームマネージャーからソースを取得
+        //m_frameManager = GameObject.Find("FrameManager");
+        //m_changeColorScript = m_frameManager.GetComponent<ChangeFlameColor>();
+    }
+
+    private void Awake()
+    {
         //フレームマネージャーからソースを取得
         m_frameManager = GameObject.Find("FrameManager");
         m_changeColorScript = m_frameManager.GetComponent<ChangeFlameColor>();
