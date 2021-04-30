@@ -13,6 +13,8 @@ public class MoveMobius : MonoBehaviour
     public float GoalMovetime = 0.05f;                                       //目的地へ到達するまでの時間（秒）
     float Nowtime = 0;                                                       //移動時間（秒）
 
+
+
     public bool PlayerMoveFlg;                                               // プレイヤーによる移動判定用
     GameObject player;
     PlayerMove pm;                                                           //PlayerMoveスクリプト
