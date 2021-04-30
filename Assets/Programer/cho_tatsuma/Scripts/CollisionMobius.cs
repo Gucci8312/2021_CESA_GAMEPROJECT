@@ -28,6 +28,7 @@ public class CollisionMobius : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+         if (m_mobiusPosScript.m_mobius[m_mobiusPosScript.m_nowMobiusNo].gameObject.name == other.gameObject.transform.parent.gameObject.name) return;
         if (other.tag == "Wa" && !m_hitFlg)
         {
             m_mobiusPosScript.MobiusCollisionOn(other.gameObject.transform.parent.gameObject);
