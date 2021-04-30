@@ -62,8 +62,8 @@ public class Rythm : MonoBehaviour
         StartCoroutine("SuccessCheck");
 
         //音を再生・ループにする
-        stageBGM.Play();
-        stageBGM.loop = true;
+       // stageBGM.Play();
+       // stageBGM.loop = true;
 
         //フレームマネージャーからソースを取得
         m_frameManager = GameObject.Find("FrameManager");
