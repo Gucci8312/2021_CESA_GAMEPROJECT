@@ -6,9 +6,21 @@ using UnityEngine.VFX;
 
 public class GameMaster : MonoBehaviour
 {
+    [SerializeField] GameObject m_soundManagerPrefab;          //生成用プレハブ
+
     public GameObject Menu;
     public string BgmName;
     GameObject Player;
+
+    private void Awake()
+    {
+        GameObject m_soundManager = GameObject.Find("SoundManager(Clone)");     //サウンドマネージャー検索
+        //サウンドマネージャーがなければ生成
+        if (m_soundManager == null)
+        {
+            Instantiate(m_soundManagerPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
