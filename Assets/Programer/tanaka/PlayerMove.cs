@@ -481,8 +481,12 @@ public class PlayerMove : MonoBehaviour
 
             Vector2 Vec = NextMobiusPos - NowMobiusPos;//対象のメビウスの輪と
             float VecLength = Mathf.Sqrt(Vec.x * Vec.x + Vec.y * Vec.y);
-            if (hankei + hankei > VecLength)//メビウスの輪同士の当たり判定
+            Debug.Log("Player("+i+")長さ"+VecLength);
+            Debug.Log("半径" + hankei*2);
+
+            if (hankei + hankei > VecLength )//メビウスの輪同士の当たり判定
             {
+                
                 Vec.x = Vec.x / VecLength;
                 Vec.y = Vec.y / VecLength;
 
@@ -663,12 +667,12 @@ public class PlayerMove : MonoBehaviour
             
             if (InsideFlg)
             {
-                ans = (angle / 2f) - 270f+100;
+                ans = (angle / 2f) - 270f+200;
                 //Debug.Log("1");
             }
             else
             {
-                ans = (angle / 2f) - 270f+100;
+                ans = (angle / 2f) - 270f+200;
                 //Debug.Log("2");
             }
         }
@@ -691,7 +695,7 @@ public class PlayerMove : MonoBehaviour
        
 
         //ans = effectangle;
-        Debug.Log(ans);
+        //Debug.Log(ans);
         return ans;
     }
 

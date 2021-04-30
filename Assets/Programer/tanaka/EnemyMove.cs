@@ -298,6 +298,7 @@ public class EnemyMove : MonoBehaviour
 
             Vector2 Vec = NextMobiusPos - NowMobiusPos;//対象のメビウスの輪と
             float VecLength = Mathf.Sqrt(Vec.x * Vec.x + Vec.y * Vec.y);
+            Debug.Log(this.name+"(" + i + ")長さ" + VecLength);
             if (hankei + hankei > VecLength)//メビウスの輪同士の当たり判定
             {
                 Vec.x = Vec.x / VecLength;
@@ -430,7 +431,7 @@ public class EnemyMove : MonoBehaviour
     {
         StanTimeCount = 0;
         Stan = true;
-        Debug.Log("ヒップドロップ成功");
+        //Debug.Log("ヒップドロップ成功");
     }
 
     private void OnTriggerEnter(Collider other)
