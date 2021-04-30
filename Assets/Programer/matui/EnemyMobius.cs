@@ -7,6 +7,8 @@ public class EnemyMobius : MonoBehaviour
     private bool EnemyBeatFlag;                                 //ビートが指定した回数になったかどうか
     public int MaxBeatNum = 4;                                  //ビート最大数指定
     float BeatCount = 0;
+    
+
 
     MoveMobius Mm;//MoveMobiusスクリプト
 
