@@ -58,10 +58,10 @@ public class GameMaster : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Player.GetComponent<PlayerMove>().GetCollisionState())
-        {
-            SceneManager.LoadScene("TitleScene");
-        }
+        //if (Player.GetComponent<PlayerMove>().GetCollisionState())
+        //{
+        //    SceneManager.LoadScene("TitleScene");
+        //}
     }
 
     IEnumerator CheckLoop()

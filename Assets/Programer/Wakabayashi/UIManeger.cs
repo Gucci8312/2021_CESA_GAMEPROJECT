@@ -57,7 +57,7 @@ public class UIManeger : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.K))
             {
-                SceneManager.LoadScene("TittleScene");
+                SceneManager.LoadScene("TitleScene");
             }
         }
 
@@ -74,7 +74,7 @@ public class UIManeger : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.K))
             {
-                SceneManager.LoadScene("TittleScene");
+                SceneManager.LoadScene("TitleScene");
             }
         }
 
