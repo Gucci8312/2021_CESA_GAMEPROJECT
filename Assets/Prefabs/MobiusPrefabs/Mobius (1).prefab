@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1442413225133861870}
   - component: {fileID: 1442413225133861871}
   - component: {fileID: 1442413225133861868}
+  - component: {fileID: 399693138401523593}
   m_Layer: 0
   m_Name: Mobius (1)
   m_TagString: Mobius
@@ -105,11 +106,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GoalMovetime: 0.05
   PlayerMoveFlg: 0
-  StickInput: {x: 0, y: 0}
-  FlickVec: {x: 0, y: 0}
-  FlickMoveFlag: 0
+  EnemyMoveFlag: 0
+  Enemy:
+  - {fileID: 0}
+  - {fileID: 0}
   Line: []
   ColPos: {x: 0, y: 0, z: 0}
+--- !u!114 &399693138401523593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442413225133861869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aac1e65371108848b1cd9d18b677d34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxBeatNum: 12
 --- !u!1 &1442413225207126687
 GameObject:
   m_ObjectHideFlags: 0
@@ -863,15 +878,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1ffaf4f4a8390e4db1ab71c739efb70, type: 3}
---- !u!1 &1784853711239497001 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c1ffaf4f4a8390e4db1ab71c739efb70,
-    type: 3}
-  m_PrefabInstance: {fileID: 1442413224849504376}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1409277394896265107 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c1ffaf4f4a8390e4db1ab71c739efb70,
+    type: 3}
+  m_PrefabInstance: {fileID: 1442413224849504376}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1784853711239497001 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c1ffaf4f4a8390e4db1ab71c739efb70,
     type: 3}
   m_PrefabInstance: {fileID: 1442413224849504376}
   m_PrefabAsset: {fileID: 0}

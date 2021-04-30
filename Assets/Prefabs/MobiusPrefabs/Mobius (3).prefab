@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 4809938382718829036}
   - component: {fileID: 4809938382718829037}
   - component: {fileID: 4809938382718828818}
+  - component: {fileID: 3067096587005459418}
   m_Layer: 0
   m_Name: Mobius (3)
   m_TagString: Mobius
@@ -189,11 +190,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GoalMovetime: 0.05
   PlayerMoveFlg: 0
-  StickInput: {x: 0, y: 0}
-  FlickVec: {x: 0, y: 0}
-  FlickMoveFlag: 0
+  EnemyMoveFlag: 0
+  Enemy:
+  - {fileID: 0}
+  - {fileID: 0}
   Line: []
   ColPos: {x: 0, y: 0, z: 0}
+--- !u!114 &3067096587005459418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4809938382718828819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aac1e65371108848b1cd9d18b677d34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxBeatNum: 12
 --- !u!1 &4809938382947105914
 GameObject:
   m_ObjectHideFlags: 0
