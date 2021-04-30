@@ -66,12 +66,12 @@ public class MoveLine : MonoBehaviour
 
         }
 
-        if (this.rythm.m_EmobiusBeatFlag)//ビートを刻んだら
-        {
-            //time += Time.deltaTime;
-            BeatCount++;
+        //if (this.rythm.m_EmobiusBeatFlag)//ビートを刻んだら
+        //{
+        //    //time += Time.deltaTime;
+        //    BeatCount++;
 
-        }
+        //}
 
     }
 

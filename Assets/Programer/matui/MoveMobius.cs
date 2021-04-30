@@ -159,7 +159,7 @@ public class MoveMobius : MonoBehaviour
                             //Rb.isKinematic = false;//物理的な動きをありにする
 
                             //最終的に入力した方向にある線に沿って交点へ移動
-                            MovePos = cl[0].CanMovePosition(NearCl.RayHitPos);//移動できる交点を取得
+                            MovePos = cl[0].NearCrossPos(NearCl.RayHitPos);//移動できる交点を取得
                             MoveVec = SearchVector(this.transform.position, MovePos);
 
                             //進む方向の線の上に乗っているかどうか調べる
