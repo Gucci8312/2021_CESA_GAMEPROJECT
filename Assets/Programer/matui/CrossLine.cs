@@ -19,6 +19,7 @@ public class CrossLine : MonoBehaviour
     [HideInInspector]
     public Vector3 RayHitPos;
 
+    public bool LineMovingFlag;             //動かすかどうか
     // Start is called before the first frame update
     void Start()
     {
@@ -32,8 +33,23 @@ public class CrossLine : MonoBehaviour
     void Update()
     {
         LRPosVecUpdate();
+        //CrossPosUpdate();
     }
 
+    private void CrossPosUpdate()
+    {
+        if (Line.Count != 0)
+        {
+            for (int i = 0; i < Line.Count; i++)
+            {
+                Vector2 vec;
+                CrossLinePosition(this.gameObject, Line[i], out vec);
+                CrossPos[i] = vec;
+            }
+        }
+    }
+
+    //端の座標と方向の更新
     private void LRPosVecUpdate()
     {
         LPos = RotationfromPosition(this.transform.position, this.transform.localScale, this.transform.localEulerAngles.z, 0);//自分の左端の回転を含めた座標を取得
@@ -253,6 +269,7 @@ public class CrossLine : MonoBehaviour
         return SerchPos;
     }
 
+    //引数のリストの要素と近い交点を返す
     public Vector2 NearListCrossPos(List <Vector2> SerchPos)
     {
         for(int i = 0; i < CrossPos.Count; i++)
@@ -270,47 +287,93 @@ public class CrossLine : MonoBehaviour
         return Vector2.zero;
     }
 
+    //オブジェクトのリストの中の要素を検索する
+    private bool SameObjListSearch(List<GameObject> ListObj, GameObject SearchObj)
+    {
+        int Count = 0;
+        for (int i = 0; i < ListObj.Count; i++)
+        {
+            if (ListObj[i] != SearchObj)//リストの要素と検索したいオブジェクトが違うなら
+            {
+                Count++;
+            }
+        }
+        if (ListObj.Count == Count)//リストの中に検索したいオブジェクトが無ければ
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Line"))
         {
-            Vector2 vec;
-            if (CrossLinePosition(this.gameObject, other.gameObject, out vec))
+            CrossLine otherCL = other.GetComponent<CrossLine>();//相手のCrossLineスクリプトを取得
+
+            if (LineMovingFlag == otherCL.LineMovingFlag)
             {
-                CrossPos.Add(vec);
-            }
-            else
-            {
-                Debug.Log("交点が求められなかった");
-            }
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.CompareTag("Line"))
-        {
-            
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Line"))
-        {
-            CrossLine otherCL= other.GetComponent<CrossLine>();
-
-            //お互いの交点の座標を取得（ほんのわずかなずれがあるので二つとも取得する）
-            Vector2 pos1 = NearListCrossPos(otherCL.GetCrossPos());
-            Vector2 pos2 = otherCL.NearListCrossPos(CrossPos);
-
-            if (pos1 != Vector2.zero)
-            {
-                //お互いに該当する交点を削除する
-                CrossPos.Remove(pos1);
-                other.GetComponent<CrossLine>().CrossPos.Remove(pos2);
+                Vector2 vec;
+                if (CrossLinePosition(this.gameObject, other.gameObject, out vec))
+                {
+                    CrossPos.Add(vec);
+                }
+                else
+                {
+                    Debug.Log("交点が求められなかった");
+                }
             }
         }
     }
+
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Line"))
+    //    {
+    //        if (Line.Count == 0)//Lineリストに要素が無ければ
+    //        {
+    //            Line.Add(other.gameObject);//Lineリストに当たったものを追加
+    //            cl.Add(other.GetComponent<CrossLine>());
+    //            CrossPos.Add(Vector2.zero);
+    //        }
+    //        else//Lineリストに要素があれば
+    //        {
+    //            if (SameObjListSearch(Line, other.gameObject))//Lineリストの中に当たったものがなければ
+    //            {
+    //                Line.Add(other.gameObject);//Lineリストに当たったものを追加
+    //                cl.Add(other.GetComponent<CrossLine>());
+    //                CrossPos.Add(Vector2.zero);
+    //            }
+    //        }
+    //    }
+    //}
+
+    ////private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Line"))
+    //    {
+    //        CrossLine otherCL = other.GetComponent<CrossLine>();//相手のCrossLineスクリプトを取得
+
+    //        ////お互いの交点の座標を取得（ほんのわずかなずれがあるので二つとも取得する）
+    //        //Vector2 pos1 = NearListCrossPos(otherCL.GetCrossPos());
+    //        //Vector2 pos2 = otherCL.NearListCrossPos(CrossPos);
+
+    //        //if (pos1 != Vector2.zero)
+    //        //{
+    //        //    //お互いに該当する交点を削除する
+    //        //    CrossPos.Remove(pos1);
+    //        //    other.GetComponent<CrossLine>().CrossPos.Remove(pos2);
+    //        //}
+
+    //        CrossPos.Remove(Vector2.zero);
+    //        otherCL.CrossPos.Remove(Vector2.zero);
+
+    //        Line.Remove(other.gameObject);//登録したLineリストの中に該当する要素を削除する
+    //        cl.Remove(other.GetComponent<CrossLine>());
+
+    //    }
+    //}
 }
