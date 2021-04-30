@@ -16,6 +16,9 @@ public class UIManeger : MonoBehaviour
     GameObject[] CheackPointObj;
     public int CrearNum;
 
+    GameObject ZoomCameraObj;
+    CameraZoom _camera;
+
     void Start()
     {
         Player = GameObject.Find("Player");                                        //全てのメビウス取得
@@ -28,6 +31,10 @@ public class UIManeger : MonoBehaviour
             //Debug.Log("aa");
         }
         //Debug.Log("bb");
+
+        ZoomCameraObj = GameObject.Find("ZoomCameraObj");
+        _camera = ZoomCameraObj.GetComponent<CameraZoom>();
+
     }
 
     void Update()
@@ -36,12 +43,14 @@ public class UIManeger : MonoBehaviour
         print(checkpointobjects.Length);
 
         //if (CountScript.CheckPointNum== CrearNum)  //チェックポイント0になったら
-        if (CountScript.CheckPointNum== CrearNum)  //チェックポイント0になったら
+        if (CountScript.CheckPointNum == CrearNum)  //チェックポイント0になったら
         {
             Debug.Log(" ゲームクリア");
 
             GameClear.active = true;
+            _camera.OnZoom();                 //カメラズーム
             Time.timeScale = 0.0f;
+
         }
 
         if (GameClear.active == true)
@@ -57,6 +66,7 @@ public class UIManeger : MonoBehaviour
             Debug.Log(" ゲームオーバー");
 
             GameOver.active = true;
+            _camera.OnZoom();                //カメラズーム
             Time.timeScale = 0.0f;
         }
 

@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class CameraZoom : MonoBehaviour
 {
-    public bool ZoomActive;
+    public bool ZoomActive = false;
+    // private bool ZoomActive = false;
     public Vector3[] Target;
 
     public Camera Cam;
 
-    public float Speed;
+    public float Speed;　        //拡大する速度
+
+    public float distanceZ;     //Z軸の距離
 
     PlayerMove player;
 
@@ -18,9 +21,6 @@ public class CameraZoom : MonoBehaviour
     {
         Cam = Camera.main;
         player = GameObject.Find("Player").GetComponent<PlayerMove>();
-        Vector3 pos = player.transform.position;
-        pos.z = pos.z - 100;
-        //player.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
     }
 
     // Update is called once per frame
@@ -29,8 +29,9 @@ public class CameraZoom : MonoBehaviour
         if (ZoomActive)
         {
             Cam.orthographicSize = Mathf.Lerp(Cam.orthographicSize, 5, Speed);
-            //Cam.transform.position = player.transform.position;
-            Cam.transform.position = Vector3.Lerp(Cam.transform.position, player.transform.position, Speed);
+            Vector3 posP;
+            posP = new Vector3(player.transform.position.x, player.transform.position.y, distanceZ);     //プレイヤーの座標取得
+            Cam.transform.position = Vector3.Lerp(Cam.transform.position, posP, Speed);                 //カメラの座標とプレイヤーの座標をLerp
 
         }
         else
@@ -39,4 +40,15 @@ public class CameraZoom : MonoBehaviour
             Cam.transform.position = Vector3.Lerp(Cam.transform.position, Target[0], Speed);
         }
     }
+
+    public void OnZoom()
+    {
+        ZoomActive = true;
+    }
+
+    public void OffZoom()
+    {
+        ZoomActive = false;
+    }
 }
+

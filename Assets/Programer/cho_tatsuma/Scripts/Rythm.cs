@@ -98,7 +98,8 @@ public class Rythm : MonoBehaviour
         m_changeColorScript.Flame_Color_Attenuation();
         //音の始まりを調整
         //音のループによる読み込み時の誤差を調整
-        if (stageBGM.time <= 0.05f)
+        //if (stageBGM.time <= 0.05f)
+        if (!SoundManager.BgmIsPlaying())
         {
             m_startTime = Time.timeSinceLevelLoad;
             m_sphere.transform.position = new Vector3(m_currentPos.x, m_currentPos.y, m_currentPos.z);

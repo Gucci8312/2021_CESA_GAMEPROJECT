@@ -75,6 +75,9 @@ public class PlayerMove : MonoBehaviour
 
     public float effectangle;
 
+    Camera cam;
+    CameraShake camerashake;
+
     void Start()
     {
         //rb = GetComponent<Rigidbody>();                                                             // リジットボディを格納
@@ -137,6 +140,9 @@ public class PlayerMove : MonoBehaviour
 
         RythmFlg = this.rythm.rythmCheckFlag;
         RythmSaveFlg = RythmFlg;
+
+        cam = Camera.main;
+        camerashake = cam.GetComponent<CameraShake>();
 
         PositionSum();
 
@@ -266,6 +272,8 @@ public class PlayerMove : MonoBehaviour
 
                     jumpmove += (HipDropSpeed * 100f) * Time.deltaTime;
 
+                    camerashake.OnShake();
+
                     if (jumpmove > 0)
                     {
                         jumpmove = 0;
@@ -302,6 +310,8 @@ public class PlayerMove : MonoBehaviour
                     //jumpmove_prev = jumpmovesave;
 
                     jumpmove -= (HipDropSpeed * 100f) * Time.deltaTime;
+
+                    camerashake.OnShake();
 
                     if (jumpmove < 0)
                     {
