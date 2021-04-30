@@ -31,8 +31,8 @@ public class TtilePLight : MonoBehaviour
 
     float whiteIntensity;
     float pinkIntensity;
-    // CoroutineDelegate
 
+    public bool titleAnimationFinished;
     // @name   OnInit
     // @brief  初期化関数
     public void OnInit()
@@ -44,6 +44,7 @@ public class TtilePLight : MonoBehaviour
         pinkIntensity = m_pinkLight.intensity;
         m_pinkLight.intensity = 0f;
         m_textColor = Color.clear;
+        titleAnimationFinished = false;
         ChangeTextColorClear(m_beatText);
         ChangeTextColorClear(m_runText);
 
@@ -79,6 +80,7 @@ public class TtilePLight : MonoBehaviour
         if (m_textColor.r >= 1.0f)
         {
             m_pressAButtonText.SetActive(true);
+            titleAnimationFinished = true;
             return;
         }
         m_textColor.r += 0.1f * (1f / 20f);
@@ -116,7 +118,6 @@ public class TtilePLight : MonoBehaviour
             }
             if (i == 3)
             {
-                Debug.Log("StartCoroutine");
                 yield return new WaitForSeconds(1.0f);
                 StartCoroutine("SlowChangeSpotLight");
             }
