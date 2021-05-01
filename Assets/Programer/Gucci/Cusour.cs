@@ -46,14 +46,17 @@ public class Cusour : MonoBehaviour
             if (Pos.y == MenuButton[0].transform.position.y)
             {
                 Menu.SetActive(!Menu.activeSelf);
+                Time.timeScale = 1.0f;
             }
             else if (Pos.y == MenuButton[1].transform.position.y)
             {
                 RestartBotton();
+                Time.timeScale = 1.0f;
             }
             else if (Pos.y == MenuButton[2].transform.position.y)
             {
                 StageSelectBotton();
+                Time.timeScale = 1.0f;
             }
         }
     }
