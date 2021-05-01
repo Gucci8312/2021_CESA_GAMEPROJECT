@@ -375,7 +375,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CrossPos: []
+  Line: []
   RayHitPos: {x: 0, y: 0, z: 0}
+  LineMovingFlag: 0
 --- !u!65 &69175089
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1340,6 +1342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df09c12b321d9de4cb909814f9e6ae49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_soundManagerPrefab: {fileID: 0}
   Menu: {fileID: 460356360}
   BgmName: Alley
 --- !u!4 &371337738
@@ -1731,7 +1734,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CrossPos: []
+  Line: []
   RayHitPos: {x: 0, y: 0, z: 0}
+  LineMovingFlag: 0
 --- !u!65 &627786584
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1965,7 +1970,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CrossPos: []
+  Line: []
   RayHitPos: {x: 0, y: 0, z: 0}
+  LineMovingFlag: 0
 --- !u!65 &667573569
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2183,7 +2190,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CrossPos: []
+  Line: []
   RayHitPos: {x: 0, y: 0, z: 0}
+  LineMovingFlag: 0
 --- !u!65 &732516879
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2717,7 +2726,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CrossPos: []
+  Line: []
   RayHitPos: {x: 0, y: 0, z: 0}
+  LineMovingFlag: 0
 --- !u!65 &1196555039
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2914,6 +2925,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87c716592132a8f4692486c419e3c397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_nowMobiusNo: 0
+  m_mobius: []
+  otherMobius: {fileID: 0}
 --- !u!4 &1233712497
 Transform:
   m_ObjectHideFlags: 0
@@ -2981,7 +2995,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CrossPos: []
+  Line: []
   RayHitPos: {x: 0, y: 0, z: 0}
+  LineMovingFlag: 0
 --- !u!65 &1262973681
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3427,7 +3443,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CrossPos: []
+  Line: []
   RayHitPos: {x: 0, y: 0, z: 0}
+  LineMovingFlag: 0
 --- !u!65 &1386414858
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3552,7 +3570,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CrossPos: []
+  Line: []
   RayHitPos: {x: 0, y: 0, z: 0}
+  LineMovingFlag: 0
 --- !u!65 &1486849269
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4169,6 +4189,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87c716592132a8f4692486c419e3c397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_nowMobiusNo: 0
+  m_mobius: []
+  otherMobius: {fileID: 0}
 --- !u!1 &1651088229 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4260265600030706069, guid: f7a00c465ee1ab24baf205597a471688,
@@ -4807,6 +4830,7 @@ MonoBehaviour:
   angle: 0
   rotateSpeed: 30
   HipDrop: 0
+  effectangle: 0
 --- !u!23 &1909257137
 MeshRenderer:
   m_ObjectHideFlags: 0
