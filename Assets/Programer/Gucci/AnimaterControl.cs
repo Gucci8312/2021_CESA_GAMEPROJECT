@@ -26,11 +26,17 @@ public class AnimaterControl : MonoBehaviour
             OldState = NowState;
             NowState = "HipDrop";
         }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             Run();
             OldState = NowState;
             NowState = "Run";
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            Walk();
+            OldState = NowState;
+            NowState = "Walk";
         }
     }
     public void HipDrop()
@@ -41,21 +47,23 @@ public class AnimaterControl : MonoBehaviour
     public void Walk()
     {
         Anim.SetBool("WalkFlg", true);
+        Anim.SetBool("RunFlg", false);
     }
 
     public void Run()
     {
         Anim.SetBool("RunFlg", true);
+        Anim.SetBool("WalkFlg", false);
     }
 
     void StopHipDrop()
     {
         Anim.SetBool("HipDropFlg", false);
-        if(OldState == "Walk")
+        if (OldState == "Walk")
         {
             Walk();
         }
-        else if(OldState == "Run")
+        else if (OldState == "Run")
         {
             Run();
         }
