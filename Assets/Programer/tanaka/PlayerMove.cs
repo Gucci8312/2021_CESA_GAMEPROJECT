@@ -66,7 +66,9 @@ public class PlayerMove : MonoBehaviour
     public float HipDropColPos = 10;//ヒップドロップの当たり判定位置の調整用
     public float HipDropColLength = 10;//ヒップドロップの当たり判定の半径
     Vector3 HipDropCollisionPos;//ヒップドロップの場所
-    
+
+    AnimaterControl PlayerAnimation;//アニメーションのコントローラー
+
 
     private void OnValidate()
     {
@@ -87,6 +89,7 @@ public class PlayerMove : MonoBehaviour
         RythmObj = GameObject.Find("rythm_circle");                                                   //リズムオブジェクト取得
         this.rythm = RythmObj.GetComponent<Rythm>();                                                  //リズムのコード
 
+        PlayerAnimation = GameObject.Find("PLAYERModel").GetComponent<AnimaterControl>();
         
         SideCnt = 2;
         SaveMobius = -1;
@@ -181,26 +184,7 @@ public class PlayerMove : MonoBehaviour
         if (RythmFlg)//リズムのタイミングが来た
         {
             
-            if (Controler.GetJumpButtonFlg() && !TimingInput)//ジャンプ
-            {
-                if (!JumpMashing)
-                {
-                    TimingInput = true;
-
-                    jumpmove = 0;
-                    jumpmovesave = 0;
-                    jumpmove_prev = 0;
-
-                    if (InsideFlg)//ジャンプの力をセット
-                    {
-                        pow = -jumppow;
-                    }
-                    else
-                    {
-                        pow = jumppow;
-                    }
-                }
-            }
+            
 
             if (RythmSaveFlg != RythmFlg)//タイミングがtrueになった瞬間
             {
@@ -216,6 +200,9 @@ public class PlayerMove : MonoBehaviour
                         SpacePress = true;
                         Speed = UpSpeed;
                         SpeedUpFlg = true;
+
+                        PlayerAnimation.Run();
+                        
                     }
                     else
                     {
@@ -223,11 +210,35 @@ public class PlayerMove : MonoBehaviour
                         SpacePress = false;
                         Speed = NormalSpeed;
                         SpeedUpFlg = false;
+
+                        PlayerAnimation.Walk();
                     }
                 }
             }
 
+            if (Controler.GetJumpButtonFlg() && !TimingInput)//ジャンプ
+            {
+                if (!JumpMashing)
+                {
 
+                    TimingInput = true;
+
+                    jumpmove = 0;
+                    jumpmovesave = 0;
+                    jumpmove_prev = 0;
+
+                    PlayerAnimation.HipDrop();
+
+                    if (InsideFlg)//ジャンプの力をセット
+                    {
+                        pow = -jumppow;
+                    }
+                    else
+                    {
+                        pow = jumppow;
+                    }
+                }
+            }
 
         }
         else
@@ -257,6 +268,8 @@ public class PlayerMove : MonoBehaviour
                 Speed = NormalSpeed;
                 SpeedUpFlg = false;
                 SpeedUpMashing = true;
+
+                PlayerAnimation.Walk();
             }
 
             if (Controler.GetJumpButtonFlg())
@@ -337,6 +350,8 @@ public class PlayerMove : MonoBehaviour
                 }//else
 
             }//else//外側
+
+            
 
         }//if (TimingInput)
         else
