@@ -7,8 +7,6 @@ public class EnemyMobius : MonoBehaviour
     private bool EnemyBeatFlag;                                 //ビートが指定した回数になったかどうか
     public int MaxBeatNum = 4;                                  //ビート最大数指定
     float BeatCount = 0;
-    
-
 
     MoveMobius Mm;//MoveMobiusスクリプト
 
@@ -35,7 +33,7 @@ public class EnemyMobius : MonoBehaviour
     {
         BeatCounter();//ビート数チェック
 
-        if (Mm.EnemyMoveFlag && !Mm.PlayerMoveFlg) //エネミーが乗ってたら
+        if (Mm.EnemyMoveFlag && !Mm.PlayerMoveFlg && Mm.Getcl().Count != 0) //エネミーが乗ってたら かつ　線に乗っていたら
         {
             if (GoToVectorFlag())
             {
@@ -71,11 +69,11 @@ public class EnemyMobius : MonoBehaviour
         List<Vector2> MoveVec = new List<Vector2>();
         for(int i=0;i< Mm.Getcl().Count; i++)
         {
-            if (!Mm.Getcl()[i].NearRPosFlag(this.transform.position))
+            if (!Mm.Getcl()[i].NearEndRCrossPosFlag(this.transform.position))
             {
                 MoveVec.Add(Mm.Getcl()[i].GetRvec());/* Debug.Log("Rvecげっと！");*/
             }
-            if (!Mm.Getcl()[i].NearLPosFlag(this.transform.position))
+            if (!Mm.Getcl()[i].NearEndLCrossPosFlag(this.transform.position))
             {
                 MoveVec.Add(Mm.Getcl()[i].GetLvec());/* Debug.Log("Lvecげっと！");*/
             }
