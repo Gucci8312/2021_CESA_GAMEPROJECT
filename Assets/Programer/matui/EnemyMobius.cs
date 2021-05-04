@@ -151,7 +151,6 @@ public class EnemyMobius : MonoBehaviour
                 {
                     return false;
                 }
-
             }
         }
 
