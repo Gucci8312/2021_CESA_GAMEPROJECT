@@ -182,7 +182,7 @@ public class Rythm : MonoBehaviour
             else
             {
                 //Entarキーで失敗時の処理
-                if (Controler.GetJumpButtonFlg() || LRTrigger())
+                if (Controler.GetJumpButtonFlg() || LRTrigger()||Controler.GetRythmButtonFlg())
                 {
                     Instantiate(missPrefabs);
                 }
