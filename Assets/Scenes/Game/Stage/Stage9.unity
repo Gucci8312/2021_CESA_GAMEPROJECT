@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -172,8 +172,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &34665207
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -464,8 +465,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &69175089
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1208,8 +1210,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &358509960
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1675,6 +1678,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _material: {fileID: 2100000, guid: 2c37019bd327b2745942ed9633d3a832, type: 2}
   _DirectionLight: {fileID: 1846468939}
+  _PointLight1: {fileID: 0}
+  _PointLight2: {fileID: 0}
+  _PointLight3: {fileID: 0}
+  DirectionLightPower: 0.05
+  PointLightPower: 2000
 --- !u!114 &505649781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1836,8 +1844,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &627786584
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1963,8 +1972,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &667573569
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2213,8 +2223,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &732516879
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2993,6 +3004,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _material: {fileID: 2100000, guid: 663cfffa97ac1304298c7b662ecac258, type: 2}
   _DirectionLight: {fileID: 0}
+  _PointLight1: {fileID: 0}
+  _PointLight2: {fileID: 0}
+  _PointLight3: {fileID: 0}
+  DirectionLightPower: 0.05
+  PointLightPower: 2000
 --- !u!114 &1163437277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3075,8 +3091,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &1196555039
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3491,8 +3508,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &1262973681
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3831,8 +3849,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &1386414858
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4050,8 +4069,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &1486849269
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5014,7 +5034,8 @@ MonoBehaviour:
   Enemy:
   - {fileID: 0}
   - {fileID: 0}
-  Line: []
+  MoveLineObj: {fileID: 0}
+  MovePos: {x: 0, y: 0, z: 0}
   ColPos: {x: 0, y: 0, z: 0}
 --- !u!114 &1665373171
 MonoBehaviour:
@@ -5827,8 +5848,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &2074994514
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6170,6 +6192,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7891053899949650305, guid: 1e7577bf402d6864ba779a663802e455,
+        type: 3}
+      propertyPath: HipDropSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7891053899949650305, guid: 1e7577bf402d6864ba779a663802e455,
+        type: 3}
+      propertyPath: HipDropColPos
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 7891053899949650305, guid: 1e7577bf402d6864ba779a663802e455,
+        type: 3}
+      propertyPath: HipDropColLength
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 7891053899949650306, guid: 1e7577bf402d6864ba779a663802e455,
         type: 3}
