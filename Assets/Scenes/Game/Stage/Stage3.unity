@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0.99999905, b: 0.99999905, a: 1}
+  m_IndirectSpecularColor: {r: 0.17615542, g: 0.22046289, b: 0.30279005, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -677,6 +677,7 @@ GameObject:
   - component: {fileID: 145748614}
   - component: {fileID: 145748613}
   - component: {fileID: 145748612}
+  - component: {fileID: 145748617}
   m_Layer: 0
   m_Name: Mobius (2)
   m_TagString: Mobius
@@ -698,13 +699,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GoalMovetime: 0.05
   PlayerMoveFlg: 0
-  EnemyMoveFlag: 0
+  EnemyMoveFlag: 1
   Enemy:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 715919427}
+  - {fileID: 1904297400}
   MoveLineObj: {fileID: 0}
   MovePos: {x: 0, y: 0, z: 0}
   ColPos: {x: 0, y: 0, z: 0}
+  StartMovePos: {x: 0, y: 0, z: 0}
+  OldPos: {x: 0, y: 0, z: 0}
 --- !u!114 &145748613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -775,6 +778,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &145748617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 145748611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aac1e65371108848b1cd9d18b677d34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxBeatNum: 12
 --- !u!1 &206561369
 GameObject:
   m_ObjectHideFlags: 0
@@ -1454,6 +1470,7 @@ GameObject:
   - component: {fileID: 402048444}
   - component: {fileID: 402048443}
   - component: {fileID: 402048442}
+  - component: {fileID: 402048447}
   m_Layer: 0
   m_Name: Mobius (1)
   m_TagString: Mobius
@@ -1475,13 +1492,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GoalMovetime: 0.05
   PlayerMoveFlg: 0
-  EnemyMoveFlag: 0
+  EnemyMoveFlag: 1
   Enemy:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 715919427}
+  - {fileID: 1904297400}
   MoveLineObj: {fileID: 0}
   MovePos: {x: 0, y: 0, z: 0}
   ColPos: {x: 0, y: 0, z: 0}
+  StartMovePos: {x: 0, y: 0, z: 0}
+  OldPos: {x: 0, y: 0, z: 0}
 --- !u!114 &402048443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1551,6 +1570,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &402048447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 402048441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aac1e65371108848b1cd9d18b677d34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxBeatNum: 12
 --- !u!1 &417091093
 GameObject:
   m_ObjectHideFlags: 0
@@ -3773,6 +3805,8 @@ MonoBehaviour:
   MoveLineObj: {fileID: 0}
   MovePos: {x: 0, y: 0, z: 0}
   ColPos: {x: 0, y: 0, z: 0}
+  StartMovePos: {x: 0, y: 0, z: 0}
+  OldPos: {x: 0, y: 0, z: 0}
 --- !u!114 &1265338888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5912,6 +5946,7 @@ GameObject:
   - component: {fileID: 1665373172}
   - component: {fileID: 1665373171}
   - component: {fileID: 1665373170}
+  - component: {fileID: 1665373175}
   m_Layer: 0
   m_Name: Mobius (0)
   m_TagString: Mobius
@@ -5933,13 +5968,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GoalMovetime: 0.05
   PlayerMoveFlg: 0
-  EnemyMoveFlag: 0
+  EnemyMoveFlag: 1
   Enemy:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 715919427}
+  - {fileID: 1904297400}
   MoveLineObj: {fileID: 0}
   MovePos: {x: 0, y: 0, z: 0}
   ColPos: {x: 0, y: 0, z: 0}
+  StartMovePos: {x: 0, y: 0, z: 0}
+  OldPos: {x: 0, y: 0, z: 0}
 --- !u!114 &1665373171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6008,6 +6045,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1665373175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1665373169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aac1e65371108848b1cd9d18b677d34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxBeatNum: 12
 --- !u!1 &1681659778
 GameObject:
   m_ObjectHideFlags: 0

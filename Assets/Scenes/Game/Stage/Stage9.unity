@@ -404,14 +404,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9009114843697122171, guid: e34b0834316f2a447bda70aa78a39386,
         type: 3}
-      propertyPath: Enemy.Array.size
+      propertyPath: EnemyMoveFlag
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9009114843697122171, guid: e34b0834316f2a447bda70aa78a39386,
+        type: 3}
+      propertyPath: Enemy.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9009114843697122171, guid: e34b0834316f2a447bda70aa78a39386,
         type: 3}
       propertyPath: Enemy.Array.data[0]
       value: 
       objectReference: {fileID: 810708094}
+    - target: {fileID: 9009114843697122171, guid: e34b0834316f2a447bda70aa78a39386,
+        type: 3}
+      propertyPath: Enemy.Array.data[1]
+      value: 
+      objectReference: {fileID: 1597529845}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e34b0834316f2a447bda70aa78a39386, type: 3}
 --- !u!1 &69175086
@@ -3679,14 +3689,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1442413225133861868, guid: 0a0649212c658664ba8b0c9952e0d559,
         type: 3}
-      propertyPath: Enemy.Array.size
+      propertyPath: EnemyMoveFlag
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1442413225133861868, guid: 0a0649212c658664ba8b0c9952e0d559,
+        type: 3}
+      propertyPath: Enemy.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1442413225133861868, guid: 0a0649212c658664ba8b0c9952e0d559,
         type: 3}
       propertyPath: Enemy.Array.data[0]
       value: 
       objectReference: {fileID: 810708094}
+    - target: {fileID: 1442413225133861868, guid: 0a0649212c658664ba8b0c9952e0d559,
+        type: 3}
+      propertyPath: Enemy.Array.data[1]
+      value: 
+      objectReference: {fileID: 1597529845}
     - target: {fileID: 1442413225133861869, guid: 0a0649212c658664ba8b0c9952e0d559,
         type: 3}
       propertyPath: m_Name
@@ -5037,6 +5057,8 @@ MonoBehaviour:
   MoveLineObj: {fileID: 0}
   MovePos: {x: 0, y: 0, z: 0}
   ColPos: {x: 0, y: 0, z: 0}
+  StartMovePos: {x: 0, y: 0, z: 0}
+  OldPos: {x: 0, y: 0, z: 0}
 --- !u!114 &1665373171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5498,14 +5520,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4260265600030706068, guid: f7a00c465ee1ab24baf205597a471688,
         type: 3}
-      propertyPath: Enemy.Array.size
+      propertyPath: EnemyMoveFlag
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4260265600030706068, guid: f7a00c465ee1ab24baf205597a471688,
+        type: 3}
+      propertyPath: Enemy.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4260265600030706068, guid: f7a00c465ee1ab24baf205597a471688,
         type: 3}
       propertyPath: Enemy.Array.data[0]
       value: 
       objectReference: {fileID: 810708094}
+    - target: {fileID: 4260265600030706068, guid: f7a00c465ee1ab24baf205597a471688,
+        type: 3}
+      propertyPath: Enemy.Array.data[1]
+      value: 
+      objectReference: {fileID: 1597529845}
     - target: {fileID: 4260265600030706069, guid: f7a00c465ee1ab24baf205597a471688,
         type: 3}
       propertyPath: m_Name

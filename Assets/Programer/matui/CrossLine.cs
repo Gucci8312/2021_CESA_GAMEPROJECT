@@ -5,6 +5,7 @@ using UnityEngine;
 public class CrossLine : MonoBehaviour
 {
     //MoveLineで変更したりするのでpublicにしてる
+
     [HideInInspector] public List<Vector2> CrossPos = new List<Vector2>();                            //自身の交点
     [HideInInspector] public List<GameObject> Line = new List<GameObject>();                          //線のオブジェクト
     [HideInInspector] public List<CrossLine> cl = new List<CrossLine>();                              //CrossLineスクリプト
@@ -283,12 +284,45 @@ public class CrossLine : MonoBehaviour
         return SerchPos;
     }
 
-    //引数のリストの要素と近い交点を返す
-    public Vector2 NearListCrossPos(List <Vector2> SerchPos)
+    //交点のリストの中から引数に近い交点を返す(outは交点の要素番号を渡す)
+    public Vector2 NearCrossPos(Vector2 SerchPos, out int outnum)
     {
-        for(int i = 0; i < CrossPos.Count; i++)
+        List<float> distance = new List<float>();//引数の座標と交点との差
+        float Min = 10000;//最小値
+        for (int i = 0; i < CrossPos.Count; i++)
         {
-            for(int j=0;j<SerchPos.Count;j++)
+            distance.Add((SerchPos - CrossPos[i]).magnitude);
+
+            if (distance[i] == 0)//差がない（同じ座標）場合
+            {
+                distance[i] = 10000;//適当に大きい値を入れて最小の値として取得させないようにする
+            }
+
+            if (distance[i] <= Min)//取得している最小の値より小さければ
+            {
+                Min = distance[i];//差が最小の値を取得
+            }
+        }
+
+        for (int i = 0; i < distance.Count; i++)
+        {
+            if (distance[i] == Min)//差が最小の値を持った要素であれば
+            {
+                outnum = i; //メビウスに渡す番号
+                return CrossPos[i];
+            }
+        }
+
+        outnum = 0;
+        return SerchPos;
+    }
+
+    //引数のリストの要素と近い交点を返す
+    public Vector2 NearListCrossPos(List<Vector2> SerchPos)
+    {
+        for (int i = 0; i < CrossPos.Count; i++)
+        {
+            for (int j = 0; j < SerchPos.Count; j++)
             {
                 float distance = (CrossPos[i] - SerchPos[j]).magnitude;
                 if (distance < 10)
