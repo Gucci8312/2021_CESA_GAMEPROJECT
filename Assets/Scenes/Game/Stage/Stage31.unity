@@ -1420,8 +1420,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 032f96e1b8af6c048a50ea48f3926ba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _material: {fileID: 2100000, guid: 2c37019bd327b2745942ed9633d3a832, type: 2}
+  _material: {fileID: 2100000, guid: fae54e56a16ab5a4ebaa1308ebb0e74b, type: 2}
   _DirectionLight: {fileID: 1846468939}
+  _PointLight1: {fileID: 0}
+  _PointLight2: {fileID: 0}
+  _PointLight3: {fileID: 0}
+  DirectionLightPower: 0.05
+  PointLightPower: 2000
 --- !u!114 &505649781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1806,7 +1811,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &689539842
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2557,7 +2562,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1110975928
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2743,6 +2748,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _material: {fileID: 2100000, guid: 663cfffa97ac1304298c7b662ecac258, type: 2}
   _DirectionLight: {fileID: 0}
+  _PointLight1: {fileID: 0}
+  _PointLight2: {fileID: 0}
+  _PointLight3: {fileID: 0}
+  DirectionLightPower: 0.05
+  PointLightPower: 2000
 --- !u!114 &1163437277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2920,7 +2930,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1210820759
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3896,7 +3906,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1498044267
 BoxCollider:
   m_ObjectHideFlags: 0
