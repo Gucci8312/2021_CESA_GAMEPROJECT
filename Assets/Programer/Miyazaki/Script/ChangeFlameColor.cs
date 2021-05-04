@@ -19,9 +19,11 @@ public class ChangeFlameColor : MonoBehaviour
     void Start()
     {
 		//_material.color = Color.cyan;
-		mat = Color.green;
-		_material.SetColor("_Color", mat);
-
+		//mat = Color.green;
+		//_material.SetColor("_Color", mat);
+		_PointLight1.GetComponent<Light>().intensity = PointLightPower;
+		_PointLight2.GetComponent<Light>().intensity = PointLightPower;
+		_PointLight3.GetComponent<Light>().intensity = PointLightPower;
 	}
 
     // Update is called once per frame

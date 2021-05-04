@@ -337,8 +337,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &69175089
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1025,7 +1026,7 @@ Transform:
   m_GameObject: {fileID: 338281814}
   m_LocalRotation: {x: 0.000000029802326, y: -0.70710677, z: 0.70710677, w: 0.000000029802326}
   m_LocalPosition: {x: 0, y: 0, z: 50}
-  m_LocalScale: {x: 121.804504, y: 100.00003, z: 66.42206}
+  m_LocalScale: {x: 121.804504, y: 100.00003, z: 68.06932}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 10
@@ -1419,8 +1420,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 032f96e1b8af6c048a50ea48f3926ba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _material: {fileID: 2100000, guid: 2c37019bd327b2745942ed9633d3a832, type: 2}
+  _material: {fileID: 2100000, guid: fae54e56a16ab5a4ebaa1308ebb0e74b, type: 2}
   _DirectionLight: {fileID: 1846468939}
+  _PointLight1: {fileID: 560445617}
+  _PointLight2: {fileID: 673480609}
+  _PointLight3: {fileID: 2028033685}
+  DirectionLightPower: 0.05
+  PointLightPower: 2000
 --- !u!114 &505649781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1428,7 +1434,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 505649779}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
@@ -1452,6 +1458,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &560445617 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1449768294662805836, guid: 0a0649212c658664ba8b0c9952e0d559,
+    type: 3}
+  m_PrefabInstance: {fileID: 1296284350}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &570940569
 GameObject:
   m_ObjectHideFlags: 0
@@ -1582,8 +1594,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &627786584
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1709,8 +1722,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &667573569
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1785,6 +1799,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &673480609 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8886087497476350384, guid: f7a00c465ee1ab24baf205597a471688,
+    type: 3}
+  m_PrefabInstance: {fileID: 1840583565}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &689539841
 GameObject:
   m_ObjectHideFlags: 0
@@ -1803,7 +1823,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &689539842
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1959,8 +1979,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &732516879
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2553,7 +2574,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1110975928
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2737,8 +2758,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 032f96e1b8af6c048a50ea48f3926ba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _material: {fileID: 2100000, guid: 663cfffa97ac1304298c7b662ecac258, type: 2}
+  _material: {fileID: 0}
   _DirectionLight: {fileID: 0}
+  _PointLight1: {fileID: 0}
+  _PointLight2: {fileID: 0}
+  _PointLight3: {fileID: 0}
+  DirectionLightPower: 0.05
+  PointLightPower: 2000
 --- !u!114 &1163437277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2821,8 +2847,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &1196555039
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2915,7 +2942,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1210820759
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3237,8 +3264,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &1262973681
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3430,6 +3458,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7598658671354799574, guid: 0a0649212c658664ba8b0c9952e0d559,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 2000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a0649212c658664ba8b0c9952e0d559, type: 3}
 --- !u!1 &1386414855
@@ -3483,8 +3516,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &1386414858
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3702,8 +3736,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &1486849269
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3888,7 +3923,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1498044267
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4626,7 +4661,8 @@ MonoBehaviour:
   Enemy:
   - {fileID: 0}
   - {fileID: 0}
-  Line: []
+  MoveLineObj: {fileID: 0}
+  MovePos: {x: 0, y: 0, z: 0}
   ColPos: {x: 0, y: 0, z: 0}
 --- !u!114 &1665373171
 MonoBehaviour:
@@ -5282,6 +5318,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2028033685 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5442972286138874705, guid: e34b0834316f2a447bda70aa78a39386,
+    type: 3}
+  m_PrefabInstance: {fileID: 58137733}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2071399505
 GameObject:
   m_ObjectHideFlags: 0

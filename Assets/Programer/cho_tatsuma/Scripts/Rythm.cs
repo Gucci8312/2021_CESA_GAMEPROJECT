@@ -97,7 +97,7 @@ public class Rythm : MonoBehaviour
     // @brief  一定フレームで呼び出し（Updateだと一定じゃないためずれがどうしても生じるため）
     private void FixedUpdate()
     {
-       // m_changeColorScript.Flame_Color_Attenuation();
+         m_changeColorScript.Flame_Color_Attenuation();
         //音の始まりを調整
         //音のループによる読み込み時の誤差を調整
         //if (stageBGM.time <= 0.05f)
