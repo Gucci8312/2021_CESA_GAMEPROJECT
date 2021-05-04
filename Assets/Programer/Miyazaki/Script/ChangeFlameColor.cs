@@ -15,19 +15,56 @@ public class ChangeFlameColor : MonoBehaviour
 	public float PointLightPower = 2000;
 	int cnt = 0;
 	Color mat;
-    // Start is called before the first frame update
-    void Start()
-    {
+
+	[System.Serializable]
+	struct Change_Color
+	{
+		public Material _material;
+		public Color color;
+		public float Max_Color_Vlue;
+		public float Min_Color_Vlue;
+	}
+
+	[System.Serializable]
+	struct Change_PointLight
+	{
+		public Color color;
+		public GameObject _PointLight1;
+		public float Max_Color_Vlue;
+		public float Min_Color_Vlue;
+	}
+
+	[System.Serializable]
+	struct Ring
+	{
+		public Change_Color color;
+		public Change_PointLight pointlight;
+	}
+
+	[SerializeField] private List<Ring> ring;
+
+	// Start is called before the first frame update
+	void Start()
+	{
+
+		//ring.Add(new Ring());
+		//ring[0].color._material.SetColor("_Color", ring[0].color.color);
+		//ring[1].color._material.SetColor("_Color", ring[1].color.color);
+		//ring[2].color._material.SetColor("_Color", ring[2].color.color);
+		//ring[3].color._material.SetColor("_Color", ring[3].color.color);
+		
+
 		//_material.color = Color.cyan;
 		//mat = Color.green;
 		//_material.SetColor("_Color", mat);
+
 		_PointLight1.GetComponent<Light>().intensity = PointLightPower;
 		_PointLight2.GetComponent<Light>().intensity = PointLightPower;
 		_PointLight3.GetComponent<Light>().intensity = PointLightPower;
 	}
-
-    // Update is called once per frame
-    void Update()
+	
+	// Update is called once per frame
+	void Update()
     {
 		
 		

@@ -284,6 +284,21 @@ PrefabInstance:
       propertyPath: Enemy.Array.data[0]
       value: 
       objectReference: {fileID: 810708094}
+    - target: {fileID: 9009114844433429470, guid: e34b0834316f2a447bda70aa78a39386,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9009114844433429470, guid: e34b0834316f2a447bda70aa78a39386,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -42.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9009114844433429470, guid: e34b0834316f2a447bda70aa78a39386,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 19.6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e34b0834316f2a447bda70aa78a39386, type: 3}
 --- !u!1 &69175086
@@ -1427,6 +1442,17 @@ MonoBehaviour:
   _PointLight3: {fileID: 2028033685}
   DirectionLightPower: 0.05
   PointLightPower: 2000
+  ring:
+  - color:
+      _material: {fileID: 0}
+      color: {r: 0, g: 0, b: 0, a: 0}
+      Max_Color_Vlue: 0
+      Min_Color_Vlue: 0
+    pointlight:
+      color: {r: 0, g: 0, b: 0, a: 0}
+      _PointLight1: {fileID: 0}
+      Max_Color_Vlue: 0
+      Min_Color_Vlue: 0
 --- !u!114 &505649781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2765,6 +2791,7 @@ MonoBehaviour:
   _PointLight3: {fileID: 0}
   DirectionLightPower: 0.05
   PointLightPower: 2000
+  ring: []
 --- !u!114 &1163437277
 MonoBehaviour:
   m_ObjectHideFlags: 0
