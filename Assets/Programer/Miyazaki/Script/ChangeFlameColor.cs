@@ -5,58 +5,63 @@ using UnityEngine;
 public class ChangeFlameColor : MonoBehaviour
 {
 	public Material _material;
-
 	public GameObject _DirectionLight;
+	public GameObject _PointLight1;
+	public GameObject _PointLight2;
+	public GameObject _PointLight3;
+	//public GameObject _PointLight4;
 
-	float LightPower = 0.05f;
-	
-	float LightAt = -0.0000f;
+	public float DirectionLightPower = 0.05f;
+	public float PointLightPower = 2000;
 	int cnt = 0;
 	Color mat;
     // Start is called before the first frame update
     void Start()
     {
-		_material.color = Color.cyan;
-		mat = _material.color;
+		//_material.color = Color.cyan;
+		mat = Color.green;
+		_material.SetColor("_Color", mat);
 
 	}
 
     // Update is called once per frame
     void Update()
     {
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			ChangeColor_Flame();
-		}
+		
 		
 	}
 
 	public void ChangeColor_Flame()
 	{
-		//Color color= _material.color;
-		//color.r = 255;
-		//color.g = 0;
-		//color.b = 0;
-		_material.color = mat;
+
+		//_material.color = mat;
+		
 		cnt = 0;
-		_DirectionLight.GetComponent<Light>().color = mat;
-		_DirectionLight.GetComponent<Light>().intensity = LightPower;
+		//_DirectionLight.GetComponent<Light>().color = mat;
+		//_DirectionLight.GetComponent<Light>().intensity = DirectionLightPower;
+		_material.SetColor("_Color", new Color(0.0f, 0.7f, 0.0f));
+		_PointLight1.GetComponent<Light>().intensity = PointLightPower;
+		_PointLight2.GetComponent<Light>().intensity = PointLightPower;
+		_PointLight3.GetComponent<Light>().intensity = PointLightPower;
+		//_PointLight4.GetComponent<Light>().intensity = PointLightPower;
 
 	}
 	public void Flame_Color_Attenuation()
 	{
 		
-		Color color =_material.color;
-		
-		color.r -=0.05f;
-		color.g -= 0.05f;
-		color.b -= 0.05f;
+		Color color = new Color(0.0f,0.2f,0.0f);
+	
+
 		if(cnt==10)
 		{
-			_DirectionLight.GetComponent<Light>().intensity = LightAt;
+			_material.SetColor("_Color", new Color(0.0f, 0.3f, 0.0f));
+			_PointLight1.GetComponent<Light>().intensity = 1000;
+			_PointLight2.GetComponent<Light>().intensity = 1000;
+			_PointLight3.GetComponent<Light>().intensity = 1000;
+			//_PointLight4.GetComponent<Light>().intensity = 0;
 			cnt = 0;
 		}
 		cnt++;
-		_material.color = color;
+		//_material.color = color;
 	}
 }
