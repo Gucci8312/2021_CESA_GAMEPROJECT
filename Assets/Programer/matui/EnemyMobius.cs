@@ -140,17 +140,17 @@ public class EnemyMobius : MonoBehaviour
         Ray ray = new Ray(new Vector3(this.transform.position.x , this.transform.position.y, this.transform.position.z),
                         new Vector3(vec.x * 1, vec.y * 1, 0));
         //貫通レイキャスト
-        foreach (RaycastHit hit in Physics.RaycastAll(ray, distance))
+        foreach (RaycastHit hit in Physics.RaycastAll(ray, distance+100))
         {
             // Debug.Log(hit.collider.gameObject.name);//レイキャストが当たったオブジェクト
 
             if (hit.collider.gameObject.CompareTag("Mobius"))
             {
-                if (hit.collider.gameObject.GetComponent<MoveMobius>().EnemyMoveFlag)//メビウスにエネミーが乗っていたなら
+                if (hit.collider.gameObject.GetComponent<MoveMobius>().EnemyMoveFlag//メビウスにエネミーが乗っていたなら
+                    || hit.collider.gameObject.GetComponent<MoveMobius>().GetMobiusStripFlag())//メビウスの輪になっていたら 
                 {
                     return false;
                 }
-
             }
         }
 
