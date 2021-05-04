@@ -28,17 +28,10 @@ public class CollisionMobius : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-<<<<<<< HEAD
-       
-        if (other.tag == "Wa" && !m_hitFlg)
-        {
-            if (m_mobiusPosScript.m_mobius[m_mobiusPosScript.m_nowMobiusNo].gameObject.name == other.gameObject.transform.parent.gameObject.name) return;
-=======
         if (other.tag == "Wa" && !m_hitFlg)
         {
             if (m_mobiusPosScript.m_mobius[m_mobiusPosScript.m_nowMobiusNo].gameObject.name == other.gameObject.transform.parent.gameObject.name) return;
 
->>>>>>> origin/長龍馬
             m_mobiusPosScript.MobiusCollisionOn(other.gameObject.transform.parent.gameObject);
             m_hitFlg = true;
         }
