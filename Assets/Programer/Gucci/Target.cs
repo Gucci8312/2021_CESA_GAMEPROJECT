@@ -26,7 +26,7 @@ public class Target : MonoBehaviour
         //何故か親オブジェクトについていかないので、代入してあげて追従させている
         this.transform.localPosition = LocalPos;
 
-        // 回転で使うかも
+        // 回転で使うかも  
         //kaitenn = 3.0f;
         //transform.Rotate(0.0f, kaitenn, 0.0f);
         //transform.Rotate(0.0f, transform.localRotation.y * kaitenn, 0.0f);
