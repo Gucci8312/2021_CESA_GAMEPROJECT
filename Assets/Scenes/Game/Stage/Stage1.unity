@@ -337,8 +337,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &69175089
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1582,8 +1583,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &627786584
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1709,8 +1711,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &667573569
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1959,8 +1962,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &732516879
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2821,8 +2825,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &1196555039
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3237,8 +3242,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &1262973681
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3483,8 +3489,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &1386414858
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3702,8 +3709,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrossPos: []
   Line: []
+  cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  LineMovingFlag: 0
+  MoveLineFlag: 0
 --- !u!65 &1486849269
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4626,7 +4634,8 @@ MonoBehaviour:
   Enemy:
   - {fileID: 0}
   - {fileID: 0}
-  Line: []
+  MoveLineObj: {fileID: 0}
+  MovePos: {x: 0, y: 0, z: 0}
   ColPos: {x: 0, y: 0, z: 0}
 --- !u!114 &1665373171
 MonoBehaviour:
@@ -5282,6 +5291,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2020915874 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7891053899949650332, guid: 1e7577bf402d6864ba779a663802e455,
+    type: 3}
+  m_PrefabInstance: {fileID: 7891053900725830193}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2020915875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020915874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a556fefabd2b18944ba19e5a7b61be9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2071399505
 GameObject:
   m_ObjectHideFlags: 0
@@ -5710,6 +5737,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7891053899949650309, guid: 1e7577bf402d6864ba779a663802e455,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7891053899949650332, guid: 1e7577bf402d6864ba779a663802e455,
         type: 3}
