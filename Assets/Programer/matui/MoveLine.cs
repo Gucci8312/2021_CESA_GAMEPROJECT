@@ -19,16 +19,16 @@ public class MoveLine : MonoBehaviour
 
     public float MoveDistance;                                               //移動距離
     public MoveVector MoveVec;                                               //移動方向
-    bool MoveFlag=false;                                                           //移動させるかどうか
+    bool MoveFlag = false;                                                           //移動させるかどうか
     bool OuhukuFlag = true;                                                 //true:行き　false:帰り
 
     private bool BeatFlag;                                                   //ビートが指定した回数になったかどうか
     public int MaxBeatNum = 5;                                               //ビート最大数指定
     float BeatCount = 0;
 
-     List<GameObject> PutOnMobius = new List<GameObject>();            //線上に乗っているメビウスオブジェクト
-     List<MoveMobius> Mm = new List<MoveMobius>();
-     List<LinePutMobius> Lpm = new List<LinePutMobius>();
+    List<GameObject> PutOnMobius = new List<GameObject>();            //線上に乗っているメビウスオブジェクト
+    List<MoveMobius> Mm = new List<MoveMobius>();
+    List<LinePutMobius> Lpm = new List<LinePutMobius>();
 
     GameObject RythmObj;                                                                            //リズムオブジェクト
     Rythm rythm;                                                                                    //リズムスクリプト取得用
@@ -143,6 +143,8 @@ public class MoveLine : MonoBehaviour
                     //メビウスに移動した変化量を加える
                     PutOnMobius[i].transform.position += AddPos;
                     Mm[i].MovePos += AddPos;
+                    Mm[i].StartMovePos += AddPos;
+                    Mm[i].OldPos += AddPos;
                 }
             }
 
@@ -153,6 +155,18 @@ public class MoveLine : MonoBehaviour
                 //移動終了
                 OuhukuFlag = !OuhukuFlag;
                 MoveFlag = false;
+
+                if (PutOnMobius.Count != 0)
+                {
+                    for (int i = 0; i < PutOnMobius.Count; i++)
+                    {
+                        PutOnMobius[i].GetComponent<MoveMobius>().MoveLineObj = null;
+                    }
+                    PutOnMobius.Clear();
+                    Mm.Clear();
+                    Lpm.Clear();
+                }
+
             }
 
         }
@@ -180,7 +194,7 @@ public class MoveLine : MonoBehaviour
 
         if (Lpm.Count != 0)
         {
-            for(int i = 0; i < Lpm.Count; i++)
+            for (int i = 0; i < Lpm.Count; i++)
             {
                 Lpm[i].SetMoveLineFlag(MoveFlag);
                 Lpm[i].SetMoveLineVec(vec);
@@ -218,26 +232,31 @@ public class MoveLine : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Mobius"))
-        {
-            MoveMobius otherMm = other.gameObject.GetComponent<MoveMobius>();
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Mobius"))
+    //    {
+    //        MoveMobius otherMm = other.gameObject.GetComponent<MoveMobius>();
 
-            if (!MoveFlag)//線が動いていないとき
-            {
-                if (otherMm.MoveLineObj != null)//何かしらくっついている場合
-                {
-                    if (otherMm.MoveLineObj == this.gameObject)//メビウスがくっついている線が自身であれば
-                    {
-                        //Debug.Log(this.name + "から降りた");
-                        otherMm.MoveLineObj = null;
-                        PutOnMobius.Remove(other.gameObject);
-                        Mm.Remove(otherMm);
-                        Lpm.Remove(other.GetComponent<LinePutMobius>());
-                    }
-                }
-            }
-        }
+    //        if (!MoveFlag)//線が動いていないとき
+    //        {
+    //            if (otherMm.MoveLineObj != null)//何かしらくっついている場合
+    //            {
+    //                if (otherMm.MoveLineObj == this.gameObject)//メビウスがくっついている線が自身であれば
+    //                {
+    //                    //Debug.Log(this.name + "から降りた");
+    //                    otherMm.MoveLineObj = null;
+    //                    PutOnMobius.Remove(other.gameObject);
+    //                    Mm.Remove(otherMm);
+    //                    Lpm.Remove(other.GetComponent<LinePutMobius>());
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
+
+    public bool GetMoveFlag()
+    {
+        return MoveFlag;
     }
 }

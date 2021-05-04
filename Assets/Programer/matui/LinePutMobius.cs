@@ -5,18 +5,32 @@ using UnityEngine;
 //MoveMobiusから呼び出してもらうスクリプト
 public class LinePutMobius : MonoBehaviour
 {
-    bool MoveLineFlag=false;
+    bool MoveLineFlag = false;
     Vector2 MoveLineVec;
 
+    MoveMobius Mm;
     // Start is called before the first frame update
     void Start()
     {
+        Mm = this.GetComponent<MoveMobius>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        MoveLineTrueStop();
+    }
+
+    private void MoveLineTrueStop()
+    {
+        if (Mm.MoveLineObj != null)
+        {
+            if (Mm.MoveLineObj.GetComponent<MoveLine>().GetMoveFlag())
+            {
+                this.transform.position = Mm.StartMovePos;
+                Mm.ZeroVelo();
+            }
+        }
     }
 
     //線が進む方向をセットする用
