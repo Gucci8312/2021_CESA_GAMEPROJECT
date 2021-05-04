@@ -45,7 +45,10 @@ public class Rythm : MonoBehaviour
     private bool OneLRTriggerFlag;  //LRトリガー押し込みによる連続入力させない用
 
     [SerializeField]
-    GameObject missPrefabs;
+    GameObject missPrefab;
+
+    [SerializeField]
+    GameObject successPrefab;
 
     GameObject m_frameManager;                              //ポストエフェクトのフレーム用
     ChangeFlameColor m_changeColorScript;                   //ポストエフェクトのフレーム用スクリプト
@@ -167,24 +170,17 @@ public class Rythm : MonoBehaviour
 
             if (rythmCheckFlag)
             {
-                //Entarキーで成功かどうかを判断する
-                if (Controler.SubMitButtonFlg() || LRTrigger())
+                if(Controler.GetJumpButtonFlg() || Controler.GetRythmButtonFlg())
                 {
-                    checkPlayerMove = true;
-                    rythmCheckFlag = false;
-                }
-                else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) || mobius_script.StickFlickInputFlag())
-                {
-                    checkMoviusMove = true;
-                    rythmCheckFlag = false;
+                    Instantiate(successPrefab);
                 }
             }
             else
             {
                 //Entarキーで失敗時の処理
-                if (Controler.GetJumpButtonFlg() || LRTrigger())
+                if (Controler.GetJumpButtonFlg()|| Controler.GetRythmButtonFlg())
                 {
-                    Instantiate(missPrefabs);
+                    Instantiate(missPrefab);
                 }
             }
             yield return new WaitForSeconds(0.01f);
