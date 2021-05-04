@@ -34,7 +34,7 @@ public class Rythm : MonoBehaviour
     private int m_beatCount;                                //ビートの回数を取得
     public int EnemyTroughRing;                             //敵が何ビートによって進むのか（実装するかどうかわからない）
     static float tansu;                                     //音による誤差調整用
-
+    static float fram_bgmm;
     [SerializeField] AudioClip SE = default;
     AudioSource audioSource;
     [SerializeField] AudioSource stageBGM = default;
@@ -44,6 +44,8 @@ public class Rythm : MonoBehaviour
 
     private bool OneLRTriggerFlag;  //LRトリガー押し込みによる連続入力させない用
 
+    [SerializeField]
+    GameObject missPrefabs;
 
     GameObject m_frameManager;                              //ポストエフェクトのフレーム用
     ChangeFlameColor m_changeColorScript;                   //ポストエフェクトのフレーム用スクリプト
@@ -128,7 +130,7 @@ public class Rythm : MonoBehaviour
             m_targetPos = new Vector3(-m_sphere.transform.position.x, m_sphere.transform.position.y, m_sphere.transform.position.z);
             m_currentPos = m_sphere.transform.position;
         }
-
+        fram_bgmm = Time.timeSinceLevelLoad;
         m_EmobiusBeatFlag = false;
     }
 
@@ -170,12 +172,19 @@ public class Rythm : MonoBehaviour
                 {
                     checkPlayerMove = true;
                     rythmCheckFlag = false;
-                    Debug.Log("距離：" + distance);
                 }
                 else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) || mobius_script.StickFlickInputFlag())
                 {
                     checkMoviusMove = true;
                     rythmCheckFlag = false;
+                }
+            }
+            else
+            {
+                //Entarキーで失敗時の処理
+                if (Controler.GetJumpButtonFlg() || LRTrigger())
+                {
+                    Instantiate(missPrefabs);
                 }
             }
             yield return new WaitForSeconds(0.01f);
@@ -190,6 +199,7 @@ public class Rythm : MonoBehaviour
             m_EmobiusBeatFlag = true;
             m_beatCount++;
             m_changeColorScript.ChangeColor_Flame();
+            Debug.Log("壁に当たった時間：　"+fram_bgmm);
             //rythmCheckFlag = true;
             if (m_beatCount >= EnemyTroughRing)
             {
