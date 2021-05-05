@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1436,6 +1436,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _material: {fileID: 2100000, guid: fae54e56a16ab5a4ebaa1308ebb0e74b, type: 2}
+  _material2: {fileID: 2100000, guid: b684e8e82ae6f4b4cb5b90015e54e56c, type: 2}
+  _material3: {fileID: 2100000, guid: ee71ddf1bc18ebc40a84200ca1077a0a, type: 2}
   _DirectionLight: {fileID: 1846468939}
   _PointLight1: {fileID: 560445617}
   _PointLight2: {fileID: 673480609}
@@ -2785,6 +2787,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _material: {fileID: 0}
+  _material2: {fileID: 0}
+  _material3: {fileID: 0}
   _DirectionLight: {fileID: 0}
   _PointLight1: {fileID: 0}
   _PointLight2: {fileID: 0}
@@ -5166,6 +5170,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Mobius (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984708624892546552, guid: f7a00c465ee1ab24baf205597a471688,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984708624892546552, guid: f7a00c465ee1ab24baf205597a471688,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7984708624892546552, guid: f7a00c465ee1ab24baf205597a471688,
         type: 3}

@@ -5,6 +5,8 @@ using UnityEngine;
 public class ChangeFlameColor : MonoBehaviour
 {
 	public Material _material;
+	public Material _material2;
+	public Material _material3;
 	public GameObject _DirectionLight;
 	public GameObject _PointLight1;
 	public GameObject _PointLight2;
@@ -15,7 +17,7 @@ public class ChangeFlameColor : MonoBehaviour
 	public float PointLightPower = 2000;
 	int cnt = 0;
 	Color mat;
-
+	
 	[System.Serializable]
 	struct Change_Color
 	{
@@ -79,6 +81,8 @@ public class ChangeFlameColor : MonoBehaviour
 		//_DirectionLight.GetComponent<Light>().color = mat;
 		//_DirectionLight.GetComponent<Light>().intensity = DirectionLightPower;
 		_material.SetColor("_Color", new Color(0.0f, 0.7f, 0.0f));
+		_material2.SetColor("_Color", new Color(0.0f, 0.7f, 0.7f));
+		_material3.SetColor("_Color", new Color(0.7f, 0.0f, 0.7f));
 		_PointLight1.GetComponent<Light>().intensity = PointLightPower;
 		_PointLight2.GetComponent<Light>().intensity = PointLightPower;
 		_PointLight3.GetComponent<Light>().intensity = PointLightPower;
@@ -94,6 +98,8 @@ public class ChangeFlameColor : MonoBehaviour
 		if(cnt==10)
 		{
 			_material.SetColor("_Color", new Color(0.0f, 0.3f, 0.0f));
+			_material2.SetColor("_Color", new Color(0.0f, 0.3f, 0.3f));
+			_material3.SetColor("_Color", new Color(0.3f, 0.0f, 0.3f));
 			_PointLight1.GetComponent<Light>().intensity = 1000;
 			_PointLight2.GetComponent<Light>().intensity = 1000;
 			_PointLight3.GetComponent<Light>().intensity = 1000;
