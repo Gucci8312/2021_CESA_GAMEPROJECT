@@ -16,11 +16,10 @@ public class EffectControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Player = GameObject.Find("Player"); ;
+        Player = GameObject.Find("PLAYER"); ;
         DushEffect = GameObject.Find("DushEffect");
         SmokeEffect = GameObject.Find("SmokeEffect");
         obj = (GameObject)Resources.Load("音符");
-        Pos = this.gameObject.transform.position;
     }
 
     // Update is called once per frame
@@ -58,9 +57,10 @@ public class EffectControl : MonoBehaviour
 
     void CreateOnpu()
     {
-        GameObject TempObj = Instantiate(obj);
+        // GameObject TempObj = Instantiate(obj);
+        Pos = this.gameObject.transform.position;
+         GameObject TempObj = (GameObject)Instantiate(obj,Pos,Quaternion.identity);
         TempObj.transform.parent = this.gameObject.transform;
-        // GameObject TempObj = (GameObject)Instantiate(obj,this.gameObject.transform);
     }
     static public bool GetOnpuDownFlg()
     {

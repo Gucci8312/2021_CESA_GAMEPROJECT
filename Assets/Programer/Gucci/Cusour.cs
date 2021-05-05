@@ -33,8 +33,8 @@ public class Cusour : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             Idx++;
-           // if(Idx>3)
-            if(Idx>2)
+            if(Idx>3)
+           // if(Idx>2)
             {
                 Idx--;
             }
@@ -58,12 +58,12 @@ public class Cusour : MonoBehaviour
             {
                 StageSelectBotton();
                 Time.timeScale = 1.0f;
-            }    
-            //else if (Pos.y == MenuButton[3].transform.position.y)
-            //{               
-            //   // Time.timeScale = 1.0f;
-            //    GameEnd();
-            //}
+            }
+            else if (Pos.y == MenuButton[3].transform.position.y)
+            {
+                // Time.timeScale = 1.0f;
+                GameEnd();
+            }
         }
     }
 

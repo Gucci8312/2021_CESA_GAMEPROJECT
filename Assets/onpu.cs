@@ -14,7 +14,8 @@ public class onpu : MonoBehaviour
         Pos = this.gameObject.transform.position;
         rb = GetComponent<Rigidbody>();
         Pos.x = 0.0f;
-        Pos.y = 0.0f;
+        Pos.y = 10.0f;
+        transform.Translate(Pos);
     }
 
     // Update is called once per frame
@@ -22,7 +23,6 @@ public class onpu : MonoBehaviour
     {
         // Pos.x *= Random.value;
         //Pos.y *= Random.value;
-        transform.Translate(Pos);
         if (EffectControl.GetOnpuDownFlg())
         {
             this.gameObject.transform.parent = null;
