@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//敵が乗っているメビウスの輪の挙動
 public class EnemyMobius : MonoBehaviour
 {
     private bool EnemyBeatFlag;                                 //ビートが指定した回数になったかどうか

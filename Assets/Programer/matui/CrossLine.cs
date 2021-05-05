@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//線の処理
 public class CrossLine : MonoBehaviour
 {
     //MoveLineで変更したりするのでpublicにしてる
