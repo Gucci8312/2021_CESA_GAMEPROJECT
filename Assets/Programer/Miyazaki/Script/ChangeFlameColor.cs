@@ -7,6 +7,10 @@ public class ChangeFlameColor : MonoBehaviour
 	public Material _material;
 	public Material _material2;
 	public Material _material3;
+
+	public Material _FlameMaterial;
+
+
 	public GameObject _DirectionLight;
 	public GameObject _PointLight1;
 	public GameObject _PointLight2;
@@ -103,10 +107,32 @@ public class ChangeFlameColor : MonoBehaviour
 			_PointLight1.GetComponent<Light>().intensity = 1000;
 			_PointLight2.GetComponent<Light>().intensity = 1000;
 			_PointLight3.GetComponent<Light>().intensity = 1000;
+			
 			//_PointLight4.GetComponent<Light>().intensity = 0;
 			cnt = 0;
 		}
 		cnt++;
 		//_material.color = color;
 	}
+
+	public void Flame_Success_Color()
+	{
+		_FlameMaterial.color = Color.blue;
+	}
+
+	public void Flame_Miss_Color()
+	{
+		_FlameMaterial.color = Color.red;
+	}
+
+	public void Flame_Attenuation()
+	{
+		Color color = _FlameMaterial.color;
+		color.r -= 0.05f;
+		color.g -= 0.05f;
+		color.b -= 0.05f;
+		_FlameMaterial.color= color;
+	}
+
+
 }
