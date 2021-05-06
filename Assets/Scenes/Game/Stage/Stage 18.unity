@@ -1714,6 +1714,7 @@ MonoBehaviour:
   _PointLight3: {fileID: 0}
   DirectionLightPower: 0.05
   PointLightPower: 2000
+  ring: []
 --- !u!114 &505649781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3108,6 +3109,7 @@ MonoBehaviour:
   _PointLight3: {fileID: 0}
   DirectionLightPower: 0.05
   PointLightPower: 2000
+  ring: []
 --- !u!114 &1163437277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3524,7 +3526,7 @@ PrefabInstance:
     - target: {fileID: 1442413225133861869, guid: 0a0649212c658664ba8b0c9952e0d559,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2470625702482347073, guid: 0a0649212c658664ba8b0c9952e0d559,
         type: 3}
@@ -5327,6 +5329,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mobius (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4260265600720268094, guid: f7a00c465ee1ab24baf205597a471688,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4260265600720268094, guid: f7a00c465ee1ab24baf205597a471688,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4260265600720268094, guid: f7a00c465ee1ab24baf205597a471688,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -17.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7984708624892546552, guid: f7a00c465ee1ab24baf205597a471688,
         type: 3}
       propertyPath: m_Intensity
@@ -5840,7 +5857,8 @@ MonoBehaviour:
   SE: {fileID: 8300000, guid: 4c55dc7600786874e984b1e95084ca5d, type: 3}
   stageBGM: {fileID: 236564774}
   MobiusObj: {fileID: 923837239}
-  missPrefabs: {fileID: 0}
+  missPrefab: {fileID: 0}
+  successPrefab: {fileID: 0}
 --- !u!54 &2051113393
 Rigidbody:
   m_ObjectHideFlags: 0
