@@ -167,12 +167,15 @@ public class Rythm : MonoBehaviour
         while (true)
         {
             CheckDistanceWall();
+			m_changeColorScript.Flame_Attenuation();
 
-            if (rythmCheckFlag)
+			if (rythmCheckFlag)
             {
                 if(Controler.GetJumpButtonFlg() || Controler.GetRythmButtonFlg())
                 {
-                    Instantiate(successPrefab);
+					m_changeColorScript.Flame_Success_Color();
+					Instantiate(successPrefab);
+
                 }
             }
             else
@@ -180,7 +183,8 @@ public class Rythm : MonoBehaviour
                 //Entarキーで失敗時の処理
                 if (Controler.GetJumpButtonFlg()|| Controler.GetRythmButtonFlg())
                 {
-                    Instantiate(missPrefab);
+					m_changeColorScript.Flame_Miss_Color();
+					Instantiate(missPrefab);
                 }
             }
             yield return new WaitForSeconds(0.01f);
