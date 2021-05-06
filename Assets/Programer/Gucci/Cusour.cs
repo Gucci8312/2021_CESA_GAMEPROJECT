@@ -33,8 +33,7 @@ public class Cusour : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             Idx++;
-            if(Idx>3)
-           // if(Idx>2)
+           if(Idx>MenuButton.Length-1)
             {
                 Idx--;
             }
