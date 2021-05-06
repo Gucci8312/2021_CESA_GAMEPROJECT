@@ -9,18 +9,18 @@ public class MoveMobius : MonoBehaviour
     public float GoalMovetime = 0.05f;                                       //目的地へ到達するまでの時間（秒）
     float Nowtime = 0;                                                       //移動時間（秒）
 
-    public bool PlayerMoveFlg;                                               // プレイヤーによる移動判定用
+    [HideInInspector] public bool PlayerMoveFlg;                             // プレイヤーによる移動判定用
     GameObject player;
     PlayerMove pm;                                                           //PlayerMoveスクリプト
 
-    public bool EnemyMoveFlag;                                               //エネミーによる移動判定用
+    [HideInInspector] public bool EnemyMoveFlag;                             //エネミーによる移動判定用
     private bool GetEnemyBeatFlag = false;
     public GameObject[] Enemy = new GameObject[2];
 
     private Vector2 StickInput;                                               //スティック入力時の値を取得用(-1～1)
     private Vector2 FlickVec;                                                 //弾いた時のベクトル格納用
     private bool FlickMoveFlag = false;                                       //弾き移動をさせるかどうか
-    bool OneFlickFlag = false;                                               //スティック入力を連続でさせない用
+    bool OneFlickFlag = false;                                                //スティック入力を連続でさせない用
 
     List<GameObject> Line = new List<GameObject>();                          //線のオブジェクト
     List<CrossLine> cl = new List<CrossLine>();                              //CrossLineスクリプト
@@ -28,13 +28,13 @@ public class MoveMobius : MonoBehaviour
     int MobiusMoveCrossPosNum;                                               //メビウスが移動する交点の要素番号
 
     private Rigidbody Rb;
-    [HideInInspector] public Vector3 MovePos;                                                 //移動する位置
+    [HideInInspector] public Vector3 MovePos;                                //移動する位置
     private Vector3 MoveVec;
     private bool MobiusColFlag;                                              //メビウスの当たり判定
     public Vector3 ColPos;                                                   //メビウスが当たった座標（具体的には自分と相手の座標の中点）
-    [HideInInspector] public Vector3 StartMovePos;                                                    //移動開始点
-    [HideInInspector] public Vector3 OldPos;                                                          //前回の座標
-    //Vector3 MoyoriPos;                                                       //最寄りの駅
+    [HideInInspector] public Vector3 StartMovePos;                           //移動開始点
+    [HideInInspector] public Vector3 OldPos;                                 //前回の座標
+    //Vector3 MoyoriPos;                                                     //最寄りの駅
 
     bool TimingInput;                                                                               //タイミング入力を管理する変数　true:入力あり　false:入力なし
     GameObject RythmObj;                                                                            //リズムオブジェクト
@@ -47,6 +47,7 @@ public class MoveMobius : MonoBehaviour
     bool MobiusStripFlag;                                                    //メビウスの輪になっているかどうか
     GameObject ColMobiusObj;                                                 //当たった相手メビウス格納用
 
+    ShakeMobius Sm;
     void Start()
     {
         player = GameObject.Find("Player");
@@ -66,6 +67,7 @@ public class MoveMobius : MonoBehaviour
 
         this.gameObject.AddComponent<LinePutMobius>();
 
+        Sm = this.GetComponent<ShakeMobius>();
     }
 
     // Update is called once per frame
@@ -125,8 +127,8 @@ public class MoveMobius : MonoBehaviour
             OldPos = this.transform.position;
             Nowtime = 0;
 
-            //if (StickFlickInputFlag() && TimingInput)//キー入力またはコントローラー入力されていたら　かつ　リズムが合えば
-            if (PlayerHipDropMoveFlag() || (GetEnemyBeatFlag && EnemyMoveFlag))//
+            if (PlayerHipDropMoveFlag() || //プレイヤーがヒップドロップしたら
+                (GetEnemyBeatFlag && EnemyMoveFlag))//EnemyMobius側で指定したビート数に達したら
             {
 
                 if (LineVecFlag())//自分の中心と線がはみ出てないか調べる
@@ -200,7 +202,10 @@ public class MoveMobius : MonoBehaviour
                             }
                         }
                     }
-
+                }
+                else//移動できなければ
+                {
+                    Sm.ShakeOn();//失敗時の振動させる
                 }
             }
         }
@@ -309,6 +314,7 @@ public class MoveMobius : MonoBehaviour
             pm.JumpOk = false;//一応こっちでfalseしとく
             return true;
         }
+
         return false;
     }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//動く線の処理
 public class MoveLine : MonoBehaviour
 {
     public enum MoveVector
@@ -112,6 +113,7 @@ public class MoveLine : MonoBehaviour
             //移動開始
             MoveFlag = true;
             Nowtime = 0;
+
         }
 
         if (MoveFlag)

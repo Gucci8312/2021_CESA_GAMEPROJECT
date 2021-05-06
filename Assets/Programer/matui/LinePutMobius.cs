@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //MoveMobiusから呼び出してもらうスクリプト
+//動く線に乗っているときのメビウスの処理
 public class LinePutMobius : MonoBehaviour
 {
     bool MoveLineFlag = false;
