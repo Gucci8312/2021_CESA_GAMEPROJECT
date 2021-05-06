@@ -58,6 +58,7 @@ public class AnimaterControl : MonoBehaviour
 
     void StopHipDrop()
     {
+        Debug.Log("ヒップドロップ終わった");
         Anim.SetBool("HipDropFlg", false);
         if (OldState == "Walk")
         {
