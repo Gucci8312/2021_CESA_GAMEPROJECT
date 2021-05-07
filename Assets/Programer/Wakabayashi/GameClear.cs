@@ -11,10 +11,13 @@ public class GameClear : MonoBehaviour
     public float TransformX;
 
     public float TransformY;
+    public string BGM;
 
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<PlayerMove>();
+        SoundManager.StopBGM();
+        SoundManager.PlayBgmName(BGM);
 
     }
 
