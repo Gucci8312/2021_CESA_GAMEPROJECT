@@ -49,8 +49,9 @@ public class UIManeger : MonoBehaviour
 
             GameClear.active = true;
             _camera.OnZoom();                 //カメラズーム
-            Time.timeScale = 0.0f;
-
+                                              //        Time.timeScale = 0.0f;
+            PauseManager.OnPause();
+            SoundManager.StopBGM();
         }
 
         if (GameClear.active == true)
