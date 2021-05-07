@@ -60,7 +60,7 @@ public class GameMaster : MonoBehaviour
     {
         //if (Player.GetComponent<PlayerMove>().GetCollisionState())
         //{
-        //    SceneManager.LoadScene("TitleScene");
+        //    //SceneManager.LoadScene("TitleScene");
         //}
     }
 
