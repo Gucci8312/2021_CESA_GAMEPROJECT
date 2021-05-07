@@ -12,7 +12,7 @@ public class PlayerEffect : MonoBehaviour
     void Start()
     {
         Player = GameObject.Find("Player"); ;
-        DushEffect = GameObject.Find("DushEffect"); 
+        DushEffect = GameObject.Find("DushEffect");
         SmokeEffect = GameObject.Find("SmokeEffect");
         //Instantiate(DushEffect,Player.transform.position,Quaternion.identity);
         // vf = this.gameObject.GetComponent<VisualEffect>();
@@ -21,7 +21,7 @@ public class PlayerEffect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       // if (Controler.GetJumpButtonFlg())
+        // if (Controler.GetJumpButtonFlg())
         if (Player.GetComponent<PlayerMove>().GetHipDropNow())
         {
             Debug.Log("ヒップドロップ");
@@ -40,6 +40,12 @@ public class PlayerEffect : MonoBehaviour
             float y = Player.transform.position.y + Mathf.Sin(RadAngle);
 
             DushEffect.transform.position = new Vector3(x, y, 0);
+
+
+            Vector3 distance = new Vector3(15f, 0, 0);
+            Vector3 dushpos = Player.GetComponent<SphereCollider>().bounds.center + Quaternion.Euler(0f, 0f, Angle) * distance;
+
+            DushEffect.transform.position = dushpos;
         }
     }
 }
