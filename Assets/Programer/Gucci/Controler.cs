@@ -49,12 +49,12 @@ public class Controler : MonoBehaviour
         bool Response = false;
         if (Input.GetKeyDown("joystick button 0"))
         {
-            SoundManager.PlaySeName("決定音");
+           // SoundManager.PlaySeName("決定音");
             Response = true;
         }
         else if (Input.GetKeyDown(KeyCode.Return))
         {
-            SoundManager.PlaySeName("決定音");
+            //SoundManager.PlaySeName("決定音");
             Response = true;
         }
         return Response;
@@ -68,6 +68,33 @@ public class Controler : MonoBehaviour
             Response = true;
         }
         else if (Input.GetKeyDown(KeyCode.F))
+        {
+            Response = true;
+        }
+        return Response;
+    }
+
+    public static bool Up()
+    {
+        bool Response = false;
+        if (Input.GetAxis("Vertical")<0.0f)
+        {
+            Response = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            Response = true;
+        }
+        return Response;
+    }
+    public static bool Down()
+    {
+        bool Response = false;
+        if (Input.GetAxis("Vertical") > 0.0f)
+        {
+            Response = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             Response = true;
         }

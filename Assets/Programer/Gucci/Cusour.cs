@@ -22,7 +22,7 @@ public class Cusour : MonoBehaviour
     {
         Vector3 Pos = this.gameObject.transform.position;
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Controler.Up())
         {
             Idx--;
             if(Idx<0)
@@ -31,7 +31,7 @@ public class Cusour : MonoBehaviour
             }
             transform.position = new Vector3(Pos.x, WindowButton[Idx].transform.position.y, Pos.z);
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (Controler.Down())
         {
             Idx++;
            if(Idx>WindowButton.Length-1)

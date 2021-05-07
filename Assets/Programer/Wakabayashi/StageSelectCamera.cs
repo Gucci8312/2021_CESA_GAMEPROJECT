@@ -1,0 +1,180 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class StageSelectCamera : MonoBehaviour
+{
+
+    public int stagenumber = 0;
+
+    public Camera Cam;
+
+    public int position = 0;
+
+    public bool plus = false;
+    public bool minus = false;
+
+    int Stop = 0;
+
+    bool back = false;
+    bool back1 = false;
+    bool back2 = false;
+    bool back3 = false;
+    bool back4 = false;
+
+    // start is called before the first frame update
+    void Start()
+    {
+        Cam = Camera.main;
+    }
+
+    // Update is called once per frame
+    public void Update()
+    {
+        if (stagenumber == 0)
+        {
+            if (back)
+            {
+                position--;
+            }
+            if (position <= 0)
+            {
+                position = 0;
+                back = false;
+            }
+            transform.position = new Vector3(position, Cam.transform.position.y, -10);
+        }
+
+        if (stagenumber == 1)
+        {
+            if (back1)
+            {
+                position--;
+                if (position <= 50)
+                {
+                    position = 50;
+                    back1 = false;
+                }
+            }
+            else
+            {
+                if (position >= 50)
+                {
+                    position = 50;
+                    back = true;
+                }
+                else
+                {
+                    position++;
+                }
+            }
+            transform.position = new Vector3(position, Cam.transform.position.y, -10);
+        }
+
+        if (stagenumber == 2)
+        {
+
+            if (back2)
+            {
+                position--;
+                if (position <= 100)
+                {
+                    position = 100;
+                    back2 = false;
+                }
+            }
+            else
+            {
+                if (position >= 100)
+                {
+                    position = 100;
+                    back1 = true;
+                }
+                else
+                {
+                    position++;
+                }
+            }
+            transform.position = new Vector3(position, Cam.transform.position.y, -10);
+        }
+
+        if (stagenumber == 3)
+        {
+            if (back3)
+            {
+                position--;
+                if (position <= 150)
+                {
+                    position = 150;
+                    back3 = false;
+                }
+            }
+            else
+            {
+                if (position >= 150)
+                {
+                    position = 150;
+                    back2 = true;
+                }
+                else
+                {
+                    position++;
+                }
+            }
+            transform.position = new Vector3(position, Cam.transform.position.y, -10);
+        }
+
+        if (stagenumber == 4)
+        {
+            if (back4)
+            {
+                position--;
+                if (position <= 200)
+                {
+                    position = 150;
+                    back4 = false;
+                }
+            }
+            else
+            {
+                if (position >= 200)
+                {
+                    position = 200;
+                    back3 = true;
+                }
+                else
+                {
+                    position++;
+                }
+            }
+            transform.position = new Vector3(position, Cam.transform.position.y, -10);
+        }
+
+        if (plus)
+        {
+            if (stagenumber != 4)
+            {
+                stagenumber++;
+            }
+            plus = false;
+        }
+        if (minus)
+        {
+            if (stagenumber != 0)
+            {
+                stagenumber--;
+            }
+            minus = false;
+        }
+    }
+
+    public void OnPlus()
+    {
+        plus = true;
+    }
+    public void OnMinus()
+    {
+        minus = true;
+    }
+
+}
