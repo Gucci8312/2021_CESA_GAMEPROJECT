@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -146,7 +146,7 @@ PrefabInstance:
     - target: {fileID: 7712178386907853843, guid: 8c80e19240f42d44e850c0dad64e698c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7712178386907853843, guid: 8c80e19240f42d44e850c0dad64e698c,
         type: 3}
@@ -830,6 +830,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &280126492 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5185553873557292434, guid: 8c80e19240f42d44e850c0dad64e698c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5087308}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &398837391
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -929,7 +935,7 @@ PrefabInstance:
     - target: {fileID: 4260265600030706056, guid: f7a00c465ee1ab24baf205597a471688,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4260265600030706056, guid: f7a00c465ee1ab24baf205597a471688,
         type: 3}
@@ -990,11 +996,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Enemy.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 280126492}
     - target: {fileID: 4260265600030706069, guid: f7a00c465ee1ab24baf205597a471688,
         type: 3}
       propertyPath: m_Name
-      value: Mobius (2)
+      value: Mobius (1)
       objectReference: {fileID: 0}
     - target: {fileID: 7984708624892546552, guid: f7a00c465ee1ab24baf205597a471688,
         type: 3}
@@ -1249,6 +1255,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 40
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!1 &568373708 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5656675967286499063, guid: 8460a62803a7b24428708934cc55c7fd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1641736837}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &571652766
 GameObject:
   m_ObjectHideFlags: 0
@@ -1434,6 +1446,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 598640137}
   m_Mesh: {fileID: -2659757080834970702, guid: 4525668be5a904146aeb27d7ede3024c, type: 3}
+--- !u!1 &648336569 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5656675966005090747, guid: 8460a62803a7b24428708934cc55c7fd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1641736837}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &667393558
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1474,7 +1492,7 @@ PrefabInstance:
     - target: {fileID: 1442413225133861840, guid: 0a0649212c658664ba8b0c9952e0d559,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1442413225133861840, guid: 0a0649212c658664ba8b0c9952e0d559,
         type: 3}
@@ -1535,11 +1553,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Enemy.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 280126492}
     - target: {fileID: 1442413225133861869, guid: 0a0649212c658664ba8b0c9952e0d559,
         type: 3}
       propertyPath: m_Name
-      value: Mobius (3)
+      value: Mobius (2)
       objectReference: {fileID: 0}
     - target: {fileID: 2470625702482347073, guid: 0a0649212c658664ba8b0c9952e0d559,
         type: 3}
@@ -2164,6 +2182,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &868951500 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5656675965717614862, guid: 8460a62803a7b24428708934cc55c7fd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1641736837}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &876200332
 GameObject:
   m_ObjectHideFlags: 0
@@ -3194,6 +3218,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 35
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1238918930 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5656675967618238079, guid: 8460a62803a7b24428708934cc55c7fd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1641736837}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1241285934
 GameObject:
   m_ObjectHideFlags: 0
@@ -4164,7 +4194,7 @@ MonoBehaviour:
   _material: {fileID: 2100000, guid: fae54e56a16ab5a4ebaa1308ebb0e74b, type: 2}
   _material2: {fileID: 2100000, guid: b684e8e82ae6f4b4cb5b90015e54e56c, type: 2}
   _material3: {fileID: 2100000, guid: ee71ddf1bc18ebc40a84200ca1077a0a, type: 2}
-  _FlameMaterial: {fileID: 0}
+  _FlameMaterial: {fileID: 2100000, guid: f8fc7ce66bece604fa3888dd263e764b, type: 2}
   _DirectionLight: {fileID: 0}
   _PointLight1: {fileID: 667393559}
   _PointLight2: {fileID: 438886096}
@@ -4828,6 +4858,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5656675967479163706, guid: 8460a62803a7b24428708934cc55c7fd,
+        type: 3}
+      propertyPath: Window
+      value: 
+      objectReference: {fileID: 1641736838}
+    - target: {fileID: 5656675967479163706, guid: 8460a62803a7b24428708934cc55c7fd,
+        type: 3}
+      propertyPath: WindowButton.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5656675967479163706, guid: 8460a62803a7b24428708934cc55c7fd,
+        type: 3}
+      propertyPath: WindowButton.Array.data[0]
+      value: 
+      objectReference: {fileID: 868951500}
+    - target: {fileID: 5656675967479163706, guid: 8460a62803a7b24428708934cc55c7fd,
+        type: 3}
+      propertyPath: WindowButton.Array.data[1]
+      value: 
+      objectReference: {fileID: 568373708}
+    - target: {fileID: 5656675967479163706, guid: 8460a62803a7b24428708934cc55c7fd,
+        type: 3}
+      propertyPath: WindowButton.Array.data[2]
+      value: 
+      objectReference: {fileID: 1238918930}
+    - target: {fileID: 5656675967479163706, guid: 8460a62803a7b24428708934cc55c7fd,
+        type: 3}
+      propertyPath: WindowButton.Array.data[3]
+      value: 
+      objectReference: {fileID: 648336569}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8460a62803a7b24428708934cc55c7fd, type: 3}
 --- !u!1 &1641736838 stripped
@@ -5499,7 +5559,7 @@ PrefabInstance:
     - target: {fileID: 9009114843697122168, guid: e34b0834316f2a447bda70aa78a39386,
         type: 3}
       propertyPath: m_Name
-      value: Mobius (1)
+      value: Mobius (0)
       objectReference: {fileID: 0}
     - target: {fileID: 9009114843697122168, guid: e34b0834316f2a447bda70aa78a39386,
         type: 3}
@@ -5515,7 +5575,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Enemy.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 280126492}
     - target: {fileID: 9009114844433429470, guid: e34b0834316f2a447bda70aa78a39386,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5698,7 +5758,7 @@ PrefabInstance:
     - target: {fileID: 2091470671148871706, guid: 3659251827a31d3429bb79fa84a2fbf0,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2091470671148871706, guid: 3659251827a31d3429bb79fa84a2fbf0,
         type: 3}
