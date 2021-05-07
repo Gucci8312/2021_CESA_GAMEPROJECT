@@ -30,11 +30,11 @@ public class Rythm : MonoBehaviour
 
     public float distance;                                  //円との距離を図る
 
-    public bool m_EmobiusBeatFlag=false;                    //ビートが刻んだかどうか
+    public bool m_EmobiusBeatFlag = false;                    //ビートが刻んだかどうか
     private int m_beatCount;                                //ビートの回数を取得
     public int EnemyTroughRing;                             //敵が何ビートによって進むのか（実装するかどうかわからない）
     static float tansu;                                     //音による誤差調整用
-
+    static float fram_bgmm;
     [SerializeField] AudioClip SE = default;
     AudioSource audioSource;
     [SerializeField] AudioSource stageBGM = default;
@@ -44,6 +44,11 @@ public class Rythm : MonoBehaviour
 
     private bool OneLRTriggerFlag;  //LRトリガー押し込みによる連続入力させない用
 
+    [SerializeField]
+    GameObject missPrefab;
+
+    [SerializeField]
+    GameObject successPrefab;
 
     GameObject m_frameManager;                              //ポストエフェクトのフレーム用
     ChangeFlameColor m_changeColorScript;                   //ポストエフェクトのフレーム用スクリプト
@@ -63,13 +68,21 @@ public class Rythm : MonoBehaviour
         StartCoroutine("SuccessCheck");
 
         //音を再生・ループにする
-        stageBGM.Play();
-        stageBGM.loop = true;
+        // stageBGM.Play();
+        // stageBGM.loop = true;
 
+        ////フレームマネージャーからソースを取得
+        //m_frameManager = GameObject.Find("FrameManager");
+        //m_changeColorScript = m_frameManager.GetComponent<ChangeFlameColor>();
+    }
+
+    private void Awake()
+    {
         //フレームマネージャーからソースを取得
         m_frameManager = GameObject.Find("FrameManager");
         m_changeColorScript = m_frameManager.GetComponent<ChangeFlameColor>();
     }
+
 
     // @name   OnEnable
     // @brief  インスペクタービューから情報を取得
@@ -87,13 +100,14 @@ public class Rythm : MonoBehaviour
     // @brief  一定フレームで呼び出し（Updateだと一定じゃないためずれがどうしても生じるため）
     private void FixedUpdate()
     {
-		m_changeColorScript.Flame_Color_Attenuation();
-		//音の始まりを調整
-		//音のループによる読み込み時の誤差を調整
-		if (stageBGM.time <= 0.05f)       
+        m_changeColorScript.Flame_Color_Attenuation();
+        //音の始まりを調整
+        //音のループによる読み込み時の誤差を調整
+        //if (stageBGM.time <= 0.05f)
+        if (!SoundManager.BgmIsPlaying())
         {
             m_startTime = Time.timeSinceLevelLoad;
-            m_sphere.transform.position = new Vector3(m_currentPos.x, m_currentPos.y,m_currentPos.z);
+            m_sphere.transform.position = new Vector3(m_currentPos.x, m_currentPos.y, m_currentPos.z);
             return;
         }
         //徐々に移動するように設定
@@ -119,7 +133,7 @@ public class Rythm : MonoBehaviour
             m_targetPos = new Vector3(-m_sphere.transform.position.x, m_sphere.transform.position.y, m_sphere.transform.position.z);
             m_currentPos = m_sphere.transform.position;
         }
-
+        fram_bgmm = Time.timeSinceLevelLoad;
         m_EmobiusBeatFlag = false;
     }
 
@@ -153,20 +167,24 @@ public class Rythm : MonoBehaviour
         while (true)
         {
             CheckDistanceWall();
+			m_changeColorScript.Flame_Attenuation();
 
-            if (rythmCheckFlag)
+			if (rythmCheckFlag)
             {
-                //Entarキーで成功かどうかを判断する
-                if(Controler.SubMitButtonFlg() || LRTrigger())
+                if(Controler.GetJumpButtonFlg() || Controler.GetRythmButtonFlg())
                 {
-                    checkPlayerMove = true;
-                    rythmCheckFlag = false;
-                    Debug.Log("距離：" + distance);
+					m_changeColorScript.Flame_Success_Color();
+					Instantiate(successPrefab);
+
                 }
-                else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) || mobius_script.StickFlickInputFlag())
+            }
+            else
+            {
+                //Entarキーで失敗時の処理
+                if (Controler.GetJumpButtonFlg()|| Controler.GetRythmButtonFlg())
                 {
-                    checkMoviusMove = true;
-                    rythmCheckFlag = false;
+					m_changeColorScript.Flame_Miss_Color();
+					Instantiate(missPrefab);
                 }
             }
             yield return new WaitForSeconds(0.01f);
@@ -181,6 +199,7 @@ public class Rythm : MonoBehaviour
             m_EmobiusBeatFlag = true;
             m_beatCount++;
             m_changeColorScript.ChangeColor_Flame();
+            Debug.Log("壁に当たった時間：　"+fram_bgmm);
             //rythmCheckFlag = true;
             if (m_beatCount >= EnemyTroughRing)
             {

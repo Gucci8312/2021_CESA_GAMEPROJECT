@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//敵が乗っているメビウスの輪の挙動
 public class EnemyMobius : MonoBehaviour
 {
     private bool EnemyBeatFlag;                                 //ビートが指定した回数になったかどうか
@@ -33,7 +34,7 @@ public class EnemyMobius : MonoBehaviour
     {
         BeatCounter();//ビート数チェック
 
-        if (Mm.EnemyMoveFlag && !Mm.PlayerMoveFlg) //エネミーが乗ってたら
+        if (Mm.EnemyMoveFlag && !Mm.PlayerMoveFlg && Mm.Getcl().Count != 0) //エネミーが乗ってたら かつ　線に乗っていたら
         {
             if (GoToVectorFlag())
             {
@@ -69,11 +70,11 @@ public class EnemyMobius : MonoBehaviour
         List<Vector2> MoveVec = new List<Vector2>();
         for(int i=0;i< Mm.Getcl().Count; i++)
         {
-            if (!Mm.Getcl()[i].NearRPosFlag(this.transform.position))
+            if (!Mm.Getcl()[i].NearEndRCrossPosFlag(this.transform.position))
             {
                 MoveVec.Add(Mm.Getcl()[i].GetRvec());/* Debug.Log("Rvecげっと！");*/
             }
-            if (!Mm.Getcl()[i].NearLPosFlag(this.transform.position))
+            if (!Mm.Getcl()[i].NearEndLCrossPosFlag(this.transform.position))
             {
                 MoveVec.Add(Mm.Getcl()[i].GetLvec());/* Debug.Log("Lvecげっと！");*/
             }
@@ -140,17 +141,17 @@ public class EnemyMobius : MonoBehaviour
         Ray ray = new Ray(new Vector3(this.transform.position.x , this.transform.position.y, this.transform.position.z),
                         new Vector3(vec.x * 1, vec.y * 1, 0));
         //貫通レイキャスト
-        foreach (RaycastHit hit in Physics.RaycastAll(ray, distance))
+        foreach (RaycastHit hit in Physics.RaycastAll(ray, distance+100))
         {
             // Debug.Log(hit.collider.gameObject.name);//レイキャストが当たったオブジェクト
 
             if (hit.collider.gameObject.CompareTag("Mobius"))
             {
-                if (hit.collider.gameObject.GetComponent<MoveMobius>().EnemyMoveFlag)//メビウスにエネミーが乗っていたなら
+                if (hit.collider.gameObject.GetComponent<MoveMobius>().EnemyMoveFlag//メビウスにエネミーが乗っていたなら
+                    || hit.collider.gameObject.GetComponent<MoveMobius>().GetMobiusStripFlag())//メビウスの輪になっていたら 
                 {
                     return false;
                 }
-
             }
         }
 

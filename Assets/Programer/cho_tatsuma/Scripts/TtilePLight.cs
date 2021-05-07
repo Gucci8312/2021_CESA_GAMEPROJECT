@@ -6,7 +6,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEditor.UI;
 // @name   TtilePLight
 // @brief  Titleのライトを管理するクラス
 public class TtilePLight : MonoBehaviour
@@ -17,10 +16,7 @@ public class TtilePLight : MonoBehaviour
     GameObject m_runText;        //Runテキストオブジェクト
 
     [SerializeField]
-    GameObject m_areaSelectButtonObj;
-
-    [SerializeField]
-    GameObject m_endButtonObj;
+    GameObject m_pressAButtonText;  //PressAButtonテキストオブジェクト
 
     [SerializeField]
     GameObject m_pinkPointLight;    //ピンクのライトオブジェクト
@@ -35,8 +31,8 @@ public class TtilePLight : MonoBehaviour
 
     float whiteIntensity;
     float pinkIntensity;
-    // CoroutineDelegate
 
+    public bool titleAnimationFinished;
     // @name   OnInit
     // @brief  初期化関数
     public void OnInit()
@@ -48,11 +44,11 @@ public class TtilePLight : MonoBehaviour
         pinkIntensity = m_pinkLight.intensity;
         m_pinkLight.intensity = 0f;
         m_textColor = Color.clear;
+        titleAnimationFinished = false;
         ChangeTextColorClear(m_beatText);
         ChangeTextColorClear(m_runText);
 
-        m_areaSelectButtonObj.SetActive(true);
-        m_endButtonObj.SetActive(true);
+        m_pressAButtonText.SetActive(false);
         StartCoroutine(MomentChangeSpotLight());
     }
 
@@ -83,8 +79,8 @@ public class TtilePLight : MonoBehaviour
     {
         if (m_textColor.r >= 1.0f)
         {
-            m_areaSelectButtonObj.SetActive(true);
-            m_endButtonObj.SetActive(true);
+            m_pressAButtonText.SetActive(true);
+            titleAnimationFinished = true;
             return;
         }
         m_textColor.r += 0.1f * (1f / 20f);
@@ -116,14 +112,14 @@ public class TtilePLight : MonoBehaviour
                 ChangeTextColorClear(m_runText);
                 yield return new WaitForSeconds(0.1f);
             }
-            if (i == 1f)
+            if (i == 1)
             {
                 yield return new WaitForSeconds(0.4f);
             }
-            if (i == 3f)
+            if (i == 3)
             {
                 yield return new WaitForSeconds(1.0f);
-                yield return StartCoroutine("SlowChangeSpotLight");
+                StartCoroutine("SlowChangeSpotLight");
             }
             yield return null;
         }
@@ -133,7 +129,7 @@ public class TtilePLight : MonoBehaviour
     // @brief  Pinkのライトがスローに点滅する
     IEnumerator SlowChangeSpotLight()
     {
-        while (SceneManager.GetActiveScene().name == "TittleScene")
+        while (true)
         {
 
             if (m_pinkLight.intensity <= 0)
@@ -148,11 +144,11 @@ public class TtilePLight : MonoBehaviour
                 m_up = false;
             }
 
-            if (m_down && !m_up)
+            if (m_down)
             {
-                m_pinkLight.intensity--;
+             //   m_pinkLight.intensity--;
             }
-            else if (!m_down && m_up)
+            else if (m_up)
             {
                 m_pinkLight.intensity++;
             }

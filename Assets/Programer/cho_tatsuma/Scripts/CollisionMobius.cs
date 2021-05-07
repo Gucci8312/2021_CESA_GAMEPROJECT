@@ -30,8 +30,9 @@ public class CollisionMobius : MonoBehaviour
     {
         if (other.tag == "Wa" && !m_hitFlg)
         {
-            Debug.Log("Hit");
-            m_mobiusPosScript.MobiusCollisionOn();
+            if (m_mobiusPosScript.m_mobius[m_mobiusPosScript.m_nowMobiusNo].gameObject.name == other.gameObject.transform.parent.gameObject.name) return;
+
+            m_mobiusPosScript.MobiusCollisionOn(other.gameObject.transform.parent.gameObject);
             m_hitFlg = true;
         }
     }
@@ -41,7 +42,6 @@ public class CollisionMobius : MonoBehaviour
         if (other.tag == "Wa" && m_hitFlg)
         {
             m_hitFlg = false;
-            Debug.Log("HitOff");
             m_mobiusPosScript.MobiusCollisionOff();
         }
     }

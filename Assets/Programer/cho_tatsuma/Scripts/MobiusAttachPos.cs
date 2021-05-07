@@ -14,24 +14,29 @@ public class MobiusAttachPos : MonoBehaviour
 {
     GameObject m_player;            //プレイヤーゲームオブジェクトを取得
     PlayerMove m_playerMoveScript;　//プレイヤーの移動スクリプトを取得（NowMobiusを見つけるため）
-    private int m_nowMobiusNo;      //プレイヤーが現在どのメビウスに乗っているかの情報
+    public int m_nowMobiusNo;      //プレイヤーが現在どのメビウスに乗っているかの情報
 
-    GameObject[] m_mobius;                  //すべてのメビウスの輪（単体の輪）を格納
+    public GameObject[] m_mobius;                  //すべてのメビウスの輪（単体の輪）を格納
     GameObject m_pCylinder;              //MeshRendererが設定されているメビウスの輪のモデルオブジェクトを設定
     Vector3 m_mobiusPosition;           //合体後のメビウスモデルの座標変数
 
     KeyCode m_keyCode;                  //どのキーを入力したかを保存
     Vector2 StickInput;                   //スティック入力時の値を取得用(-1～1)
-    GameObject otherMobius;              //キャラのいる位置とは違った当たった邦のメビウスの格納変数
+    public GameObject otherMobius;              //キャラのいる位置とは違った当たった邦のメビウスの格納変数
     bool m_mobiusCol;                   //メビウスがくっついたかどうかを一回だけ判定。
 
     float before_degree;                //前回の回転角を保持
+    Vector3 before_pos;
+    Vector3 m_MobiusPos;
     // Start is called before the first frame update
     void Start()
     {
         //プレイヤーからNowMobiusNumを取得するためコンポーネントを取得
         m_player = GameObject.Find("Player");
-        m_playerMoveScript = m_player.GetComponent<PlayerMove>();
+        if (!m_player == false)
+            m_playerMoveScript = m_player.GetComponent<PlayerMove>();
+
+        m_MobiusPos = new Vector3(0f, 0f, 0f);
 
         //メビウスの輪（単体）から当たった情報と中点を取得するためコンポーネントを取得
         m_mobius = GameObject.FindGameObjectsWithTag("Mobius");
@@ -48,6 +53,8 @@ public class MobiusAttachPos : MonoBehaviour
 
         //一度くっついたとき回転しない用にするため。
         m_mobiusCol = false;
+
+        m_nowMobiusNo = 0;
     }
 
     // Update is called once per frame
@@ -56,24 +63,25 @@ public class MobiusAttachPos : MonoBehaviour
         //現在の回転角度を格納するためにいったんトランスフォーム情報ごと取得
         Transform myTransform = transform;
         //プレイヤーが乗るメビウスの輪（単体）を探索
-        m_nowMobiusNo = m_playerMoveScript.GetNowMobiusNum();
+        if (m_playerMoveScript != null)
+            m_nowMobiusNo = m_playerMoveScript.GetNowMobiusNum();
 
         //前回の入力キーを取得
-        BeforeDownGetKey();
+        // BeforeDownGetKey();
 
-        if (!m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetMobiusStripFlag())
-        {
-            //松井君に送りたい部分（離れた場合）
-         //   MobiusCollisionOff();
-        }
+        //if (!m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetMobiusStripFlag())
+        //{
+        //    //松井君に送りたい部分（離れた場合）
+        //    //   MobiusCollisionOff();
+        //}
 
-        //メビウスの輪（単体）同士が当たったかどうかを取得
-        if (m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetMobiusStripFlag() && !m_mobiusCol)
-        {
-            //松井君に送りたい部分（くっついた場合）
-        //    MobiusCollisionOn();
-            m_mobiusCol = true;
-        }
+        ////メビウスの輪（単体）同士が当たったかどうかを取得
+        //if (m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetMobiusStripFlag() && !m_mobiusCol)
+        //{
+        //    //松井君に送りたい部分（くっついた場合）
+        //    //    MobiusCollisionOn();
+        //    m_mobiusCol = true;
+        //}
     }
     // @name   BeforeDownGetKey
     // @brief  前回どのキーを押したかを記憶
@@ -143,7 +151,7 @@ public class MobiusAttachPos : MonoBehaviour
         //最終角度を求める
         degree = radian * (180.0f / 3.141592f);
 
-        if(degree < 0f)
+        if (degree < 0f)
         {
             degree += 360f;
         }
@@ -171,14 +179,23 @@ public class MobiusAttachPos : MonoBehaviour
 
     // @name   MobiusCollisionOn
     // @brief  他のメビウスと当たった時に実装したい部分
-    public void MobiusCollisionOn()
+    public void MobiusCollisionOn(GameObject _gameObj)
     {
-        otherMobius = m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetColMobiusObj();
+        before_pos = m_MobiusPos;
+        otherMobius = /*m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetColMobiusObj();*/ _gameObj;
         MobiusChileMeshRenderOff(m_mobius[m_nowMobiusNo]);
         MobiusChileMeshRenderOff(otherMobius);
         before_degree = MobiusRotateDegree();
         //当たった二つの中間点を取得→メビウスの輪の座標に設定するため
-        Vector3 pos = m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetColPos();
+        m_MobiusPos = /*m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetColPos()*/ (m_mobius[m_nowMobiusNo].transform.position + otherMobius.transform.position) / 2;
+        if (m_MobiusPos.x == before_pos.x && m_MobiusPos.y == before_pos.y && m_MobiusPos.z == before_pos.z)
+        {
+            m_MobiusPos = otherMobius.GetComponent<MoveMobius>().GetColPos();
+        }
+        else if (m_MobiusPos.x == 0 && m_MobiusPos.y == 0 && m_MobiusPos.z == 0)
+        {
+            m_MobiusPos = otherMobius.GetComponent<MoveMobius>().GetColPos();
+        }
         //メビウスの輪のモデルを表示
         m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled = true;
 
@@ -193,7 +210,7 @@ public class MobiusAttachPos : MonoBehaviour
         //{
         // //   this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x + 15, pos.y - 15, pos.z);
         //}
-        this.gameObject.GetComponent<Transform>().position = new Vector3(pos.x, pos.y, pos.z);
+        this.gameObject.GetComponent<Transform>().position = new Vector3(m_MobiusPos.x, m_MobiusPos.y, m_MobiusPos.z);
 
         transform.Rotate(new Vector3(0, 0, before_degree));
     }

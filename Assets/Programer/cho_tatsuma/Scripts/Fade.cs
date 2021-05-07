@@ -20,7 +20,6 @@ public class Fade : MonoBehaviour
         fadeFlg = false;
         fadeFinished = false;
         m_image.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
-        m_image.gameObject.SetActive(false);
     }
 
     // Update is called once per frame

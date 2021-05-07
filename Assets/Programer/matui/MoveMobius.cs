@@ -6,36 +6,35 @@ using UnityEngine;
 public class MoveMobius : MonoBehaviour
 {
     // Start is called before the first frame update
-    //private float MovePower = 500.0f;                                        //移動力
-    //public float MoveBairitu = 15;                                           //移動に掛ける倍率
-    //public float Gensokuritu = 50;                                           //速度を減速させる用（０にするとずっと無限に移動する）
-
     public float GoalMovetime = 0.05f;                                       //目的地へ到達するまでの時間（秒）
     float Nowtime = 0;                                                       //移動時間（秒）
 
-    public bool PlayerMoveFlg;                                               // プレイヤーによる移動判定用
+    [HideInInspector] public bool PlayerMoveFlg;                             // プレイヤーによる移動判定用
     GameObject player;
     PlayerMove pm;                                                           //PlayerMoveスクリプト
 
-    public bool EnemyMoveFlag;                                               //エネミーによる移動判定用
+    [HideInInspector] public bool EnemyMoveFlag;                             //エネミーによる移動判定用
     private bool GetEnemyBeatFlag = false;
     public GameObject[] Enemy = new GameObject[2];
 
     private Vector2 StickInput;                                               //スティック入力時の値を取得用(-1～1)
     private Vector2 FlickVec;                                                 //弾いた時のベクトル格納用
-    public bool FlickMoveFlag = false;                                       //弾き移動をさせるかどうか
-    bool OneFlickFlag = false;                                               //スティック入力を連続でさせない用
+    private bool FlickMoveFlag = false;                                       //弾き移動をさせるかどうか
+    bool OneFlickFlag = false;                                                //スティック入力を連続でさせない用
 
-    public List<GameObject> Line = new List<GameObject>();                   //線のオブジェクト
+    List<GameObject> Line = new List<GameObject>();                          //線のオブジェクト
     List<CrossLine> cl = new List<CrossLine>();                              //CrossLineスクリプト
+    [HideInInspector] public GameObject MoveLineObj;                         //動く線のオブジェクト格納用（MoveLineが操作する）
+    int MobiusMoveCrossPosNum;                                               //メビウスが移動する交点の要素番号
+
     private Rigidbody Rb;
-    public Vector3 MovePos;                                                 //移動する位置
+    [HideInInspector] public Vector3 MovePos;                                //移動する位置
     private Vector3 MoveVec;
     private bool MobiusColFlag;                                              //メビウスの当たり判定
-    public Vector3 ColPos;                                                          //メビウスが当たった座標（具体的には自分と相手の座標の中点）
-    Vector3 StartMovePos;                                                    //移動開始点
-    Vector3 OldPos;                                                          //前回の座標
-    Vector3 MoyoriPos;
+    public Vector3 ColPos;                                                   //メビウスが当たった座標（具体的には自分と相手の座標の中点）
+    [HideInInspector] public Vector3 StartMovePos;                           //移動開始点
+    [HideInInspector] public Vector3 OldPos;                                 //前回の座標
+    //Vector3 MoyoriPos;                                                     //最寄りの駅
 
     bool TimingInput;                                                                               //タイミング入力を管理する変数　true:入力あり　false:入力なし
     GameObject RythmObj;                                                                            //リズムオブジェクト
@@ -44,9 +43,11 @@ public class MoveMobius : MonoBehaviour
     MobiusColor Mc;                                                          //MobiusColorスクリプト
     //MobiusAttachPos MaPos;                                                   //MobiusAttachPosスクリプト
 
+    bool ColObjAttachFlag;                                                   //メビウス以外のオブジェクトに当たっているかどうか
     bool MobiusStripFlag;                                                    //メビウスの輪になっているかどうか
     GameObject ColMobiusObj;                                                 //当たった相手メビウス格納用
 
+    ShakeMobius Sm;
     void Start()
     {
         player = GameObject.Find("Player");
@@ -62,7 +63,11 @@ public class MoveMobius : MonoBehaviour
 
         StartMovePos = this.transform.position;
         OldPos = this.transform.position;
-        MoyoriPos = this.transform.position;
+        //MoyoriPos = this.transform.position;
+
+        this.gameObject.AddComponent<LinePutMobius>();
+
+        Sm = this.GetComponent<ShakeMobius>();
     }
 
     // Update is called once per frame
@@ -109,7 +114,7 @@ public class MoveMobius : MonoBehaviour
         }
         //OldPos = this.transform.position;
         MobiusStrip();//メビウスの輪になっているかを調べる
-
+        BlockCheak();
     }
 
     private void CrossPosMove()//交点へ移動する処理
@@ -122,8 +127,8 @@ public class MoveMobius : MonoBehaviour
             OldPos = this.transform.position;
             Nowtime = 0;
 
-            //if (StickFlickInputFlag() && TimingInput)//キー入力またはコントローラー入力されていたら　かつ　リズムが合えば
-            if (PlayerHipDropMoveFlag() || (GetEnemyBeatFlag&&EnemyMoveFlag))//
+            if (PlayerHipDropMoveFlag() || //プレイヤーがヒップドロップしたら
+                (GetEnemyBeatFlag && EnemyMoveFlag))//EnemyMobius側で指定したビート数に達したら
             {
 
                 if (LineVecFlag())//自分の中心と線がはみ出てないか調べる
@@ -146,11 +151,16 @@ public class MoveMobius : MonoBehaviour
 
                         if (hit.collider.gameObject.CompareTag("Line"))
                         {
-                            if (SameObjListSearch(Line, hit.collider.gameObject))//Lineリストの中にレイが当たったオブジェクトがなければ
+                            CrossLine HitCL = hit.collider.gameObject.GetComponent<CrossLine>();
+
+                            if (!HitCL.MoveLineFlag && !HitCL.SameLRvec(cl[0].GetLvec(), cl[0].GetRvec()))//動いていない　かつ　線の方向が同じじゃなければ
                             {
-                                CrossLineObj.Add(hit.collider.gameObject);//CrossLineObjリストの中に追加
-                                CrossLineObj[CrossLineObj.Count - 1].GetComponent<CrossLine>().RayHitPos = hit.point;
-                                HitPos.Add(hit.point);
+                                if (SameObjListSearch(Line, hit.collider.gameObject))//Lineリストの中にレイが当たったオブジェクトがなければ
+                                {
+                                    CrossLineObj.Add(hit.collider.gameObject);//CrossLineObjリストの中に追加
+                                    CrossLineObj[CrossLineObj.Count - 1].GetComponent<CrossLine>().RayHitPos = hit.point;
+                                    HitPos.Add(hit.point);
+                                }
                             }
                         }
                     }
@@ -179,7 +189,7 @@ public class MoveMobius : MonoBehaviour
                             //Rb.isKinematic = false;//物理的な動きをありにする
 
                             //最終的に入力した方向にある線に沿って交点へ移動
-                            MovePos = cl[0].NearCrossPos(NearCl.RayHitPos);//移動できる交点を取得
+                            MovePos = cl[0].NearCrossPos(NearCl.RayHitPos, out MobiusMoveCrossPosNum);//移動できる交点を取得
                             MoveVec = SearchVector(this.transform.position, MovePos);
 
                             //進む方向の線の上に乗っているかどうか調べる
@@ -192,7 +202,10 @@ public class MoveMobius : MonoBehaviour
                             }
                         }
                     }
-
+                }
+                else//移動できなければ
+                {
+                    Sm.ShakeOn();//失敗時の振動させる
                 }
             }
         }
@@ -201,6 +214,8 @@ public class MoveMobius : MonoBehaviour
         {
             // Rb.AddForce(-Rb.velocity * (Gensokuritu * 0.1f), ForceMode.Acceleration);//減速させる（要調整）
 
+            //MovePos = cl[0].GetCrossPos()[MobiusMoveCrossPosNum];
+
             if (!HighSpeedCol())//何も当たらなければ
             {
 
@@ -208,7 +223,7 @@ public class MoveMobius : MonoBehaviour
                 {
                     ZeroVelo();
                     this.transform.position = MovePos;
-                    MoyoriPos = MovePos;
+                    //MoyoriPos = MovePos;
 
                     FlickVec.x = 0;
                     FlickVec.y = 0;
@@ -291,7 +306,7 @@ public class MoveMobius : MonoBehaviour
 
     private bool PlayerHipDropMoveFlag()//プレイヤーのヒップドロップによる移動フラグ
     {
-        if (pm.JumpOk && PlayerMoveFlg) 
+        if (pm.JumpOk && PlayerMoveFlg)
         {
             FlickVec = SearchVector(this.transform.position, player.transform.position);//プレイヤーへのベクトルを取得
             if (!pm.GetInsideFlg()) { FlickVec = -FlickVec; }//外側に居れば反転させる
@@ -299,6 +314,7 @@ public class MoveMobius : MonoBehaviour
             pm.JumpOk = false;//一応こっちでfalseしとく
             return true;
         }
+
         return false;
     }
 
@@ -356,30 +372,57 @@ public class MoveMobius : MonoBehaviour
         Rb.isKinematic = true;
     }
 
-    private bool LineVecFlag()//メビウスの輪が線上に乗っているかどうか調べる（縦か横の線のみ）
+    private bool LineVecFlag()//メビウスの輪が線上に乗っているかどうか
     {
-        bool flag = false;
+        bool Seachflag = false;
         GameObject MoveLine = null;
+        Vector2 Vec;//FlickVecに代入用
 
         for (int i = 0; i < Line.Count; i++)
         {
-            if (cl[i].CanInputMoveVec(FlickVec, out FlickVec))
+            if (cl[i].CanInputMoveVec(FlickVec, out Vec))
             {
-                flag = true;
-                MoveLine = Line[i];
-                break;
+                if (cl[i].GetRvec() == Vec)
+                {
+                    if (!cl[i].NearEndRCrossPosFlag(this.transform.position))//自身の座標が右端になければ
+                    {
 
+                        FlickVec = Vec;
+                        Seachflag = true;
+                        MoveLine = Line[i];
+                        break;
+
+                    }
+                }
+                else if (cl[i].GetLvec() == Vec)
+                {
+                    if (!cl[i].NearEndLCrossPosFlag(this.transform.position))
+                    {
+
+                        FlickVec = Vec;
+                        Seachflag = true;
+                        MoveLine = Line[i];
+                        break;
+
+                    }
+                }
             }
+
         }
 
-        if (flag)
+
+        if (Seachflag)
         {
+            //リストの中の余分なものを削除
             Line.Clear();
             Line.Add(MoveLine);
             cl.Clear();
             cl.Add(MoveLine.GetComponent<CrossLine>());
         }
-        return flag;
+
+        Debug.Log("移動" + Line[0]);
+
+        return Seachflag;
     }
 
     private void OnTriggerStay(Collider other)
@@ -432,13 +475,13 @@ public class MoveMobius : MonoBehaviour
     }
 
 
-    public void MobiusCol(GameObject col, Vector3 DistanceVec)//メビウスがオブジェクトに当たった時の処理
+    public void MobiusCol(float distance, Vector3 DistanceVec)//メビウスがオブジェクトに当たった時の処理
     {
-        float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
+        //float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
         //float ColR = (col.GetComponent<SphereCollider>().bounds.size.x + col.GetComponent<SphereCollider>().bounds.size.y) / 4;// 相手メビウスの輪の円の半径を取得
         //float SocialDistance = ThisR + ColR + 8;//お互いの半径分と少しだけ離す
 
-        this.transform.position = new Vector3(this.transform.position.x + ((ThisR + 4) * -DistanceVec.x), this.transform.position.y + ((ThisR + 4) * -DistanceVec.y),
+        this.transform.position = new Vector3(this.transform.position.x + (distance * -DistanceVec.x), this.transform.position.y + (distance * -DistanceVec.y),
             this.transform.position.z);
 
     }
@@ -462,10 +505,11 @@ public class MoveMobius : MonoBehaviour
         List<GameObject> ColObj = new List<GameObject>();               //すり抜けたメビウスオブジェクトを格納するリスト
         List<Vector3> HitPos = new List<Vector3>();                     //ヒットした座標
 
-        ray = new Ray(new Vector3(OldPos.x /*- (MoveVec.x * ThisR)*/, OldPos.y/* - (MoveVec.y * ThisR)*/, OldPos.z),    //Rayを飛ばす発射位置
+        ray = new Ray(new Vector3(OldPos.x, OldPos.y, OldPos.z),    //Rayを飛ばす発射位置
          new Vector3(MoveVec.x, MoveVec.y, 0));                             //飛ばす方向
 
-        Debug.DrawRay(ray.origin, ray.direction * distance, Color.green, 1000, false);
+        //Debug.DrawRay(ray.origin, ray.direction * distance, Color.red, 1000, false);
+
         //貫通のレイキャスト
         foreach (RaycastHit hit in Physics.SphereCastAll(ray, ThisR, distance))
         {
@@ -476,11 +520,11 @@ public class MoveMobius : MonoBehaviour
             switch (hit.collider.gameObject.tag)
             {
                 case "Mobius":
-                    //if (!hit.collider.gameObject.GetComponent<MoveMobius>().GetFlickMoveFlag())//動いていないメビウスなら
-                    //{
-                    //ColObj.Add(hit.collider.gameObject);//レイで当たったオブジェクトをリストに格納
                     hitObj = hit.collider.gameObject;
-                    //}
+                    break;
+
+                case "Block":
+                    hitObj = hit.collider.gameObject;
                     break;
             }
 
@@ -533,63 +577,98 @@ public class MoveMobius : MonoBehaviour
             {
                 MobiusStripFlag = false;
                 ColMobiusObj = null;
+            }
+        }
+    }
 
-                if (!PlayerMoveFlg && !EnemyMoveFlag)
-                {
-                    this.transform.position = MoyoriPos;
-                }
+    private void BlockCheak()
+    {
+        if (ColObjAttachFlag)
+        {
+            float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
+            float ColScale = (ColMobiusObj.GetComponent<BoxCollider>().bounds.size.x + ColMobiusObj.GetComponent<BoxCollider>().bounds.size.y) / 4;
+            float SocialDistance = ThisR + ColScale + 15;//お互いの半径分と少しだけ離す
+
+            float distance = (this.transform.position - ColMobiusObj.transform.position).magnitude;//相手と自分の距離
+
+            if (SocialDistance < distance)//離れ過ぎたら 
+            {
+                GimicObjNull();
             }
         }
     }
 
     private void Collision(GameObject otherObj)//当たり判定時の処理
     {
-        // メビウスの輪同士がぶつかったとき
-        if (otherObj.tag == "Mobius")
+        if (FlickMoveFlag)//自身が勢いがあるとき　
         {
-            if (FlickMoveFlag)//自身が勢いがあるとき　
+            Vector3 DisVec = SearchVector(this.transform.position, otherObj.transform.position);
+            bool SameFlag = false;//前回当たったオブジェクトと同じかどうか
+
+            float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
+            float PosDistance = (StartMovePos - otherObj.transform.position).magnitude;//相手と始点の距離
+
+            switch (otherObj.tag)
             {
-                //Debug.Log("メビウスの輪同士がぶつかった" + this.gameObject.name);
-
-                //自分と指定した座標とのラジアンを求める
-                Vector3 DisVec = SearchVector(this.transform.position, otherObj.transform.position);
-
-                bool SameFlag = false;//前回当たったオブジェクトと同じかどうか
-
-                if (ColMobiusObj == null || ColMobiusObj != otherObj)//まだぶつかってない　または　違うものとぶつかったら
-                {
-                    if (otherObj.GetComponent<MoveMobius>().GetFlickMoveFlag())//相手が動いていたら
+                case "Mobius":
                     {
-                        otherObj.transform.position = this.transform.position;
-                        otherObj.GetComponent<MoveMobius>().MobiusCol(this.gameObject, -DisVec);
-                        otherObj.GetComponent<MoveMobius>().ZeroVelo();
+                        float ColR = (otherObj.GetComponent<SphereCollider>().bounds.size.x + otherObj.GetComponent<SphereCollider>().bounds.size.y) / 4;
+                        float ScaleDistance = ThisR + ColR + 15;//お互いの半径分と少しだけ離す
+
+                        if (ScaleDistance < PosDistance)//離れているところから移動してぶつかったなら
+                        {
+                            if (otherObj.GetComponent<MoveMobius>().GetFlickMoveFlag())//相手が動いていたら
+                            {
+                                //相手の動きを止める
+                                otherObj.transform.position = this.transform.position;
+                                otherObj.GetComponent<MoveMobius>().MobiusCol(ColR + 4, -DisVec);
+                                otherObj.GetComponent<MoveMobius>().ZeroVelo();
+                            }
+                            MobiusCol(ThisR + 4, DisVec);//メビウス同士がぶつかった時の処理を実行
+                        }
+                        else//近いところでぶつかったなら
+                        {
+                            this.transform.position = OldPos;
+                            SameFlag = true;
+                        }
+
+                        if (!MobiusStripFlag)//メビウスの輪になっていないときに
+                        {
+                            MobiusColFlag = true;
+                        }
+                        if (!SameFlag)//同じじゃなければ
+                        {
+                            //メビウスの輪にするための情報をセット
+                            SetMobiusStrip(otherObj);
+                            otherObj.GetComponent<MoveMobius>().SetMobiusStrip(this.gameObject);
+                        }
+                        break;
                     }
-                    MobiusCol(otherObj, DisVec);//メビウス同士がぶつかった時の処理を実行
 
-                }
-                else if (ColMobiusObj == otherObj)//さっきと同じものとぶつかったら
-                {
-                    this.transform.position = OldPos;
-                    SameFlag = true;
-                }
+                case "Block":
+                    {
+                        float ColScale = (otherObj.GetComponent<BoxCollider>().bounds.size.x + otherObj.GetComponent<BoxCollider>().bounds.size.y) / 4;
+                        float ScaleDistance = ThisR + ColScale + 15;//お互いの大きさと少しだけ離す
 
-                //if (!otherObj.GetComponent<MoveMobius>().GetFlickMoveFlag()) //相手が動いてないときなら止める
-                //{
-                if (!MobiusStripFlag)//メビウスの輪になっていないときに
-                {
-                    MobiusColFlag = true;
-                }
-                ColPos = (this.transform.position + otherObj.transform.position) / 2;//自分と相手の座標の中点を代入（見た目的に当たった場所）
-                ZeroVelo();
+                        if (ScaleDistance < PosDistance)//離れているところから移動してぶつかったなら 
+                        {
+                            MobiusCol(ThisR + 4, DisVec);//ぶつかった時の処理を実行
 
-                if (!SameFlag)//同じじゃなければ
-                {
-                    //メビウスの輪にするための情報をセット
-                    SetMobiusStrip(otherObj);
-                    otherObj.GetComponent<MoveMobius>().SetMobiusStrip(this.gameObject);
-                }
-                //}
+                            //ColObjAttachFlag = true;
+                            otherObj.GetComponent<Block>().Collision(this.gameObject);
+                        }
+                        else//近いところでぶつかったなら
+                        {
+                            this.transform.position = OldPos;
+                        }
+
+                        break;
+                    }
             }
+
+            ColPos = (this.transform.position + otherObj.transform.position) / 2;//自分と相手の座標の中点を代入（見た目的に当たった場所）
+            ZeroVelo();
+
         }
     }
 
@@ -631,6 +710,11 @@ public class MoveMobius : MonoBehaviour
         ColMobiusObj = _obj;//ぶつかったメビウスを格納
         MobiusStripFlag = true;
     }
+    public void GimicObjNull()
+    {
+        ColObjAttachFlag = false;
+        ColMobiusObj = null;
+    }
     public bool GetFlickMoveFlag()
     {
         return FlickMoveFlag;
@@ -665,5 +749,9 @@ public class MoveMobius : MonoBehaviour
     public List<CrossLine> Getcl()
     {
         return cl;
+    }
+    public List<GameObject> GetLine()
+    {
+        return Line;
     }
 }

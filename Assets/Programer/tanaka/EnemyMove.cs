@@ -12,38 +12,28 @@ public class EnemyMove : MonoBehaviour
     public bool InsideFlg;                                                                          //メビウスの輪の内側か外側かを判定　true:内側　false:外側
     int SideCnt;                                                                                    //メビウスの輪に沿った動きにするためメビウスの輪を何回切り替えたかをカウント  2以上で外側内側入れ替える
     float counter;                                                                                  //乗り移るとき、元のメビウスの輪に戻らないようにカウントする値
-    Vector2 MobiusSavePos;                                                                          //移動前のメビウスの位置を保存する変数
-    Vector2 MoveMobiusSum;                                                                          //移動前と移動後の差分を格納する計算用変数
-    Vector2 vecX, vecY;
-
-    bool TimingInput;                                                                               //タイミング入力を管理する変数　true:入力あり　false:入力なし
+    
     [SerializeField, Range(0, 7)] public int StartPoint;                                                                         //メビウス上の点の番号
-    float MoveAngle;                                                                                //移動量
-    int MobiusPointNum;                                                                             //メビウス上の点の総数　今後、点の数を増やす場合publicにする
-    bool StartFlg;                                                                                  //初期位置設定用フラグ　最初の一回だけ通る
-
-    GameObject RythmObj;
-    Rythm rythm;
-    bool RythmOneFlg;
-
-
+                                                                                 
     GameObject player;
 
     private Transform target;
     private Vector3 distanceTarget = new Vector3(22f, 0f, 0f);
     public float angle;
+    float anglesave;
     [SerializeField] private float rotateSpeed = 180f;
     public float NormalSpeed = 1.3f;
     private float Speed;
     bool MobiusCol;
-    public float StanTime=1;
+    public float StanTime = 1;
     float StanTimeCount;
     bool Stan;
-    public float InsideSpeed=2;
+    public float InsideSpeed = 2;
+
 
     void Start()
     {
-        //rb = GetComponent<Rigidbody>();                                                             // リジットボディを格納
+                                                                 // リジットボディを格納
 
         Mobius = GameObject.FindGameObjectsWithTag("Mobius");//メビウスの輪の総数分配列生成
 
@@ -54,18 +44,9 @@ public class EnemyMove : MonoBehaviour
         {
             Mobius[i] = GameObject.Find("Mobius (" + i + ")");                                        //全てのメビウス取得
         }
-        RythmObj = GameObject.Find("rythm_circle");
-        this.rythm = RythmObj.GetComponent<Rythm>();
-
-        RythmOneFlg = true;
-
-        MobiusPointNum = 8;
-        MoveAngle = 360.0f / MobiusPointNum;
-
-        SideCnt = 2;
+       
+        
         SaveMobius = -1;
-        TimingInput = false;
-        StartFlg = true;
 
         //初期位置設定
         Vector2 MobiusPos = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center;
@@ -81,21 +62,45 @@ public class EnemyMove : MonoBehaviour
         {
             InsideLength = 0;
         }
-        angle = 360 - (StartPoint * 45);
+
+        SideCnt = 2;
+
+        //if (RotateLeftFlg)//メビウスの輪の世界線調整
+        //{
+        //    SideCnt = 2;
+        //}
+        //else
+        //{
+        //    SideCnt = 1;
+        //}
+
+        angle = 360 - (StartPoint * 45);//始まりの位置を求める
+        anglesave = angle;
         Speed = NormalSpeed;
         MobiusCol = false;
         Stan = false;
         StanTimeCount = 0;
+
+        target = Mobius[NowMobius].transform;
+        //メビウスの輪の中心とプレイヤーの距離を求める
+        distanceTarget.y = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 - InsideLength;// メビウスの輪の円の半径を取得
+        //プレイヤーの位置をメビウスの位置・メビウスから見たプレイヤーの角度・距離から求める
+        transform.position = target.position + Quaternion.Euler(0f, 0f, angle) * distanceTarget;
+        //プレイヤーの角度をメビウスから見た角度を計算し、設定する
+        transform.rotation = Quaternion.LookRotation(transform.position - new Vector3(target.position.x, target.position.y, transform.position.z), -Vector3.forward);
+
     }
 
     // Update is called once per frame  
     //void FixedUpdate()
     void Update()
     {
+
+        //Debug.Log(angle);
         target = Mobius[NowMobius].transform;
 
         //メビウスの輪の中心とプレイヤーの距離を求める
-        distanceTarget.y = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 - InsideLength;// メビウスの輪の円の半径を取得
+        distanceTarget.y = (Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2) - InsideLength;// メビウスの輪の円の半径を取得
         //プレイヤーの位置をメビウスの位置・メビウスから見たプレイヤーの角度・距離から求める
         transform.position = target.position + Quaternion.Euler(0f, 0f, angle) * distanceTarget;
         //プレイヤーの角度をメビウスから見た角度を計算し、設定する
@@ -114,12 +119,11 @@ public class EnemyMove : MonoBehaviour
         {
             if (InsideFlg)//内側
             {
-                //Speed = NormalSpeed * (InsideLength/25);
                 Speed = NormalSpeed * InsideSpeed;
             }
             else
             {
-                Speed = NormalSpeed ;
+                Speed = NormalSpeed;
             }
 
             //移動
@@ -131,40 +135,11 @@ public class EnemyMove : MonoBehaviour
             {
                 angle -= (rotateSpeed * Speed) * Time.deltaTime;
             }
-
             
-
-            if (NowMobius == player.GetComponent<PlayerMove>().NowMobius)
-            {
-                if (InsideFlg == player.GetComponent<PlayerMove>().GetInsideFlg())
-                {
-                    float HipDropColLength = 5;
-
-                    if (angle + HipDropColLength > player.GetComponent<PlayerMove>().angle - HipDropColLength && angle - HipDropColLength < player.GetComponent<PlayerMove>().angle + HipDropColLength)
-                    {
-                        Vector3 playpos = player.transform.position;
-                        Vector3 hedlength = distanceTarget;
-                        hedlength.y = hedlength.y + 10;
-                        Vector3 enemyhedpos = target.position + Quaternion.Euler(0f, 0f, angle) * hedlength;
-
-                        //Debug.Log("プレイヤーと当たった");
-
-                        if (player.GetComponent<PlayerMove>().GetPlayerLength() > hedlength.y)
-                        {
-                            StanTimeCount = 0;
-                            Stan = true;
-                            Debug.Log("ヒップドロップ成功");
-                        }
-                    }
-                }
-
-                
-            }
         }
 
 
         //角度の範囲を指定(0～360)
-        //angle = Mathf.Repeat(angle, 360f);
         if (angle > 360)
         {
             angle = angle - 360;
@@ -174,12 +149,29 @@ public class EnemyMove : MonoBehaviour
             angle = angle + 360;
         }
 
+        if (anglesave > 360)
+        {
+            anglesave = anglesave - 360;
+        }
+        if (anglesave < 0)
+        {
+            anglesave = anglesave + 360;
+        }
+
+        //踏まれたかどうか
+        bool HipDropCollision = player.GetComponent<PlayerMove>().HipDropCollision(transform.position, GetComponent<SphereCollider>().bounds.size.x / 2);
+
+        if (HipDropCollision)//プレイヤーに踏まれたら
+        {
+            StanOn();
+        }
 
         if (MobiusCol)
         {
             counter += Time.deltaTime;
+            
             //移ったときに元のメビウスの輪に戻らないようにカウントする
-            if (counter > 1)//移り変わりを制御
+            if (counter > 0.2)//移り変わりを制御
             {
                 //移り変わることができるようにする
                 SaveMobius = NowMobius;
@@ -192,149 +184,16 @@ public class EnemyMove : MonoBehaviour
             CollisonMobius();//移り先のメビウスの輪を探す
         }
 
-        //Debug.Log(angle);
 
-        //Debug.Log(this.name + "UPDATE");
-        //if (StartFlg)
-        //{
-        //    ApproachMobius();//対象のメビウスの輪に近づける
-
-        //    for (int i = 0; i < StartPoint; i++)//入力されたポイントの場所に移動させる
-        //    {
-        //        transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
-        //    }
-
-        //    StartFlg = false;
-        //}
-        //else
-        //{
-        //    if (!Mobius[NowMobius].GetComponent<MoveMobius>().GetFlickMoveFlag())//メビウスが止まっているとき
-        //    {
-        //        Vector2 MobiusPos = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center;                // メビウスの輪の位置を取得
-
-        //        MoveMobiusSum = MobiusPos - MobiusSavePos;
-
-        //        MobiusSavePos = MobiusPos;
-
-
-        //        float hankei = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 +                // メビウスの輪の円の半径を取得
-        //        GetComponent<SphereCollider>().bounds.size.x / 2;
-        //        this.gameObject.transform.position = new Vector3(MobiusPos.x, MobiusPos.y, 0);
-        //        this.gameObject.transform.position += new Vector3(0, (hankei - InsideLength), 0);
-
-        //        for (int i = 0; i < StartPoint; i++)//ポイントの場所に移動させる
-        //        {
-        //            transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
-        //        }
-
-
-        //        TimingInput = this.rythm.rythmSendCheckFlag;
-
-        //        if (!TimingInput && !RythmOneFlg) RythmOneFlg = true;
-
-        //        if (TimingInput && RythmOneFlg)//テンポのタイミングで入力されたら
-        //        {
-        //            counter++;
-        //            //Debug.Log(this.name+":TimindInputOn");
-        //        }
-
-
-
-
-
-        //        if (Mobius[NowMobius] != null)
-        //        {
-
-        //            if (TimingInput && RythmOneFlg)//キー入力あり
-        //            {
-        //                //ApproachMobius();//軌道に乗せる
-
-        //                if (RotateLeftFlg)
-        //                {
-        //                    //transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, this.transform.forward, MoveAngle);//左移動
-        //                    StartPoint--;
-        //                    if (StartPoint < 0)
-        //                    {
-        //                        StartPoint = 7;
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    //transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, MoveAngle);//右移動
-        //                    StartPoint++;
-        //                    if (StartPoint > 7)
-        //                    {
-        //                        StartPoint = 0;
-        //                    }
-        //                }
-
-
-        //                player.GetComponent<PlayerMove>().EnemyUpdateCountUp();//敵の更新処理が何体目まで実行されたかカウントアップする　最後の敵が更新されればrythmSendCheckFlagをfalseにする
-
-        //                RythmOneFlg = false;
-        //                //Debug.Log("移動");
-        //                //Debug.Log(StartPoint);
-        //            }//if (TimingInput)
-
-
-        //            this.gameObject.transform.position = new Vector3(this.transform.position.x + MoveMobiusSum.x, this.transform.position.y + MoveMobiusSum.y, 0);         //メビウスの動きについていく
-
-
-        //            if (!Mobius[NowMobius].GetComponent<MoveMobius>().GetFlickMoveFlag()) CollisonMobius();//移り先のメビウスの輪を探す
-
-        //            //移ったときに元のメビウスの輪に戻らないようにカウントする
-        //            if (counter > 1)//
-        //            {
-        //                //移り変わることができるようにする
-        //                SaveMobius = NowMobius;
-        //                counter = 0;
-
-        //            }//if (counter > 2)
-
-
-        //        }//if (Mobius[NowMobius] != null)
-        //    }
-        //}//else if(StartFlg)
     }//void Update()
 
-    private void ApproachMobius()//対象のメビウスの輪に近づける
+    void OnDrawGizmos()//当たり判定描画
     {
-        //対象のメビウスの輪を元にプレイヤーの3軸直交単位ベクトルを求める
-        Vector2 MobiusPos = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center;                // メビウスの輪の位置を取得
-        float hankei = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 +                // メビウスの輪の円の半径を取得
-            GetComponent<SphereCollider>().bounds.size.x / 2;
+        Gizmos.color = new Vector4(1, 0, 0, 0.5f); //色指定
+        Gizmos.DrawSphere(transform.position, GetComponent<SphereCollider>().bounds.size.x / 2); //中心点とサイズ
+    }
 
-        MoveMobiusSum = MobiusPos - MobiusSavePos;
-
-        MobiusSavePos = MobiusPos;
-
-        Vector2 PlayerPos = this.GetComponent<SphereCollider>().bounds.center;                             //プレイヤーの位置取得
-        float PlayHankei = this.GetComponent<SphereCollider>().bounds.size.x / 2 +                     // プレイヤーの円の半径を取得
-            GetComponent<SphereCollider>().bounds.size.x / 2;
-
-        vecY = PlayerPos - MobiusPos;                                                              //プレイヤーの位置から対象のメビウスへのベクトルを求める(Y軸ベクトル)
-
-        vecX.x = 0.0f * 0.0f - 1.0f * vecY.y;                                                              //Y軸とZ軸からX軸を求める
-        vecX.y = 1.0f * vecY.x - 0.0f * 0.0f;
-
-        float veclength = Mathf.Sqrt(vecY.x * vecY.x + vecY.y * vecY.y);                                   //Yベクトルの長さ計算
-                                                                                                           //単位ベクトルにする
-        vecY.x = vecY.x / veclength;
-        vecY.y = vecY.y / veclength;
-
-        veclength = Mathf.Sqrt(vecX.x * vecX.x + vecX.y * vecX.y);                                         //Xベクトルの長さ計算
-                                                                                                           //単位ベクトルにする
-        vecX.x = vecX.x / veclength;
-        vecX.y = vecX.y / veclength;
-
-
-        //対象のメビウスの軌道に乗せる
-
-        this.gameObject.transform.position = new Vector3(MobiusPos.x + (vecY.x * (hankei - InsideLength)), MobiusPos.y + (vecY.y * (hankei - InsideLength)), 0);     //対象のメビウスに近づける
-
-
-
-    }//private void ApproachMobius()//対象のメビウスの輪に近づける
+   
 
 
     private void CollisonMobius()//プレイヤーと対象のメビウスの輪以外の一番近いメビウスの輪との判定
@@ -363,6 +222,8 @@ public class EnemyMove : MonoBehaviour
 
             Vector2 Vec = NextMobiusPos - NowMobiusPos;//対象のメビウスの輪と
             float VecLength = Mathf.Sqrt(Vec.x * Vec.x + Vec.y * Vec.y);
+            VecLength += PlayerHankei - 10;//メビウス同士の当たり判定の長さを調整
+           
             if (hankei + hankei > VecLength)//メビウスの輪同士の当たり判定
             {
                 Vec.x = Vec.x / VecLength;
@@ -381,7 +242,7 @@ public class EnemyMove : MonoBehaviour
                 float NowAngle = Get2PointAngle(NowMobiusPos, PlayerPos);
 
 
-                if (CollisonAngle < NowAngle + 2 && CollisonAngle > NowAngle - 2)//瞬間移動バグを修正
+                if (CollisonAngle < NowAngle + 5 && CollisonAngle > NowAngle - 5)//瞬間移動バグを修正
                 //if ((PlayerHankei / 2) + InsideLength > NextLength)//プレイヤーと移り先のメビウスの輪が当たった
                 {
                     //transform.RotateAround(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center, -this.transform.forward, 180);
@@ -397,15 +258,8 @@ public class EnemyMove : MonoBehaviour
                     SaveMobius = NowMobius;
                     NowMobius = i;
                     counter = 0;
-                    //angle += 180;
-                    if (angle > 180)
-                    {
-                        angle -= 180;
-                    }
-                    else
-                    {
-                        angle += 180;
-                    }
+                    angle += 180;
+                    anglesave = angle;
 
                     if (SideCnt >= 2)//2回切り替えると
                     {
@@ -432,10 +286,30 @@ public class EnemyMove : MonoBehaviour
                     if (RotateLeftFlg)
                     {
                         RotateLeftFlg = false;
+
+                        if (!InsideFlg)//イレギュラー処理内側から外側に行くとずれる
+                        {
+                            angle -= 40;
+                        }
+                        else
+                        {
+                            angle += 40;
+                            //Debug.Log("1");
+                        }
                     }
                     else
                     {
                         RotateLeftFlg = true;
+                        if (!InsideFlg)//イレギュラー処理内側から外側に行くとずれる
+                        {
+                            
+                            //Debug.Log("2");
+                        }
+                        else
+                        {
+                            angle += 20;
+                            //Debug.Log("3");
+                        }
                     }
 
                     //Debug.Log("メビウスの輪を切り替えた");
@@ -479,6 +353,13 @@ public class EnemyMove : MonoBehaviour
     {
         return Stan;
     }
+
+    public void StanOn()
+    {
+        StanTimeCount = 0;
+        Stan = true;
+    }
+    
 
     private void OnTriggerEnter(Collider other)
     {

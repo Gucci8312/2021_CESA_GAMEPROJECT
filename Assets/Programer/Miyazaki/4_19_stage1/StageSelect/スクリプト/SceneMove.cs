@@ -18,14 +18,14 @@ public class SceneMove : MonoBehaviour
 
 	float LightPower;
 
-	StageSelect stage_select;
+	//StageSelect stage_select;
 
 	int Select_Scene;
 	// Start is called before the first frame update
 	void Start()
     {
 		Select_Scene = 1;
-		stage_select = GetComponent<StageSelect>();
+	//	stage_select = GetComponent<StageSelect>();
 		//LightPower = Stage1.GetComponent<Light>().intensity;
 		//LightPower = Stage2.GetComponent<Light>().intensity;
 		//LightPower = Stage3.GetComponent<Light>().intensity;
@@ -107,7 +107,7 @@ public class SceneMove : MonoBehaviour
 
 		if (Controler.SubMitButtonFlg())
 		{
-			stage_select.LoadStage(1);
+			StageSelect.LoadStage(1,this);
 		}
 	}
 
