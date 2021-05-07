@@ -30,11 +30,16 @@ public class EnemyMove : MonoBehaviour
     bool Stan;
     public float InsideSpeed = 2;
 
+    GameObject RythmObj;                                                                            //リズムオブジェクト
+    Rythm rythm;                                                                                    //リズムスクリプト取得用
+
+
+    GameObject ball;//子オブジェクトのトゲなし
+    GameObject toge;//子オブジェクトのトゲあり
+    bool TogeFlg;//トゲのフラグ
 
     void Start()
     {
-                                                                 // リジットボディを格納
-
         Mobius = GameObject.FindGameObjectsWithTag("Mobius");//メビウスの輪の総数分配列生成
 
 
@@ -44,8 +49,15 @@ public class EnemyMove : MonoBehaviour
         {
             Mobius[i] = GameObject.Find("Mobius (" + i + ")");                                        //全てのメビウス取得
         }
-       
-        
+
+        RythmObj = GameObject.Find("rythm_circle");                                                   //リズムオブジェクト取得
+        this.rythm = RythmObj.GetComponent<Rythm>();                                                  //リズムのコード
+
+        TogeFlg = false;
+
+        ball = transform.GetChild(0).gameObject;
+        toge = transform.GetChild(1).gameObject;
+
         SaveMobius = -1;
 
         //初期位置設定
@@ -95,7 +107,20 @@ public class EnemyMove : MonoBehaviour
     //void FixedUpdate()
     void Update()
     {
-
+        TogeFlg = rythm.rythmCheckFlag;
+        
+        if (TogeFlg)
+        {
+            ball.SetActive(false);
+            toge.SetActive(true);
+        }
+        else
+        {
+            ball.SetActive(true);
+            toge.SetActive(false);
+            
+        }
+        
         //Debug.Log(angle);
         target = Mobius[NowMobius].transform;
 
@@ -183,7 +208,7 @@ public class EnemyMove : MonoBehaviour
         {
             CollisonMobius();//移り先のメビウスの輪を探す
         }
-
+        
 
     }//void Update()
 
@@ -193,7 +218,7 @@ public class EnemyMove : MonoBehaviour
         Gizmos.DrawSphere(transform.position, GetComponent<SphereCollider>().bounds.size.x / 2); //中心点とサイズ
     }
 
-   
+  
 
 
     private void CollisonMobius()//プレイヤーと対象のメビウスの輪以外の一番近いメビウスの輪との判定
