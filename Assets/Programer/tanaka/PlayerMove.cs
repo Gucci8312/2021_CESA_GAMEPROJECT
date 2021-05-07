@@ -266,6 +266,7 @@ public class PlayerMove : MonoBehaviour
                 {
                     SpeedUpFlg = false;
                     Speed = NormalSpeed;
+                    PlayerAnimation.Walk();
                 }
 
             }
@@ -714,12 +715,12 @@ public class PlayerMove : MonoBehaviour
 
             if (InsideFlg)
             {
-                ans = (angle / 2f) - 270f + 200;
+                ans = (angle / 2f) + 180f;
                 //Debug.Log("1");
             }
             else
             {
-                ans = (angle / 2f) - 270f + 200;
+                ans = (angle / 2f) + 180f;
                 //Debug.Log("2");
             }
         }
