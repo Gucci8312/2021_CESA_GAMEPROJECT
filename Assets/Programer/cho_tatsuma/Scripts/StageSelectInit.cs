@@ -17,6 +17,7 @@ public class StageSelectInit : MonoBehaviour
     {
         //フェードオブジェクトからフェードクラスコンポーネントを取得
         image = GameObject.Find("FadeImage").GetComponent<Image>();
+        image.enabled = true;
         StageSelect.m_fadeImage = image;
         StageSelect.m_fade = StageSelect.m_fadeImage.gameObject.GetComponent<Fade>();
     }

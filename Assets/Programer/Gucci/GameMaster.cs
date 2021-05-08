@@ -27,7 +27,7 @@ public class GameMaster : MonoBehaviour
         //   Menu= GameObject.Find("Menu");
         Player = GameObject.Find("Player");                                        //全てのメビウス取得
        // Menu = GameObject.Find("Menu");                                        //全てのメビウス取得
-
+       PauseManager.GameObjectFindInit();
         Application.targetFrameRate = 60;
         StartCoroutine("CheckLoop");
         Invoke("OnStartBGM", 0.1f);
