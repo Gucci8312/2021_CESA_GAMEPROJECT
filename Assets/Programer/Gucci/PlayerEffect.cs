@@ -22,9 +22,9 @@ public class PlayerEffect : MonoBehaviour
     void Update()
     {
         // if (Controler.GetJumpButtonFlg())
-        if (Player.GetComponent<PlayerMove>().GetHipDropNow())
+        if (SmokeEffect.activeSelf)
         {
-            Debug.Log("ヒップドロップ");
+            //Debug.Log("ヒップドロップ");
             // SmokeEffect.SetActive(true);
             SmokeEffect.GetComponent<Effect>().EffectPlay();
         }
