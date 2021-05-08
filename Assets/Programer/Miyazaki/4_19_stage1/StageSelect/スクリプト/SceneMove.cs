@@ -19,36 +19,16 @@ public class SceneMove : MonoBehaviour
     bool Camera = false;
     bool Camera1 = false;
     [SerializeField] GameObject[] stage_picture;
-    //public Material Stage1_color;
-    //public Material Stage2_color;
-    //public Material Stage3_color;
-    //public Material Stage4_color;
-
-
-    float LightPower;
-
-    //StageSelect stage_select;
 
     public int Select_Scene;
     // Start is called before the first frame update
     void Start()
     {
         Select_Scene = 1;
-        //	stage_select = GetComponent<StageSelect>();
-        //LightPower = Stage1.GetComponent<Light>().intensity;
-        //LightPower = Stage2.GetComponent<Light>().intensity;
-        //LightPower = Stage3.GetComponent<Light>().intensity;
-        //LightPower = Stage4.GetComponent<Light>().intensity;
-        //Stage1 = GameObject.Find("Stage1");
-        //Stage2 = GameObject.Find("Stage2");
-        //Stage3 = GameObject.Find("Stage3");
-        //Stage4 = GameObject.Find("Stage4");
         for (int i = 0; i < stage_picture.Length; i++)
         {
             stage_picture[i].SetActive(false);
         }
-        //stage4_picture.SetActive(false);
-
     }
 
     // Update is called once per frame
@@ -110,6 +90,8 @@ public class SceneMove : MonoBehaviour
         }
     }
 
+    // @name   AllStageLightOff
+    // @brief  すべてのステージのライトをオフにする
     void AllStageLightOff()
     {
         for (int i = 0; i < stageNum.Length; i++)
@@ -118,7 +100,8 @@ public class SceneMove : MonoBehaviour
         }
     }
 
-
+    // @name   AllStagePictureSetActiveFlase
+    // @brief  背景の絵柄を全部非表示にする
     void AllStagePictureSetActiveFlase()
     {
         for (int i = 0; i < stage_picture.Length; i++)
@@ -127,6 +110,8 @@ public class SceneMove : MonoBehaviour
         }
     }
 
+    // @name   StagePictureActiveTrue
+    // @brief  特定の背景の絵柄を全部表示にする
     void StagePictureActiveTrue(int _num)
     {
         if (!stage_picture[_num].activeSelf)
