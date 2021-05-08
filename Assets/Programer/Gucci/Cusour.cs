@@ -65,6 +65,7 @@ public class Cusour : MonoBehaviour
             }
             else if(WindowButton[Idx].name == "NEXTSTAGE")
             {
+                Time.timeScale = 1.0f;
                 StageSelect.LoadStage(NextStageNum, this);
             }
         }
