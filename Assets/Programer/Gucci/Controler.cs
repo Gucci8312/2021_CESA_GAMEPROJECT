@@ -91,7 +91,7 @@ public class Controler : MonoBehaviour
         return Response;
     }
 
-    public static bool UpButtonFlg()
+    public static bool GetUpButtonFlg()
     {
         bool Response = false;
         if (Input.GetAxisRaw("Vertical") > 0.0f && UpStickFlg == false)
@@ -105,7 +105,7 @@ public class Controler : MonoBehaviour
         }
         return Response;
     }
-    public static bool DownButtonFlg()
+    public static bool GetDownButtonFlg()
     {
         bool Response = false;
         if (Input.GetAxisRaw("Vertical") < 0.0f && DownStickFlg == false)
@@ -120,7 +120,7 @@ public class Controler : MonoBehaviour
         return Response;
     }
 
-    public static bool RightButtonFlg()
+    public static bool GetRightButtonFlg()
     {
         bool Response = false;
         if (Input.GetAxisRaw("Horizontal") > 0.0f && RightStickFlg == false)
@@ -134,7 +134,7 @@ public class Controler : MonoBehaviour
         }
         return Response;
     }
-    public static bool LeftButtonFlg()
+    public static bool GetLeftButtonFlg()
     {
         bool Response = false;
         if (Input.GetAxisRaw("Horizontal") < 0.0f && LeftStickFlg == false)

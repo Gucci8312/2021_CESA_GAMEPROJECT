@@ -34,7 +34,7 @@ public class SceneMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Controler.GetRightButtonFlg())
         {
             if (Select_Scene != 20)
             {
@@ -50,7 +50,7 @@ public class SceneMove : MonoBehaviour
             }
 
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (Controler.GetLeftButtonFlg())
         {
             if (Select_Scene != 0)
             {
@@ -67,13 +67,13 @@ public class SceneMove : MonoBehaviour
                 Camera1 = true;
             }
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow) && Camera == true)
+        if (Controler.GetRightButtonFlg() && Camera == true)
         {
             stageselectcam.OnPlus();
             Camera = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && Camera1 == true)
+        if (Controler.GetLeftButtonFlg() && Camera1 == true)
         {
             stageselectcam.OnMinus();
             Camera1 = false;
