@@ -29,6 +29,7 @@ public class MoveMobius : MonoBehaviour
 
     private Rigidbody Rb;
     [HideInInspector] public Vector3 MovePos;                                //移動する位置
+    [HideInInspector] public Vector3 OldMovePos;                             //前回の移動する位置
     private Vector3 MoveVec;
     private bool MobiusColFlag;                                              //メビウスの当たり判定
     public Vector3 ColPos;                                                   //メビウスが当たった座標（具体的には自分と相手の座標の中点）
@@ -63,6 +64,7 @@ public class MoveMobius : MonoBehaviour
 
         StartMovePos = this.transform.position;
         OldPos = this.transform.position;
+        OldMovePos = this.transform.position;
         //MoyoriPos = this.transform.position;
 
         this.gameObject.AddComponent<LinePutMobius>();
@@ -192,6 +194,9 @@ public class MoveMobius : MonoBehaviour
                             MovePos = cl[0].NearCrossPos(NearCl.RayHitPos, out MobiusMoveCrossPosNum);//移動できる交点を取得
                             MoveVec = SearchVector(this.transform.position, MovePos);
 
+
+                            OldMovePos = this.transform.position;
+
                             //進む方向の線の上に乗っているかどうか調べる
                             float distance = (FlickVec - new Vector2(MoveVec.x, MoveVec.y)).magnitude;
                             if (distance < 0.15f) //二つベクトルに誤差が無ければ
@@ -221,6 +226,8 @@ public class MoveMobius : MonoBehaviour
 
                 if (Nowtime >= GoalMovetime)//到着したら
                 {
+                    cl[0].SetGotoLineFlag(true);//線を通った
+
                     ZeroVelo();
                     this.transform.position = MovePos;
                     //MoyoriPos = MovePos;
