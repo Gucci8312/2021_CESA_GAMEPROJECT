@@ -59,6 +59,10 @@ public class TitleManager : MonoBehaviour
             {
                 StageSelect.GoStageSelect(this);
             }
+            else if(Controler.CanselButtonFlg())
+            {
+                UnityEngine.Application.Quit();
+            }
         }
 
         if (!startMobiusAnimation && m_titlePointLight.GetComponent<TtilePLight>().titleAnimationFinished)
