@@ -77,14 +77,14 @@ public class EnemyMove : MonoBehaviour
 
         SideCnt = 2;
 
-        //if (RotateLeftFlg)//メビウスの輪の世界線調整
-        //{
-        //    SideCnt = 2;
-        //}
-        //else
-        //{
-        //    SideCnt = 1;
-        //}
+        if (RotateLeftFlg)//メビウスの輪の世界線調整
+        {
+            SideCnt = 2;
+        }
+        else
+        {
+            SideCnt = 1;
+        }
 
         angle = 360 - (StartPoint * 45);//始まりの位置を求める
         anglesave = angle;

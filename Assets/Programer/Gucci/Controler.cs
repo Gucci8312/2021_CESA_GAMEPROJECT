@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Controler : MonoBehaviour
 {
+    static bool UpStickFlg;
+    static bool DownStickFlg;
+    static bool RightStickFlg;
+    static bool LeftStickFlg;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,7 +54,7 @@ public class Controler : MonoBehaviour
         bool Response = false;
         if (Input.GetKeyDown("joystick button 0"))
         {
-           // SoundManager.PlaySeName("決定音");
+            // SoundManager.PlaySeName("決定音");
             Response = true;
         }
         else if (Input.GetKeyDown(KeyCode.Return))
@@ -57,6 +62,18 @@ public class Controler : MonoBehaviour
             //SoundManager.PlaySeName("決定音");
             Response = true;
         }
+        return Response;
+    }
+    
+    public static bool CanselButtonFlg()
+    {
+        bool Response = false;
+        if (Input.GetKeyDown("joystick button 0"))
+        {
+            // SoundManager.PlaySeName("決定音");
+            Response = true;
+        }
+
         return Response;
     }
 
@@ -74,29 +91,60 @@ public class Controler : MonoBehaviour
         return Response;
     }
 
-    public static bool Up()
+    public static bool GetUpButtonFlg()
     {
         bool Response = false;
-        if (Input.GetAxis("Vertical")<0.0f)
+        if (Input.GetAxisRaw("Vertical") > 0.0f && UpStickFlg == false)
         {
             Response = true;
+            UpStickFlg = true;
         }
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        else if (Input.GetAxisRaw("Vertical") == 0.0f)
         {
-            Response = true;
+            UpStickFlg = false;
         }
         return Response;
     }
-    public static bool Down()
+    public static bool GetDownButtonFlg()
     {
         bool Response = false;
-        if (Input.GetAxis("Vertical") > 0.0f)
+        if (Input.GetAxisRaw("Vertical") < 0.0f && DownStickFlg == false)
         {
             Response = true;
+            DownStickFlg = true;
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (Input.GetAxisRaw("Vertical") == 0.0f)
+        {
+            DownStickFlg = false;
+        }
+        return Response;
+    }
+
+    public static bool GetRightButtonFlg()
+    {
+        bool Response = false;
+        if (Input.GetAxisRaw("Horizontal") > 0.0f && RightStickFlg == false)
         {
             Response = true;
+            RightStickFlg = true;
+        }
+        else if (Input.GetAxisRaw("Horizontal") == 0.0f)
+        {
+            RightStickFlg = false;
+        }
+        return Response;
+    }
+    public static bool GetLeftButtonFlg()
+    {
+        bool Response = false;
+        if (Input.GetAxisRaw("Horizontal") < 0.0f && LeftStickFlg == false)
+        {
+            Response = true;
+            LeftStickFlg = true;
+        }
+        else if (Input.GetAxisRaw("Horizontal") == 0.0f)
+        {
+            LeftStickFlg = false;
         }
         return Response;
     }

@@ -52,6 +52,9 @@ public class Rythm : MonoBehaviour
 
     GameObject m_frameManager;                              //ポストエフェクトのフレーム用
     ChangeFlameColor m_changeColorScript;                   //ポストエフェクトのフレーム用スクリプト
+
+    bool m_soundStopFlg = false;
+    float time = 0.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -60,6 +63,8 @@ public class Rythm : MonoBehaviour
         rythmCheckFlag = false;
         checkPlayerMove = false;
         checkMoviusMove = false;
+        m_soundStopFlg = false;
+
         m_startTime = Time.timeSinceLevelLoad;
 
         //Componentを取得
@@ -89,7 +94,7 @@ public class Rythm : MonoBehaviour
     private void OnEnable()
     {
         //入力されたBPMから一分間によるビート回数を取得
-        m_time = (60.0f / (float)BPM);
+        m_time = (60.0f / BPM);
         //目的地を設定
         m_targetPos = new Vector3(-m_sphere.transform.position.x, m_sphere.transform.position.y, m_sphere.transform.position.z);
         //現在位置を設定
@@ -104,12 +109,21 @@ public class Rythm : MonoBehaviour
         //音の始まりを調整
         //音のループによる読み込み時の誤差を調整
         //if (stageBGM.time <= 0.05f)
-        if (!SoundManager.BgmIsPlaying())
+        if (!m_soundStopFlg)
         {
             m_startTime = Time.timeSinceLevelLoad;
             m_sphere.transform.position = new Vector3(m_currentPos.x, m_currentPos.y, m_currentPos.z);
-            return;
+            if (SoundManager.m_bgmAudioSource.time > 0.0001f)
+            {
+                m_soundStopFlg = true;
+            }
         }
+        //if (!SoundManager.BgmIsPlaying())
+        //{
+        //    m_startTime = Time.timeSinceLevelLoad;
+        //    m_sphere.transform.position = new Vector3(m_currentPos.x, m_currentPos.y, m_currentPos.z);
+        //    return;
+        //}
         //徐々に移動するように設定
         float diff = Time.timeSinceLevelLoad - m_startTime;
         float rate = (diff / m_time) + tansu;
@@ -122,10 +136,10 @@ public class Rythm : MonoBehaviour
             m_startTime = Time.timeSinceLevelLoad;
             tansu = rate - 1.0f;
         }
-        else
-        {
-            tansu = 0.0f;
-        }
+        //else
+        //{
+        //    tansu = 0.0f;
+        //}
 
         //ゴール点に達した時
         if (m_sphere.transform.position.x == m_targetPos.x)
@@ -199,13 +213,14 @@ public class Rythm : MonoBehaviour
             m_EmobiusBeatFlag = true;
             m_beatCount++;
             m_changeColorScript.ChangeColor_Flame();
-            Debug.Log("壁に当たった時間：　"+fram_bgmm);
+            Debug.Log("壁に当たった時間：　"+(fram_bgmm - time));
             //rythmCheckFlag = true;
             if (m_beatCount >= EnemyTroughRing)
             {
                 //田中くんのスクリプトにおくるよう
                 Invoke("TurnRythmSendCheckFlagTrue", 0.4f);
             }
+            time = Time.timeSinceLevelLoad;
             //     Invoke("TurnFalseSuccessCheck", SetSuccessInputTime);
         }
     }

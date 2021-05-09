@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Cusour : MonoBehaviour
 {
-   public GameObject[] WindowButton;
+    public GameObject[] WindowButton;
     public GameObject Window;
     int Idx = 0;
     public int NextStageNum;
@@ -22,19 +22,19 @@ public class Cusour : MonoBehaviour
     {
         Vector3 Pos = this.gameObject.transform.position;
 
-        if (Controler.Up())
+        if (Controler.GetUpButtonFlg())
         {
             Idx--;
-            if(Idx<0)
+            if (Idx < 0)
             {
                 Idx++;
             }
             transform.position = new Vector3(Pos.x, WindowButton[Idx].transform.position.y, Pos.z);
         }
-        else if (Controler.Down())
+        else if (Controler.GetDownButtonFlg())
         {
             Idx++;
-           if(Idx>WindowButton.Length-1)
+            if (Idx > WindowButton.Length - 1)
             {
                 Idx--;
             }
@@ -44,26 +44,26 @@ public class Cusour : MonoBehaviour
 
         if (Controler.SubMitButtonFlg())
         {
-            if(WindowButton[Idx].name== "PLAY")
+            if (WindowButton[Idx].name == "PLAY")
             {
                 Window.SetActive(!Window.activeSelf);
                 Time.timeScale = 1.0f;
             }
-            else if(WindowButton[Idx].name== "RETRY")
+            else if (WindowButton[Idx].name == "RETRY")
             {
                 RestartBotton();
                 Time.timeScale = 1.0f;
             }
-            else if(WindowButton[Idx].name== "STAGESELECT")
+            else if (WindowButton[Idx].name == "STAGESELECT")
             {
                 StageSelectBotton();
                 Time.timeScale = 1.0f;
             }
-               else if(WindowButton[Idx].name== "END")
+            else if (WindowButton[Idx].name == "END")
             {
                 GameEnd();
             }
-            else if(WindowButton[Idx].name == "NEXTSTAGE")
+            else if (WindowButton[Idx].name == "NEXTSTAGE")
             {
                 Time.timeScale = 1.0f;
                 StageSelect.LoadStage(NextStageNum, this);
@@ -102,6 +102,4 @@ public class Cusour : MonoBehaviour
     {
         UnityEngine.Application.Quit();
     }
-
-
 }

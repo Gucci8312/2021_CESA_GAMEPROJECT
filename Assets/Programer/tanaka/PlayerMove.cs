@@ -73,6 +73,9 @@ public class PlayerMove : MonoBehaviour
     bool Clear;//クリアしたかどうか
     bool Stop;//停止
 
+    GameObject DushEffect;
+    GameObject SmokeEffect;
+
     private void OnValidate()
     {
         HipDropCollisionPos = new Vector3(this.transform.position.x, this.transform.position.y - HipDropColPos, this.transform.position.z);
@@ -93,6 +96,12 @@ public class PlayerMove : MonoBehaviour
         this.rythm = RythmObj.GetComponent<Rythm>();                                                  //リズムのコード
 
         PlayerAnimation = GameObject.Find("PLAYERModel").GetComponent<AnimaterControl>();
+
+        DushEffect = transform.GetChild(1).gameObject;
+        SmokeEffect = transform.GetChild(2).gameObject;
+
+        DushEffect.SetActive(false);
+        SmokeEffect.SetActive(false);
 
         SideCnt = 2;
         SaveMobius = -1;
@@ -122,14 +131,14 @@ public class PlayerMove : MonoBehaviour
 
         SideCnt = 2;
 
-        //if (RotateLeftFlg)//メビウスの輪の世界線調整
-        //{
-        //    SideCnt = 2;
-        //}
-        //else
-        //{
-        //    SideCnt = 1;
-        //}
+        if (RotateLeftFlg)//メビウスの輪の世界線調整
+        {
+            SideCnt = 2;
+        }
+        else
+        {
+            SideCnt = 1;
+        }
 
 
         angle = 360 - (StartPoint * 45);//始まりの位置を求める
@@ -197,6 +206,7 @@ public class PlayerMove : MonoBehaviour
             if (RythmSaveFlg != RythmFlg)//タイミングがtrueになった瞬間
             {
                 SpacePress = false;
+                SmokeEffect.SetActive(false);
             }
 
             if (Controler.GetRythmButtonFlg())//スピードアップのキー入力
@@ -261,12 +271,14 @@ public class PlayerMove : MonoBehaviour
                 {
                     Speed = UpSpeed;
                     SpeedUpFlg = true;
+                    DushEffect.SetActive(true);
                 }
                 else//キー入力がなかった
                 {
                     SpeedUpFlg = false;
                     Speed = NormalSpeed;
                     PlayerAnimation.Walk();
+                    DushEffect.SetActive(false);
                 }
 
             }
@@ -279,6 +291,7 @@ public class PlayerMove : MonoBehaviour
                 SpeedUpMashing = true;
 
                 PlayerAnimation.Walk();
+                DushEffect.SetActive(false);
             }
 
             if (Controler.GetJumpButtonFlg())
@@ -309,6 +322,7 @@ public class PlayerMove : MonoBehaviour
                         JumpOk = true;
                         HipDrop = false;
                         TimingInput = false;
+                        SmokeEffect.SetActive(true);
                     }
                 }//if (HipDrop)
                 else
@@ -342,6 +356,7 @@ public class PlayerMove : MonoBehaviour
                         JumpOk = true;
                         HipDrop = false;
                         TimingInput = false;
+                        SmokeEffect.SetActive(true);
                     }
                 }//if (HipDrop)
                 else
@@ -365,17 +380,19 @@ public class PlayerMove : MonoBehaviour
         }//if (TimingInput)
         else
         {
-
+            
             if (InsideFlg)//内側
             {
 
                 if (SpeedUpFlg)
                 {
                     Speed = UpSpeed * InsideSpeed;
+
                 }
                 else
                 {
                     Speed = NormalSpeed * InsideSpeed;
+
                 }
 
             }
@@ -386,10 +403,12 @@ public class PlayerMove : MonoBehaviour
                 if (RotateLeftFlg)
                 {
                     angle += (rotateSpeed * Speed) * Time.deltaTime;
+                    
                 }
                 else
                 {
                     angle -= (rotateSpeed * Speed) * Time.deltaTime;
+
                 }
             }
 

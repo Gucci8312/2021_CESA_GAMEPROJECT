@@ -21,6 +21,7 @@ public class CrossLine : MonoBehaviour
 
     [HideInInspector] public bool MoveLineFlag;             //動く床かどうか（MoveLineから操作）
 
+    private bool GotoLineFlag = false; //通ったかどうか
     // Start is called before the first frame update
     void Start()
     {
@@ -198,6 +199,15 @@ public class CrossLine : MonoBehaviour
     public Vector2 GetLvec()
     {
         return Lvec;
+    }
+
+    public void SetGotoLineFlag(bool flag)
+    {
+        GotoLineFlag = flag;
+    }
+    public bool GetGotoLineFlag()
+    {
+        return GotoLineFlag;
     }
 
     //調べたい座標が右端にいるかどうか
