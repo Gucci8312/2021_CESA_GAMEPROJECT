@@ -23,7 +23,7 @@ public class SoundManager : MonoBehaviour
     static Dictionary<string, int> m_bgmIndex = new Dictionary<string, int>();   //C++でいうMap
     static Dictionary<string, int> m_seIndex = new Dictionary<string, int>();    //C++でいうMap　この二つは簡単にアクセスする用
 
-    static AudioSource m_bgmAudioSource;                                       //BGMを鳴らすための変数
+    static public AudioSource m_bgmAudioSource;                                       //BGMを鳴らすための変数
     static AudioSource m_bgmAudioSourceSub;                                       //BGMを鳴らすための変数
     static AudioSource m_seAudioSource;                                        //SEを鳴らすための変数
 
@@ -164,6 +164,7 @@ public class SoundManager : MonoBehaviour
     // @brief  BGMの再生(名前から音を鳴らす。基本これを呼んで使う)
     static public void PlayBgmName(string name)
     {
+        StopBGM();
         PlayBGM(GetBgmIndex(name));
     }
 
@@ -200,6 +201,8 @@ public class SoundManager : MonoBehaviour
     {
         m_bgmAudioSource.Stop();
         m_bgmAudioSource.clip = null;   //音を止めたのでClipをNullに
+        m_bgmAudioSourceSub.Stop();
+        m_bgmAudioSourceSub.clip = null;   //音を止めたのでClipをNullに
     }
 
     // @name   PlaySE

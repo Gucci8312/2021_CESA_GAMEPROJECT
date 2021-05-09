@@ -14,12 +14,13 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] GameObject checkPoint1;
     [SerializeField] GameObject checkPoint2;
 
-    [SerializeField] GameObject player;
-    [SerializeField] GameObject enemy;
+    GameObject player;
+    GameObject enemy;
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = GameObject.Find("Player");
+        enemy = GameObject.Find("Enemy");
     }
 
     // Update is called once per frame
