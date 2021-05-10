@@ -35,6 +35,7 @@ public class SceneMove : MonoBehaviour
     void Update()
     {
         if (Controler.GetRightButtonFlg())
+        //if(Input.GetKeyDown(KeyCode.RightArrow))
         {
             if (Select_Scene != 20)
             {
@@ -50,7 +51,8 @@ public class SceneMove : MonoBehaviour
             }
 
         }
-        else if (Controler.GetLeftButtonFlg())
+         else if (Controler.GetLeftButtonFlg())
+       // else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             if (Select_Scene != 0)
             {
@@ -67,13 +69,13 @@ public class SceneMove : MonoBehaviour
                 Camera1 = true;
             }
         }
-        if (Controler.GetRightButtonFlg() && Camera == true)
+        if (Camera == true)
         {
             stageselectcam.OnPlus();
             Camera = false;
         }
 
-        if (Controler.GetLeftButtonFlg() && Camera1 == true)
+        if (Camera1 == true)
         {
             stageselectcam.OnMinus();
             Camera1 = false;
