@@ -66,7 +66,8 @@ public class PlayerMove : MonoBehaviour
 
     public float HipDropColPos = 10;//ヒップドロップの当たり判定位置の調整用
     public float HipDropColLength = 10;//ヒップドロップの当たり判定の半径
-    Vector3 HipDropCollisionPos;//ヒップドロップの場所
+    Vector3 HipDropCollisionPos;//ヒップドロップの当たり判定場所
+    Vector3 HipDropPos;//ヒップドロップを行っている場所　松井君の移動バグ修正用
 
     AnimaterControl PlayerAnimation;//アニメーションのコントローラー
 
@@ -173,9 +174,12 @@ public class PlayerMove : MonoBehaviour
         NowMobiusColor = Mobius[NowMobius].GetComponent<MobiusColor>().GetNowColorNum();//松井君のスクリプトから変数取得
 
         
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C))//クリア処理実行させる
         {
-            //ClearOn();
+            ClearOn();
+            angle = 0;
+            PositionSum();
+            
         }
 
         PositionSum();//場所を求める
@@ -384,6 +388,11 @@ public class PlayerMove : MonoBehaviour
 
                 }
 
+            }
+
+            if (jumpmove == 0)//ヒップドロップの場所
+            {
+                HipDropPos = this.transform.position;
             }
 
             //プレイヤーの移動
@@ -599,49 +608,52 @@ public class PlayerMove : MonoBehaviour
 
     private void ClearMove()
     {
-        if (InsideFlg)
-        {
-            //角度の範囲を指定(0～360)
-            if (angle > 360)
-            {
-                angle = angle - 360;
-                saveangle = angle;
-            }
-            if (angle < 0)
-            {
-                angle = angle + 360;
-                saveangle = angle;
-            }
+        //if (InsideFlg)
+        //{
+        //    //角度の範囲を指定(0～360)
+        //    if (angle > 360)
+        //    {
+        //        angle = angle - 360;
+        //        saveangle = angle;
+        //    }
+        //    if (angle < 0)
+        //    {
+        //        angle = angle + 360;
+        //        saveangle = angle;
+        //    }
 
-            if (RotateLeftFlg)
-            {
-                if (angle >= 180 && saveangle <= 180)
-                {
-                    Stop = true;
-                }
-            }
-            else
-            {
-                if (angle <= 180 && saveangle >= 180)
-                {
-                    Stop = true;
-                }
-            }
+        //    if (RotateLeftFlg)
+        //    {
+        //        if (angle >= 180 && saveangle <= 180)
+        //        {
+        //            Stop = true;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (angle <= 180 && saveangle >= 180)
+        //        {
+        //            Stop = true;
+        //        }
+        //    }
 
 
 
-        }
-        else
-        {
-            if (angle >= 360)
-            {
-                Stop = true;
-            }
-            if (angle <= 0)
-            {
-                Stop = true;
-            }
-        }
+        //}
+        //else
+        //{
+        //    if (angle >= 360)
+        //    {
+        //        Stop = true;
+        //    }
+        //    if (angle <= 0)
+        //    {
+        //        Stop = true;
+        //    }
+        //}
+        transform.position = new Vector3(0, 0, -445);
+        this.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        Stop = true;
     }
 
     public bool HipDropCollision(Vector3 pos, float collength)
@@ -822,5 +834,10 @@ public class PlayerMove : MonoBehaviour
     public bool GetStop()
     {
         return Stop;
+    }
+
+    public Vector3 GetHipDropPos()
+    {
+        return HipDropPos;
     }
 }
