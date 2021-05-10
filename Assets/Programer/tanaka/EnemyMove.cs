@@ -174,14 +174,7 @@ public class EnemyMove : MonoBehaviour
             angle = angle + 360;
         }
 
-        if (anglesave > 360)
-        {
-            anglesave = anglesave - 360;
-        }
-        if (anglesave < 0)
-        {
-            anglesave = anglesave + 360;
-        }
+        
 
         //踏まれたかどうか
         bool HipDropCollision = player.GetComponent<PlayerMove>().HipDropCollision(transform.position, GetComponent<SphereCollider>().bounds.size.x / 2);
@@ -196,7 +189,15 @@ public class EnemyMove : MonoBehaviour
             counter += Time.deltaTime;
             
             //移ったときに元のメビウスの輪に戻らないようにカウントする
-            if (counter > 0.2)//移り変わりを制御
+            //if (counter > 0.2)//移り変わりを制御
+            //{
+            //    //移り変わることができるようにする
+            //    SaveMobius = NowMobius;
+            //    counter = 0;
+            //    MobiusCol = false;
+            //}
+
+            if (angle > anglesave + 90 || angle < anglesave - 90)
             {
                 //移り変わることができるようにする
                 SaveMobius = NowMobius;
@@ -285,6 +286,15 @@ public class EnemyMove : MonoBehaviour
                     counter = 0;
                     angle += 180;
                     anglesave = angle;
+
+                    if (anglesave > 360)
+                    {
+                        anglesave = anglesave - 360;
+                    }
+                    if (anglesave < 0)
+                    {
+                        anglesave = anglesave + 360;
+                    }
 
                     if (SideCnt >= 2)//2回切り替えると
                     {
