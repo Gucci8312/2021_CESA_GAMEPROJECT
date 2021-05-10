@@ -22,6 +22,8 @@ public class StageSelectCamera : MonoBehaviour
     bool back3 = false;
     bool back4 = false;
 
+    public int Speed = 1;
+
     // start is called before the first frame update
     void Start()
     {
@@ -35,7 +37,7 @@ public class StageSelectCamera : MonoBehaviour
         {
             if (back)
             {
-                position--;
+                position -= Speed;
             }
             if (position <= 0)
             {
@@ -49,7 +51,7 @@ public class StageSelectCamera : MonoBehaviour
         {
             if (back1)
             {
-                position--;
+                position -= Speed;
                 if (position <= 50)
                 {
                     position = 50;
@@ -65,7 +67,7 @@ public class StageSelectCamera : MonoBehaviour
                 }
                 else
                 {
-                    position++;
+                    position += Speed;
                 }
             }
             transform.position = new Vector3(position, Cam.transform.position.y, -10);
@@ -76,7 +78,7 @@ public class StageSelectCamera : MonoBehaviour
 
             if (back2)
             {
-                position--;
+                position -= Speed;
                 if (position <= 100)
                 {
                     position = 100;
@@ -92,7 +94,7 @@ public class StageSelectCamera : MonoBehaviour
                 }
                 else
                 {
-                    position++;
+                    position += Speed;
                 }
             }
             transform.position = new Vector3(position, Cam.transform.position.y, -10);
@@ -102,7 +104,7 @@ public class StageSelectCamera : MonoBehaviour
         {
             if (back3)
             {
-                position--;
+                position -= Speed;
                 if (position <= 150)
                 {
                     position = 150;
@@ -118,7 +120,7 @@ public class StageSelectCamera : MonoBehaviour
                 }
                 else
                 {
-                    position++;
+                    position += Speed;
                 }
             }
             transform.position = new Vector3(position, Cam.transform.position.y, -10);
@@ -128,7 +130,7 @@ public class StageSelectCamera : MonoBehaviour
         {
             if (back4)
             {
-                position--;
+                position -= Speed;
                 if (position <= 200)
                 {
                     position = 150;
@@ -144,7 +146,7 @@ public class StageSelectCamera : MonoBehaviour
                 }
                 else
                 {
-                    position++;
+                    position += Speed;
                 }
             }
             transform.position = new Vector3(position, Cam.transform.position.y, -10);

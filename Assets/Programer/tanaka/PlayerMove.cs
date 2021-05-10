@@ -76,6 +76,11 @@ public class PlayerMove : MonoBehaviour
     GameObject DushEffect;
     GameObject SmokeEffect;
 
+    Camera cam;
+    CameraShake camerashake;
+    
+
+
     private void OnValidate()
     {
         HipDropCollisionPos = new Vector3(this.transform.position.x, this.transform.position.y - HipDropColPos, this.transform.position.z);
@@ -156,6 +161,9 @@ public class PlayerMove : MonoBehaviour
         RythmSaveFlg = RythmFlg;
 
         PositionSum();
+
+        cam = Camera.main;    
+        camerashake = cam.GetComponent<CameraShake>();
 
     }
 
@@ -314,6 +322,8 @@ public class PlayerMove : MonoBehaviour
 
                     jumpmove += (HipDropSpeed * 100f) * Time.deltaTime;
 
+                    camerashake.OnShake();
+
                     if (jumpmove > 0)
                     {
                         jumpmove = 0;
@@ -347,6 +357,8 @@ public class PlayerMove : MonoBehaviour
                 {
 
                     jumpmove -= (HipDropSpeed * 100f) * Time.deltaTime;
+
+                    camerashake.OnShake();
 
                     if (jumpmove < 0)
                     {
