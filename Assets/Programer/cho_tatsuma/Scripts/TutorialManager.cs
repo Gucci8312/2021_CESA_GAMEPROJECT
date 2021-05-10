@@ -40,13 +40,13 @@ public class TutorialManager : MonoBehaviour
             enemy.GetComponent<EnemyMove>().enabled = false;
             checkPoint2.GetComponent<CheckVideoEvent>().checkCollider = false;
         }
-        if (videoPanel1.GetComponent<VideoPlay>().endVideo)
+        if (videoPanel1.GetComponentInChildren<VideoPlay>().endVideo)
         {
             videoPanel1.SetActive(false);
             player.GetComponent<PlayerMove>().enabled = true;
             enemy.GetComponent<EnemyMove>().enabled = true;
         }
-        else if (videoPanel2.GetComponent<VideoPlay>().endVideo)
+        else if (videoPanel2.GetComponentInChildren<VideoPlay>().endVideo)
         {
             videoPanel2.SetActive(false);
             player.GetComponent<PlayerMove>().enabled = true;

@@ -19,7 +19,7 @@ public class VideoPlay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {       
-        if(mPlayer.time == mPlayer.length)
+        if(mPlayer.time >= mPlayer.length - 1f)
         {
             endVideo = true;
         }
