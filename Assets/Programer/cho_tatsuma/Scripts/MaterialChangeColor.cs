@@ -33,7 +33,7 @@ public class MaterialChangeColor : MonoBehaviour
         if (m_colorNum <= 1.0f)
         {
             mat.SetColor("_EmissionColor", new Color(0.0f + m_colorNum, 0.0f + m_colorNum, 0.0f + m_colorNum));
-            m_colorNum += 0.001f;
+            m_colorNum += 0.0001f;
         }
 
     }

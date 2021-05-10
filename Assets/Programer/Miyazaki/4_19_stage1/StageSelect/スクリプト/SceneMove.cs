@@ -81,8 +81,7 @@ public class SceneMove : MonoBehaviour
 
         AllStageLightOff();
         stageNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
-        AllStagePictureSetActiveFlase();
-        //StagePictureActiveTrue(Select_Scene - 1);
+        StagePictureActiveTrue(Select_Scene - 1);
 
         if (Controler.SubMitButtonFlg())
         {
