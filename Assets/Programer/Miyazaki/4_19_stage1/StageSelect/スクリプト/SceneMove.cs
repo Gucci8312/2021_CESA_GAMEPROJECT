@@ -51,8 +51,8 @@ public class SceneMove : MonoBehaviour
             }
 
         }
-         else if (Controler.GetLeftButtonFlg())
-       // else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (Controler.GetLeftButtonFlg())
+        // else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             if (Select_Scene != 0)
             {
@@ -88,6 +88,10 @@ public class SceneMove : MonoBehaviour
         if (Controler.SubMitButtonFlg())
         {
             StageSelect.LoadStage(Select_Scene, this);
+        }
+        if (Controler.GetCanselButtonFlg())
+        {
+            StageSelect.GoTitleScene(this);
         }
     }
 
