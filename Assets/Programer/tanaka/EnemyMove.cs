@@ -187,23 +187,20 @@ public class EnemyMove : MonoBehaviour
         if (MobiusCol)
         {
             counter += Time.deltaTime;
-            
-            //移ったときに元のメビウスの輪に戻らないようにカウントする
-            //if (counter > 0.2)//移り変わりを制御
-            //{
-            //    //移り変わることができるようにする
-            //    SaveMobius = NowMobius;
-            //    counter = 0;
-            //    MobiusCol = false;
-            //}
 
-            if (angle > anglesave + 90 || angle < anglesave - 90)
+            //移ったときに元のメビウスの輪に戻らないようにカウントする
+            if (counter > 0.2)//移り変わりを制御
             {
-                //移り変わることができるようにする
-                SaveMobius = NowMobius;
-                counter = 0;
-                MobiusCol = false;
+                if (angle > anglesave + 90 || angle < anglesave - 90)
+                {
+                    //移り変わることができるようにする
+                    SaveMobius = NowMobius;
+                    counter = 0;
+                    MobiusCol = false;
+                }
             }
+
+            
         }
         else
         {

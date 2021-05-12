@@ -188,7 +188,7 @@ public class Rythm : MonoBehaviour
                 if(Controler.GetJumpButtonFlg() || Controler.GetRythmButtonFlg())
                 {
 					m_changeColorScript.Flame_Success_Color();
-					Instantiate(successPrefab);
+					//Instantiate(successPrefab);
 
                 }
             }
@@ -198,7 +198,7 @@ public class Rythm : MonoBehaviour
                 if (Controler.GetJumpButtonFlg()|| Controler.GetRythmButtonFlg())
                 {
 					m_changeColorScript.Flame_Miss_Color();
-					Instantiate(missPrefab);
+					//Instantiate(missPrefab);
                 }
             }
             yield return new WaitForSeconds(0.01f);

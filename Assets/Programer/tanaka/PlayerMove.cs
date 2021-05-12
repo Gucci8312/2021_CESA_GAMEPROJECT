@@ -80,8 +80,12 @@ public class PlayerMove : MonoBehaviour
 
     Camera cam;
     CameraShake camerashake;
-    
 
+    [SerializeField]
+    GameObject missPrefab;
+
+    [SerializeField]
+    GameObject successPrefab;
 
     private void OnValidate()
     {
@@ -169,6 +173,8 @@ public class PlayerMove : MonoBehaviour
 
     }
 
+
+
     // Update is called once per frame  
     //void FixedUpdate()
     void Update()
@@ -186,23 +192,19 @@ public class PlayerMove : MonoBehaviour
         {
             ClearOn();
             angle = 0;
+            InsideFlg = false;
             PositionSum();
             
         }
 
         PositionSum();//場所を求める
 
-        
-
-
 
         RythmFlg = this.rythm.rythmCheckFlag;//リズム取得
 
         if (RythmFlg)//リズムのタイミングが来た
         {
-
-
-
+            
             if (RythmSaveFlg != RythmFlg)//タイミングがtrueになった瞬間
             {
                 SpacePress = false;
@@ -220,7 +222,7 @@ public class PlayerMove : MonoBehaviour
                         SpeedUpFlg = true;
 
                         PlayerAnimation.Run();
-
+                        Instantiate(successPrefab);
                     }
                     else
                     {
@@ -231,7 +233,12 @@ public class PlayerMove : MonoBehaviour
 
                         SpeedUpMashing = true;
                         //PlayerAnimation.Walk();
+                        
                     }
+                }
+                else
+                {
+                    Instantiate(missPrefab);
                 }
             }
 
@@ -248,6 +255,8 @@ public class PlayerMove : MonoBehaviour
 
                     PlayerAnimation.HipDrop();
 
+                    Instantiate(successPrefab);
+
                     if (InsideFlg)//ジャンプの力をセット
                     {
                         pow = -jumppow;
@@ -256,6 +265,10 @@ public class PlayerMove : MonoBehaviour
                     {
                         pow = jumppow;
                     }
+                }
+                else
+                {
+                    Instantiate(missPrefab);
                 }
             }
 
@@ -268,18 +281,24 @@ public class PlayerMove : MonoBehaviour
                 JumpMashing = false;
                 SpeedUpMashing = false;
 
-                if (SpacePress)//キー入力があった
+                if (SpacePress)//スピードアップ入力があった
                 {
                     Speed = UpSpeed;
                     SpeedUpFlg = true;
                     DushEffect.SetActive(true);
                 }
-                else//キー入力がなかった
+                else//スピードアップ入力なし
                 {
                     SpeedUpFlg = false;
                     Speed = NormalSpeed;
                     PlayerAnimation.Walk();
                     DushEffect.SetActive(false);
+                    
+                }
+
+                if (!SpacePress && !TimingInput)
+                {
+                    Instantiate(missPrefab);
                 }
 
             }
@@ -366,6 +385,7 @@ public class PlayerMove : MonoBehaviour
                 }//if (HipDrop)
                 else
                 {
+
                     jumpmovesave = jumpmove;
                     jumpmove = jumpmove + ((jumpmove - jumpmove_prev) + pow);
                     jumpmove_prev = jumpmovesave;
@@ -392,12 +412,10 @@ public class PlayerMove : MonoBehaviour
                 if (SpeedUpFlg)
                 {
                     Speed = UpSpeed * InsideSpeed;
-
                 }
                 else
                 {
                     Speed = NormalSpeed * InsideSpeed;
-
                 }
 
             }
@@ -446,21 +464,18 @@ public class PlayerMove : MonoBehaviour
             {
                 counter += Time.deltaTime;
                 //移ったときに元のメビウスの輪に戻らないようにカウントする
-                //if (counter > 0.2)//移り変わり制御
-                //{
-                //    //移り変わることができるようにする
-                //    SaveMobius = NowMobius;
-                //    counter = 0;
-                //    MobiusCol = false;
-                //}
-                
-                if (angle > saveangle + 90 || angle < saveangle - 90)
+                if (counter > 0.2)//移り変わり制御
                 {
-                    //移り変わることができるようにする
-                    SaveMobius = NowMobius;
-                    counter = 0;
-                    MobiusCol = false;
+                    if (angle > saveangle + 90 || angle < saveangle - 90)
+                    {
+                        //移り変わることができるようにする
+                        SaveMobius = NowMobius;
+                        counter = 0;
+                        MobiusCol = false;
+                    }
                 }
+
+
             }
             else
             {
@@ -563,6 +578,18 @@ public class PlayerMove : MonoBehaviour
                     NowMobius = i;
                     counter = 0;
                     angle += 180;
+                    //角度の範囲を指定(0～360)
+                    if (angle > 360)
+                    {
+                        angle = angle - 360;
+
+                    }
+                    if (angle < 0)
+                    {
+                        angle = angle + 360;
+
+                    }
+
 
                     if (SideCnt >= 2)//2回切り替えると
                     {
@@ -675,18 +702,18 @@ public class PlayerMove : MonoBehaviour
             return false;
         }
 
-        float x, y, z;
+        
+            float x, y, z;
 
+            x = Mathf.Pow(pos.x - HipDropCollisionPos.x, 2);
+            y = Mathf.Pow(pos.y - HipDropCollisionPos.y, 2);
+            z = Mathf.Pow(pos.z - HipDropCollisionPos.z, 2);
 
-        x = Mathf.Pow(pos.x - HipDropCollisionPos.x, 2);
-        y = Mathf.Pow(pos.y - HipDropCollisionPos.y, 2);
-        z = Mathf.Pow(pos.z - HipDropCollisionPos.z, 2);
-
-        if (x + y + z <= Mathf.Pow(HipDropColLength + collength, 2))//当たっていたら
-        {
-            return true;
-        }
-
+            if (x + y + z <= Mathf.Pow(HipDropColLength + collength, 2))//当たっていたら
+            {
+                return true;
+            }
+        
         return false;
     }
 
@@ -731,6 +758,7 @@ public class PlayerMove : MonoBehaviour
                                     if (CollisionOn)
                                     {
                                         CollisionState = true;
+                                        
                                     }
                                 }
                             }
