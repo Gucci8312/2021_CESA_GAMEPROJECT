@@ -24,7 +24,7 @@ public class VolumeSlider : MonoBehaviour
     [SerializeField]
     Type type = Type.MASTER;            //ボリューム調整タイプ変数
 
-    static public Slider slider;                    //スライダーバーの変数
+    public Slider slider;                    //スライダーバーの変数
     // Start is called before the first frame update
     void Start()
     {
