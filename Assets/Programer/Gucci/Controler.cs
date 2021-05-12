@@ -65,10 +65,10 @@ public class Controler : MonoBehaviour
         return Response;
     }
     
-    public static bool CanselButtonFlg()
+    public static bool GetCanselButtonFlg()
     {
         bool Response = false;
-        if (Input.GetKeyDown("joystick button 0"))
+        if (Input.GetKeyDown("joystick button 1"))
         {
             // SoundManager.PlaySeName("決定音");
             Response = true;

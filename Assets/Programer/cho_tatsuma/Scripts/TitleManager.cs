@@ -20,6 +20,7 @@ public class TitleManager : MonoBehaviour
     [SerializeField]
     GameObject m_pressTextObj;
     FadeTitleText m_fadeTextScript;
+    public GameObject Window;
 
   
     private void Awake()
@@ -59,7 +60,7 @@ public class TitleManager : MonoBehaviour
             {
                 StageSelect.GoStageSelect(this);
             }
-            else if(Controler.CanselButtonFlg())
+            else if(Controler.GetCanselButtonFlg())
             {
                 UnityEngine.Application.Quit();
             }
@@ -94,6 +95,11 @@ public class TitleManager : MonoBehaviour
             mobius.GetComponent<MobiusAttachPos>().m_nowMobiusNo = 0;
             mobiusArray[2].GetComponent<TitleMoveMobius>().enabled = false;
             mobiusArray[3].GetComponent<TitleMoveMobius>().enabled = false;
+        }
+
+        if(Controler.GetCanselButtonFlg())
+        {
+            Window.SetActive(true);
         }
     }
 }
