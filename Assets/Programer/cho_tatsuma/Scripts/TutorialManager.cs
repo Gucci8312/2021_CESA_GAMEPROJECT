@@ -31,6 +31,7 @@ public class TutorialManager : MonoBehaviour
             videoPanel1.SetActive(true);
             player.GetComponent<PlayerMove>().enabled = false;
             enemy.GetComponent<EnemyMove>().enabled = false;
+            enemy.GetComponent<EnemyMobius>().enabled = false;
             checkPoint1.GetComponent<CheckVideoEvent>().checkCollider = false;
         }
         else if (checkPoint2.GetComponent<CheckVideoEvent>().checkCollider)
@@ -38,6 +39,7 @@ public class TutorialManager : MonoBehaviour
             videoPanel2.SetActive(true);
             player.GetComponent<PlayerMove>().enabled = false;
             enemy.GetComponent<EnemyMove>().enabled = false;
+            enemy.GetComponent<EnemyMobius>().enabled = false;
             checkPoint2.GetComponent<CheckVideoEvent>().checkCollider = false;
         }
         if (videoPanel1.GetComponentInChildren<VideoPlay>().endVideo)
@@ -45,12 +47,14 @@ public class TutorialManager : MonoBehaviour
             videoPanel1.SetActive(false);
             player.GetComponent<PlayerMove>().enabled = true;
             enemy.GetComponent<EnemyMove>().enabled = true;
+            enemy.GetComponent<EnemyMobius>().enabled = true;
         }
         else if (videoPanel2.GetComponentInChildren<VideoPlay>().endVideo)
         {
             videoPanel2.SetActive(false);
             player.GetComponent<PlayerMove>().enabled = true;
             enemy.GetComponent<EnemyMove>().enabled = true;
+            enemy.GetComponent<EnemyMobius>().enabled = true;
             this.gameObject.SetActive(false);
         }
     }
