@@ -304,7 +304,7 @@ public class PlayerMove : MonoBehaviour
 
                     if (!SpacePress && !TimingInput)
                     {
-                        Instantiate(missPrefab);
+                        //Instantiate(missPrefab);
                     }
 
                 }
