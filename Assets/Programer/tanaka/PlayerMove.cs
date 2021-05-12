@@ -698,6 +698,8 @@ public class PlayerMove : MonoBehaviour
         //        Stop = true;
         //    }
         //}
+        DushEffect.SetActive(false);
+        SmokeEffect.SetActive(false);
         transform.position = new Vector3(0, 0, -445);
         this.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
         Stop = true;
@@ -766,7 +768,9 @@ public class PlayerMove : MonoBehaviour
                                     if (CollisionOn)
                                     {
                                         CollisionState = true;
-                                        
+
+                                        DushEffect.SetActive(false);
+                                        SmokeEffect.SetActive(false);
                                     }
                                 }
                             }
