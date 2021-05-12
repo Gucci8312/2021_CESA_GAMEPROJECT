@@ -113,7 +113,7 @@ public class Rythm : MonoBehaviour
         {
             m_startTime = Time.timeSinceLevelLoad;
             m_sphere.transform.position = new Vector3(m_currentPos.x, m_currentPos.y, m_currentPos.z);
-            if (SoundManager.m_bgmAudioSource.time > 0.0001f)
+            if (SoundManager.m_bgmAudioSource.time > 0.1f)
             {
                 m_soundStopFlg = true;
             }
