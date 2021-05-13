@@ -19,7 +19,8 @@ public class CrossLine : MonoBehaviour
 
     [HideInInspector] public Vector3 RayHitPos;
 
-    [HideInInspector] public bool MoveLineFlag;             //動く床かどうか（MoveLineから操作）
+    [HideInInspector] public bool MoveLineFlag=false;             //動く床かどうか（MoveLineから操作）
+    [HideInInspector] public bool MoveFlag = false;               //動いてるかどうか（MoveLineから操作）
 
     private bool GotoLineFlag = false; //通ったかどうか
     // Start is called before the first frame update
@@ -34,10 +35,17 @@ public class CrossLine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ALLUpdate();
+    }
+
+    //全ての更新処理（publicなのはギミックの移動時のずれをなくすため）
+    public void ALLUpdate()
+    {
         LRPosVecUpdate();
         CrossPosUpdate();
     }
 
+    //交点の更新
     private void CrossPosUpdate()
     {
         if (Line.Count != 0)
@@ -59,8 +67,8 @@ public class CrossLine : MonoBehaviour
     //端の座標と方向の更新
     private void LRPosVecUpdate()
     {
-        LPos = RotationfromPosition(this.transform.position, this.transform.localScale, this.transform.localEulerAngles.z, 0);//自分の左端の回転を含めた座標を取得
-        RPos = RotationfromPosition(this.transform.position, this.transform.localScale, this.transform.localEulerAngles.z, 1);//自分の右端の回転を含めた座標を取得
+        LPos = RotationfromPosition(this.transform.position, this.transform.localScale, this.transform.localEulerAngles.z, 1);//自分の左端の回転を含めた座標を取得
+        RPos = RotationfromPosition(this.transform.position, this.transform.localScale, this.transform.localEulerAngles.z, 0);//自分の右端の回転を含めた座標を取得
 
         float Radius = Mathf.Atan2(LPos.y - RPos.y, LPos.x - RPos.x); //自分と指定した座標とのラジアンを求める
         Lvec = new Vector3(Mathf.Cos(Radius), Mathf.Sin(Radius), 0);
@@ -210,7 +218,7 @@ public class CrossLine : MonoBehaviour
         return GotoLineFlag;
     }
 
-    //調べたい座標が右端にいるかどうか
+    //調べたい座標が右端の交点にいるかどうか
     public bool NearEndRCrossPosFlag(Vector2 SerchPos)
     {
         Vector2 Endpos = NearCrossPos(RPos);
@@ -224,7 +232,7 @@ public class CrossLine : MonoBehaviour
         return false;
     }
 
-    //調べたい座標が左端にいるかどうか
+    //調べたい座標が左端の交点にいるかどうか
     public bool NearEndLCrossPosFlag(Vector2 SerchPos)
     {
         Vector2 Endpos = NearCrossPos(LPos);
@@ -237,6 +245,29 @@ public class CrossLine : MonoBehaviour
 
         return false;
     }
+
+    //調べ対座標が右端にあるかどうか
+    public bool NearEndRPosFlag(Vector2 SerchPos)
+    {
+        float distance = (RPos - SerchPos).magnitude;
+        if (distance <= 5)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    //調べ対座標が左端にあるかどうか
+    public bool NearEndLPosFlag(Vector2 SerchPos)
+    {
+        float distance = (LPos - SerchPos).magnitude;
+        if (distance <= 5)
+        {
+            return true;
+        }
+        return false;
+    }
+
 
     public bool SameLRvec(Vector2 _Lvec, Vector2 _Rvec)
     {
