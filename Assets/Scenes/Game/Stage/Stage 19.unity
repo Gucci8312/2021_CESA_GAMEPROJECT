@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -4075,6 +4075,7 @@ MonoBehaviour:
   m_nowMobiusNo: 0
   m_mobius: []
   otherMobius: {fileID: 1661827656}
+  hitMobius: {fileID: 0}
 --- !u!4 &1746852740
 Transform:
   m_ObjectHideFlags: 0
@@ -4316,6 +4317,7 @@ GameObject:
   - component: {fileID: 1894673256}
   - component: {fileID: 1894673255}
   - component: {fileID: 1894673254}
+  - component: {fileID: 1894673258}
   m_Layer: 0
   m_Name: GameManeger
   m_TagString: Untagged
@@ -4461,6 +4463,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1894673258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894673253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd74800a61c808548ad8826a823a6cd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1933051582
 GameObject:
   m_ObjectHideFlags: 0
@@ -4637,6 +4651,7 @@ MonoBehaviour:
   m_nowMobiusNo: 0
   m_mobius: []
   otherMobius: {fileID: 0}
+  hitMobius: {fileID: 0}
 --- !u!23 &1937135283
 MeshRenderer:
   m_ObjectHideFlags: 0
