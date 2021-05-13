@@ -23,6 +23,7 @@ public class MobiusAttachPos : MonoBehaviour
     KeyCode m_keyCode;                  //どのキーを入力したかを保存
     Vector2 StickInput;                   //スティック入力時の値を取得用(-1～1)
     public GameObject otherMobius;              //キャラのいる位置とは違った当たった邦のメビウスの格納変数
+    public GameObject hitMobius;              //キャラのいる位置とは違った当たった邦のメビウスの格納変数
     bool m_mobiusCol;                   //メビウスがくっついたかどうかを一回だけ判定。
 
     float before_degree;                //前回の回転角を保持
@@ -142,8 +143,8 @@ public class MobiusAttachPos : MonoBehaviour
         float x, y, radian;
 
         //三角形の底辺と高さを算出
-        x = m_mobius[m_nowMobiusNo].GetComponent<Transform>().position.x - otherMobius.GetComponent<Transform>().position.x;
-        y = m_mobius[m_nowMobiusNo].GetComponent<Transform>().position.y - otherMobius.GetComponent<Transform>().position.y;
+        x = hitMobius.GetComponent<Transform>().position.x - otherMobius.GetComponent<Transform>().position.x;
+        y = hitMobius.GetComponent<Transform>().position.y - otherMobius.GetComponent<Transform>().position.y;
 
         //ラジアンを引き出す
         radian = Mathf.Atan2(y, x);
@@ -179,15 +180,16 @@ public class MobiusAttachPos : MonoBehaviour
 
     // @name   MobiusCollisionOn
     // @brief  他のメビウスと当たった時に実装したい部分
-    public void MobiusCollisionOn(GameObject _gameObj)
+    public void MobiusCollisionOn(GameObject _hitOtherObj, GameObject _hitThisObject)
     {
         before_pos = m_MobiusPos;
-        otherMobius = /*m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetColMobiusObj();*/ _gameObj;
-        MobiusChileMeshRenderOff(m_mobius[m_nowMobiusNo]);
+        hitMobius = _hitThisObject;
+        otherMobius = /*m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetColMobiusObj();*/ _hitOtherObj;
+        MobiusChileMeshRenderOff(hitMobius);
         MobiusChileMeshRenderOff(otherMobius);
         before_degree = MobiusRotateDegree();
         //当たった二つの中間点を取得→メビウスの輪の座標に設定するため
-        m_MobiusPos = /*m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetColPos()*/ (m_mobius[m_nowMobiusNo].transform.position + otherMobius.transform.position) / 2;
+        m_MobiusPos = /*m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetColPos()*/ (hitMobius.transform.position + otherMobius.transform.position) / 2;
         if (m_MobiusPos.x == before_pos.x && m_MobiusPos.y == before_pos.y && m_MobiusPos.z == before_pos.z)
         {
             m_MobiusPos = otherMobius.GetComponent<MoveMobius>().GetColPos();

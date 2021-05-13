@@ -213,7 +213,7 @@ public class Rythm : MonoBehaviour
             m_EmobiusBeatFlag = true;
             m_beatCount++;
             m_changeColorScript.ChangeColor_Flame();
-            Debug.Log("壁に当たった時間：　"+(fram_bgmm - time));
+           // Debug.Log("壁に当たった時間：　"+(fram_bgmm - time));
             //rythmCheckFlag = true;
             if (m_beatCount >= EnemyTroughRing)
             {
