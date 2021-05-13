@@ -33,6 +33,17 @@ public class Controler : MonoBehaviour
             Response = true;
         }
         return Response;
+        //bool Response = false;
+        //if (Input.GetAxisRaw("L_Trigger") < 0.0f /*&& LeftStickFlg == false*/)
+        //{
+        //    Response = true;
+        //    LeftStickFlg = true;
+        //}
+        //else if (Input.GetAxisRaw("L_Trigger") == 0.0f)
+        //{
+        //    LeftStickFlg = false;
+        //}
+        //return Response;
     }
 
     public static bool GetMenuButtonFlg()
@@ -145,6 +156,35 @@ public class Controler : MonoBehaviour
         else if (Input.GetAxisRaw("Horizontal") == 0.0f)
         {
             LeftStickFlg = false;
+        }
+        return Response;
+    }
+
+    public static bool GetLeftTriggerFlg()
+    {
+        bool Response = false;
+        if (Input.GetAxisRaw("L_Trigger") < 0.0f /*&& LeftStickFlg == false*/)
+        {
+            Response = true;
+           // LeftStickFlg = true;
+        }
+        else if (Input.GetAxisRaw("L_Trigger") == 0.0f)
+        {
+           // LeftStickFlg = false;
+        }
+        return Response;
+    }    
+    public static bool GetRightTriggerFlg()
+    {
+        bool Response = false;
+        if (Input.GetAxisRaw("R_Trigger") < 0.0f /*&& LeftStickFlg == false*/)
+        {
+            Response = true;
+           // LeftStickFlg = true;
+        }
+        else if (Input.GetAxisRaw("R_Trigger") == 0.0f)
+        {
+            //LeftStickFlg = false;
         }
         return Response;
     }
