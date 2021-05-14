@@ -301,11 +301,7 @@ public class PlayerMove : MonoBehaviour
                         DushEffect.SetActive(false);
 
                     }
-
-                    if (!SpacePress && !TimingInput)
-                    {
-                        //Instantiate(missPrefab);
-                    }
+                    
 
                 }
 
@@ -318,11 +314,14 @@ public class PlayerMove : MonoBehaviour
 
                     PlayerAnimation.Walk();
                     DushEffect.SetActive(false);
+                    Instantiate(missPrefab);
+
                 }
 
                 if (Controler.GetJumpButtonFlg())
                 {
                     JumpMashing = true;
+                    Instantiate(missPrefab);
                 }
 
 
