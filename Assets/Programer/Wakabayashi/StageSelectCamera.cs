@@ -44,7 +44,7 @@ public class StageSelectCamera : MonoBehaviour
                 position = 0;
                 back = false;
             }
-            transform.position = new Vector3(position, Cam.transform.position.y, -10);
+            transform.position = new Vector3(position, Cam.transform.position.y, -11);
         }
 
         if (stagenumber == 1)
@@ -70,7 +70,7 @@ public class StageSelectCamera : MonoBehaviour
                     position += Speed;
                 }
             }
-            transform.position = new Vector3(position, Cam.transform.position.y, -10);
+            transform.position = new Vector3(position, Cam.transform.position.y, -11);
         }
 
         if (stagenumber == 2)
@@ -97,7 +97,7 @@ public class StageSelectCamera : MonoBehaviour
                     position += Speed;
                 }
             }
-            transform.position = new Vector3(position, Cam.transform.position.y, -10);
+            transform.position = new Vector3(position, Cam.transform.position.y, -11);
         }
 
         if (stagenumber == 3)
@@ -123,7 +123,7 @@ public class StageSelectCamera : MonoBehaviour
                     position += Speed;
                 }
             }
-            transform.position = new Vector3(position, Cam.transform.position.y, -10);
+            transform.position = new Vector3(position, Cam.transform.position.y, -11);
         }
 
         if (stagenumber == 4)
@@ -149,7 +149,7 @@ public class StageSelectCamera : MonoBehaviour
                     position += Speed;
                 }
             }
-            transform.position = new Vector3(position, Cam.transform.position.y, -10);
+            transform.position = new Vector3(position, Cam.transform.position.y, -11);
         }
 
         if (plus)
