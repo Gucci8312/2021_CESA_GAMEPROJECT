@@ -1,8 +1,14 @@
 fileFormatVersion: 2
-guid: b15ab713d21b4c146b76322b9d2a4605
+guid: 037ba831ca3ba1a488d657a387f3fe61
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable:
+  - first:
+      74: -835695427478979352
+    second: "\u30A2\u30FC\u30DE\u30C1\u30E5\u30A2|Game clear_L"
+  - first:
+      74: -1581116988994142307
+    second: "\u30A2\u30FC\u30DE\u30C1\u30E5\u30A2|Game clear_R"
   - first:
       74: -555949188896769363
     second: "\u30A2\u30FC\u30DE\u30C1\u30E5\u30A2|HIPDROP"
@@ -16,7 +22,7 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: "\u30DE\u30C6\u30EA\u30A2\u30EB"
+      name: PLAYER
     second: {fileID: 2100000, guid: 028e63494e6cd2c4b9d7eaad24455270, type: 2}
   materials:
     materialImportMode: 1
@@ -44,115 +50,7 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations:
-    - serializedVersion: 16
-      name: "\u30A2\u30FC\u30DE\u30C1\u30E5\u30A2|HIPDROP"
-      takeName: "\u30A2\u30FC\u30DE\u30C1\u30E5\u30A2|HIPDROP"
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 39
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events:
-      - time: 0
-        functionName: StopHipDrop
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.32019705
-        functionName: StopHipDrop
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: "\u30A2\u30FC\u30DE\u30C1\u30E5\u30A2|RUN"
-      takeName: "\u30A2\u30FC\u30DE\u30C1\u30E5\u30A2|RUN"
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 34
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events:
-      - time: 1
-        functionName: StopHipDrop
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: "\u30A2\u30FC\u30DE\u30C1\u30E5\u30A2|WALK"
-      takeName: "\u30A2\u30FC\u30DE\u30C1\u30E5\u30A2|WALK"
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 69
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+    clipAnimations: []
     isReadable: 0
   meshes:
     lODScreenPercentages: []
