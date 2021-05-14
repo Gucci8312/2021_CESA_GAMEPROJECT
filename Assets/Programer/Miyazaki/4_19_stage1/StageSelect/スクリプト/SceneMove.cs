@@ -85,13 +85,16 @@ public class SceneMove : MonoBehaviour
         stageNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
         StagePictureActiveTrue(Select_Scene - 1);
 
-        if (Controler.SubMitButtonFlg())
+        if(!gameObject.GetComponent<AreaSelectManeger>().GetMenuFlg())
         {
-            StageSelect.LoadStage(Select_Scene, this);
-        }
-        if (Controler.GetCanselButtonFlg())
-        {
-            StageSelect.GoTitleScene(this);
+            if (Controler.SubMitButtonFlg())
+            {
+                StageSelect.LoadStage(Select_Scene, this);
+            }
+            if (Controler.GetCanselButtonFlg())
+            {
+                StageSelect.GoTitleScene(this);
+            }
         }
     }
 
