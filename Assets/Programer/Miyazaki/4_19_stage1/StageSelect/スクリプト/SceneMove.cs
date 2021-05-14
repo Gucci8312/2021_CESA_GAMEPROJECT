@@ -37,15 +37,15 @@ public class SceneMove : MonoBehaviour
         if (Controler.GetRightButtonFlg())
         //if(Input.GetKeyDown(KeyCode.RightArrow))
         {
-            if (Select_Scene != 20)
+            if (Select_Scene != 25)
             {
                 Select_Scene++;
             }
-            if (Select_Scene == 20)
+            if (Select_Scene == 25)
             {
                 Camera = false;
             }
-            if (Select_Scene % 4 == 1)
+            if (Select_Scene % 5 == 1)
             {
                 Camera = true;
             }
@@ -64,7 +64,7 @@ public class SceneMove : MonoBehaviour
                 Select_Scene = 1;
                 Camera1 = false;
             }
-            if (Select_Scene % 4 == 0)
+            if (Select_Scene % 5 == 0)
             {
                 Camera1 = true;
             }
