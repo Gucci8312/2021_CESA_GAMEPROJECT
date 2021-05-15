@@ -39,36 +39,38 @@ public static class StageSelect
 
    static public void LoadStage(int _num, MonoBehaviour monoBehaviour)
     {
-        m_fade.gameObject.SetActive(true);
-        m_fade.StartFadeOut();
-        monoBehaviour.StartCoroutine(Loading("Stage " + _num));
+       //m_fade.gameObject.SetActive(true);
+      // m_fade.StartFadeOut();
+       monoBehaviour.StartCoroutine(Loading("Stage " + _num));
     }
 
     // @name   Loading
     // @brief  NowLodingに対応させるための関数
    public static IEnumerator Loading(string _stageName)
     {
-        while (true)
+		
+		while (true)
         {
-            //フェードが終わったこと知らせた後
-            if (m_fade.fadeFinished)
-            {
-                //ローディング情報を返す
-                m_async = SceneManager.LoadSceneAsync(_stageName);
+			//フェードが終わったこと知らせた後
+			//if (m_fade.fadeFinished)
+			//{
+			//    //ローディング情報を返す
+			//    m_async = 
 
-                //ロード中なら入る文
-                while (!m_async.isDone)
-                {
-                    //ローディング時のゲージのスライダーを進める
-                    //var progressVal = Mathf.Clamp01(m_async.progress / 0.9f);
-                    //m_gauge.value = progressVal;
-                    yield return null;
-                }
-                //終了処理
-               // m_fadeImage.gameObject.SetActive(false);
-                m_fade.fadeFinished = false;
-            }
-            yield return new WaitForSeconds(0.1f);
+			//    //ロード中なら入る文
+			//    while (!m_async.isDone)
+			//    {
+			//        //ローディング時のゲージのスライダーを進める
+			//        //var progressVal = Mathf.Clamp01(m_async.progress / 0.9f);
+			//        //m_gauge.value = progressVal;
+			//        yield return null;
+			//    }
+			//    //終了処理
+			//   // m_fadeImage.gameObject.SetActive(false);
+			//    m_fade.fadeFinished = false;
+			//}
+			SceneManager.LoadSceneAsync(_stageName);
+			yield return new WaitForSeconds(0.1f);
         }
     }
 

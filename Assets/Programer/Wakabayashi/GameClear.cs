@@ -22,7 +22,7 @@ public class GameClear : MonoBehaviour
 
     void Update()
     {
-        transform.position = new Vector3(player.transform.position.x + TransformX, player.transform.position.y + TransformY, -30);
+        //transform.position = new Vector3(player.transform.position.x + TransformX, player.transform.position.y + TransformY, -30);
     }
 
 }
