@@ -23,10 +23,12 @@ public class SceneMove : MonoBehaviour
     [SerializeField] GameObject[] stage_picture;
 
     public int Select_Scene;
+	bool Activeflag;
     // Start is called before the first frame update
     void Start()
     {
-        Select_Scene = 1;
+		Activeflag=true;
+		Select_Scene = 1;
         for (int i = 0; i < stage_picture.Length; i++)
         {
             stage_picture[i].SetActive(false);
@@ -38,7 +40,9 @@ public class SceneMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Controler.GetRightButtonFlg())
+		fedeout.FedeOut_Update();
+
+		if (Controler.GetRightButtonFlg())
         //if(Input.GetKeyDown(KeyCode.RightArrow))
         {
             if (Select_Scene != 20)
@@ -91,14 +95,19 @@ public class SceneMove : MonoBehaviour
 
         if (Controler.SubMitButtonFlg())
         {
-			fedeout.FedeOut_Update();
-			StageSelect.LoadStage(Select_Scene, this);
-        }
+			Activeflag = false;
+			AllStagePictureSetActiveFlase();
+			fedeout.FedeOut_On();
+			
+		}
+
 		if (Controler.GetCanselButtonFlg())
 		{
 			StageSelect.GoTitleScene(this);
-
-
+		}
+		if (fedeout.Getflag())
+		{
+			StageSelect.LoadStage(Select_Scene, this);
 		}
 	}
 
@@ -126,7 +135,8 @@ public class SceneMove : MonoBehaviour
     // @brief  特定の背景の絵柄を全部表示にする
     void StagePictureActiveTrue(int _num)
     {
-        if (!stage_picture[_num].activeSelf)
+
+        if (!stage_picture[_num].activeSelf&&Activeflag==true)
         {
             AllStagePictureSetActiveFlase();
             stage_picture[_num].GetComponentInChildren<MaterialChangeColor>().Init();
