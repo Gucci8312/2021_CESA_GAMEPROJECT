@@ -17,6 +17,8 @@ public class LinePutMobius : MonoBehaviour
     Vector3 OldPos;
 
     public List<GameObject> Line;
+
+    bool Old2Flag;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +36,19 @@ public class LinePutMobius : MonoBehaviour
             PutMobiusCol();
         }
 
-        OldPos = this.transform.position;
+        if (!MoveLineFlag)
+        {
+            Old2Flag = true;
+        }
+        else
+        {
+            
+            if (Old2Flag)
+            {
+                OldPos = this.transform.position;
+            }
+            Old2Flag = !Old2Flag;
+        }
     }
 
     private void LinePutCheck()
@@ -66,7 +80,7 @@ public class LinePutMobius : MonoBehaviour
         {
             if (Mm.MoveLineObj.GetComponent<MoveLine>().GetMoveFlag())//線が動いていたら
             {
-                this.transform.position = Mm.StartMovePos;
+               // this.transform.position = Mm.StartMovePos;
                 Mm.ZeroVelo();
             }
         }
@@ -99,14 +113,14 @@ public class LinePutMobius : MonoBehaviour
             //    continue;
             //}
 
-            //if (Mm.Getcl()[i].MoveFlag)
-            //{
-            //    Mm.Getcl()[i].ALLUpdate();
-            //}
+            if (Mm.Getcl()[i].MoveFlag)
+            {
+                Mm.Getcl()[i].ALLUpdate();
+            }
 
             float Gosa = 0.8f;//移動できるベクトルを取得する際、選定する用
 
-            if (!Mm.Getcl()[i].NearEndRCrossPosFlag(this.transform.position))//メビウスが右端に居なければ
+            if (!Mm.Getcl()[i].NearEndRPosFlag(this.transform.position,Mm.GetThisR()))//メビウスが右端に居なければ
             {
                 float distance = (Mm.Getcl()[i].GetRvec() - disvec).magnitude;
                 if (distance >= Gosa)
@@ -124,7 +138,7 @@ public class LinePutMobius : MonoBehaviour
                 Debug.Log(Mm.GetLine()[i].name + "のRposは" + Mm.Getcl()[i].GetRPos() + "distanceは" + dis);
             }
 
-            if (!Mm.Getcl()[i].NearEndLCrossPosFlag(this.transform.position))//メビウスが左端に居なければ
+            if (!Mm.Getcl()[i].NearEndLPosFlag(this.transform.position, Mm.GetThisR()))//メビウスが左端に居なければ
             {
                 float distance = (Mm.Getcl()[i].GetLvec() - disvec).magnitude;
                 if (distance >= Gosa)
@@ -239,7 +253,7 @@ public class LinePutMobius : MonoBehaviour
         Vector2 ColVec = Mm.SearchVector(OldPos, Pos);//前のフレームの座標からのベクトル
 
         Ray ray;
-        float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
+        //float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 5;// プレイヤーのメビウスの輪の円の半径を取得
         float distance = (Pos - OldPos).magnitude;     //レイを飛ばす長さ
 
         List<GameObject> ColObj = new List<GameObject>();               //すり抜けたメビウスオブジェクトを格納するリスト
@@ -251,7 +265,7 @@ public class LinePutMobius : MonoBehaviour
         //Debug.DrawRay(ray.origin, ray.direction * distance, Color.red, 1000, false);
 
         //貫通のレイキャスト
-        foreach (RaycastHit hit in Physics.SphereCastAll(ray, ThisR, distance * 1.0f))
+        foreach (RaycastHit hit in Physics.SphereCastAll(ray, Mm.GetThisR(), distance * 1.0f))
         {
             // Debug.Log(hit.collider.gameObject.name);//レイキャストが当たったオブジェクト
             GameObject hitObj = null;
@@ -290,27 +304,29 @@ public class LinePutMobius : MonoBehaviour
         {
             GameObject otherObj = Mm.NearObjSearch(ColObj, HitPos, OldPos);//リストの中から始点に近いオブジェクトを取得
 
-            if (Mm.MoveLineObj != otherObj.GetComponent<MoveMobius>().MoveLineObj)//ぶつかった相手が動く線に乗っていない
+            if (/*Mm.MoveLineObj != */!otherObj.GetComponent<MoveMobius>().MoveLineObj)//ぶつかった相手が動く線に乗っていない
             {
-                float ColR = (otherObj.GetComponent<SphereCollider>().bounds.size.x + otherObj.GetComponent<SphereCollider>().bounds.size.y) / 4;
+                //float ColR = otherObj.GetComponent<MoveMobius>().GetThisR();
 
-                Vector2 disvec;
-                if (otherObj.GetComponent<LinePutMobius>().LeaveVector(this.transform.position, out disvec))
-                {
-                    otherObj.GetComponent<MoveMobius>().MobiusCol(ThisR + ColR * 1.2f, -disvec);
-                    //if(MoveLinePutFlag && otherObj.GetComponent<LinePutMobius>().MoveLinePutFlag)//お互いに動く線に乗っていたら
-                    //{
-                    //    Mm.MobiusCol(ThisR + ColR * 1.2f, disvec);
-                    //}
-                    Debug.Log("移動床によってぶつかった！！");
-                }
-                else
-                {
-                    Debug.Log("移動床によってぶつかっても移動しなかった…！！");
-                }
+                //Vector2 disvec;
+                //if (otherObj.GetComponent<LinePutMobius>().LeaveVector(OldPos, out disvec))
+                //{
+                //    otherObj.GetComponent<MoveMobius>().MobiusCol(Mm.GetThisR() + ColR * 1.2f, -disvec);
+                //    //if(MoveLinePutFlag && otherObj.GetComponent<LinePutMobius>().MoveLinePutFlag)//お互いに動く線に乗っていたら
+                //    //{
+                //    //    Mm.MobiusCol(ThisR + ColR * 1.2f, disvec);
+                //    //}
+                //    Debug.Log("移動床によってぶつかった！！");
+                //}
+                //else
+                //{
+                //    Debug.Log("移動床によってぶつかっても移動しなかった…！！");
+                //}
                 //this.transform.position = other.gameObject.transform.position;
                 //Mm.MobiusCol(ThisR + ColR, -MoveLineVec);
                 //Debug.Log("移動床によってぶつかった！！");
+
+                Collision(otherObj);
             }
 
             Debug.Log(otherObj.name + "とぶつかった~～");
@@ -323,33 +339,54 @@ public class LinePutMobius : MonoBehaviour
         }
     }
 
+    private void Collision(GameObject ColObj)
+    {
+        float ColR = ColObj.GetComponent<MoveMobius>().GetThisR();
 
+        Vector2 disvec;
+        //Vector2 OldVec = Mm.SearchVector(OldPos, this.transform.position);
+        if (ColObj.GetComponent<LinePutMobius>().LeaveVector(OldPos, out disvec))
+        {
+            ColObj.GetComponent<MoveMobius>().MobiusCol(Mm.GetThisR() + ColR * 1.2f, -disvec);
+            Debug.Log("移動床によってぶつかった！！");
+        }
+        else
+        {
+            Debug.Log("移動床によってぶつかっても移動しなかった…！！");
+        }
+        //this.transform.position = other.gameObject.transform.position;
+        //Mm.MobiusCol(ThisR + ColR, -MoveLineVec);
+        //Debug.Log("移動床によってぶつかった！！");
+    }
 
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    if (other.gameObject.CompareTag("Mobius"))
-    //    {
-    //        if (/*!MoveLinePutFlag && */other.GetComponent<LinePutMobius>().MoveLinePutFlag)//ぶつかった相手が動く線に乗っていたら
-    //        {
-    //            float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
-    //            float ColR = (other.GetComponent<SphereCollider>().bounds.size.x + other.GetComponent<SphereCollider>().bounds.size.y) / 4;
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Mobius"))
+        {
+            if (MoveLinePutFlag && other.GetComponent<LinePutMobius>().MoveLinePutFlag)//ぶつかった相手が動く線に乗っていたら
+            {
+                //float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
+                //float ColR = other.GetComponent<MoveMobius>().GetThisR();
 
-    //            Vector2 disvec;
-    //            if (LeaveVector(other.GetComponent<LinePutMobius>().MoveLineVec, out disvec))
-    //            {
-    //                Mm.MobiusCol(ThisR + ColR,-disvec);
-    //                Debug.Log("移動床によってぶつかった！！");
-    //            }
-    //            else
-    //            {
-    //                Debug.Log("移動床によってぶつかっても移動しなかった…！！");
-    //            }
-    //            //this.transform.position = other.gameObject.transform.position;
-    //            //Mm.MobiusCol(ThisR + ColR, -MoveLineVec);
-    //            //Debug.Log("移動床によってぶつかった！！");
-    //        }
-    //    }
-    //}
+                //Vector2 disvec;
+                ////Vector2 OldVec = Mm.SearchVector(OldPos, this.transform.position);
+                //if (other.GetComponent<LinePutMobius>().LeaveVector(OldPos, out disvec))
+                //{
+                //    other.GetComponent<MoveMobius>().MobiusCol(Mm.GetThisR() + ColR * 1.2f, -disvec);
+                //    Debug.Log("移動床によってぶつかった！！");
+                //}
+                //else
+                //{
+                //    Debug.Log("移動床によってぶつかっても移動しなかった…！！");
+                //}
+                //this.transform.position = other.gameObject.transform.position;
+                //Mm.MobiusCol(ThisR + ColR, -MoveLineVec);
+                //Debug.Log("移動床によってぶつかった！！");
+                Collision(other.gameObject);
+
+            }
+        }
+    }
 
     //private void OnTriggerExit(Collider other)
     //{
@@ -367,7 +404,7 @@ public class LinePutMobius : MonoBehaviour
     //            //    Mm.MoveLineObj = null;
     //            //    Debug.Log("移動床と離れた！！" + this.name);
     //            //}
-               
+
     //        }
     //    }
     //}
