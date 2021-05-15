@@ -6,11 +6,35 @@ public class FedeOut : MonoBehaviour
 {
 
 
-	public GameObject stage1;
-	public GameObject stage2;
-	public GameObject stage3;
-	public GameObject stage4;
-	public GameObject stage5;
+	public GameObject w1_stage1;
+	public GameObject w1_stage2;
+	public GameObject w1_stage3;
+	public GameObject w1_stage4;
+	public GameObject w1_stage5;
+
+	public GameObject w2_stage1;
+	public GameObject w2_stage2;
+	public GameObject w2_stage3;
+	public GameObject w2_stage4;
+	public GameObject w2_stage5;
+						
+	public GameObject w3_stage1;
+	public GameObject w3_stage2;
+	public GameObject w3_stage3;
+	public GameObject w3_stage4;
+	public GameObject w3_stage5;
+						
+	public GameObject w4_stage1;
+	public GameObject w4_stage2;
+	public GameObject w4_stage3;
+	public GameObject w4_stage4;
+	public GameObject w4_stage5;
+					  	
+	public GameObject w5_stage1;
+	public GameObject w5_stage2;
+	public GameObject w5_stage3;
+	public GameObject w5_stage4;
+	public GameObject w5_stage5;
 
 	int cnt;
 	int cnt2;
@@ -47,45 +71,166 @@ public class FedeOut : MonoBehaviour
 		{
 			if(cnt2==0)
 			{
-				stage1.SetActive(false);
-				stage2.SetActive(false);
-				stage3.SetActive(false);
-				stage4.SetActive(false);
-				stage5.SetActive(false);
+				w1_stage1.SetActive(false);
+				w1_stage2.SetActive(false);
+				w1_stage3.SetActive(false);
+				w1_stage4.SetActive(false);
+				w1_stage5.SetActive(false);
+
+				w2_stage1.SetActive(false);
+				w2_stage2.SetActive(false);
+				w2_stage3.SetActive(false);
+				w2_stage4.SetActive(false);
+				w2_stage5.SetActive(false);
+
+				w3_stage1.SetActive(false);
+				w3_stage2.SetActive(false);
+				w3_stage3.SetActive(false);
+				w3_stage4.SetActive(false);
+				w3_stage5.SetActive(false);
+
+				w4_stage1.SetActive(false);
+				w4_stage2.SetActive(false);
+				w4_stage3.SetActive(false);
+				w4_stage4.SetActive(false);
+				w4_stage5.SetActive(false);
+
+				w5_stage1.SetActive(false);
+				w5_stage2.SetActive(false);
+				w5_stage3.SetActive(false);
+				w5_stage4.SetActive(false);
+				w5_stage5.SetActive(false);
+
 			}
 			if (cnt2 == 20)
 			{
-				stage1.SetActive(true);
-				stage2.SetActive(true);
-				stage3.SetActive(true);
-				stage4.SetActive(true);
-				stage5.SetActive(true);
+				w1_stage1.SetActive(true);
+				w1_stage2.SetActive(true);
+				w1_stage3.SetActive(true);
+				w1_stage4.SetActive(true);
+				w1_stage5.SetActive(true);
+
+				w2_stage1.SetActive(true);
+				w2_stage2.SetActive(true);
+				w2_stage3.SetActive(true);
+				w2_stage4.SetActive(true);
+				w2_stage5.SetActive(true);
+
+				w3_stage1.SetActive(true);
+				w3_stage2.SetActive(true);
+				w3_stage3.SetActive(true);
+				w3_stage4.SetActive(true);
+				w3_stage5.SetActive(true);
+
+				w4_stage1.SetActive(true);
+				w4_stage2.SetActive(true);
+				w4_stage3.SetActive(true);
+				w4_stage4.SetActive(true);
+				w4_stage5.SetActive(true);
+
+				w5_stage1.SetActive(true);
+				w5_stage2.SetActive(true);
+				w5_stage3.SetActive(true);
+				w5_stage4.SetActive(true);
+				w5_stage5.SetActive(true);
 			}
 			if (cnt2 == 40)
 			{
-				stage1.SetActive(false);
-				stage2.SetActive(false);
-				stage3.SetActive(false);
-				stage4.SetActive(false);
-				stage5.SetActive(false);
-				
+				w1_stage1.SetActive(false);
+				w1_stage2.SetActive(false);
+				w1_stage3.SetActive(false);
+				w1_stage4.SetActive(false);
+				w1_stage5.SetActive(false);
+
+				w2_stage1.SetActive(false);
+				w2_stage2.SetActive(false);
+				w2_stage3.SetActive(false);
+				w2_stage4.SetActive(false);
+				w2_stage5.SetActive(false);
+
+				w3_stage1.SetActive(false);
+				w3_stage2.SetActive(false);
+				w3_stage3.SetActive(false);
+				w3_stage4.SetActive(false);
+				w3_stage5.SetActive(false);
+
+				w4_stage1.SetActive(false);
+				w4_stage2.SetActive(false);
+				w4_stage3.SetActive(false);
+				w4_stage4.SetActive(false);
+				w4_stage5.SetActive(false);
+
+				w5_stage1.SetActive(false);
+				w5_stage2.SetActive(false);
+				w5_stage3.SetActive(false);
+				w5_stage4.SetActive(false);
+				w5_stage5.SetActive(false);
+
 			}
 			if (cnt2 == 60)
 			{
-				stage1.SetActive(true);
-				stage2.SetActive(true);
-				stage3.SetActive(true);
-				stage4.SetActive(true);
-				stage5.SetActive(true);
-				
+				w1_stage1.SetActive(true);
+				w1_stage2.SetActive(true);
+				w1_stage3.SetActive(true);
+				w1_stage4.SetActive(true);
+				w1_stage5.SetActive(true);
+
+				w2_stage1.SetActive(true);
+				w2_stage2.SetActive(true);
+				w2_stage3.SetActive(true);
+				w2_stage4.SetActive(true);
+				w2_stage5.SetActive(true);
+
+				w3_stage1.SetActive(true);
+				w3_stage2.SetActive(true);
+				w3_stage3.SetActive(true);
+				w3_stage4.SetActive(true);
+				w3_stage5.SetActive(true);
+
+				w4_stage1.SetActive(true);
+				w4_stage2.SetActive(true);
+				w4_stage3.SetActive(true);
+				w4_stage4.SetActive(true);
+				w4_stage5.SetActive(true);
+
+				w5_stage1.SetActive(true);
+				w5_stage2.SetActive(true);
+				w5_stage3.SetActive(true);
+				w5_stage4.SetActive(true);
+				w5_stage5.SetActive(true);
+
 			}
 			if (cnt2 == 80)
 			{
-				stage1.SetActive(false);
-				stage2.SetActive(false);
-				stage3.SetActive(false);
-				stage4.SetActive(false);
-				stage5.SetActive(false);
+				w1_stage1.SetActive(false);
+				w1_stage2.SetActive(false);
+				w1_stage3.SetActive(false);
+				w1_stage4.SetActive(false);
+				w1_stage5.SetActive(false);
+
+				w2_stage1.SetActive(false);
+				w2_stage2.SetActive(false);
+				w2_stage3.SetActive(false);
+				w2_stage4.SetActive(false);
+				w2_stage5.SetActive(false);
+
+				w3_stage1.SetActive(false);
+				w3_stage2.SetActive(false);
+				w3_stage3.SetActive(false);
+				w3_stage4.SetActive(false);
+				w3_stage5.SetActive(false);
+
+				w4_stage1.SetActive(false);
+				w4_stage2.SetActive(false);
+				w4_stage3.SetActive(false);
+				w4_stage4.SetActive(false);
+				w4_stage5.SetActive(false);
+
+				w5_stage1.SetActive(false);
+				w5_stage2.SetActive(false);
+				w5_stage3.SetActive(false);
+				w5_stage4.SetActive(false);
+				w5_stage5.SetActive(false);
 				flag = true;
 			}
 			cnt2++;
