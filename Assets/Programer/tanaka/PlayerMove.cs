@@ -187,12 +187,7 @@ public class PlayerMove : MonoBehaviour
         NowMobiusColor = Mobius[NowMobius].GetComponent<MobiusColor>().GetNowColorNum();//松井君のスクリプトから変数取得
 
 
-        if (Input.GetKeyDown(KeyCode.C))//クリア処理実行させる
-        {
-            ClearOn();
-
-
-        }
+        
 
         if (!Clear)
         {
