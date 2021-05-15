@@ -15,6 +15,8 @@ public class SceneMove : MonoBehaviour
     const int LIGHT_ON = 10;
 
     public StageSelectCamera stageselectcam;
+	public FedeOut fedeout;
+
 
     bool Camera = false;
     bool Camera1 = false;
@@ -29,7 +31,9 @@ public class SceneMove : MonoBehaviour
         {
             stage_picture[i].SetActive(false);
         }
-    }
+		fedeout = GetComponent<FedeOut>();
+
+	}
 
     // Update is called once per frame
     void Update()
@@ -87,13 +91,16 @@ public class SceneMove : MonoBehaviour
 
         if (Controler.SubMitButtonFlg())
         {
-            StageSelect.LoadStage(Select_Scene, this);
+			fedeout.FedeOut_Update();
+			StageSelect.LoadStage(Select_Scene, this);
         }
-        if (Controler.GetCanselButtonFlg())
-        {
-            StageSelect.GoTitleScene(this);
-        }
-    }
+		if (Controler.GetCanselButtonFlg())
+		{
+			StageSelect.GoTitleScene(this);
+
+
+		}
+	}
 
     // @name   AllStageLightOff
     // @brief  すべてのステージのライトをオフにする

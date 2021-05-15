@@ -39,9 +39,9 @@ public static class StageSelect
 
    static public void LoadStage(int _num, MonoBehaviour monoBehaviour)
     {
-        m_fade.gameObject.SetActive(true);
-        m_fade.StartFadeOut();
-        monoBehaviour.StartCoroutine(Loading("Stage " + _num));
+      m_fade.gameObject.SetActive(true);
+      m_fade.StartFadeOut();
+       monoBehaviour.StartCoroutine(Loading("Stage " + _num));
     }
 
     // @name   Loading
