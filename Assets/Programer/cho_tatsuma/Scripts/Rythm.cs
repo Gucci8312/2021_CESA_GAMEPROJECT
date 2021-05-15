@@ -213,58 +213,17 @@ public class Rythm : MonoBehaviour
             m_EmobiusBeatFlag = true;
             m_beatCount++;
             m_changeColorScript.ChangeColor_Flame();
-           // Debug.Log("壁に当たった時間：　"+(fram_bgmm - time));
-            //rythmCheckFlag = true;
-            if (m_beatCount >= EnemyTroughRing)
-            {
-                //田中くんのスクリプトにおくるよう
-                Invoke("TurnRythmSendCheckFlagTrue", 0.4f);
-            }
+            rythmSendCheckFlag = true;
             time = Time.timeSinceLevelLoad;
-            //     Invoke("TurnFalseSuccessCheck", SetSuccessInputTime);
         }
     }
-    // @name   TurnRythmSendCheckFlagTrue
-    // @brief  敵の移動処理に使用
-    private void TurnRythmSendCheckFlagTrue()
+
+    private void OnTriggerExit(Collider collision)
     {
-        rythmSendCheckFlag = true;
-        m_beatCount = 0;
-    }
-
-    // @name   TurnRythmSendCheckFlagTrue
-    // @brief   リングがキー入力受付判定を越えた時 
-    private void TurnFalseSuccessCheck()
-    {
-        if (rythmCheckFlag)
-            rythmCheckFlag = false;
-    }
-
-    // @name   LRTrigger
-    // @brief  LRトリガー処理　（松井君実装） 
-    private bool LRTrigger()
-    {
-        float LTrigger = Input.GetAxis("L_Trigger");//０～１
-        float RTrigger = Input.GetAxis("R_Trigger");//０～１
-
-
-        if (!OneLRTriggerFlag)
+        //壁に当たった＝ビートのタイミングが来た
+        if (collision.gameObject.tag == "Flag")
         {
-            if (LTrigger == 1 || RTrigger == 1)
-            {
-                OneLRTriggerFlag = true;
-                return true;
-            }
+            rythmSendCheckFlag = false;
         }
-        else
-        {
-            if (LTrigger == 0 && RTrigger == 0)
-            {
-                OneLRTriggerFlag = false;
-            }
-        }
-
-        return false;
     }
-
 }
