@@ -9,8 +9,8 @@ using UnityEngine.SceneManagement;
 // @name   TitleManager
 // @brief  タイトルを管理するクラス
 public class TitleManager : MonoBehaviour
-{   
-    [SerializeField]  GameObject m_soundManagerPrefab;          //生成用プレハブ
+{
+    [SerializeField] GameObject m_soundManagerPrefab;          //生成用プレハブ
     public string titleBgm;                                     //タイトルBGM
 
     public GameObject[] mobiusArray;                            //メビウスの輪格納配列
@@ -20,8 +20,9 @@ public class TitleManager : MonoBehaviour
     [SerializeField]
     GameObject m_pressTextObj;
     FadeTitleText m_fadeTextScript;
+    public GameObject Window;
 
-  
+
     private void Awake()
     {
         GameObject m_soundManager = GameObject.Find("SoundManager(Clone)");     //サウンドマネージャー検索
@@ -53,13 +54,13 @@ public class TitleManager : MonoBehaviour
 
     private void Update()
     {
-        if (m_fadeTextScript.gameStartFlg)
+        if (m_fadeTextScript.gameStartFlg && Window.activeSelf == false)
         {
             if (Controler.SubMitButtonFlg())
             {
                 StageSelect.GoStageSelect(this);
             }
-            else if(Controler.CanselButtonFlg())
+            else if (Controler.GetCanselButtonFlg())
             {
                 UnityEngine.Application.Quit();
             }
@@ -94,6 +95,11 @@ public class TitleManager : MonoBehaviour
             mobius.GetComponent<MobiusAttachPos>().m_nowMobiusNo = 0;
             mobiusArray[2].GetComponent<TitleMoveMobius>().enabled = false;
             mobiusArray[3].GetComponent<TitleMoveMobius>().enabled = false;
+        }
+
+        if (Controler.GetCanselButtonFlg())
+        {
+            Window.SetActive(true);
         }
     }
 }

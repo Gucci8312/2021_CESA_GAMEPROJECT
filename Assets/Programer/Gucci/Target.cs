@@ -41,7 +41,7 @@ public class Target : MonoBehaviour
         {
            // if (!player.GetStartFlg())
             {
-                //if (this.transform.parent.name == "Mobius (" + player.GetNowMobiusNum() + ")")//同じメビウス状にいるかどうか
+                if (!other.gameObject.GetComponent<PlayerMove>().GetJumpNow())//プレイヤーがジャンプして取れちゃうバグを制限
                 {
                     Debug.Log("チェックポイント通過");
                     CheckPointUi.CheckPointNum++;
@@ -53,25 +53,7 @@ public class Target : MonoBehaviour
         }
     }
 
-    // 衝突時
-    //private void OnCollisionEnter(Collision other)
-    //{
-    //    // プレイヤーに当たった時
-    //    if (other.gameObject.tag == "Player")
-    //    {
-    //        if (!player.GetStartFlg())
-    //        {
-    //            if (this.transform.parent.name == "Mobius (" + player.GetNowMobiusNum() + ")")//同じメビウス状にいるかどうか
-    //            {
-    //                Debug.Log("チェックポイント通過");
-    //                CheckPointUi.CheckPointNum++;
-    //                Destroy(this.gameObject);
-    //                ColFlg = true;
-    //               // ColPos = other.ClosestPointOnBounds(this.transform.position);
-    //            }
-    //        }
-    //    }
-    //}
+   
 
     public bool GetColFlg()
     {

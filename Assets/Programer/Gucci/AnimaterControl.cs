@@ -77,4 +77,13 @@ public class AnimaterControl : MonoBehaviour
             Run();
         }
     }
+
+    public void GameClearRightVer()
+    {
+        Anim.SetBool("GameClearRFlg", true);
+    }   
+    public void GameClearLightVer()
+    {
+        Anim.SetBool("GameClearLFlg", true);
+    }
 }

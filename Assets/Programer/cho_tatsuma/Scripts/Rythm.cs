@@ -77,8 +77,8 @@ public class Rythm : MonoBehaviour
         // stageBGM.loop = true;
 
         ////フレームマネージャーからソースを取得
-        //m_frameManager = GameObject.Find("FrameManager");
-        //m_changeColorScript = m_frameManager.GetComponent<ChangeFlameColor>();
+        m_frameManager = GameObject.Find("FrameManager");
+        m_changeColorScript = m_frameManager.GetComponent<ChangeFlameColor>();
     }
 
     private void Awake()
@@ -113,7 +113,7 @@ public class Rythm : MonoBehaviour
         {
             m_startTime = Time.timeSinceLevelLoad;
             m_sphere.transform.position = new Vector3(m_currentPos.x, m_currentPos.y, m_currentPos.z);
-            if (SoundManager.m_bgmAudioSource.time > 0.0001f)
+            if (SoundManager.m_bgmAudioSource.time > 0.1f)
             {
                 m_soundStopFlg = true;
             }
@@ -188,7 +188,7 @@ public class Rythm : MonoBehaviour
                 if(Controler.GetJumpButtonFlg() || Controler.GetRythmButtonFlg())
                 {
 					m_changeColorScript.Flame_Success_Color();
-					//Instantiate(successPrefab);
+                    //Instantiate(successPrefab);
 
                 }
             }
@@ -198,7 +198,7 @@ public class Rythm : MonoBehaviour
                 if (Controler.GetJumpButtonFlg()|| Controler.GetRythmButtonFlg())
                 {
 					m_changeColorScript.Flame_Miss_Color();
-					//Instantiate(missPrefab);
+                    //Instantiate(missPrefab);
                 }
             }
             yield return new WaitForSeconds(0.01f);
@@ -213,7 +213,7 @@ public class Rythm : MonoBehaviour
             m_EmobiusBeatFlag = true;
             m_beatCount++;
             m_changeColorScript.ChangeColor_Flame();
-            Debug.Log("壁に当たった時間：　"+(fram_bgmm - time));
+           // Debug.Log("壁に当たった時間：　"+(fram_bgmm - time));
             //rythmCheckFlag = true;
             if (m_beatCount >= EnemyTroughRing)
             {

@@ -34,7 +34,7 @@ public static class StageSelect
     {
         if (Time.timeScale == 0f) Time.timeScale = 1.0f;
         m_fade.StartFadeOut();
-        monoBehaviour.StartCoroutine(Loading("TittleScene"));
+        monoBehaviour.StartCoroutine(Loading("TitleScene"));
     }
 
    static public void LoadStage(int _num, MonoBehaviour monoBehaviour)

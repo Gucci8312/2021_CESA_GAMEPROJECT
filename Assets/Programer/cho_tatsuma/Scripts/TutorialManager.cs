@@ -16,11 +16,13 @@ public class TutorialManager : MonoBehaviour
 
     GameObject player;
     GameObject enemy;
+    GameObject[] mobius;
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player");
         enemy = GameObject.Find("Enemy");
+        mobius = GameObject.FindGameObjectsWithTag("Mobius");
     }
 
     // Update is called once per frame
@@ -29,33 +31,49 @@ public class TutorialManager : MonoBehaviour
         if (checkPoint1.GetComponent<CheckVideoEvent>().checkCollider)
         {
             videoPanel1.SetActive(true);
-            player.GetComponent<PlayerMove>().enabled = false;
-            enemy.GetComponent<EnemyMove>().enabled = false;
-            enemy.GetComponent<EnemyMobius>().enabled = false;
+            ScriptsOff();
             checkPoint1.GetComponent<CheckVideoEvent>().checkCollider = false;
         }
         else if (checkPoint2.GetComponent<CheckVideoEvent>().checkCollider)
         {
             videoPanel2.SetActive(true);
-            player.GetComponent<PlayerMove>().enabled = false;
-            enemy.GetComponent<EnemyMove>().enabled = false;
-            enemy.GetComponent<EnemyMobius>().enabled = false;
+            ScriptsOff();
             checkPoint2.GetComponent<CheckVideoEvent>().checkCollider = false;
         }
         if (videoPanel1.GetComponentInChildren<VideoPlay>().endVideo)
         {
             videoPanel1.SetActive(false);
-            player.GetComponent<PlayerMove>().enabled = true;
-            enemy.GetComponent<EnemyMove>().enabled = true;
-            enemy.GetComponent<EnemyMobius>().enabled = true;
+            ScriptsOn();
+            videoPanel1.GetComponentInChildren<VideoPlay>().endVideo = false;
         }
         else if (videoPanel2.GetComponentInChildren<VideoPlay>().endVideo)
         {
             videoPanel2.SetActive(false);
-            player.GetComponent<PlayerMove>().enabled = true;
-            enemy.GetComponent<EnemyMove>().enabled = true;
-            enemy.GetComponent<EnemyMobius>().enabled = true;
+            ScriptsOn();
+            videoPanel2.GetComponentInChildren<VideoPlay>().endVideo = false;
             this.gameObject.SetActive(false);
         }
+    }
+
+
+    // @name   ScriptsOff
+    // @brief  特定のスクリプトを切りたい用
+    void ScriptsOff()
+    {
+        player.GetComponent<PlayerMove>().enabled = false;
+        enemy.GetComponent<EnemyMove>().enabled = false;
+        for (int i = 0; i < mobius.Length; i++)
+            mobius[i].GetComponent<EnemyMobius>().enabled = false;
+
+    }
+
+    // @name   ScriptsOn
+    // @brief  切ったスクリプトをONにする。
+    void ScriptsOn()
+    {
+        player.GetComponent<PlayerMove>().enabled = true;
+        enemy.GetComponent<EnemyMove>().enabled = true;
+        for (int i = 0; i < mobius.Length; i++)
+            mobius[i].GetComponent<EnemyMobius>().enabled = true;
     }
 }

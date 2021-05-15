@@ -37,22 +37,22 @@ public class SceneMove : MonoBehaviour
         if (Controler.GetRightButtonFlg())
         //if(Input.GetKeyDown(KeyCode.RightArrow))
         {
-            if (Select_Scene != 20)
+            if (Select_Scene != 25)
             {
                 Select_Scene++;
             }
-            if (Select_Scene == 20)
+            if (Select_Scene == 25)
             {
                 Camera = false;
             }
-            if (Select_Scene % 4 == 1)
+            if (Select_Scene % 5 == 1)
             {
                 Camera = true;
             }
 
         }
-         else if (Controler.GetLeftButtonFlg())
-       // else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (Controler.GetLeftButtonFlg())
+        // else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             if (Select_Scene != 0)
             {
@@ -64,7 +64,7 @@ public class SceneMove : MonoBehaviour
                 Select_Scene = 1;
                 Camera1 = false;
             }
-            if (Select_Scene % 4 == 0)
+            if (Select_Scene % 5 == 0)
             {
                 Camera1 = true;
             }
@@ -85,9 +85,16 @@ public class SceneMove : MonoBehaviour
         stageNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
         StagePictureActiveTrue(Select_Scene - 1);
 
-        if (Controler.SubMitButtonFlg())
+        if(!gameObject.GetComponent<AreaSelectManeger>().GetMenuFlg())
         {
-            StageSelect.LoadStage(Select_Scene, this);
+            if (Controler.SubMitButtonFlg())
+            {
+                StageSelect.LoadStage(Select_Scene, this);
+            }
+            if (Controler.GetCanselButtonFlg())
+            {
+                StageSelect.GoTitleScene(this);
+            }
         }
     }
 

@@ -20,16 +20,16 @@ public class MoveLine : MonoBehaviour
 
     public float MoveDistance;                                               //移動距離
     public MoveVector MoveVec;                                               //移動方向
-    bool MoveFlag = false;                                                           //移動させるかどうか
-    bool OuhukuFlag = true;                                                 //true:行き　false:帰り
+    bool MoveFlag = false;                                                   //移動させるかどうか
+    bool OuhukuFlag = false;                                                  //true:行き　false:帰り
 
     private bool BeatFlag;                                                   //ビートが指定した回数になったかどうか
     public int MaxBeatNum = 5;                                               //ビート最大数指定
     float BeatCount = 0;
 
-    List<GameObject> PutOnMobius = new List<GameObject>();            //線上に乗っているメビウスオブジェクト
-    List<MoveMobius> Mm = new List<MoveMobius>();
-    List<LinePutMobius> Lpm = new List<LinePutMobius>();
+   /* [HideInInspector] */public List<GameObject> PutOnMobius = new List<GameObject>();            //線上に乗っているメビウスオブジェクト
+    [HideInInspector] public List<MoveMobius> Mm = new List<MoveMobius>();
+    [HideInInspector] public List<LinePutMobius> Lpm = new List<LinePutMobius>();
 
     GameObject RythmObj;                                                                            //リズムオブジェクト
     Rythm rythm;                                                                                    //リズムスクリプト取得用
@@ -51,7 +51,8 @@ public class MoveLine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Cl.MoveLineFlag = MoveFlag;
+        Cl.MoveLineFlag = true;
+        Cl.MoveFlag = MoveFlag;
 
         PutOnMobiusSetting();
         MovePosSet();
@@ -62,6 +63,7 @@ public class MoveLine : MonoBehaviour
 
     }
 
+    //ビートをカウントする
     private void BeatCounter()
     {
         if (BeatCount >= MaxBeatNum)
@@ -113,24 +115,25 @@ public class MoveLine : MonoBehaviour
             //移動開始
             MoveFlag = true;
             Nowtime = 0;
+            OuhukuFlag = !OuhukuFlag;
 
         }
 
-        if (MoveFlag)
+        if (MoveFlag)//移動させる
         {
             bool EndFlag = false;//移動が終わったかどうか
 
-            if (Nowtime >= GoalMovetime)
+            if (Nowtime >= GoalMovetime)//時間になったら
             {
                 Nowtime = GoalMovetime;
                 EndFlag = true;
             }
 
-            if (OuhukuFlag)
+            if (OuhukuFlag)//行き
             {
                 this.transform.position = SenkeiHokan(StartMovePos, EndMovePos, Nowtime, 0, GoalMovetime);
             }
-            else
+            else//帰り
             {
                 this.transform.position = SenkeiHokan(EndMovePos, StartMovePos, Nowtime, 0, GoalMovetime);
             }
@@ -155,22 +158,54 @@ public class MoveLine : MonoBehaviour
             if (EndFlag)
             {
                 //移動終了
-                OuhukuFlag = !OuhukuFlag;
                 MoveFlag = false;
 
-                if (PutOnMobius.Count != 0)
-                {
-                    for (int i = 0; i < PutOnMobius.Count; i++)
-                    {
-                        PutOnMobius[i].GetComponent<MoveMobius>().MoveLineObj = null;
-                    }
-                    PutOnMobius.Clear();
-                    Mm.Clear();
-                    Lpm.Clear();
-                }
+                //if (PutOnMobius.Count != 0)
+                //{
+                //    for (int i = 0; i < PutOnMobius.Count; i++)
+                //    {
+                //        PutOnMobius[i].GetComponent<MoveMobius>().MoveLineObj = null;
+                //    }
+                //    PutOnMobius.Clear();
+                //    Mm.Clear();
+                //    Lpm.Clear();
+                //}
 
             }
 
+        }
+        else
+        {
+            //if (PutOnMobius.Count != 0)
+            //{
+            //    for (int i = 0; i < PutOnMobius.Count; i++)
+            //    {
+            //        PutOnMobius[i].GetComponent<MoveMobius>().MoveLineObj = null;
+            //    }
+            //    PutOnMobius.Clear();
+            //    Mm.Clear();
+            //    Lpm.Clear();
+            //}
+        }
+    }
+
+    public void PutMobiusOnOff(bool flag,GameObject _obj)
+    {
+        MoveMobius otherMm = _obj.GetComponent<MoveMobius>();
+
+        if (flag)
+        {
+            otherMm.MoveLineObj = this.gameObject;
+            PutOnMobius.Add(_obj);
+            Mm.Add(otherMm);
+            Lpm.Add(_obj.GetComponent<LinePutMobius>());
+        }
+        else
+        {
+            otherMm.MoveLineObj = null;
+            PutOnMobius.Remove(_obj);
+            Mm.Remove(otherMm);
+            Lpm.Remove(_obj.GetComponent<LinePutMobius>());
         }
     }
 
@@ -194,6 +229,11 @@ public class MoveLine : MonoBehaviour
                 break;
         }
 
+        if (!OuhukuFlag)
+        {
+            vec = -vec;
+        }
+
         if (Lpm.Count != 0)
         {
             for (int i = 0; i < Lpm.Count; i++)
@@ -214,25 +254,25 @@ public class MoveLine : MonoBehaviour
         return pos;
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.CompareTag("Mobius"))
-        {
-            MoveMobius otherMm = other.gameObject.GetComponent<MoveMobius>();
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Mobius"))
+    //    {
+    //        MoveMobius otherMm = other.gameObject.GetComponent<MoveMobius>();
 
-            if (!MoveFlag)//線が動いていないとき
-            {
-                if (otherMm.MoveLineObj == null)//当たったメビウスがまだどの動く線にくっつくか決めてなければ
-                {
-                    otherMm.MoveLineObj = this.gameObject;
-                    PutOnMobius.Add(other.gameObject);
-                    Mm.Add(otherMm);
-                    Lpm.Add(other.GetComponent<LinePutMobius>());
-                }
+    //        if (!MoveFlag)//線が動いていないとき
+    //        {
+    //            if (otherMm.MoveLineObj == null)//当たったメビウスがまだどの動く線にくっつくか決めてなければ
+    //            {
+    //                otherMm.MoveLineObj = this.gameObject;
+    //                PutOnMobius.Add(other.gameObject);
+    //                Mm.Add(otherMm);
+    //                Lpm.Add(other.GetComponent<LinePutMobius>());
+    //            }
 
-            }
-        }
-    }
+    //        }
+    //    }
+    //}
 
     //private void OnTriggerExit(Collider other)
     //{
@@ -242,8 +282,8 @@ public class MoveLine : MonoBehaviour
 
     //        if (!MoveFlag)//線が動いていないとき
     //        {
-    //            if (otherMm.MoveLineObj != null)//何かしらくっついている場合
-    //            {
+    //            //if (otherMm.MoveLineObj != null)//何かしらくっついている場合
+    //            //{
     //                if (otherMm.MoveLineObj == this.gameObject)//メビウスがくっついている線が自身であれば
     //                {
     //                    //Debug.Log(this.name + "から降りた");
@@ -252,7 +292,7 @@ public class MoveLine : MonoBehaviour
     //                    Mm.Remove(otherMm);
     //                    Lpm.Remove(other.GetComponent<LinePutMobius>());
     //                }
-    //            }
+    //            //}
     //        }
     //    }
     //}

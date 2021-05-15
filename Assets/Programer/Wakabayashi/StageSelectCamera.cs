@@ -38,13 +38,25 @@ public class StageSelectCamera : MonoBehaviour
             if (back)
             {
                 position -= Speed;
+                if (position <= 0)
+                {
+                    position = 0;
+                    back1 = false;
+                }
             }
-            if (position <= 0)
+            else
             {
-                position = 0;
-                back = false;
+                if (position >= 0)
+                {
+                    position = 0;
+                    back = true;
+                }
+                else
+                {
+                    position += Speed;
+                }
             }
-            transform.position = new Vector3(position, Cam.transform.position.y, -10);
+            transform.position = new Vector3(position, Cam.transform.position.y, -11);
         }
 
         if (stagenumber == 1)
@@ -70,7 +82,7 @@ public class StageSelectCamera : MonoBehaviour
                     position += Speed;
                 }
             }
-            transform.position = new Vector3(position, Cam.transform.position.y, -10);
+            transform.position = new Vector3(position, Cam.transform.position.y, -11);
         }
 
         if (stagenumber == 2)
@@ -97,7 +109,7 @@ public class StageSelectCamera : MonoBehaviour
                     position += Speed;
                 }
             }
-            transform.position = new Vector3(position, Cam.transform.position.y, -10);
+            transform.position = new Vector3(position, Cam.transform.position.y, -11);
         }
 
         if (stagenumber == 3)
@@ -123,7 +135,7 @@ public class StageSelectCamera : MonoBehaviour
                     position += Speed;
                 }
             }
-            transform.position = new Vector3(position, Cam.transform.position.y, -10);
+            transform.position = new Vector3(position, Cam.transform.position.y, -11);
         }
 
         if (stagenumber == 4)
@@ -149,7 +161,7 @@ public class StageSelectCamera : MonoBehaviour
                     position += Speed;
                 }
             }
-            transform.position = new Vector3(position, Cam.transform.position.y, -10);
+            transform.position = new Vector3(position, Cam.transform.position.y, -11);
         }
 
         if (plus)

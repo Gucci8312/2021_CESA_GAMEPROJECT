@@ -108,7 +108,7 @@ public class PlayerMove : MonoBehaviour
         RythmObj = GameObject.Find("rythm_circle");                                                   //リズムオブジェクト取得
         this.rythm = RythmObj.GetComponent<Rythm>();                                                  //リズムのコード
 
-        PlayerAnimation = GameObject.Find("PLAYERModel").GetComponent<AnimaterControl>();
+        PlayerAnimation = GameObject.Find("PlayerModel").GetComponent<AnimaterControl>();
 
         DushEffect = transform.GetChild(1).gameObject;
         SmokeEffect = transform.GetChild(2).gameObject;
@@ -301,11 +301,7 @@ public class PlayerMove : MonoBehaviour
                         DushEffect.SetActive(false);
 
                     }
-
-                    if (!SpacePress && !TimingInput)
-                    {
-                        Instantiate(missPrefab);
-                    }
+                    
 
                 }
 
@@ -318,11 +314,14 @@ public class PlayerMove : MonoBehaviour
 
                     PlayerAnimation.Walk();
                     DushEffect.SetActive(false);
+                    Instantiate(missPrefab);
+
                 }
 
                 if (Controler.GetJumpButtonFlg())
                 {
                     JumpMashing = true;
+                    Instantiate(missPrefab);
                 }
 
 
@@ -698,6 +697,8 @@ public class PlayerMove : MonoBehaviour
         //        Stop = true;
         //    }
         //}
+        DushEffect.SetActive(false);
+        SmokeEffect.SetActive(false);
         transform.position = new Vector3(0, 0, -445);
         this.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
         Stop = true;
@@ -766,7 +767,9 @@ public class PlayerMove : MonoBehaviour
                                     if (CollisionOn)
                                     {
                                         CollisionState = true;
-                                        
+
+                                        DushEffect.SetActive(false);
+                                        SmokeEffect.SetActive(false);
                                     }
                                 }
                             }
