@@ -25,7 +25,9 @@ public class GameStart : MonoBehaviour
         {
             enemy[idx].GetComponent<EnemyMove>().enabled = false;
         }
-    }
+
+		Invoke("Active", StartTime);
+	}
 
     // Update is called once per frame
     void Update()
@@ -56,7 +58,7 @@ public class GameStart : MonoBehaviour
 			Blinking_True();
 		}
 		cnt++;
-		//Invoke("Active",StartTime);
+		
     }
 
     void Active()
