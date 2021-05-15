@@ -15,7 +15,7 @@ public class SceneMove : MonoBehaviour
     const int LIGHT_ON = 10;
 
     public StageSelectCamera stageselectcam;
-	public FedeOut fedeout;
+    public FedeOut fedeout;
 
 
     bool Camera = false;
@@ -23,26 +23,27 @@ public class SceneMove : MonoBehaviour
     [SerializeField] GameObject[] stage_picture;
 
     public int Select_Scene;
-	bool Activeflag;
+    bool Activeflag;
+
     // Start is called before the first frame update
     void Start()
     {
-		Activeflag=true;
-		Select_Scene = 1;
+        Activeflag = true;
+        Select_Scene = 1;
         for (int i = 0; i < stage_picture.Length; i++)
         {
             stage_picture[i].SetActive(false);
         }
-		fedeout = GetComponent<FedeOut>();
+        fedeout = GetComponent<FedeOut>();
 
-	}
+    }
 
     // Update is called once per frame
     void Update()
     {
-		fedeout.FedeOut_Update();
+        fedeout.FedeOut_Update();
 
-		if (Controler.GetRightButtonFlg())
+        if (Controler.GetRightButtonFlg())
         //if(Input.GetKeyDown(KeyCode.RightArrow))
         {
             if (Select_Scene != 20)
@@ -93,23 +94,26 @@ public class SceneMove : MonoBehaviour
         stageNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
         StagePictureActiveTrue(Select_Scene - 1);
 
-        if (Controler.SubMitButtonFlg())
+        if (!gameObject.GetComponent<AreaSelectManeger>().GetMenuFlg())
         {
-			Activeflag = false;
-			AllStagePictureSetActiveFlase();
-			fedeout.FedeOut_On();
-			
-		}
+            if (Controler.SubMitButtonFlg())
+            {
+                Activeflag = false;
+                AllStagePictureSetActiveFlase();
+                fedeout.FedeOut_On();
 
-		if (Controler.GetCanselButtonFlg())
-		{
-			StageSelect.GoTitleScene(this);
-		}
-		if (fedeout.Getflag())
-		{
-			StageSelect.LoadStage(Select_Scene, this);
-		}
-	}
+            }
+
+            if (Controler.GetCanselButtonFlg())
+            {
+                StageSelect.GoTitleScene(this);
+            }
+            if (fedeout.Getflag())
+            {
+                StageSelect.LoadStage(Select_Scene, this);
+            }
+        }
+    }
 
     // @name   AllStageLightOff
     // @brief  すべてのステージのライトをオフにする
@@ -136,7 +140,7 @@ public class SceneMove : MonoBehaviour
     void StagePictureActiveTrue(int _num)
     {
 
-        if (!stage_picture[_num].activeSelf&&Activeflag==true)
+        if (!stage_picture[_num].activeSelf && Activeflag == true)
         {
             AllStagePictureSetActiveFlase();
             stage_picture[_num].GetComponentInChildren<MaterialChangeColor>().Init();
