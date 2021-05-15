@@ -89,6 +89,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     GameObject successPrefab;
 
+    bool ClearOne;
+
     private void OnValidate()
     {
         HipDropCollisionPos = new Vector3(this.transform.position.x, this.transform.position.y - HipDropColPos, this.transform.position.z);
@@ -125,6 +127,7 @@ public class PlayerMove : MonoBehaviour
         SpeedUpMashing = false;
         JumpMashing = false;
         Clear = false;
+        ClearOne = false;
         Stop = false;
 
         //初期位置設定
@@ -186,8 +189,10 @@ public class PlayerMove : MonoBehaviour
 
         NowMobiusColor = Mobius[NowMobius].GetComponent<MobiusColor>().GetNowColorNum();//松井君のスクリプトから変数取得
 
-
-        
+        if (Input.GetKey(KeyCode.C))
+        {
+            ClearOn();
+        }
 
         if (!Clear)
         {
@@ -671,24 +676,32 @@ public class PlayerMove : MonoBehaviour
                 angle = 0;
                 PositionSum();
                 HipDrop = true;
-                transform.position = new Vector3(0, 20, -445);
+                transform.position = new Vector3(0, 100, -445);
                 
             }
         }
         else//ヒップドロップ中
         {
-            float y = transform.position.y;
-            y -= (HipDropSpeed * 100f) * Time.deltaTime;
-            transform.position = new Vector3(0, y, -445);
 
+            if (!ClearOne)
+            {
+                PlayerAnimation.HipDrop();
+                ClearOne = true;
+            }
+
+
+            float y = transform.position.y;
+            y -= (HipDropSpeed * 15f) * Time.deltaTime;
+            transform.position = new Vector3(0, y, -445);
+            
             if (y < 0)
             {
                 Stop = true;
 
-                this.transform.Rotate(0, 90, 0);
-                
+                //this.transform.Rotate(0, 90, 0);
+
                 PlayerAnimation.GameClearRightVer();
-               
+
             }
         }
 
