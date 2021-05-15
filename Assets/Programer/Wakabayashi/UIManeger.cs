@@ -47,10 +47,18 @@ public class UIManeger : MonoBehaviour
         {
             Debug.Log(" ゲームクリア");
 
+            
+
             GameClear.active = true;
-            _camera.OnZoom();                 //カメラズーム
-                                              //        Time.timeScale = 0.0f;
-            PauseManager.OnPause();
+            //_camera.OnZoom();                 //カメラズーム
+            //        Time.timeScale = 0.0f;
+
+            Player.GetComponent<PlayerMove>().ClearOn();//プレイヤーをクリアの動きに切り替え
+            if (Player.GetComponent<PlayerMove>().GetStop())//プレイヤーのクリアの動き終わった
+            {
+                PauseManager.OnPause();
+            }
+
             SoundManager.StopBGM();
         }
 
