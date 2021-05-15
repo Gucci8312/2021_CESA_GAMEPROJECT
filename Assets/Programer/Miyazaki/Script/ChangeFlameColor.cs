@@ -84,9 +84,9 @@ public class ChangeFlameColor : MonoBehaviour
 		cnt = 0;
 		//_DirectionLight.GetComponent<Light>().color = mat;
 		//_DirectionLight.GetComponent<Light>().intensity = DirectionLightPower;
-		_material.SetColor("_Color", new Color(0.0f, 0.7f, 0.0f));
-		_material2.SetColor("_Color", new Color(0.0f, 0.7f, 0.7f));
-		_material3.SetColor("_Color", new Color(0.7f, 0.0f, 0.7f));
+		_material.SetColor("_Color", new Color(0.0f, 1.0f, 0.0f));
+		_material2.SetColor("_Color", new Color(0.0f, 1.0f, 1.0f));
+		_material3.SetColor("_Color", new Color(1.0f, 0.0f, 1.0f));
 		_PointLight1.GetComponent<Light>().intensity = PointLightPower;
 		_PointLight2.GetComponent<Light>().intensity = PointLightPower;
 		_PointLight3.GetComponent<Light>().intensity = PointLightPower;
