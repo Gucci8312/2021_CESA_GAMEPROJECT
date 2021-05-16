@@ -5,6 +5,7 @@ using UnityEngine;
 public class CheckVideoEvent : MonoBehaviour
 {
     public bool checkCollider;
+    bool onece = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,9 +20,10 @@ public class CheckVideoEvent : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if(other.tag == "Player" && !onece)
         {
             checkCollider = true;
+            onece = true;
         }
     }
 }

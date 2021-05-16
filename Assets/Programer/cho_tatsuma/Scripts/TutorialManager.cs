@@ -1,18 +1,19 @@
 ﻿// @file   TutorialManager.cs
-// @brief  
+// @brief  チュートリアル時のビデオパネルの操作定義クラス
 // @author T,Cho
 // @date   2021/05/04 作成
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// @name   TutorialManager
+// @brief  チュートリアル時のビデオパネルの操作定義
 public class TutorialManager : MonoBehaviour
 {
-    [SerializeField] GameObject videoPanel1;
-    [SerializeField] GameObject videoPanel2;
+    [SerializeField] GameObject[] videoPanel;
 
-    [SerializeField] GameObject checkPoint1;
-    [SerializeField] GameObject checkPoint2;
+    [SerializeField] GameObject[] checkPoint;
 
     GameObject player;
     GameObject enemy;
@@ -28,34 +29,53 @@ public class TutorialManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (checkPoint1.GetComponent<CheckVideoEvent>().checkCollider)
+        //すべてのチェックポイントにキャラクターが触れているかチェック
+        for(int idx  = 0; idx < checkPoint.Length; idx++)
         {
-            videoPanel1.SetActive(true);
-            ScriptsOff();
-            checkPoint1.GetComponent<CheckVideoEvent>().checkCollider = false;
+            CheckPointColliderCheck(idx);
         }
-        else if (checkPoint2.GetComponent<CheckVideoEvent>().checkCollider)
+
+        //ビデオが終了したかどうかをチェック
+        for (int idx = 0; idx < checkPoint.Length; idx++)
         {
-            videoPanel2.SetActive(true);
-            ScriptsOff();
-            checkPoint2.GetComponent<CheckVideoEvent>().checkCollider = false;
-        }
-        if (videoPanel1.GetComponentInChildren<VideoPlay>().endVideo)
-        {
-            videoPanel1.SetActive(false);
-            ScriptsOn();
-            videoPanel1.GetComponentInChildren<VideoPlay>().endVideo = false;
-        }
-        else if (videoPanel2.GetComponentInChildren<VideoPlay>().endVideo)
-        {
-            videoPanel2.SetActive(false);
-            ScriptsOn();
-            videoPanel2.GetComponentInChildren<VideoPlay>().endVideo = false;
-            this.gameObject.SetActive(false);
+            CheckVideoEnd(idx);
         }
     }
 
 
+    // @name   ActiveUpPanel
+    // @brief  ビデオ終了時パネルが上に上がるようにする
+    void ActiveUpPanel(int _idx)
+    {
+        videoPanel[_idx].GetComponent<UpPanel>().enabled = true;
+        videoPanel[_idx].GetComponent<DownPanel>().enabled = false; //同時にダウンパネルのアクティブを消す
+    }
+
+    // @name   CheckPointColliderCheck
+    // @brief  キャラクターがチェックポイントに到達したかどうかを随時調べる（増えれば増えるほど重たくなります）
+    void CheckPointColliderCheck(int _idx)
+    {
+        if (checkPoint[_idx].GetComponent<CheckVideoEvent>().checkCollider)
+        {
+            videoPanel[_idx].SetActive(true);
+            ScriptsOff();
+            checkPoint[_idx].GetComponent<CheckVideoEvent>().checkCollider = false;
+        }
+
+    }
+
+    // @name   CheckVideoEnd
+    // @brief  ビデオが終了したかどうか随時チェックします（増えれば増えるほど重たくなります。）
+    void CheckVideoEnd(int _idx)
+    {
+        if (videoPanel[_idx].GetComponentInChildren<VideoPlay>().endVideo)
+        {
+            ActiveUpPanel(_idx);
+            Invoke("ScriptsOn", 0.8f);
+            videoPanel[_idx].GetComponentInChildren<VideoPlay>().endVideo = false;
+        }
+
+    }
     // @name   ScriptsOff
     // @brief  特定のスクリプトを切りたい用
     void ScriptsOff()
