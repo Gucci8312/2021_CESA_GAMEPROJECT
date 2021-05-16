@@ -12,8 +12,9 @@ public class TtilePLight : MonoBehaviour
 {
     [SerializeField]
     GameObject m_beatText;      //Beatテキストオブジェクト
+
     [SerializeField]
-    GameObject m_runText;        //Runテキストオブジェクト
+    GameObject[] m_titleBeatObj;
 
     [SerializeField]
     GameObject m_pressAButtonText;  //PressAButtonテキストオブジェクト
@@ -28,6 +29,7 @@ public class TtilePLight : MonoBehaviour
 
     float batibati_count;           //バチバチする回数カウント
     Color m_textColor;
+    Color clearAlpha;
 
     float whiteIntensity;
     float pinkIntensity;
@@ -35,7 +37,7 @@ public class TtilePLight : MonoBehaviour
     public bool titleAnimationFinished;
     // @name   OnInit
     // @brief  初期化関数
-    public void OnInit()
+    public void Start()
     {
         m_light = GetComponent<Light>();
         whiteIntensity = m_light.intensity;
@@ -46,8 +48,11 @@ public class TtilePLight : MonoBehaviour
         m_textColor = Color.clear;
         titleAnimationFinished = false;
         ChangeTextColorClear(m_beatText);
-        ChangeTextColorClear(m_runText);
-
+        for(int idx = 0; idx < m_titleBeatObj.Length; idx++)
+        {
+            ChangeTextColorClearAlphaOnly(m_titleBeatObj[idx]);
+        }
+        SoundManager.PlaySeName("batibati");
         m_pressAButtonText.SetActive(false);
         StartCoroutine(MomentChangeSpotLight());
     }
@@ -63,6 +68,35 @@ public class TtilePLight : MonoBehaviour
     {
         Color clear = Color.clear;
         _textObj.GetComponent<SpriteRenderer>().color = clear;
+    }
+
+    // @name   ChangeTextColorClearAlphaOnly
+    // @brief  文字がに透明になる(Alphaのみ変更)
+    void ChangeTextColorClearAlphaOnly(GameObject _obj)
+    {
+        clearAlpha.a = 0.0f;
+        clearAlpha.r = _obj.GetComponent<SpriteRenderer>().color.r;
+        clearAlpha.g = _obj.GetComponent<SpriteRenderer>().color.g;
+        clearAlpha.b = _obj.GetComponent<SpriteRenderer>().color.b;
+        _obj.GetComponent<SpriteRenderer>().color = clearAlpha;
+
+    }
+
+    // @name   ChangeTextColorWhiteAlphaOnly
+    // @brief  文字が徐々に色付きになる(Alphaのみ変更)
+    void ChangeTextColorWhiteAlphaOnly(GameObject _obj)
+    {
+        if (clearAlpha.a >= 1.0f)
+        {
+            return;
+        }
+        clearAlpha.a = _obj.GetComponent<SpriteRenderer>().color.a;
+        clearAlpha.r = _obj.GetComponent<SpriteRenderer>().color.r;
+        clearAlpha.g = _obj.GetComponent<SpriteRenderer>().color.g;
+        clearAlpha.b = _obj.GetComponent<SpriteRenderer>().color.b;
+        clearAlpha.a += m_textColor.a * 0.01f;
+        _obj.GetComponent<SpriteRenderer>().color = clearAlpha;
+
     }
 
     // @name   ChangeTextColorBlack
@@ -83,9 +117,9 @@ public class TtilePLight : MonoBehaviour
             titleAnimationFinished = true;
             return;
         }
-        m_textColor.r += 0.1f * (1f / 20f);
-        m_textColor.g += 0.1f * (1f / 20f);
-        m_textColor.b += 0.1f * (1f / 20f);
+        m_textColor.r += 0.1f * (1f / 10f);
+        m_textColor.g += 0.1f * (1f / 10f);
+        m_textColor.b += 0.1f * (1f / 10f);
         m_textColor.a += 0.1f * (1f / 10f);
         _textObj.GetComponent<SpriteRenderer>().color = m_textColor;
 
@@ -101,7 +135,6 @@ public class TtilePLight : MonoBehaviour
             {
                 m_light.intensity = 50;
                 ChangeTextColorBlack(m_beatText);
-                ChangeTextColorBlack(m_runText);
                 yield return new WaitForSeconds(0.1f);
             }
 
@@ -109,7 +142,6 @@ public class TtilePLight : MonoBehaviour
             {
                 m_light.intensity = 0f;
                 ChangeTextColorClear(m_beatText);
-                ChangeTextColorClear(m_runText);
                 yield return new WaitForSeconds(0.1f);
             }
             if (i == 1)
@@ -118,7 +150,9 @@ public class TtilePLight : MonoBehaviour
             }
             if (i == 3)
             {
+                SoundManager.StopSE();
                 yield return new WaitForSeconds(1.0f);
+                SoundManager.PlayBgmName("Area1");
                 StartCoroutine("SlowChangeSpotLight");
             }
             yield return null;
@@ -152,8 +186,11 @@ public class TtilePLight : MonoBehaviour
             {
                 m_pinkLight.intensity++;
             }
+            for (int idx = 0; idx < m_titleBeatObj.Length; idx++)
+            {
+                ChangeTextColorWhiteAlphaOnly(m_titleBeatObj[idx]);
+            }
             ChangeTextColorWhite(m_beatText);
-            ChangeTextColorWhite(m_runText);
             yield return new WaitForSeconds(0.01f);
         }
     }
