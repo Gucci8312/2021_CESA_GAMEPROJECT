@@ -20,7 +20,7 @@ public class GameClear : MonoBehaviour
         player = GameObject.Find("Player").GetComponent<PlayerMove>();
         SoundManager.StopBGM();
         SoundManager.PlayBgmName(BGM);
-        Invoke("StartGameClear", 1.7f);
+        Invoke("StartGameClear", 2.0f);
     }
 
     void Update()
@@ -28,10 +28,10 @@ public class GameClear : MonoBehaviour
         //transform.position = new Vector3(player.transform.position.x + TransformX, player.transform.position.y + TransformY, -30);
         if (GameStartFlg)
         {
-            Scale.x += 3.0f;
-            Scale.y += 3.0f;
+            Scale.x += 0.15f;
+            Scale.y += 0.15f;
             gameObject.transform.localScale = Scale;
-            Invoke("EndGameClear",0.2f);
+            Invoke("EndGameClear",0.1f);
         }
     }
     public void StartGameClear()
