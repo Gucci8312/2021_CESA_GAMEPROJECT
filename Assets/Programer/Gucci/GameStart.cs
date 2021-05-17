@@ -12,20 +12,22 @@ public class GameStart : MonoBehaviour
 
 
 	//public float StartTime;
-	float StartTime=3.0f;
+	float StartTime=2.0f;
 	int cnt = 0;
     // Start is called before the first frame update
     void Start()
     {
 
-		Blinking_False();
+		//Blinking_False();
 
 		player.GetComponent<PlayerMove>().enabled = false;
         for (int idx = 0; idx < enemy.Length; idx++)
         {
             enemy[idx].GetComponent<EnemyMove>().enabled = false;
         }
-    }
+
+		Invoke("Active", StartTime);
+	}
 
     // Update is called once per frame
     void Update()
@@ -36,8 +38,18 @@ public class GameStart : MonoBehaviour
 
 			Blinking_True();
 		}
+		if (cnt == 10)
+		{
+			Blinking_False();
+		}
 		if (cnt == 20)
 		{
+
+			Blinking_True();
+		}
+		if (cnt == 30)
+		{
+
 			Blinking_False();
 		}
 		if (cnt == 40)
@@ -45,7 +57,7 @@ public class GameStart : MonoBehaviour
 
 			Blinking_True();
 		}
-		if (cnt == 60)
+		if (cnt == 50)
 		{
 
 			Blinking_False();
@@ -56,7 +68,7 @@ public class GameStart : MonoBehaviour
 			Blinking_True();
 		}
 		cnt++;
-		//Invoke("Active",StartTime);
+		
     }
 
     void Active()
