@@ -561,7 +561,6 @@ MonoBehaviour:
   - {fileID: 1357798493}
   - {fileID: 1807739915}
   CrearNum: 2
-  ClearDai: {fileID: 0}
 --- !u!1 &124531953
 GameObject:
   m_ObjectHideFlags: 0
@@ -1869,7 +1868,7 @@ PrefabInstance:
     - target: {fileID: 1965655395383023996, guid: 7640759b1e3582c42995adc3aec5f2e2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.39
+      value: 4.529
       objectReference: {fileID: 0}
     - target: {fileID: 1965655395383023996, guid: 7640759b1e3582c42995adc3aec5f2e2,
         type: 3}
@@ -1879,12 +1878,17 @@ PrefabInstance:
     - target: {fileID: 1965655395383023996, guid: 7640759b1e3582c42995adc3aec5f2e2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 12.76
+      value: 13.07
       objectReference: {fileID: 0}
     - target: {fileID: 2092607842486811674, guid: 7640759b1e3582c42995adc3aec5f2e2,
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2173645004480932127, guid: 7640759b1e3582c42995adc3aec5f2e2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2453586262250938646, guid: 7640759b1e3582c42995adc3aec5f2e2,
         type: 3}
@@ -1903,9 +1907,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2531618602176518568, guid: 7640759b1e3582c42995adc3aec5f2e2,
         type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 1574343478}
+    - target: {fileID: 2531618602176518568, guid: 7640759b1e3582c42995adc3aec5f2e2,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 377126355}
+    - target: {fileID: 2531618602176518568, guid: 7640759b1e3582c42995adc3aec5f2e2,
+        type: 3}
       propertyPath: videoPanel2
       value: 
       objectReference: {fileID: 48831112}
+    - target: {fileID: 2531618602176518568, guid: 7640759b1e3582c42995adc3aec5f2e2,
+        type: 3}
+      propertyPath: mobius.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2531618602176518568, guid: 7640759b1e3582c42995adc3aec5f2e2,
+        type: 3}
+      propertyPath: mobius.Array.data[0]
+      value: 
+      objectReference: {fileID: 1101524172}
+    - target: {fileID: 2531618602176518568, guid: 7640759b1e3582c42995adc3aec5f2e2,
+        type: 3}
+      propertyPath: mobius.Array.data[1]
+      value: 
+      objectReference: {fileID: 1084250908}
     - target: {fileID: 2531618602176518568, guid: 7640759b1e3582c42995adc3aec5f2e2,
         type: 3}
       propertyPath: checkPoint.Array.size
@@ -1989,7 +2018,7 @@ PrefabInstance:
     - target: {fileID: 2531618603077177498, guid: 7640759b1e3582c42995adc3aec5f2e2,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2531618603077177500, guid: 7640759b1e3582c42995adc3aec5f2e2,
         type: 3}
@@ -2030,6 +2059,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 14.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 6308525957511438727, guid: 7640759b1e3582c42995adc3aec5f2e2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6701175691713069763, guid: 7640759b1e3582c42995adc3aec5f2e2,
         type: 3}

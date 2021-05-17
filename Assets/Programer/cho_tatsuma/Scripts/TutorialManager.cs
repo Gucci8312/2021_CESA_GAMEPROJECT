@@ -15,22 +15,22 @@ public class TutorialManager : MonoBehaviour
 
     [SerializeField] GameObject[] checkPoint;
 
-    GameObject player;
-    GameObject enemy;
-    GameObject[] mobius;
+    [SerializeField] GameObject player;
+    [SerializeField] GameObject enemy;
+    [SerializeField] GameObject[] mobius;
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("Player");
-        enemy = GameObject.Find("Enemy");
-        mobius = GameObject.FindGameObjectsWithTag("Mobius");
+        //player = GameObject.Find("Player");
+        //enemy = GameObject.Find("Enemy");
+        //mobius = GameObject.FindGameObjectsWithTag("Mobius");
     }
 
     // Update is called once per frame
     void Update()
     {
         //すべてのチェックポイントにキャラクターが触れているかチェック
-        for(int idx  = 0; idx < checkPoint.Length; idx++)
+        for (int idx = 0; idx < checkPoint.Length; idx++)
         {
             CheckPointColliderCheck(idx);
         }
