@@ -14,7 +14,6 @@ public class UIManeger : MonoBehaviour
     public GameObject[] JudgeUI;
     CheckPointCount CountScript;
     GameObject[] CheackPointObj;
-    public int CrearNum;
 
     GameObject ZoomCameraObj;
     CameraZoom _camera;
@@ -44,7 +43,7 @@ public class UIManeger : MonoBehaviour
         print(checkpointobjects.Length);
 
         //if (CountScript.CheckPointNum== CrearNum)  //チェックポイント0になったら
-        if (CountScript.CheckPointNum == CrearNum)  //チェックポイント0になったら
+        if (CountScript.CheckPointNum == JudgeUI.Length)  //チェックポイント0になったら
         {
             Debug.Log(" ゲームクリア");
             //ClearDai.SetActive(true);
