@@ -189,11 +189,6 @@ public class PlayerMove : MonoBehaviour
 
         NowMobiusColor = Mobius[NowMobius].GetComponent<MobiusColor>().GetNowColorNum();//松井君のスクリプトから変数取得
 
-        if (Input.GetKey(KeyCode.C))
-        {
-            ClearOn();
-        }
-
         if (!Clear)
         {
             if (StartFlg)
@@ -674,6 +669,7 @@ public class PlayerMove : MonoBehaviour
             if (jumpmove < jumpmovesave)
             {
                 angle = 0;
+                InsideFlg = false;
                 PositionSum();
                 HipDrop = true;
                 transform.position = new Vector3(0, 100, -445);
@@ -697,8 +693,7 @@ public class PlayerMove : MonoBehaviour
             if (y < 0)
             {
                 Stop = true;
-
-                //this.transform.Rotate(0, 90, 0);
+                
 
                 PlayerAnimation.GameClearRightVer();
 
