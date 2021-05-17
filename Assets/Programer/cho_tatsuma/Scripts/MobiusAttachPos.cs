@@ -30,7 +30,7 @@ public class MobiusAttachPos : MonoBehaviour
     Vector3 before_pos;
     Vector3 m_MobiusPos;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         //プレイヤーからNowMobiusNumを取得するためコンポーネントを取得
         m_player = GameObject.Find("Player");
@@ -41,12 +41,6 @@ public class MobiusAttachPos : MonoBehaviour
 
         //メビウスの輪（単体）から当たった情報と中点を取得するためコンポーネントを取得
         m_mobius = GameObject.FindGameObjectsWithTag("Mobius");
-
-        //すべてのメビウスの輪（単体）を取得
-        for (int i = 0; i < m_mobius.Length; i++)
-        {
-            m_mobius[i] = GameObject.Find("Mobius (" + i + ")");
-        }
 
         m_pCylinder = GameObject.Find("pCylinder2");
         //メビウスの輪（二つつなぎ）のモデルをいったん隠す

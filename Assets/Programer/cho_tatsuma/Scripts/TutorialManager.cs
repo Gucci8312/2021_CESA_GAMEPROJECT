@@ -14,21 +14,40 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] GameObject[] videoPanel;
 
     [SerializeField] GameObject[] checkPoint;
+    [SerializeField] GameObject AButton;
+    [SerializeField] GameObject AButton2;
+    Rythm rythm;
+    GameObject player;
+    GameObject enemy;
+    GameObject[] mobius;
 
-    [SerializeField] GameObject player;
-    [SerializeField] GameObject enemy;
-    [SerializeField] GameObject[] mobius;
+    bool endTutorial = false;
     // Start is called before the first frame update
     void Start()
     {
-        //player = GameObject.Find("Player");
-        //enemy = GameObject.Find("Enemy");
-        //mobius = GameObject.FindGameObjectsWithTag("Mobius");
+        player = GameObject.Find("Player");
+        enemy = GameObject.Find("Enemy");
+        mobius = GameObject.FindGameObjectsWithTag("Mobius");
+        rythm = GameObject.Find("rythm_circle").GetComponent<Rythm>();
+        AButton2.SetActive(false);
+        AButton.SetActive(false);
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (endTutorial)
+        {
+            if (rythm.rythmSendCheckFlag)
+            {
+                AButton.SetActive(false);
+            }
+            else
+            {
+                AButton.SetActive(true);
+            }
+        }
         //すべてのチェックポイントにキャラクターが触れているかチェック
         for (int idx = 0; idx < checkPoint.Length; idx++)
         {
@@ -73,6 +92,8 @@ public class TutorialManager : MonoBehaviour
             ActiveUpPanel(_idx);
             Invoke("ScriptsOn", 0.8f);
             videoPanel[_idx].GetComponentInChildren<VideoPlay>().endVideo = false;
+            endTutorial = true;
+            AButton2.SetActive(true);
         }
 
     }
