@@ -32,13 +32,16 @@ public class EnemyMobius : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        BeatCounter();//ビート数チェック
-
-        if (Mm.EnemyMoveFlag && !Mm.PlayerMoveFlg && Mm.Getcl().Count != 0) //エネミーが乗ってたら かつ　線に乗っていたら
+        if (Time.timeScale != 0)//時間が止まっていなければ
         {
-            if (GoToVectorFlag())
+            BeatCounter();//ビート数チェック
+
+            if (Mm.EnemyMoveFlag && !Mm.PlayerMoveFlg && Mm.Getcl().Count != 0) //エネミーが乗ってたら かつ　線に乗っていたら
             {
-                Mm.EnemyOnMoveFlag(EnemyBeatFlag, TargetVec);
+                if (GoToVectorFlag())
+                {
+                    Mm.EnemyOnMoveFlag(EnemyBeatFlag, TargetVec);
+                }
             }
         }
     }

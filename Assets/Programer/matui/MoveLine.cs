@@ -54,10 +54,13 @@ public class MoveLine : MonoBehaviour
         Cl.MoveLineFlag = true;
         Cl.MoveFlag = MoveFlag;
 
-        PutOnMobiusSetting();
-        MovePosSet();
-        BeatCounter();
-        OuhukuMove();
+        if (Time.timeScale != 0)////時間が止まっていなければ
+        {
+            PutOnMobiusSetting();
+            MovePosSet();
+            BeatCounter();
+            OuhukuMove();
+        }
 
         OldPos = this.transform.position;
 
