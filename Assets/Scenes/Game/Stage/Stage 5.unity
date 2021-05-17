@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -563,7 +563,7 @@ PrefabInstance:
     - target: {fileID: 4260265600030706069, guid: f7a00c465ee1ab24baf205597a471688,
         type: 3}
       propertyPath: m_Name
-      value: Mobius (2)
+      value: Mobius (0)
       objectReference: {fileID: 0}
     - target: {fileID: 4260265600720268093, guid: f7a00c465ee1ab24baf205597a471688,
         type: 3}
@@ -2572,7 +2572,7 @@ PrefabInstance:
     - target: {fileID: 9009114843697122168, guid: e34b0834316f2a447bda70aa78a39386,
         type: 3}
       propertyPath: m_Name
-      value: Mobius (0)
+      value: Mobius (2)
       objectReference: {fileID: 0}
     - target: {fileID: 9009114843697122168, guid: e34b0834316f2a447bda70aa78a39386,
         type: 3}
@@ -2655,7 +2655,6 @@ MonoBehaviour:
   - {fileID: 1683800523}
   - {fileID: 1903082932}
   CrearNum: 2
-  ClearDai: {fileID: 0}
 --- !u!114 &1295322944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3423,6 +3422,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameClear
       objectReference: {fileID: 0}
+    - target: {fileID: 1008526710241442101, guid: b8bed77f9ce13554d809377be5ff85c1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1008526710241442251, guid: b8bed77f9ce13554d809377be5ff85c1,
         type: 3}
       propertyPath: m_RootOrder
@@ -3953,7 +3957,7 @@ PrefabInstance:
     - target: {fileID: 5224182388560007186, guid: 8ec52b7f3937ffd42bdabed3e5a6f5f9,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5224182388560007186, guid: 8ec52b7f3937ffd42bdabed3e5a6f5f9,
         type: 3}
@@ -3978,7 +3982,7 @@ PrefabInstance:
     - target: {fileID: 5224182388560007186, guid: 8ec52b7f3937ffd42bdabed3e5a6f5f9,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.6
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5224182388560007186, guid: 8ec52b7f3937ffd42bdabed3e5a6f5f9,
         type: 3}
@@ -4250,13 +4254,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4957809348191591817, guid: 8c80e19240f42d44e850c0dad64e698c,
         type: 3}
-      propertyPath: NowMobius
+      propertyPath: InsideFlg
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4957809348191591817, guid: 8c80e19240f42d44e850c0dad64e698c,
         type: 3}
+      propertyPath: NowMobius
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4957809348191591817, guid: 8c80e19240f42d44e850c0dad64e698c,
+        type: 3}
       propertyPath: RotateLeftFlg
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5185553873557292434, guid: 8c80e19240f42d44e850c0dad64e698c,
         type: 3}
