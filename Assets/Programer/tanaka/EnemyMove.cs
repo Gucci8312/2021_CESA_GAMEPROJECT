@@ -174,15 +174,19 @@ public class EnemyMove : MonoBehaviour
             angle = angle + 360;
         }
 
-        
 
-        //踏まれたかどうか
-        bool HipDropCollision = player.GetComponent<PlayerMove>().HipDropCollision(transform.position, GetComponent<SphereCollider>().bounds.size.x / 2);
-
-        if (HipDropCollision)//プレイヤーに踏まれたら
+        if (NowMobius == player.GetComponent<PlayerMove>().GetNowMobiusNum())
         {
-            StanOn();
+            //踏まれたかどうか
+            bool HipDropCollision = player.GetComponent<PlayerMove>().HipDropCollision(transform.position, GetComponent<SphereCollider>().bounds.size.x / 2);
+
+            if (HipDropCollision)//プレイヤーに踏まれたら
+            {
+                StanOn();
+            }
         }
+
+        
 
         if (MobiusCol)
         {
