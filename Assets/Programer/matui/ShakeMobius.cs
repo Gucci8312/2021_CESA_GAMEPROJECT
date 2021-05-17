@@ -26,6 +26,15 @@ public class ShakeMobius : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale != 0)//時間が止まっていなければ
+        {
+            ShakeUpdate();
+        }
+    }
+
+    //ゆれの更新
+    private void ShakeUpdate()
+    {
         if (ShakeFlag)//揺れているとき
         {
             if (NowShakeTime >= 0)
@@ -43,9 +52,9 @@ public class ShakeMobius : MonoBehaviour
             ShakeMobiusObj.transform.localPosition = InitPos;
             NowShakeTime = MaxShakeTime;
         }
-        
     }
 
+    //メビウスをゆれさせる関数（MoveMobiusが呼ぶ）
     public void ShakeOn()
     {
         if (!ShakeFlag)
@@ -54,12 +63,14 @@ public class ShakeMobius : MonoBehaviour
         }
     }
 
+    //ランダムで座標をずらす
     private Vector2 ShakePos()
     {
         Vector2 pos = new Vector2(Random.Range(-1, 1), Random.Range(-1, 1));
         return pos;
     }
 
+    //ランダムで座標をずらす（円形）
     private Vector2 ShakeSpherePos(float Radius)
     {
         Vector2 pos = Random.insideUnitSphere*Radius;

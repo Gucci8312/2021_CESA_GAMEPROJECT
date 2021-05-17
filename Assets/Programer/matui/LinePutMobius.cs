@@ -363,7 +363,7 @@ public class LinePutMobius : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Mobius"))
         {
-            if (MoveLinePutFlag && other.GetComponent<LinePutMobius>().MoveLinePutFlag)//ぶつかった相手が動く線に乗っていたら
+            if (MoveLinePutFlag && other.GetComponent<LinePutMobius>().MoveLinePutFlag)//ぶつかった相手が動く線に乗っていたら(止まったとき)
             {
                 //float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
                 //float ColR = other.GetComponent<MoveMobius>().GetThisR();
