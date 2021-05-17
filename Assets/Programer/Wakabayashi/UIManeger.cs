@@ -18,7 +18,7 @@ public class UIManeger : MonoBehaviour
 
     GameObject ZoomCameraObj;
     CameraZoom _camera;
-    public GameObject ClearDai;
+  //  public GameObject ClearDai;
 
     void Start()
     {
@@ -47,7 +47,7 @@ public class UIManeger : MonoBehaviour
         if (CountScript.CheckPointNum == CrearNum)  //チェックポイント0になったら
         {
             Debug.Log(" ゲームクリア");
-            ClearDai.SetActive(true);
+            //ClearDai.SetActive(true);
 
 
 
@@ -77,8 +77,8 @@ public class UIManeger : MonoBehaviour
             Debug.Log(" ゲームオーバー");
 
             GameOver.active = true;
-            _camera.OnZoom();                //カメラズーム
-            Time.timeScale = 0.0f;
+            //_camera.OnZoom();                //カメラズーム
+            //Time.timeScale = 0.0f;
         }
 
         if (GameOver.active == true)

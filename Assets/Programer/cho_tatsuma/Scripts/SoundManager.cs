@@ -174,7 +174,7 @@ public class SoundManager : MonoBehaviour
     {
         m_bgmAudioSource.clip = m_bgm[m_stageBgmNameNo];
         m_bgmAudioSourceSub.clip = m_bgm[m_stageBgmNameNo];
-        if (m_bgmAudioSource.time >= m_bgmAudioSource.clip.length - 0.1f)
+        if (m_bgmAudioSource.time >= m_bgmAudioSource.clip.length - 0.08f)
         {
             if (!m_bgmAudioSourceSub.isPlaying)
             {
@@ -184,7 +184,7 @@ public class SoundManager : MonoBehaviour
             m_bgmAudioSource.time = 0.0f;
 
         }
-        else if (m_bgmAudioSourceSub.time >= m_bgmAudioSourceSub.clip.length - 0.1f)
+        else if (m_bgmAudioSourceSub.time >= m_bgmAudioSourceSub.clip.length - 0.08f)
         {
             if (!m_bgmAudioSource.isPlaying)
             {

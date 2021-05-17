@@ -6,23 +6,69 @@ public class GameStart : MonoBehaviour
 {
     [SerializeField] GameObject player;
     [SerializeField] GameObject[] enemy;
-    //public float StartTime;
-     float StartTime=3.0f;
 
+	public GameObject[] obj;
+
+
+
+	//public float StartTime;
+	float StartTime=2.0f;
+	int cnt = 0;
     // Start is called before the first frame update
     void Start()
     {
-        player.GetComponent<PlayerMove>().enabled = false;
+
+		//Blinking_False();
+
+		player.GetComponent<PlayerMove>().enabled = false;
         for (int idx = 0; idx < enemy.Length; idx++)
         {
             enemy[idx].GetComponent<EnemyMove>().enabled = false;
         }
-    }
+
+		Invoke("Active", StartTime);
+	}
 
     // Update is called once per frame
     void Update()
     {
-        Invoke("Active",StartTime);
+
+		if (cnt == 0)
+		{
+
+			Blinking_True();
+		}
+		if (cnt == 10)
+		{
+			Blinking_False();
+		}
+		if (cnt == 20)
+		{
+
+			Blinking_True();
+		}
+		if (cnt == 30)
+		{
+
+			Blinking_False();
+		}
+		if (cnt == 40)
+		{
+
+			Blinking_True();
+		}
+		if (cnt == 50)
+		{
+
+			Blinking_False();
+		}
+		if (cnt == 80)
+		{
+
+			Blinking_True();
+		}
+		cnt++;
+		
     }
 
     void Active()
@@ -33,4 +79,20 @@ public class GameStart : MonoBehaviour
             enemy[idx].GetComponent<EnemyMove>().enabled = true;
         }
     }
+
+	void Blinking_True()
+	{
+		for (int idx = 0; idx < obj.Length; idx++)
+		{
+			obj[idx].SetActive(true);
+		}
+	}
+	void Blinking_False()
+	{
+		for (int idx = 0; idx < obj.Length; idx++)
+		{
+			obj[idx].SetActive(false);
+		}
+
+	}
 }

@@ -37,6 +37,8 @@ public class MoveMobius : MonoBehaviour
     [HideInInspector] public Vector3 OldPos;                                 //前回の座標
     //Vector3 MoyoriPos;                                                     //最寄りの駅
 
+    private float ThisR;                                                     //半径
+
     bool TimingInput;                                                                               //タイミング入力を管理する変数　true:入力あり　false:入力なし
     GameObject RythmObj;                                                                            //リズムオブジェクト
     Rythm rythm;                                                                                    //リズムスクリプト取得用
@@ -70,6 +72,8 @@ public class MoveMobius : MonoBehaviour
         this.gameObject.AddComponent<LinePutMobius>();
 
         Sm = this.GetComponent<ShakeMobius>();
+
+        ThisR= (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
     }
 
     // Update is called once per frame
@@ -229,7 +233,7 @@ public class MoveMobius : MonoBehaviour
 
             //MovePos = cl[0].GetCrossPos()[MobiusMoveCrossPosNum];
 
-            if (!HighSpeedCol())//何も当たらなければ
+            if (!HighSpeedRayCol())//何も当たらなければ
             {
 
                 if (Nowtime >= GoalMovetime)//到着したら
@@ -466,9 +470,9 @@ public class MoveMobius : MonoBehaviour
 
             if (ColLine != null)
             {
-                if (ColLine.GetComponent<CrossLine>().MoveLineFlag&& !ColLine.GetComponent<CrossLine>().MoveFlag)
+                if (other.GetComponent<CrossLine>().MoveLineFlag && !other.GetComponent<CrossLine>().MoveFlag)
                 {
-                    if(MoveLineObj == null)
+                    if (MoveLineObj == null)
                     {
                         ColLine.GetComponent<MoveLine>().PutMobiusOnOff(true, this.gameObject);
                     }
@@ -489,6 +493,7 @@ public class MoveMobius : MonoBehaviour
                 if (MoveLineObj == other.gameObject)
                 {
                     other.GetComponent<MoveLine>().PutMobiusOnOff(false, this.gameObject);
+                    //Debug.Log(other.gameObject.name + "から離れた");
                 }
             }            
         }
@@ -527,7 +532,7 @@ public class MoveMobius : MonoBehaviour
 
     }
 
-    private bool HighSpeedCol()//速すぎて当たり判定をすり抜けた時の対策
+    private bool HighSpeedRayCol()//速すぎて当たり判定をすり抜けた時の対策
     {
         Vector3 Pos = Vector3.zero;//レイを飛ばしすぎないようにするもの
         if (Nowtime < GoalMovetime)
@@ -540,7 +545,7 @@ public class MoveMobius : MonoBehaviour
         }
 
         Ray ray;
-        float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
+        //float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
         float distance = (Pos - OldPos).magnitude/* + (ThisR/2)*/;     //レイを飛ばす長さ
 
         List<GameObject> ColObj = new List<GameObject>();               //すり抜けたメビウスオブジェクトを格納するリスト
@@ -608,8 +613,8 @@ public class MoveMobius : MonoBehaviour
     {
         if (MobiusStripFlag)
         {
-            float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
-            float ColR = (ColMobiusObj.GetComponent<SphereCollider>().bounds.size.x + ColMobiusObj.GetComponent<SphereCollider>().bounds.size.y) / 4;// 相手メビウスの輪の円の半径を取得
+            //float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
+            float ColR = (ColMobiusObj.GetComponent<MoveMobius>().GetThisR());// 相手メビウスの輪の円の半径を取得
             float SocialDistance = ThisR + ColR + 15;//お互いの半径分と少しだけ離す
 
             float distance = (this.transform.position - ColMobiusObj.transform.position).magnitude;//相手と自分の距離
@@ -626,7 +631,7 @@ public class MoveMobius : MonoBehaviour
     {
         if (ColObjAttachFlag)
         {
-            float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
+            //float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
             float ColScale = (ColMobiusObj.GetComponent<BoxCollider>().bounds.size.x + ColMobiusObj.GetComponent<BoxCollider>().bounds.size.y) / 4;
             float SocialDistance = ThisR + ColScale + 15;//お互いの半径分と少しだけ離す
 
@@ -646,14 +651,14 @@ public class MoveMobius : MonoBehaviour
             Vector3 DisVec = SearchVector(this.transform.position, otherObj.transform.position);
             bool SameFlag = false;//前回当たったオブジェクトと同じかどうか
 
-            float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
+            //float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
             float PosDistance = (StartMovePos - otherObj.transform.position).magnitude;//相手と始点の距離
 
             switch (otherObj.tag)
             {
                 case "Mobius":
                     {
-                        float ColR = (otherObj.GetComponent<SphereCollider>().bounds.size.x + otherObj.GetComponent<SphereCollider>().bounds.size.y) / 4;
+                        float ColR = otherObj.GetComponent<MoveMobius>().GetThisR();
                         float ScaleDistance = ThisR + ColR + 15;//お互いの半径分と少しだけ離す
 
                         if (ScaleDistance < PosDistance)//離れているところから移動してぶつかったなら
@@ -794,5 +799,10 @@ public class MoveMobius : MonoBehaviour
     public List<GameObject> GetLine()
     {
         return Line;
+    }
+
+    public float GetThisR()
+    {
+        return ThisR;
     }
 }
