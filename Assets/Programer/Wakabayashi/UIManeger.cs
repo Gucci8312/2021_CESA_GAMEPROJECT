@@ -77,8 +77,8 @@ public class UIManeger : MonoBehaviour
             Debug.Log(" ゲームオーバー");
 
             GameOver.active = true;
-            _camera.OnZoom();                //カメラズーム
-            Time.timeScale = 0.0f;
+            //_camera.OnZoom();                //カメラズーム
+            //Time.timeScale = 0.0f;
         }
 
         if (GameOver.active == true)
