@@ -28,8 +28,8 @@ public class GameClear : MonoBehaviour
         //transform.position = new Vector3(player.transform.position.x + TransformX, player.transform.position.y + TransformY, -30);
         if (GameStartFlg)
         {
-            Scale.x += 0.15f;
-            Scale.y += 0.15f;
+            Scale.x += 0.1f;
+            Scale.y += 0.1f;
             gameObject.transform.localScale = Scale;
             Invoke("EndGameClear",0.1f);
         }

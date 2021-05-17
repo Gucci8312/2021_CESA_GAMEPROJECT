@@ -596,7 +596,8 @@ public class MoveMobius : MonoBehaviour
         {
             GameObject otherObj = NearObjSearch(ColObj, HitPos, StartMovePos);//リストの中から始点に近いオブジェクトを取得
 
-            this.transform.position = HitPos[ListNumberSearch(ColObj, otherObj)];
+            this.transform.position = HitPos[ListNumberSearch(ColObj, otherObj)];//メビウスの座標を例が当たった座標にする（計算をしやすくするため）
+            //this.transform.position = otherObj.transform.position;
             Collision(otherObj);//当たり判定時の処理を実行
 
             Debug.Log(otherObj.name + "とぶつかった~～");
@@ -648,7 +649,7 @@ public class MoveMobius : MonoBehaviour
     {
         if (FlickMoveFlag)//自身が勢いがあるとき　
         {
-            Vector3 DisVec = SearchVector(this.transform.position, otherObj.transform.position);
+            Vector3 DisVec = SearchVector(this.transform.position,otherObj.transform.position);
             bool SameFlag = false;//前回当たったオブジェクトと同じかどうか
 
             //float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
@@ -663,14 +664,16 @@ public class MoveMobius : MonoBehaviour
 
                         if (ScaleDistance < PosDistance)//離れているところから移動してぶつかったなら
                         {
-                            if (otherObj.GetComponent<MoveMobius>().GetFlickMoveFlag())//相手が動いていたら
-                            {
-                                //相手の動きを止める
-                                otherObj.transform.position = this.transform.position;
-                                otherObj.GetComponent<MoveMobius>().MobiusCol(ColR + 4, -DisVec);
-                                otherObj.GetComponent<MoveMobius>().ZeroVelo();
-                            }
-                            MobiusCol(ThisR + 4, DisVec);//メビウス同士がぶつかった時の処理を実行
+                            //if (otherObj.GetComponent<MoveMobius>().GetFlickMoveFlag())//相手が動いていたら
+                            //{
+                            //    ////相手の動きを止める
+                            //    otherObj.transform.position = this.transform.position;
+                            //    otherObj.GetComponent<MoveMobius>().MobiusCol(ColR + 4, -DisVec);
+                            //    otherObj.GetComponent<MoveMobius>().ZeroVelo();
+                            //}
+                            otherObj.GetComponent<MoveMobius>().ZeroVelo();
+                            float dis = (this.transform.position - otherObj.transform.position).magnitude;//自分と相手の距離を求める
+                            MobiusCol(ThisR +dis/6 , DisVec);//メビウス同士がぶつかった時の処理を実行(dis/6は差を埋める)
                         }
                         else//近いところでぶつかったなら
                         {

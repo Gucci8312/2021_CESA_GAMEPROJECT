@@ -235,7 +235,6 @@ public class PlayerMove : MonoBehaviour
                                 SpeedUpFlg = false;
 
                                 SpeedUpMashing = true;
-                                //PlayerAnimation.Walk();
 
                             }
                         }
@@ -673,7 +672,7 @@ public class PlayerMove : MonoBehaviour
                 RotateLeftFlg = false;
                 PositionSum();
                 HipDrop = true;
-                transform.position = new Vector3(0, 100, -445);
+                transform.position = new Vector3(0, 100, -485);
                 
             }
         }
@@ -689,9 +688,9 @@ public class PlayerMove : MonoBehaviour
 
             float y = transform.position.y;
             y -= (HipDropSpeed * 15f) * Time.deltaTime;
-            transform.position = new Vector3(0, y, -445);
+            transform.position = new Vector3(0, y, -485);
             
-            if (y < 0)
+            if (y < 7.5f)
             {
                 Stop = true;
                 
