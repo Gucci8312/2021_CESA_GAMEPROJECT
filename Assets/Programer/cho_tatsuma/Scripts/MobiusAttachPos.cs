@@ -83,7 +83,15 @@ public class MobiusAttachPos : MonoBehaviour
         //    //    MobiusCollisionOn();
         //    m_mobiusCol = true;
         //}
+
+        if (m_mobiusCol)
+        {
+            m_MobiusPos = /*m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetColPos()*/ (hitMobius.transform.position + otherMobius.transform.position) / 2;
+            this.gameObject.GetComponent<Transform>().position = new Vector3(m_MobiusPos.x, m_MobiusPos.y, m_MobiusPos.z);
+
+        }
     }
+
     // @name   BeforeDownGetKey
     // @brief  前回どのキーを押したかを記憶
     void BeforeDownGetKey()
@@ -215,6 +223,7 @@ public class MobiusAttachPos : MonoBehaviour
         this.gameObject.GetComponent<Transform>().position = new Vector3(m_MobiusPos.x, m_MobiusPos.y, m_MobiusPos.z);
 
         transform.Rotate(new Vector3(0, 0, before_degree));
+        m_mobiusCol = true;
     }
     // @name   MobiusCollisionOff
     // @brief  他のメビウスと離れた時に実装したい部分
