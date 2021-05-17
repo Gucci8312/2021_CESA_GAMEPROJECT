@@ -670,6 +670,7 @@ public class PlayerMove : MonoBehaviour
             {
                 angle = 0;
                 InsideFlg = false;
+                RotateLeftFlg = false;
                 PositionSum();
                 HipDrop = true;
                 transform.position = new Vector3(0, 100, -445);
