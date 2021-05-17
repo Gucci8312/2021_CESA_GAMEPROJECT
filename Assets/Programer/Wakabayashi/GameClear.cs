@@ -20,7 +20,7 @@ public class GameClear : MonoBehaviour
         player = GameObject.Find("Player").GetComponent<PlayerMove>();
         SoundManager.StopBGM();
         SoundManager.PlayBgmName(BGM);
-        Invoke("StartGameClear", 2.0f);
+        Invoke("StartGameClear", 1.9f);
     }
 
     void Update()
