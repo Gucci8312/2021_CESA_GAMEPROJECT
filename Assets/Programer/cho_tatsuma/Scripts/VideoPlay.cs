@@ -13,15 +13,27 @@ public class VideoPlay : MonoBehaviour
     void Start()
     {
         mPlayer = GetComponent<VideoPlayer>();
+        Invoke("VideoPlayMethod", 0.5f);
     }
 
 
     // Update is called once per frame
     void Update()
     {       
-        if(mPlayer.time >= mPlayer.length - 1f)
+        if(mPlayer.time >= mPlayer.length - 1f && !endVideo)
         {
             endVideo = true;
         }
+
+        if (Controler.SubMitButtonFlg() && !endVideo)
+        {
+            endVideo = true;
+        }
+    }
+
+    void VideoPlayMethod()
+    {
+        mPlayer.Play();
+
     }
 }

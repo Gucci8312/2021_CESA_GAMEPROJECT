@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5829028448274580950}
   - component: {fileID: 2845697189742495842}
   - component: {fileID: 2453586262250938646}
+  - component: {fileID: 8935727712713231143}
   m_Layer: 0
   m_Name: VideoPanel (1)
   m_TagString: Untagged
@@ -60,7 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e761bedf0d000d946ba3921823c807b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 1000
 --- !u!212 &2453586262250938646
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -111,6 +112,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8935727712713231143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1038300895829923250}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7bdb3f05c9ac0946bc0a55b7295cd8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1000
 --- !u!1 &2531618602176518570
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,10 +172,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5edc82f378af21449fa6b0132bec669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  videoPanel1: {fileID: 2531618603077177498}
-  videoPanel2: {fileID: 0}
-  checkPoint1: {fileID: 5705845098129217756}
-  checkPoint2: {fileID: 5285697801123583407}
+  videoPanel: []
+  checkPoint: []
 --- !u!1 &2531618603077177498
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,6 +186,7 @@ GameObject:
   - component: {fileID: 2531618603077177496}
   - component: {fileID: 2531618603077177500}
   - component: {fileID: 7011249263515661310}
+  - component: {fileID: 7460876514088959281}
   m_Layer: 0
   m_Name: VideoPanel
   m_TagString: Untagged
@@ -222,7 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e761bedf0d000d946ba3921823c807b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 1000
 --- !u!212 &7011249263515661310
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -273,6 +286,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7460876514088959281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2531618603077177498}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7bdb3f05c9ac0946bc0a55b7295cd8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1000
 --- !u!1 &2531618603308911196
 GameObject:
   m_ObjectHideFlags: 0
