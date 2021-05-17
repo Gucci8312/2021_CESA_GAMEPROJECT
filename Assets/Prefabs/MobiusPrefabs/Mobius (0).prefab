@@ -120,7 +120,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9009114842599050454}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.000012183191, y: -0.5, z: -0.20001224}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9009114843697122167}
@@ -520,8 +520,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Color:
   - {fileID: 2100000, guid: fae54e56a16ab5a4ebaa1308ebb0e74b, type: 2}
-  - {fileID: 2100000, guid: b684e8e82ae6f4b4cb5b90015e54e56c, type: 2}
-  - {fileID: 2100000, guid: ee71ddf1bc18ebc40a84200ca1077a0a, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 2100000, guid: 28073e6c20558d24db0dfff7b5101f34, type: 2}
   ColorChangeFlag: 0
 --- !u!114 &9009114843697122171
@@ -542,8 +542,12 @@ MonoBehaviour:
   Enemy:
   - {fileID: 0}
   - {fileID: 0}
-  Line: []
+  MoveLineObj: {fileID: 0}
+  MovePos: {x: 0, y: 0, z: 0}
+  OldMovePos: {x: 0, y: 0, z: 0}
   ColPos: {x: 0, y: 0, z: 0}
+  StartMovePos: {x: 0, y: 0, z: 0}
+  OldPos: {x: 0, y: 0, z: 0}
 --- !u!114 &9217229981931376346
 MonoBehaviour:
   m_ObjectHideFlags: 0

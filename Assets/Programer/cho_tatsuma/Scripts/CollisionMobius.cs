@@ -31,7 +31,6 @@ public class CollisionMobius : MonoBehaviour
         if (other.tag == "Wa" && !m_hitFlg)
         {
             if (m_mobiusPosScript.m_mobius[m_mobiusPosScript.m_nowMobiusNo].gameObject.name == other.gameObject.transform.parent.gameObject.name) return;
-
             m_mobiusPosScript.MobiusCollisionOn(other.gameObject.transform.parent.gameObject,this.gameObject.transform.parent.gameObject);
             m_hitFlg = true;
         }
