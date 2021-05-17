@@ -13,7 +13,8 @@ public class VideoPlay : MonoBehaviour
     void Start()
     {
         mPlayer = GetComponent<VideoPlayer>();
-        Invoke("VideoPlayMethod", 0.5f);
+        mPlayer.Stop();
+        Invoke("VideoPlayMethod", 1.5f);
     }
 
 
