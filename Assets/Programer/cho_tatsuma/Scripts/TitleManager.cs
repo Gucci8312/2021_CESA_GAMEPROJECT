@@ -42,7 +42,6 @@ public class TitleManager : MonoBehaviour
     {
         if (Time.timeScale == 0f) Time.timeScale = 1.0f;
         m_titlePointLight = GameObject.Find("YellowLight");
-        m_titlePointLight.GetComponent<TtilePLight>().OnInit();
     }
 
     // Start is called before the first frame update
@@ -54,6 +53,7 @@ public class TitleManager : MonoBehaviour
 
     private void Update()
     {
+        SoundManager.CheckLoop();
         if (m_fadeTextScript.gameStartFlg && Window.activeSelf == false)
         {
             if (Controler.SubMitButtonFlg())
