@@ -168,7 +168,7 @@ public class CrossLine : MonoBehaviour
     //引数のベクトルが線のベクトルに近いかどうか（true時に交点のある方向を返す）
     public bool CanInputMoveVec(Vector2 _vec, out Vector2 outvec)
     {
-        float gosa = 0.5f;//許容範囲（0～0.9）
+        float gosa = 0.6f;//許容範囲（0～0.9）
         float dis1 = (_vec - Lvec).magnitude;
         float dis2 = (_vec - Rvec).magnitude;
 
@@ -232,6 +232,21 @@ public class CrossLine : MonoBehaviour
         return false;
     }
 
+    //調べたい座標が右端の交点にいるかどうか(Gosaは許容値)
+    public bool NearEndRCrossPosFlag(Vector2 SerchPos,float Gosa)
+    {
+        Vector2 Endpos = NearCrossPos(RPos);
+
+        float distance = (Endpos - SerchPos).magnitude;
+        if (distance <= Gosa)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+
     //調べたい座標が左端の交点にいるかどうか
     public bool NearEndLCrossPosFlag(Vector2 SerchPos)
     {
@@ -246,11 +261,37 @@ public class CrossLine : MonoBehaviour
         return false;
     }
 
+    //調べたい座標が左端の交点にいるかどうか(Gosaは許容値)
+    public bool NearEndLCrossPosFlag(Vector2 SerchPos,float Gosa)
+    {
+        Vector2 Endpos = NearCrossPos(LPos);
+
+        float distance = (Endpos - SerchPos).magnitude;
+        if (distance <= Gosa)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+
     //調べ対座標が右端にあるかどうか
     public bool NearEndRPosFlag(Vector2 SerchPos)
     {
         float distance = (RPos - SerchPos).magnitude;
         if (distance <= 5)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    //調べ対座標が右端にあるかどうか(Gosaは許容値)
+    public bool NearEndRPosFlag(Vector2 SerchPos,float Gosa)
+    {
+        float distance = (RPos - SerchPos).magnitude;
+        if (distance <= Gosa)
         {
             return true;
         }
@@ -268,6 +309,16 @@ public class CrossLine : MonoBehaviour
         return false;
     }
 
+    //調べ対座標が左端にあるかどうか(Gosaは許容値)
+    public bool NearEndLPosFlag(Vector2 SerchPos,float Gosa)
+    {
+        float distance = (LPos - SerchPos).magnitude;
+        if (distance <= Gosa)
+        {
+            return true;
+        }
+        return false;
+    }
 
     public bool SameLRvec(Vector2 _Lvec, Vector2 _Rvec)
     {
