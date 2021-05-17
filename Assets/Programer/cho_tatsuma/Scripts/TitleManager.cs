@@ -53,6 +53,7 @@ public class TitleManager : MonoBehaviour
 
     private void Update()
     {
+        SoundManager.CheckLoop();
         if (m_fadeTextScript.gameStartFlg && Window.activeSelf == false)
         {
             if (Controler.SubMitButtonFlg())
