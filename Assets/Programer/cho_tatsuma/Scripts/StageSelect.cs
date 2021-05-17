@@ -52,25 +52,25 @@ public static class StageSelect
 		while (true)
         {
 			//フェードが終わったこと知らせた後
-			//if (m_fade.fadeFinished)
+			//if (true)
 			//{
-			//    //ローディング情報を返す
-			//    m_async = 
+			//	//ローディング情報を返す
+			//	m_async = 
 
-			//    //ロード中なら入る文
-			//    while (!m_async.isDone)
-			//    {
-			//        //ローディング時のゲージのスライダーを進める
-			//        //var progressVal = Mathf.Clamp01(m_async.progress / 0.9f);
-			//        //m_gauge.value = progressVal;
-			//        yield return null;
-			//    }
-			//    //終了処理
-			//   // m_fadeImage.gameObject.SetActive(false);
-			//    m_fade.fadeFinished = false;
+   //             //ロード中なら入る文
+   //             while (!m_async.isDone)
+			//	{
+			//		//ローディング時のゲージのスライダーを進める
+			//		//var progressVal = Mathf.Clamp01(m_async.progress / 0.9f);
+			//		//m_gauge.value = progressVal;
+			//		yield return null;
+			//	}
+			//	//終了処理
+			//	// m_fadeImage.gameObject.SetActive(false);
+			//	//m_fade.fadeFinished = false;
 			//}
-			SceneManager.LoadSceneAsync(_stageName);
-			yield return new WaitForSeconds(0.1f);
+            SceneManager.LoadScene(_stageName);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 

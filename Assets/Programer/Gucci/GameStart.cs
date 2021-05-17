@@ -8,7 +8,7 @@ public class GameStart : MonoBehaviour
     [SerializeField] GameObject[] enemy;
 
 	public GameObject[] obj;
-
+	public GameObject plane;
 
 
 	//public float StartTime;
@@ -18,8 +18,8 @@ public class GameStart : MonoBehaviour
     void Start()
     {
 
-		//Blinking_False();
-
+		Blinking_False();
+		plane.SetActive(false);
 		player.GetComponent<PlayerMove>().enabled = false;
         for (int idx = 0; idx < enemy.Length; idx++)
         {
@@ -33,36 +33,36 @@ public class GameStart : MonoBehaviour
     void Update()
     {
 
-		if (cnt == 0)
-		{
-
-			Blinking_True();
-		}
-		if (cnt == 10)
-		{
-			Blinking_False();
-		}
-		if (cnt == 20)
-		{
-
-			Blinking_True();
-		}
-		if (cnt == 30)
-		{
-
-			Blinking_False();
-		}
-		if (cnt == 40)
-		{
-
-			Blinking_True();
-		}
 		if (cnt == 50)
 		{
 
+			Blinking_True();
+		}
+		if (cnt == 60)
+		{
 			Blinking_False();
 		}
+		if (cnt == 70)
+		{
+
+			Blinking_True();
+		}
 		if (cnt == 80)
+		{
+
+			Blinking_False();
+		}
+		if (cnt == 90)
+		{
+
+			Blinking_True();
+		}
+		if (cnt == 100)
+		{
+
+			Blinking_False();
+		}
+		if (cnt == 150)
 		{
 
 			Blinking_True();
