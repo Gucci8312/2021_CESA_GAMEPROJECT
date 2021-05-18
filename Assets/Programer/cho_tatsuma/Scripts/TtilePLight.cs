@@ -152,7 +152,7 @@ public class TtilePLight : MonoBehaviour
             {
                 SoundManager.StopSE();
                 yield return new WaitForSeconds(1.0f);
-                SoundManager.PlayBgmName("Area4");
+                SoundManager.PlayBgmName("title");
                 StartCoroutine("SlowChangeSpotLight");
             }
             yield return null;

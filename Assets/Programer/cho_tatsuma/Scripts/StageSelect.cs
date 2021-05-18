@@ -70,6 +70,7 @@ public static class StageSelect
 			//	//m_fade.fadeFinished = false;
 			//}
             SceneManager.LoadScene(_stageName);
+            SoundManager.StopBGM();
             yield return new WaitForSeconds(0.1f);
         }
     }

@@ -9,6 +9,7 @@ public class DownPanel : MonoBehaviour
     void Start()
     {
         //speed = 1.0f;
+        SoundManager.PlaySeName("tutorial_sound");
     }
 
     // Update is called once per frame
