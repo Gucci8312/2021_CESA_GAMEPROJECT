@@ -9,12 +9,16 @@ public class Cusour : MonoBehaviour
     public GameObject Window;
     int Idx = 0;
     public int NextStageNum;
+    bool SoundFlg;
+    GameObject SoundObj;
+    GameObject SoundRes;
 
     // Start is called before the first frame update
     void Start()
     {
         Vector3 Pos = this.gameObject.transform.position;
         transform.position = new Vector3(Pos.x, WindowButton[0].transform.position.y, Pos.z);
+        SoundRes = (GameObject)Resources.Load("VolumeSettings");
     }
 
     // Update is called once per frame
@@ -22,23 +26,43 @@ public class Cusour : MonoBehaviour
     {
         Vector3 Pos = this.gameObject.transform.position;
 
-        if (Controler.GetUpButtonFlg())
+        if (!SoundFlg)
         {
-            Idx--;
-            if (Idx < 0)
-            {
-                Idx++;
-            }
-            transform.position = new Vector3(Pos.x, WindowButton[Idx].transform.position.y, Pos.z);
-        }
-        else if (Controler.GetDownButtonFlg())
-        {
-            Idx++;
-            if (Idx > WindowButton.Length - 1)
+            if (Controler.GetUpButtonFlg())
             {
                 Idx--;
+                if (Idx < 0)
+                {
+                    Idx++;
+                }
+                transform.position = new Vector3(Pos.x, WindowButton[Idx].transform.position.y, Pos.z);
             }
-            transform.position = new Vector3(Pos.x, WindowButton[Idx].transform.position.y, Pos.z);
+            else if (Controler.GetDownButtonFlg())
+            {
+                Idx++;
+                if (Idx > WindowButton.Length - 1)
+                {
+                    Idx--;
+                }
+                transform.position = new Vector3(Pos.x, WindowButton[Idx].transform.position.y, Pos.z);
+            }
+            if(Controler.GetCanselButtonFlg())
+            {
+                Window.SetActive(!Window.activeSelf);
+                Time.timeScale = 1.0f;
+                //if(SoundFlg)
+                //{
+                //    Destroy(SoundObj);
+                //}
+            }
+        }
+        else
+        {
+            if(Controler.GetCanselButtonFlg())
+            {
+                SoundFlg = false;
+                Destroy(SoundObj);
+            }
         }
 
 
@@ -67,6 +91,11 @@ public class Cusour : MonoBehaviour
             {
                 Time.timeScale = 1.0f;
                 StageSelect.LoadStage(NextStageNum, this);
+            }
+            else if (WindowButton[Idx].name == "SOUND")
+            {
+                SoundFlg = true;
+                SoundObj = (GameObject)Instantiate(SoundRes, new Vector3(-80.0f, 25.0f, -290.0f), Quaternion.identity);
             }
         }
     }
