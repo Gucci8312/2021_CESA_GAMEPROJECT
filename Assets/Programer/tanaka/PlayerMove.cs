@@ -21,7 +21,7 @@ public class PlayerMove : MonoBehaviour
     int SideCnt;                                                                                    //メビウスの輪に沿った動きにするためメビウスの輪を何回切り替えたかをカウント  2以上で外側内側入れ替える
     float counter;                                                                                  //乗り移るとき、元のメビウスの輪に戻らないようにカウントする値
 
-    bool TimingInput;                                                                               //タイミング入力を管理する変数　true:入力あり　false:入力なし
+    bool JumpFlg;                                                                               //タイミング入力を管理する変数　true:入力あり　false:入力なし
     [SerializeField, Range(0, 7)] public int StartPoint;                                            //メビウス上の点の番号
 
     bool StartFlg;                                                                                  //初期位置設定用フラグ　最初の一回だけ通る
@@ -120,7 +120,7 @@ public class PlayerMove : MonoBehaviour
 
         SideCnt = 2;
         SaveMobius = -1;
-        TimingInput = false;
+        JumpFlg = false;
         StartFlg = true;
         counter = -1;
         CollisionState = false;
@@ -247,12 +247,12 @@ public class PlayerMove : MonoBehaviour
                             }
                         }
 
-                        if (Controler.GetJumpButtonFlg() && !TimingInput)//ジャンプ
+                        if (Controler.GetJumpButtonFlg() && !JumpFlg)//ジャンプ
                         {
                             if (!JumpMashing)
                             {
 
-                                TimingInput = true;
+                                JumpFlg = true;
 
                                 jumpmove = 0;
                                 jumpmovesave = 0;
@@ -330,7 +330,7 @@ public class PlayerMove : MonoBehaviour
                 }
 
 
-                if (TimingInput)
+                if (JumpFlg)
                 {
                     if (InsideFlg)//内側
                     {
@@ -349,7 +349,7 @@ public class PlayerMove : MonoBehaviour
                                 jumpcount = 0;
                                 JumpOk = true;
                                 HipDrop = false;
-                                TimingInput = false;
+                                JumpFlg = false;
                                 SmokeEffect.SetActive(true);
                             }
                         }//if (HipDrop)
@@ -385,7 +385,7 @@ public class PlayerMove : MonoBehaviour
                                 jumpcount = 0;
                                 JumpOk = true;
                                 HipDrop = false;
-                                TimingInput = false;
+                                JumpFlg = false;
                                 SmokeEffect.SetActive(true);
                             }
                         }//if (HipDrop)
@@ -408,7 +408,7 @@ public class PlayerMove : MonoBehaviour
 
 
 
-                }//if (TimingInput)
+                }//if (JumpFlg)
                 else
                 {
 
@@ -445,8 +445,7 @@ public class PlayerMove : MonoBehaviour
 
                         }
                     }
-
-
+                    
                     //角度の範囲を指定(0～360)
                     if (angle > 360)
                     {
@@ -458,9 +457,7 @@ public class PlayerMove : MonoBehaviour
                         angle = angle + 360;
 
                     }
-
-
-
+                    
                     if (MobiusCol)
                     {
                         counter += Time.deltaTime;
@@ -475,8 +472,7 @@ public class PlayerMove : MonoBehaviour
                                 MobiusCol = false;
                             }
                         }
-
-
+                        
                     }
                     else
                     {
