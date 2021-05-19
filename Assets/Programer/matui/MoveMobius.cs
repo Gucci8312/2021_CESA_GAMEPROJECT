@@ -707,7 +707,6 @@ public class MoveMobius : MonoBehaviour
                             float dis = (this.transform.position - otherObj.transform.position).magnitude;//自分と相手の距離を求める
                             MobiusCol(ScaleDistance-1, DisVec);//メビウスがぶつかった時の処理を実行
 
-                            //ColObjAttachFlag = true;
                             otherObj.GetComponent<Block>().Collision(this.gameObject);
                         }
                         else//近いところでぶつかったなら

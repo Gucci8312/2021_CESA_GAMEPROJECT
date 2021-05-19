@@ -6,7 +6,6 @@ using UnityEngine;
 public class CrossLine : MonoBehaviour
 {
     //MoveLineで変更したりするのでpublicにしてる
-
     [HideInInspector] public List<Vector2> CrossPos = new List<Vector2>();                            //自身の交点
     [HideInInspector] public List<GameObject> Line = new List<GameObject>();                          //線のオブジェクト
     [HideInInspector] public List<CrossLine> cl = new List<CrossLine>();                              //CrossLineスクリプト
