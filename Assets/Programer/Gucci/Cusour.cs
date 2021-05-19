@@ -96,6 +96,7 @@ public class Cusour : MonoBehaviour
             {
                 SoundFlg = true;
                 SoundObj = (GameObject)Instantiate(SoundRes, new Vector3(-80.0f, 25.0f, -290.0f), Quaternion.identity);
+                SoundObj.transform.parent=this.gameObject.transform;
             }
         }
     }
