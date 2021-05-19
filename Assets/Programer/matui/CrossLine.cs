@@ -81,7 +81,7 @@ public class CrossLine : MonoBehaviour
     private Vector2 RotationfromPosition(Vector2 pos, Vector2 scale, float Angle, int tyouten)
     {
         scale.y = 0;//横長の棒の先端に点を置くために縦軸を0にする
-        scale.x += 20;//多少の貫通していないのを無視させるためのスケールアップ
+        scale.x = scale.x*1.1f;//多少の貫通していないのを無視させるためのスケールアップ
 
         float theta = Mathf.Atan((scale.y / 2) / (scale.x / 2)) * 180 / 3.14f;
         float sha = Mathf.Sqrt((scale.x / 2) * (scale.x / 2) + (scale.y / 2) * (scale.y / 2));

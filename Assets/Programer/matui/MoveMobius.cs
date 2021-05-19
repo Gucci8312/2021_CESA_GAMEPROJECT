@@ -24,7 +24,7 @@ public class MoveMobius : MonoBehaviour
 
     List<GameObject> Line = new List<GameObject>();                          //線のオブジェクト
     List<CrossLine> cl = new List<CrossLine>();                              //CrossLineスクリプト
-    /*[HideInInspector]*/ public GameObject MoveLineObj;                         //動く線のオブジェクト格納用（MoveLineが操作する）
+    [HideInInspector] public GameObject MoveLineObj;                         //動く線のオブジェクト格納用（MoveLineが操作する）
     int MobiusMoveCrossPosNum;                                               //メビウスが移動する交点の要素番号
 
     private Rigidbody Rb;
@@ -210,15 +210,15 @@ public class MoveMobius : MonoBehaviour
                                 this.rythm.checkMoviusMove = false;
                             }
                         }
-                        else//移動できなければ
-                        {
-                            Sm.ShakeOn();//失敗時の振動させる
-                        }
+                        //else//移動できなければ
+                        //{
+                        //    Sm.ShakeOn();//失敗時の振動させる
+                        //}
                     }
-                    else//移動できなければ
-                    {
-                        Sm.ShakeOn();//失敗時の振動させる
-                    }
+                    //else//移動できなければ
+                    //{
+                    //    Sm.ShakeOn();//失敗時の振動させる
+                    //}
                 }
                 else//移動できなければ
                 {
@@ -468,16 +468,16 @@ public class MoveMobius : MonoBehaviour
                 }
             }
 
-            if (ColLine != null)
-            {
+            //if (ColLine != null)
+            //{
                 if (other.GetComponent<CrossLine>().MoveLineFlag && !other.GetComponent<CrossLine>().MoveFlag)
                 {
                     if (MoveLineObj == null)
                     {
-                        ColLine.GetComponent<MoveLine>().PutMobiusOnOff(true, this.gameObject);
+                        other.GetComponent<MoveLine>().PutMobiusOnOff(true, this.gameObject);
                     }
                 }
-            }
+            //}
         }
     }
 
@@ -696,12 +696,16 @@ public class MoveMobius : MonoBehaviour
 
                 case "Block":
                     {
+                        this.transform.position = otherObj.transform.position;//計算をしやすくするために中心に移動
+
                         float ColScale = (otherObj.GetComponent<BoxCollider>().bounds.size.x + otherObj.GetComponent<BoxCollider>().bounds.size.y) / 4;
+
                         float ScaleDistance = ThisR + ColScale + 15;//お互いの大きさと少しだけ離す
 
                         if (ScaleDistance < PosDistance)//離れているところから移動してぶつかったなら 
                         {
-                            MobiusCol(ThisR + 4, DisVec);//ぶつかった時の処理を実行
+                            float dis = (this.transform.position - otherObj.transform.position).magnitude;//自分と相手の距離を求める
+                            MobiusCol(ScaleDistance-1, DisVec);//メビウスがぶつかった時の処理を実行
 
                             //ColObjAttachFlag = true;
                             otherObj.GetComponent<Block>().Collision(this.gameObject);
@@ -721,7 +725,7 @@ public class MoveMobius : MonoBehaviour
         }
     }
 
-    private int ListNumberSearch(List<GameObject> ListObj, GameObject SearchObj)//特定のリストの要素数を調べる
+    public int ListNumberSearch(List<GameObject> ListObj, GameObject SearchObj)//特定のリストの要素数を調べる
     {
         for (int i = 0; i < ListObj.Count; i++)
         {
