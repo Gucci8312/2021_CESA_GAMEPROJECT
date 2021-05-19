@@ -21,7 +21,7 @@ public class PlayerMove : MonoBehaviour
     int SideCnt;                                                                                    //メビウスの輪に沿った動きにするためメビウスの輪を何回切り替えたかをカウント  2以上で外側内側入れ替える
     float counter;                                                                                  //乗り移るとき、元のメビウスの輪に戻らないようにカウントする値
 
-    bool TimingInput;                                                                               //タイミング入力を管理する変数　true:入力あり　false:入力なし
+    bool JumpFlg;                                                                               //タイミング入力を管理する変数　true:入力あり　false:入力なし
     [SerializeField, Range(0, 7)] public int StartPoint;                                            //メビウス上の点の番号
 
     bool StartFlg;                                                                                  //初期位置設定用フラグ　最初の一回だけ通る
@@ -120,7 +120,7 @@ public class PlayerMove : MonoBehaviour
 
         SideCnt = 2;
         SaveMobius = -1;
-        TimingInput = false;
+        JumpFlg = false;
         StartFlg = true;
         counter = -1;
         CollisionState = false;
@@ -189,308 +189,307 @@ public class PlayerMove : MonoBehaviour
 
         NowMobiusColor = Mobius[NowMobius].GetComponent<MobiusColor>().GetNowColorNum();//松井君のスクリプトから変数取得
 
-        if (!Clear)
+        if (Time.timeScale != 0)
         {
-            if (StartFlg)
+
+            if (!Clear)
             {
-                StartFlg = false;
+                if (StartFlg)
+                {
+                    StartFlg = false;
 
-            }
+                }
 
-            PositionSum();//場所を求める
+                PositionSum();//場所を求める
 
-            if (!CollisionState)
-            {
-
-
-                RythmFlg = this.rythm.rythmCheckFlag;//リズム取得
-
-                if (RythmFlg)//リズムのタイミングが来た
+                if (!CollisionState)
                 {
 
-                    if (RythmSaveFlg != RythmFlg)//タイミングがtrueになった瞬間
-                    {
-                        SpacePress = false;
-                        SmokeEffect.SetActive(false);
-                    }
 
-                    if (Controler.GetRythmButtonFlg())//スピードアップのキー入力
+                    RythmFlg = this.rythm.rythmCheckFlag;//リズム取得
+
+                    if (RythmFlg)//リズムのタイミングが来た
                     {
-                        if (!SpeedUpMashing)
+
+                        if (RythmSaveFlg != RythmFlg)//タイミングがtrueになった瞬間
                         {
-                            if (!SpacePress)//１回目のボタン入力
+                            SpacePress = false;
+                            SmokeEffect.SetActive(false);
+                        }
+
+                        if (Controler.GetRythmButtonFlg())//スピードアップのキー入力
+                        {
+                            if (!SpeedUpMashing)
                             {
-                                SpacePress = true;
+                                if (!SpacePress)//１回目のボタン入力
+                                {
+                                    SpacePress = true;
+                                    Speed = UpSpeed;
+                                    SpeedUpFlg = true;
+
+                                    PlayerAnimation.Run();
+                                    Instantiate(successPrefab);
+                                }
+                                else
+                                {
+
+                                    SpacePress = false;
+                                    Speed = NormalSpeed;
+                                    SpeedUpFlg = false;
+
+                                    SpeedUpMashing = true;
+
+                                }
+                            }
+                            else
+                            {
+                                Instantiate(missPrefab);
+                            }
+                        }
+
+                        if (Controler.GetJumpButtonFlg() && !JumpFlg)//ジャンプ
+                        {
+                            if (!JumpMashing)
+                            {
+
+                                JumpFlg = true;
+
+                                jumpmove = 0;
+                                jumpmovesave = 0;
+                                jumpmove_prev = 0;
+
+                                PlayerAnimation.HipDrop();
+
+                                Instantiate(successPrefab);
+
+                                if (InsideFlg)//ジャンプの力をセット
+                                {
+                                    pow = -jumppow;
+                                }
+                                else
+                                {
+                                    pow = jumppow;
+                                }
+                            }
+                            else
+                            {
+                                Instantiate(missPrefab);
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        if (RythmSaveFlg != RythmFlg)//タイミングがfalseになった瞬間
+                        {
+
+                            JumpMashing = false;
+                            SpeedUpMashing = false;
+
+                            if (SpacePress)//スピードアップ入力があった
+                            {
                                 Speed = UpSpeed;
                                 SpeedUpFlg = true;
-
-                                PlayerAnimation.Run();
-                                Instantiate(successPrefab);
+                                DushEffect.SetActive(true);
                             }
-                            else
+                            else//スピードアップ入力なし
                             {
-
-                                SpacePress = false;
-                                Speed = NormalSpeed;
                                 SpeedUpFlg = false;
-
-                                SpeedUpMashing = true;
+                                Speed = NormalSpeed;
+                                PlayerAnimation.Walk();
+                                DushEffect.SetActive(false);
 
                             }
+
+
                         }
-                        else
+
+                        if (Controler.GetRythmButtonFlg())//スピードアップのキー入力
                         {
-                            Instantiate(missPrefab);
-                        }
-                    }
-
-                    if (Controler.GetJumpButtonFlg() && !TimingInput)//ジャンプ
-                    {
-                        if (!JumpMashing)
-                        {
-
-                            TimingInput = true;
-
-                            jumpmove = 0;
-                            jumpmovesave = 0;
-                            jumpmove_prev = 0;
-
-                            PlayerAnimation.HipDrop();
-
-                            Instantiate(successPrefab);
-
-                            if (InsideFlg)//ジャンプの力をセット
-                            {
-                                pow = -jumppow;
-                            }
-                            else
-                            {
-                                pow = jumppow;
-                            }
-                        }
-                        else
-                        {
-                            Instantiate(missPrefab);
-                        }
-                    }
-
-                }
-                else
-                {
-                    if (RythmSaveFlg != RythmFlg)//タイミングがfalseになった瞬間
-                    {
-
-                        JumpMashing = false;
-                        SpeedUpMashing = false;
-
-                        if (SpacePress)//スピードアップ入力があった
-                        {
-                            Speed = UpSpeed;
-                            SpeedUpFlg = true;
-                            DushEffect.SetActive(true);
-                        }
-                        else//スピードアップ入力なし
-                        {
-                            SpeedUpFlg = false;
+                            SpacePress = false;
                             Speed = NormalSpeed;
+                            SpeedUpFlg = false;
+                            SpeedUpMashing = true;
+
                             PlayerAnimation.Walk();
                             DushEffect.SetActive(false);
+                            Instantiate(missPrefab);
 
                         }
 
-
-                    }
-
-                    if (Controler.GetRythmButtonFlg())//スピードアップのキー入力
-                    {
-                        SpacePress = false;
-                        Speed = NormalSpeed;
-                        SpeedUpFlg = false;
-                        SpeedUpMashing = true;
-
-                        PlayerAnimation.Walk();
-                        DushEffect.SetActive(false);
-                        Instantiate(missPrefab);
-
-                    }
-
-                    if (Controler.GetJumpButtonFlg())
-                    {
-                        JumpMashing = true;
-                        Instantiate(missPrefab);
-                    }
-
-
-                }
-
-                RythmSaveFlg = RythmFlg;//リズムセーブ
-            }
-
-
-            if (TimingInput)
-            {
-                if (InsideFlg)//内側
-                {
-
-                    if (HipDrop)
-                    {
-
-                        jumpmove += (HipDropSpeed * 100f) * Time.deltaTime;
-
-                        camerashake.OnShake();
-
-                        if (jumpmove > 0)
+                        if (Controler.GetJumpButtonFlg())
                         {
-                            jumpmove = 0;
-                            this.rythm.checkPlayerMove = false;
-                            jumpcount = 0;
-                            JumpOk = true;
-                            HipDrop = false;
-                            TimingInput = false;
-                            SmokeEffect.SetActive(true);
+                            JumpMashing = true;
+                            Instantiate(missPrefab);
                         }
-                    }//if (HipDrop)
-                    else
+
+
+                    }
+
+                    RythmSaveFlg = RythmFlg;//リズムセーブ
+                }
+
+
+                if (JumpFlg)
+                {
+                    if (InsideFlg)//内側
                     {
-                        jumpmovesave = jumpmove;
-                        jumpmove += (jumpmove - jumpmove_prev) + pow;
-                        jumpmove_prev = jumpmovesave;
 
-                        pow = 1;
-
-                        if (jumpmove > jumpmovesave)
+                        if (HipDrop)
                         {
-                            HipDrop = true;
-                        }
-                    }//else
 
-                }//if (InsideFlg)//内側
-                else//外側
-                {
+                            jumpmove += (HipDropSpeed * 100f) * Time.deltaTime;
 
-                    if (HipDrop)
-                    {
+                            camerashake.OnShake();
 
-                        jumpmove -= (HipDropSpeed * 100f) * Time.deltaTime;
-
-                        camerashake.OnShake();
-
-                        if (jumpmove < 0)
+                            if (jumpmove > 0)
+                            {
+                                jumpmove = 0;
+                                this.rythm.checkPlayerMove = false;
+                                jumpcount = 0;
+                                JumpOk = true;
+                                HipDrop = false;
+                                JumpFlg = false;
+                                SmokeEffect.SetActive(true);
+                            }
+                        }//if (HipDrop)
+                        else
                         {
-                            jumpmove = 0;
-                            this.rythm.checkPlayerMove = false;
-                            jumpcount = 0;
-                            JumpOk = true;
-                            HipDrop = false;
-                            TimingInput = false;
-                            SmokeEffect.SetActive(true);
-                        }
-                    }//if (HipDrop)
-                    else
+                            jumpmovesave = jumpmove;
+                            jumpmove += (jumpmove - jumpmove_prev) + pow;
+                            jumpmove_prev = jumpmovesave;
+
+                            pow = 1;
+
+                            if (jumpmove > jumpmovesave)
+                            {
+                                HipDrop = true;
+                            }
+                        }//else
+
+                    }//if (InsideFlg)//内側
+                    else//外側
                     {
 
-                        jumpmovesave = jumpmove;
-                        jumpmove = jumpmove + ((jumpmove - jumpmove_prev) + pow);
-                        jumpmove_prev = jumpmovesave;
-
-                        pow = -1;
-
-                        if (jumpmove < jumpmovesave)
+                        if (HipDrop)
                         {
-                            HipDrop = true;
-                        }
-                    }//else
 
-                }//else//外側
+                            jumpmove -= (HipDropSpeed * 100f) * Time.deltaTime;
 
+                            camerashake.OnShake();
 
-
-            }//if (TimingInput)
-            else
-            {
-
-                if (InsideFlg)//内側
-                {
-
-                    if (SpeedUpFlg)
-                    {
-                        Speed = UpSpeed * InsideSpeed;
-                    }
-                    else
-                    {
-                        Speed = NormalSpeed * InsideSpeed;
-                    }
-
-                }
-
-                if (jumpmove == 0)//ヒップドロップの場所
-                {
-                    HipDropPos = this.transform.position;
-                }
-
-                //プレイヤーの移動
-                if (!Stop)
-                {
-                    if (RotateLeftFlg)
-                    {
-                        angle += (rotateSpeed * Speed) * Time.deltaTime;
-
-                    }
-                    else
-                    {
-                        angle -= (rotateSpeed * Speed) * Time.deltaTime;
-
-                    }
-                }
-
-
-                //角度の範囲を指定(0～360)
-                if (angle > 360)
-                {
-                    angle = angle - 360;
-
-                }
-                if (angle < 0)
-                {
-                    angle = angle + 360;
-
-                }
-
-
-
-                if (MobiusCol)
-                {
-                    counter += Time.deltaTime;
-                    //移ったときに元のメビウスの輪に戻らないようにカウントする
-                    if (counter > 0.2)//移り変わり制御
-                    {
-                        if (angle > saveangle + 90 || angle < saveangle - 90)
+                            if (jumpmove < 0)
+                            {
+                                jumpmove = 0;
+                                this.rythm.checkPlayerMove = false;
+                                jumpcount = 0;
+                                JumpOk = true;
+                                HipDrop = false;
+                                JumpFlg = false;
+                                SmokeEffect.SetActive(true);
+                            }
+                        }//if (HipDrop)
+                        else
                         {
-                            //移り変わることができるようにする
-                            SaveMobius = NowMobius;
-                            counter = 0;
-                            MobiusCol = false;
-                        }
-                    }
+
+                            jumpmovesave = jumpmove;
+                            jumpmove = jumpmove + ((jumpmove - jumpmove_prev) + pow);
+                            jumpmove_prev = jumpmovesave;
+
+                            pow = -1;
+
+                            if (jumpmove < jumpmovesave)
+                            {
+                                HipDrop = true;
+                            }
+                        }//else
+
+                    }//else//外側
 
 
-                }
+
+                }//if (JumpFlg)
                 else
                 {
-                    CollisonMobius();//移り先のメビウスの輪を探す
-                }
-            }//else
 
-        }
-        else
-        {
-            if (!Stop)
-            {
-                ClearMove();
+                    if (InsideFlg)//内側
+                    {
+
+                        if (SpeedUpFlg)
+                        {
+                            Speed = UpSpeed * InsideSpeed;
+                        }
+                        else
+                        {
+                            Speed = NormalSpeed * InsideSpeed;
+                        }
+
+                    }
+
+                    if (jumpmove == 0)//ヒップドロップの場所
+                    {
+                        HipDropPos = this.transform.position;
+                    }
+
+                    //プレイヤーの移動
+                    if (!Stop)
+                    {
+                        if (RotateLeftFlg)
+                        {
+                            angle += (rotateSpeed * Speed) * Time.deltaTime;
+
+                        }
+                        else
+                        {
+                            angle -= (rotateSpeed * Speed) * Time.deltaTime;
+
+                        }
+                    }
+                    
+                    //角度の範囲を指定(0～360)
+                    if (angle > 360)
+                    {
+                        angle = angle - 360;
+
+                    }
+                    if (angle < 0)
+                    {
+                        angle = angle + 360;
+
+                    }
+                    
+                    if (MobiusCol)
+                    {
+                        counter += Time.deltaTime;
+                        //移ったときに元のメビウスの輪に戻らないようにカウントする
+                        if (counter > 0.2)//移り変わり制御
+                        {
+                            if (angle > saveangle + 90 || angle < saveangle - 90)
+                            {
+                                //移り変わることができるようにする
+                                SaveMobius = NowMobius;
+                                counter = 0;
+                                MobiusCol = false;
+                            }
+                        }
+                        
+                    }
+                    else
+                    {
+                        CollisonMobius();//移り先のメビウスの輪を探す
+                    }
+                }//else
+
             }
+            else
+            {
+                if (!Stop)
+                {
+                    ClearMove();
+                }
+            }
+
         }
-
-
 
     }//void Update()
 
