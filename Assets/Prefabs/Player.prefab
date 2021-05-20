@@ -31,6 +31,73 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f42b11b853ed33e4f9ef538035e1ba40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &6409168518406717548
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8246034670255431809}
+  - component: {fileID: 684973765048539646}
+  - component: {fileID: 5079802929342584065}
+  - component: {fileID: 4418763794807298745}
+  m_Layer: 0
+  m_Name: HipDropCollision
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8246034670255431809
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6409168518406717548}
+  m_LocalRotation: {x: -0, y: -0, z: 4.7748468e-12, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2.6666665, y: 2.6666665, z: 2.6666667}
+  m_Children: []
+  m_Father: {fileID: 6560782197815413972}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &684973765048539646
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6409168518406717548}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!135 &5079802929342584065
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6409168518406717548}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 18.210188
+  m_Center: {x: 0.40884024, y: -35.796555, z: 0}
+--- !u!114 &4418763794807298745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6409168518406717548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ca3237cd3895eb4c899123029d8d955, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HipDropFlg: 0
 --- !u!1 &6560782196904396874
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,12 +163,11 @@ MonoBehaviour:
   angle: 0
   rotateSpeed: 30
   HipDrop: 0
-  HipDropColPos: 15
-  HipDropColLength: 9.54
   missPrefab: {fileID: 2473179551104762139, guid: 33eb7c88fc2c72749aa492d6edc1b1f3,
     type: 3}
   successPrefab: {fileID: 5678893864526686650, guid: 517a5c913ca164244ac09826fcc0984b,
     type: 3}
+  HipDropCollisionObj: {fileID: 6409168518406717548}
 --- !u!114 &6560782196904396873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +240,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.2499999}
   m_Children:
+  - {fileID: 8246034670255431809}
   - {fileID: 6667066707873146805}
   m_Father: {fileID: 6560782196904396887}
   m_RootOrder: 0
@@ -277,7 +344,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 037ba831ca3ba1a488d657a387f3fe61,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 037ba831ca3ba1a488d657a387f3fe61,
         type: 3}
