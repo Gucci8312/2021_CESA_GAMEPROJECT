@@ -10,15 +10,15 @@ public class Cusour : MonoBehaviour
     int Idx = 0;
     public int NextStageNum;
     bool SoundFlg;
-    GameObject SoundObj;
-    GameObject SoundRes;
+    public GameObject SoundObj;
+    // GameObject SoundRes;
 
     // Start is called before the first frame update
     void Start()
     {
         Vector3 Pos = this.gameObject.transform.position;
         transform.position = new Vector3(Pos.x, WindowButton[0].transform.position.y, Pos.z);
-        SoundRes = (GameObject)Resources.Load("VolumeSettings");
+        // SoundRes = (GameObject)Resources.Load("VolumeSettings");
     }
 
     // Update is called once per frame
@@ -46,7 +46,7 @@ public class Cusour : MonoBehaviour
                 }
                 transform.position = new Vector3(Pos.x, WindowButton[Idx].transform.position.y, Pos.z);
             }
-            if(Controler.GetCanselButtonFlg())
+            if (Controler.GetCanselButtonFlg())
             {
                 Window.SetActive(!Window.activeSelf);
                 Time.timeScale = 1.0f;
@@ -58,10 +58,11 @@ public class Cusour : MonoBehaviour
         }
         else
         {
-            if(Controler.GetCanselButtonFlg())
+            if (Controler.GetCanselButtonFlg())
             {
                 SoundFlg = false;
-                Destroy(SoundObj);
+                // Destroy(SoundObj);
+                SoundObj.SetActive(false);
             }
         }
 
@@ -95,8 +96,9 @@ public class Cusour : MonoBehaviour
             else if (WindowButton[Idx].name == "SOUND")
             {
                 SoundFlg = true;
-                SoundObj = (GameObject)Instantiate(SoundRes, new Vector3(-80.0f, 25.0f, -290.0f), Quaternion.identity);
-                SoundObj.transform.parent=this.gameObject.transform;
+                SoundObj.SetActive(true);
+                // SoundObj = (GameObject)Instantiate(SoundRes, new Vector3(-80.0f, 25.0f, -290.0f), Quaternion.identity);
+                // SoundObj.transform.parent=this.gameObject.transform;
             }
         }
     }

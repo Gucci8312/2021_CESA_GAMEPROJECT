@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
+  m_AmbientSkyColor: {r: 0.1509434, g: 0.1260235, b: 0.1260235, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0
@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -321,6 +321,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7598658671354799574, guid: 0a0649212c658664ba8b0c9952e0d559,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.7325492
+      objectReference: {fileID: 0}
+    - target: {fileID: 7598658671354799574, guid: 0a0649212c658664ba8b0c9952e0d559,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7598658671354799574, guid: 0a0649212c658664ba8b0c9952e0d559,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7598658671354799574, guid: 0a0649212c658664ba8b0c9952e0d559,
         type: 3}
@@ -1037,8 +1052,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7984708624892546552, guid: f7a00c465ee1ab24baf205597a471688,
         type: 3}
+      propertyPath: m_Color.g
+      value: 0.86263657
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984708624892546552, guid: f7a00c465ee1ab24baf205597a471688,
+        type: 3}
       propertyPath: m_Color.r
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7984708624892546552, guid: f7a00c465ee1ab24baf205597a471688,
         type: 3}
@@ -2006,7 +2026,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3e778e2b7f594f94ba7872fa11347e04, type: 2}
+  - {fileID: 2100000, guid: 6965c85f6bf077041bfeefc7e9e4345c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

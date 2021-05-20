@@ -97,7 +97,7 @@ public class TitleManager : MonoBehaviour
             mobiusArray[3].GetComponent<TitleMoveMobius>().enabled = false;
         }
 
-        if (Controler.GetCanselButtonFlg())
+        if (Controler.GetMenuButtonFlg())
         {
             Window.SetActive(true);
         }

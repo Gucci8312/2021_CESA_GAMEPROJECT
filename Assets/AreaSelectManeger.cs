@@ -10,7 +10,8 @@ public class AreaSelectManeger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        SoundManager.StopBGM();
+        SoundManager.PlayBgmName("stageselect");
     }
 
     // Update is called once per frame

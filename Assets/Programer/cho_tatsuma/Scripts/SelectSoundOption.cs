@@ -17,7 +17,7 @@ public class SelectSoundOption : MonoBehaviour
     void Start()
     {
         m_sliderHandle = GameObject.FindGameObjectsWithTag("Handle");
-        m_nowId = 2;
+        m_nowId = 0;
         m_sliderHandle[m_nowId].GetComponent<RectTransform>().localScale = new Vector2(1.3f, 1.3f);
         rotateAngle = 1.0f;
     }
@@ -41,7 +41,7 @@ public class SelectSoundOption : MonoBehaviour
             rotateAngle = 1.0f;
         }
 
-        if (Controler.GetUpButtonFlg())
+        if (Controler.GetDownButtonFlg())
         {
             //選択オブジェクトのサイズを戻す
             m_sliderHandle[m_nowId].GetComponent<RectTransform>().localScale = new Vector2(1.0f, 1.0f);
@@ -54,7 +54,7 @@ public class SelectSoundOption : MonoBehaviour
             }
             m_sliderHandle[m_nowId].GetComponent<RectTransform>().localScale = new Vector2(1.3f, 1.3f);
         }
-        else if (Controler.GetDownButtonFlg())
+        else if (Controler.GetUpButtonFlg())
         {
             //選択オブジェクトのサイズを戻す
             m_sliderHandle[m_nowId].GetComponent<RectTransform>().localScale = new Vector2(1.0f, 1.0f);
