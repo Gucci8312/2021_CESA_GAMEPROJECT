@@ -187,7 +187,7 @@ public class PlayerMove : MonoBehaviour
     {
 
 
-        NowMobiusColor = Mobius[NowMobius].GetComponent<MobiusColor>().GetNowColorNum();//松井君のスクリプトから変数取得
+        NowMobiusColor = Mobius[NowMobius].GetComponent<MobiusColor>().GetNowColorNum();//現在のメビウスの色を取得
 
         if (Time.timeScale != 0)
         {
@@ -208,123 +208,9 @@ public class PlayerMove : MonoBehaviour
 
                     RythmFlg = this.rythm.rythmCheckFlag;//リズム取得
 
-                    if (RythmFlg)//リズムのタイミングが来た
-                    {
-
-                        if (RythmSaveFlg != RythmFlg)//タイミングがtrueになった瞬間
-                        {
-                            SpacePress = false;
-                            SmokeEffect.SetActive(false);
-                        }
-
-                        if (Controler.GetRythmButtonFlg())//スピードアップのキー入力
-                        {
-                            if (!SpeedUpMashing)
-                            {
-                                if (!SpacePress)//１回目のボタン入力
-                                {
-                                    SpacePress = true;
-                                    Speed = UpSpeed;
-                                    SpeedUpFlg = true;
-
-                                    PlayerAnimation.Run();
-                                    Instantiate(successPrefab);
-                                }
-                                else
-                                {
-
-                                    SpacePress = false;
-                                    Speed = NormalSpeed;
-                                    SpeedUpFlg = false;
-
-                                    SpeedUpMashing = true;
-
-                                }
-                            }
-                            else
-                            {
-                                Instantiate(missPrefab);
-                            }
-                        }
-
-                        if (Controler.GetJumpButtonFlg() && !JumpFlg)//ジャンプ
-                        {
-                            if (!JumpMashing)
-                            {
-
-                                JumpFlg = true;
-
-                                jumpmove = 0;
-                                jumpmovesave = 0;
-                                jumpmove_prev = 0;
-
-                                PlayerAnimation.HipDrop();
-
-                                Instantiate(successPrefab);
-
-                                if (InsideFlg)//ジャンプの力をセット
-                                {
-                                    pow = -jumppow;
-                                }
-                                else
-                                {
-                                    pow = jumppow;
-                                }
-                            }
-                            else
-                            {
-                                Instantiate(missPrefab);
-                            }
-                        }
-
-                    }
-                    else
-                    {
-                        if (RythmSaveFlg != RythmFlg)//タイミングがfalseになった瞬間
-                        {
-
-                            JumpMashing = false;
-                            SpeedUpMashing = false;
-
-                            if (SpacePress)//スピードアップ入力があった
-                            {
-                                Speed = UpSpeed;
-                                SpeedUpFlg = true;
-                                DushEffect.SetActive(true);
-                            }
-                            else//スピードアップ入力なし
-                            {
-                                SpeedUpFlg = false;
-                                Speed = NormalSpeed;
-                                PlayerAnimation.Walk();
-                                DushEffect.SetActive(false);
-
-                            }
-
-
-                        }
-
-                        if (Controler.GetRythmButtonFlg())//スピードアップのキー入力
-                        {
-                            SpacePress = false;
-                            Speed = NormalSpeed;
-                            SpeedUpFlg = false;
-                            SpeedUpMashing = true;
-
-                            PlayerAnimation.Walk();
-                            DushEffect.SetActive(false);
-                            Instantiate(missPrefab);
-
-                        }
-
-                        if (Controler.GetJumpButtonFlg())
-                        {
-                            JumpMashing = true;
-                            Instantiate(missPrefab);
-                        }
-
-
-                    }
+                    SpeedUpInput();//スピードアップ入力
+                    JumpInput();//ジャンプ入力
+                    
 
                     RythmSaveFlg = RythmFlg;//リズムセーブ
                 }
@@ -500,6 +386,143 @@ public class PlayerMove : MonoBehaviour
 
         Gizmos.color = new Vector4(0, 0, 1, 0.5f); //色指定
         Gizmos.DrawSphere(HipDropCollisionPos, HipDropColLength); //中心点とサイズ
+    }
+
+    private void JumpInput()
+    {
+        if (RythmFlg)//リズムのタイミングが来た
+        {
+            
+            if (Controler.GetJumpButtonFlg() && !JumpFlg)//ジャンプ
+            {
+                if (!JumpMashing)
+                {
+
+                    JumpFlg = true;
+
+                    jumpmove = 0;
+                    jumpmovesave = 0;
+                    jumpmove_prev = 0;
+
+                    PlayerAnimation.HipDrop();
+
+                    Instantiate(successPrefab);
+
+                    if (InsideFlg)//ジャンプの力をセット
+                    {
+                        pow = -jumppow;
+                    }
+                    else
+                    {
+                        pow = jumppow;
+                    }
+                }
+                else
+                {
+                    Instantiate(missPrefab);
+                }
+            }
+
+        }
+        else
+        {
+            if (RythmSaveFlg != RythmFlg)//タイミングがfalseになった瞬間
+            {
+
+                JumpMashing = false;
+                
+            }
+            
+            if (Controler.GetJumpButtonFlg())
+            {
+                JumpMashing = true;
+                Instantiate(missPrefab);
+            }
+            
+        }
+    }
+
+    private void SpeedUpInput()
+    {
+
+        if (RythmFlg)//リズムのタイミングが来た
+        {
+            if (RythmSaveFlg != RythmFlg)//タイミングがtrueになった瞬間
+            {
+                SpacePress = false;
+                SpeedUpMashing = false;
+                SmokeEffect.SetActive(false);
+            }
+
+            if (Controler.GetRythmButtonFlg())//スピードアップのキー入力
+            {
+                if (!SpeedUpMashing && !SpacePress)
+                {
+                    SetSpeedUp();
+                    //ダッシュ成功時
+                    SoundManager.PlaySeName("hit");
+                    Instantiate(successPrefab);
+                }
+                else
+                {
+                    SetSpeedNormal();
+                    //ダッシュミス時
+                    SoundManager.PlaySeName("dash_miss");
+                    Instantiate(missPrefab);
+                }
+            }
+        }
+        else
+        {
+            if (RythmSaveFlg != RythmFlg)//タイミングがfalseになった瞬間
+            {
+                
+                
+
+                if (SpacePress)//スピードアップ入力があった
+                {
+                    SetSpeedUp();
+                }
+                else//スピードアップ入力なし
+                {
+                    SetSpeedNormal();
+
+                }
+
+
+            }
+
+            if (Controler.GetRythmButtonFlg())//スピードアップのキー入力
+            {
+                SetSpeedNormal();
+                //ダッシュミス時
+                SoundManager.PlaySeName("dash_miss");
+                Instantiate(missPrefab);
+            }
+        }
+    }
+
+    private void SetSpeedUp()
+    {
+        SpacePress = true;
+        Speed = UpSpeed;
+        SpeedUpFlg = true;
+
+        PlayerAnimation.Run();
+        DushEffect.SetActive(true);
+        
+    }
+
+    private void SetSpeedNormal()
+    {
+        SpacePress = false;
+        Speed = NormalSpeed;
+        SpeedUpFlg = false;
+        SpeedUpMashing = true;
+
+        PlayerAnimation.Walk();
+        DushEffect.SetActive(false);
+        
     }
 
     private void PositionSum()//メビウスの輪からの場所を計算
