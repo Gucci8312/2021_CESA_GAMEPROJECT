@@ -74,6 +74,7 @@ public class UIManeger : MonoBehaviour
         if (Player.GetComponent<PlayerMove>().GetCollisionState())  //チェックポイント0になったら
         {
             Debug.Log(" ゲームオーバー");
+            SoundManager.PlayBgmName("gameovermusic");
 
             GameOver.active = true;
             //_camera.OnZoom();                //カメラズーム

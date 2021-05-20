@@ -65,12 +65,12 @@ public class Controler : MonoBehaviour
         bool Response = false;
         if (Input.GetKeyDown("joystick button 0"))
         {
-            // SoundManager.PlaySeName("決定音");
-            Response = true;
+            SoundManager.PlaySeName("決定音");
+           Response = true;
         }
         else if (Input.GetKeyDown(KeyCode.Return))
         {
-            //SoundManager.PlaySeName("決定音");
+            SoundManager.PlaySeName("決定音");
             Response = true;
         }
         return Response;

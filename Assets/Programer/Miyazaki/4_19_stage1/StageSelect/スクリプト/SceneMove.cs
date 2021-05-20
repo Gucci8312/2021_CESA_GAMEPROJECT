@@ -41,61 +41,61 @@ public class SceneMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        fedeout.FedeOut_Update();
-
-        if (Controler.GetRightButtonFlg())
-        //if(Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            if (Select_Scene != 25)
-            {
-                Select_Scene++;
-            }
-            if (Select_Scene == 25)
-            {
-                Camera = false;
-            }
-            if (Select_Scene % 5 == 1)
-            {
-                Camera = true;
-            }
-
-        }
-        else if (Controler.GetLeftButtonFlg())
-        // else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            if (Select_Scene != 0)
-            {
-                Select_Scene--;
-
-            }
-            if (Select_Scene == 0)
-            {
-                Select_Scene = 1;
-                Camera1 = false;
-            }
-            if (Select_Scene % 5 == 0)
-            {
-                Camera1 = true;
-            }
-        }
-        if (Camera == true)
-        {
-            stageselectcam.OnPlus();
-            Camera = false;
-        }
-
-        if (Camera1 == true)
-        {
-            stageselectcam.OnMinus();
-            Camera1 = false;
-        }
-
-        AllStageLightOff();
-        stageNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
-        StagePictureActiveTrue(Select_Scene - 1);
-
         if (!gameObject.GetComponent<AreaSelectManeger>().GetMenuFlg())
         {
+            fedeout.FedeOut_Update();
+
+            if (Controler.GetRightButtonFlg())
+            //if(Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                if (Select_Scene != 25)
+                {
+                    Select_Scene++;
+                }
+                if (Select_Scene == 25)
+                {
+                    Camera = false;
+                }
+                if (Select_Scene % 5 == 1)
+                {
+                    Camera = true;
+                }
+
+            }
+            else if (Controler.GetLeftButtonFlg())
+            // else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                if (Select_Scene != 0)
+                {
+                    Select_Scene--;
+
+                }
+                if (Select_Scene == 0)
+                {
+                    Select_Scene = 1;
+                    Camera1 = false;
+                }
+                if (Select_Scene % 5 == 0)
+                {
+                    Camera1 = true;
+                }
+            }
+            if (Camera == true)
+            {
+                stageselectcam.OnPlus();
+                Camera = false;
+            }
+
+            if (Camera1 == true)
+            {
+                stageselectcam.OnMinus();
+                Camera1 = false;
+            }
+
+            AllStageLightOff();
+            stageNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
+            StagePictureActiveTrue(Select_Scene - 1);
+
             if (Controler.SubMitButtonFlg())
             {
                 Activeflag = false;
