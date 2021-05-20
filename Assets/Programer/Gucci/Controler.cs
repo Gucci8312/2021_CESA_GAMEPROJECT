@@ -32,18 +32,18 @@ public class Controler : MonoBehaviour
         {
             Response = true;
         }
-        return Response;
-        //bool Response = false;
-        //if (Input.GetAxisRaw("L_Trigger") < 0.0f /*&& LeftStickFlg == false*/)
-        //{
-        //    Response = true;
-        //    LeftStickFlg = true;
-        //}
-        //else if (Input.GetAxisRaw("L_Trigger") == 0.0f)
-        //{
-        //    LeftStickFlg = false;
-        //}
         //return Response;
+        //bool Response = false;
+        else if (Input.GetAxis("LTrigger") != 0.0f && LeftStickFlg == false)
+        {
+            Response = true;
+            LeftStickFlg = true;
+        }
+        else if (Input.GetAxis("LTrigger") == 0.0f)
+        {
+            LeftStickFlg = false;
+        }
+        return Response;
     }
 
     public static bool GetMenuButtonFlg()
@@ -66,7 +66,7 @@ public class Controler : MonoBehaviour
         if (Input.GetKeyDown("joystick button 0"))
         {
             SoundManager.PlaySeName("決定音");
-           Response = true;
+            Response = true;
         }
         else if (Input.GetKeyDown(KeyCode.Return))
         {
@@ -75,7 +75,7 @@ public class Controler : MonoBehaviour
         }
         return Response;
     }
-    
+
     public static bool GetCanselButtonFlg()
     {
         bool Response = false;
@@ -98,6 +98,15 @@ public class Controler : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.F))
         {
             Response = true;
+        }
+        else if (Input.GetAxis("RTrigger") != 0.0f && RightStickFlg == false)
+        {
+            Response = true;
+            RightStickFlg = true;
+        }
+        else if (Input.GetAxis("RTrigger") == 0.0f)
+        {
+            RightStickFlg = false;
         }
         return Response;
     }
@@ -166,21 +175,21 @@ public class Controler : MonoBehaviour
         if (Input.GetAxisRaw("L_Trigger") < 0.0f /*&& LeftStickFlg == false*/)
         {
             Response = true;
-           // LeftStickFlg = true;
+            // LeftStickFlg = true;
         }
         else if (Input.GetAxisRaw("L_Trigger") == 0.0f)
         {
-           // LeftStickFlg = false;
+            // LeftStickFlg = false;
         }
         return Response;
-    }    
+    }
     public static bool GetRightTriggerFlg()
     {
         bool Response = false;
         if (Input.GetAxisRaw("R_Trigger") < 0.0f /*&& LeftStickFlg == false*/)
         {
             Response = true;
-           // LeftStickFlg = true;
+            // LeftStickFlg = true;
         }
         else if (Input.GetAxisRaw("R_Trigger") == 0.0f)
         {
