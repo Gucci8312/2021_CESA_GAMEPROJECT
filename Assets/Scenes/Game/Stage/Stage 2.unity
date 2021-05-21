@@ -604,6 +604,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameClear: {fileID: 2091060765}
   GameOver: {fileID: 713707755}
+  GameClearFlg: 0
+  GameOverFlg: 0
   JudgeUI:
   - {fileID: 809107180}
   - {fileID: 553021228}
@@ -3608,8 +3610,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7984708624892546552, guid: f7a00c465ee1ab24baf205597a471688,
         type: 3}
+      propertyPath: m_Color.g
+      value: 0.96777844
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984708624892546552, guid: f7a00c465ee1ab24baf205597a471688,
+        type: 3}
       propertyPath: m_Color.r
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7984708624892546552, guid: f7a00c465ee1ab24baf205597a471688,
         type: 3}
