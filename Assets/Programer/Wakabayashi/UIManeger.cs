@@ -11,13 +11,16 @@ public class UIManeger : MonoBehaviour
     public GameObject GameClear;
     public GameObject GameOver;
 
+    public bool GameClearFlg;
+    public bool GameOverFlg;
+
     public GameObject[] JudgeUI;
     CheckPointCount CountScript;
     GameObject[] CheackPointObj;
 
     GameObject ZoomCameraObj;
     CameraZoom _camera;
-  //  public GameObject ClearDai;
+    //  public GameObject ClearDai;
 
     void Start()
     {
@@ -43,7 +46,7 @@ public class UIManeger : MonoBehaviour
         print(checkpointobjects.Length);
 
         //if (CountScript.CheckPointNum== CrearNum)  //チェックポイント0になったら
-        if (CountScript.CheckPointNum == JudgeUI.Length)  //チェックポイント0になったら
+        if (CountScript.CheckPointNum == JudgeUI.Length && !GameOverFlg)  //チェックポイント0になったら
         {
             Debug.Log(" ゲームクリア");
             //ClearDai.SetActive(true);
@@ -71,7 +74,7 @@ public class UIManeger : MonoBehaviour
             }
         }
 
-        if (Player.GetComponent<PlayerMove>().GetCollisionState())  //チェックポイント0になったら
+        if (Player.GetComponent<PlayerMove>().GetCollisionState() && !GameClearFlg)  //チェックポイント0になったら
         {
             Debug.Log(" ゲームオーバー");
             SoundManager.PlayBgmName("gameovermusic");
