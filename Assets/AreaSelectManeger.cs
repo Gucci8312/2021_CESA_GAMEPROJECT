@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class AreaSelectManeger : MonoBehaviour
 {
+    [SerializeField] GameObject m_soundManagerPrefab;          //生成用プレハブ
+
+
     bool MenuFlg;
     public GameObject Menu;
 
@@ -12,6 +15,17 @@ public class AreaSelectManeger : MonoBehaviour
     {
         //SoundManager.StopBGM();
         SoundManager.PlayBgmName("stageselect");
+    }
+
+
+    private void Awake()
+    {
+        GameObject m_soundManager = GameObject.Find("SoundManager(Clone)");     //サウンドマネージャー検索
+        //サウンドマネージャーがなければ生成
+        if (m_soundManager == null)
+        {
+            Instantiate(m_soundManagerPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
+        }
     }
 
     // Update is called once per frame
