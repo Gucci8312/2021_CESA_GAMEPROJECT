@@ -5,6 +5,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering;
 
 
 // @name   TutorialManager
@@ -22,8 +24,11 @@ public class TutorialManager : MonoBehaviour
     GameObject[] mobius;
 
     bool endTutorial = false;
+
+    [SerializeField] Volume bloom;
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         player = GameObject.Find("Player");
         enemy = GameObject.Find("Enemy");
@@ -106,6 +111,9 @@ public class TutorialManager : MonoBehaviour
         for (int i = 0; i < mobius.Length; i++)
             mobius[i].GetComponent<EnemyMobius>().enabled = false;
 
+        Bloom bloom_propaty;
+        bloom.profile.TryGet(out bloom_propaty);
+        bloom_propaty.intensity.value = 0f;
     }
 
     // @name   ScriptsOn
@@ -116,5 +124,8 @@ public class TutorialManager : MonoBehaviour
         enemy.GetComponent<EnemyMove>().enabled = true;
         for (int i = 0; i < mobius.Length; i++)
             mobius[i].GetComponent<EnemyMobius>().enabled = true;
+        Bloom bloom_propaty;
+        bloom.profile.TryGet(out bloom_propaty);
+        bloom_propaty.intensity.value = 5f;
     }
 }

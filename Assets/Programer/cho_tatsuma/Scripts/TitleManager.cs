@@ -75,7 +75,7 @@ public class TitleManager : MonoBehaviour
             bloom.profile.TryGet(out bloom_propaty);
             if (bloom_propaty.intensity.value == 5f)
                 bloom_propaty.intensity.value = 0f;
-            if (bloom_propaty.intensity.value == 0f)
+            else if (bloom_propaty.intensity.value == 0f)
                 bloom_propaty.intensity.value = 5f;
         }
 
