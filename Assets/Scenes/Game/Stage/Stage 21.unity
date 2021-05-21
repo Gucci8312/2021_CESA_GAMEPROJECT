@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -3404,6 +3404,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameClear: {fileID: 14200125}
   GameOver: {fileID: 161637862}
+  GameClearFlg: 0
+  GameOverFlg: 0
   JudgeUI:
   - {fileID: 244264069}
   - {fileID: 1337011774}
@@ -4777,17 +4779,17 @@ PrefabInstance:
         type: 3}
       propertyPath: WindowButton.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 962498356}
     - target: {fileID: 5656675967479163706, guid: 8460a62803a7b24428708934cc55c7fd,
         type: 3}
       propertyPath: WindowButton.Array.data[1]
       value: 
-      objectReference: {fileID: 962498356}
+      objectReference: {fileID: 704995881}
     - target: {fileID: 5656675967479163706, guid: 8460a62803a7b24428708934cc55c7fd,
         type: 3}
       propertyPath: WindowButton.Array.data[2]
       value: 
-      objectReference: {fileID: 704995881}
+      objectReference: {fileID: 1968463226}
     - target: {fileID: 5656675967479163706, guid: 8460a62803a7b24428708934cc55c7fd,
         type: 3}
       propertyPath: WindowButton.Array.data[3]
@@ -4798,6 +4800,12 @@ PrefabInstance:
 --- !u!1 &1968463225 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5656675965608934542, guid: 8460a62803a7b24428708934cc55c7fd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1968463224}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1968463226 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7351625642814678988, guid: 8460a62803a7b24428708934cc55c7fd,
     type: 3}
   m_PrefabInstance: {fileID: 1968463224}
   m_PrefabAsset: {fileID: 0}
