@@ -363,7 +363,10 @@ public class PlayerMove : MonoBehaviour
                     }
                     else
                     {
-                        CollisonMobius();//移り先のメビウスの輪を探す
+                        if (jumpmove == 0)
+                        {
+                            CollisonMobius();//移り先のメビウスの輪を探す
+                        }
                     }
                 }//else
 
