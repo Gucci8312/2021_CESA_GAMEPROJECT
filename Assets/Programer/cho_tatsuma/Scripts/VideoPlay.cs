@@ -30,6 +30,18 @@ public class VideoPlay : MonoBehaviour
         {
             endVideo = true;
         }
+
+        if (Controler.GetMenuButtonFlg())
+        {
+            if (mPlayer.isPaused)
+            {
+                mPlayer.Play();
+            }
+            else
+            {
+                mPlayer.Pause();
+            }
+        }
     }
 
     void VideoPlayMethod()
