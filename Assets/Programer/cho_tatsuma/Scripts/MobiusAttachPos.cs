@@ -225,6 +225,8 @@ public class MobiusAttachPos : MonoBehaviour
     {
         if (m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled)
         {
+            hitMobius = null;
+            otherMobius = null;
             //メビウスの輪（二つつなぎ）のモデルをいったん隠す
             m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled = false;
             for (int i = 0; i < m_mobius.Length; i++)

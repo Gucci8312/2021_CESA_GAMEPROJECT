@@ -22,9 +22,14 @@ public class UIManeger : MonoBehaviour
     CameraZoom _camera;
     //  public GameObject ClearDai;
 
-    void Start()
+    private void Awake()
     {
         Player = GameObject.Find("Player");                                        //全てのメビウス取得
+    }
+
+    void Start()
+    {
+        
         CountScript = GameObject.Find("CheckPointCount").GetComponent<CheckPointCount>();
         CheackPointObj = GameObject.FindGameObjectsWithTag("CheackPointJudge");
 

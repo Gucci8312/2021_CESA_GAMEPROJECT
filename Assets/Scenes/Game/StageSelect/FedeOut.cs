@@ -81,6 +81,7 @@ public class FedeOut : MonoBehaviour
 		{
 			if (cnt2 == 0)
 			{
+				SoundManager.PlaySeName("batibati");
 				Blinking_False();
 
 			}
@@ -95,7 +96,7 @@ public class FedeOut : MonoBehaviour
 			if (cnt2 == 60)
 			{
 				Blinking_True();
-
+				SoundManager.StopSE();
 			}
 			if (cnt2 == 80)
 			{
