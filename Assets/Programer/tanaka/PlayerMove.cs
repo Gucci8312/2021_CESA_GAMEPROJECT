@@ -63,9 +63,7 @@ public class PlayerMove : MonoBehaviour
 
     bool RythmSaveFlg;//リズムの切り替わりで判定させる
     bool RythmFlg;//リズムが来ているかどうか
-
-    public float HipDropColPos = 10;//ヒップドロップの当たり判定位置の調整用
-    public float HipDropColLength = 10;//ヒップドロップの当たり判定の半径
+    
     Vector3 HipDropCollisionPos;//ヒップドロップの当たり判定場所
     Vector3 HipDropPos;//ヒップドロップを行っている場所　松井君の移動バグ修正用
 
@@ -89,13 +87,12 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     GameObject successPrefab;
 
+    [SerializeField]
+    GameObject HipDropCollisionObj;
+
     bool ClearOne;
 
-    private void OnValidate()
-    {
-        HipDropCollisionPos = new Vector3(this.transform.position.x, this.transform.position.y - HipDropColPos, this.transform.position.z);
-    }
-
+    
 
     void Start()
     {
@@ -210,7 +207,7 @@ public class PlayerMove : MonoBehaviour
 
                     SpeedUpInput();//スピードアップ入力
                     JumpInput();//ジャンプ入力
-                    
+
 
                     RythmSaveFlg = RythmFlg;//リズムセーブ
                 }
@@ -237,6 +234,7 @@ public class PlayerMove : MonoBehaviour
                                 HipDrop = false;
                                 JumpFlg = false;
                                 SmokeEffect.SetActive(true);
+                                HipDropCollisionObj.GetComponent<HipDropCol>().HipDropFlg = false;
                             }
                         }//if (HipDrop)
                         else
@@ -250,6 +248,7 @@ public class PlayerMove : MonoBehaviour
                             if (jumpmove > jumpmovesave)
                             {
                                 HipDrop = true;
+                                HipDropCollisionObj.GetComponent<HipDropCol>().HipDropFlg = true;
                             }
                         }//else
 
@@ -273,6 +272,7 @@ public class PlayerMove : MonoBehaviour
                                 HipDrop = false;
                                 JumpFlg = false;
                                 SmokeEffect.SetActive(true);
+                                HipDropCollisionObj.GetComponent<HipDropCol>().HipDropFlg = false;
                             }
                         }//if (HipDrop)
                         else
@@ -287,6 +287,7 @@ public class PlayerMove : MonoBehaviour
                             if (jumpmove < jumpmovesave)
                             {
                                 HipDrop = true;
+                                HipDropCollisionObj.GetComponent<HipDropCol>().HipDropFlg = true;
                             }
                         }//else
 
@@ -331,7 +332,7 @@ public class PlayerMove : MonoBehaviour
 
                         }
                     }
-                    
+
                     //角度の範囲を指定(0～360)
                     if (angle > 360)
                     {
@@ -343,7 +344,7 @@ public class PlayerMove : MonoBehaviour
                         angle = angle + 360;
 
                     }
-                    
+
                     if (MobiusCol)
                     {
                         counter += Time.deltaTime;
@@ -358,7 +359,7 @@ public class PlayerMove : MonoBehaviour
                                 MobiusCol = false;
                             }
                         }
-                        
+
                     }
                     else
                     {
@@ -369,7 +370,7 @@ public class PlayerMove : MonoBehaviour
             }
             else
             {
-                if (!Stop)
+                if (!Stop && !CollisionState)
                 {
                     ClearMove();
                 }
@@ -385,14 +386,14 @@ public class PlayerMove : MonoBehaviour
         Gizmos.DrawSphere(transform.position, GetComponent<SphereCollider>().bounds.size.x / 2); //中心点とサイズ
 
         Gizmos.color = new Vector4(0, 0, 1, 0.5f); //色指定
-        Gizmos.DrawSphere(HipDropCollisionPos, HipDropColLength); //中心点とサイズ
+        Gizmos.DrawSphere(HipDropCollisionObj.GetComponent<SphereCollider>().center, HipDropCollisionObj.GetComponent<SphereCollider>().bounds.size.x/2); //中心点とサイズ
     }
 
     private void JumpInput()
     {
         if (RythmFlg)//リズムのタイミングが来た
         {
-            
+
             if (Controler.GetJumpButtonFlg() && !JumpFlg)//ジャンプ
             {
                 if (!JumpMashing)
@@ -430,15 +431,15 @@ public class PlayerMove : MonoBehaviour
             {
 
                 JumpMashing = false;
-                
+
             }
-            
+
             if (Controler.GetJumpButtonFlg())
             {
                 JumpMashing = true;
                 Instantiate(missPrefab);
             }
-            
+
         }
     }
 
@@ -458,27 +459,25 @@ public class PlayerMove : MonoBehaviour
             {
                 if (!SpeedUpMashing && !SpacePress)
                 {
-                    SetSpeedUp();
                     //ダッシュ成功時
+                    SetSpeedUp();
                     SoundManager.PlaySeName("hit");
                     Instantiate(successPrefab);
                 }
                 else
                 {
-                    SetSpeedNormal();
                     //ダッシュミス時
+                    SetSpeedNormal();
                     SoundManager.PlaySeName("dash_miss");
                     Instantiate(missPrefab);
                 }
             }
         }
-        else
+        else//リズムが合っていないとき
         {
             if (RythmSaveFlg != RythmFlg)//タイミングがfalseになった瞬間
             {
-                
-                
-
+                //スピードが反映されないバグを回避用
                 if (SpacePress)//スピードアップ入力があった
                 {
                     SetSpeedUp();
@@ -486,22 +485,19 @@ public class PlayerMove : MonoBehaviour
                 else//スピードアップ入力なし
                 {
                     SetSpeedNormal();
-
                 }
-
-
             }
 
             if (Controler.GetRythmButtonFlg())//スピードアップのキー入力
             {
                 SetSpeedNormal();
-                //ダッシュミス時
                 SoundManager.PlaySeName("dash_miss");
                 Instantiate(missPrefab);
             }
         }
     }
 
+    //スピードアップをセット
     private void SetSpeedUp()
     {
         SpacePress = true;
@@ -510,9 +506,10 @@ public class PlayerMove : MonoBehaviour
 
         PlayerAnimation.Run();
         DushEffect.SetActive(true);
-        
+
     }
 
+    //スピードを普通にセット
     private void SetSpeedNormal()
     {
         SpacePress = false;
@@ -522,7 +519,7 @@ public class PlayerMove : MonoBehaviour
 
         PlayerAnimation.Walk();
         DushEffect.SetActive(false);
-        
+
     }
 
     private void PositionSum()//メビウスの輪からの場所を計算
@@ -539,14 +536,7 @@ public class PlayerMove : MonoBehaviour
 
         //ヒップドロップの当たる場所計算
         float SumNum = 0;
-        if (InsideFlg)
-        {
-            SumNum = -HipDropColPos;
-        }
-        else
-        {
-            SumNum = HipDropColPos;
-        }
+       
         Vector3 len = new Vector3(0, 0, 0);
         //メビウスの輪の中心とプレイヤーの距離を求める
         len.y = (Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 + 10.0f) - InsideLength + jumpmove - SumNum;
@@ -695,7 +685,7 @@ public class PlayerMove : MonoBehaviour
                 PositionSum();
                 HipDrop = true;
                 transform.position = new Vector3(0, 100, -485);
-                
+
             }
         }
         else//ヒップドロップ中
@@ -711,11 +701,11 @@ public class PlayerMove : MonoBehaviour
             float y = transform.position.y;
             y -= (HipDropSpeed * 15f) * Time.deltaTime;
             transform.position = new Vector3(0, y, -485);
-            
+
             if (y < 7.5f)
             {
                 Stop = true;
-                
+
 
                 PlayerAnimation.GameClearRightVer();
 
@@ -724,9 +714,7 @@ public class PlayerMove : MonoBehaviour
 
         DushEffect.SetActive(false);
         SmokeEffect.SetActive(false);
-        //transform.position = new Vector3(0, 0, -445);
-        //this.transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-        //Stop = true;
+
     }
 
     public bool HipDropCollision(Vector3 pos, float collength)
@@ -735,18 +723,7 @@ public class PlayerMove : MonoBehaviour
         {
             return false;
         }
-
-
-        float x, y, z;
-
-        x = Mathf.Pow(pos.x - HipDropCollisionPos.x, 2);
-        y = Mathf.Pow(pos.y - HipDropCollisionPos.y, 2);
-        z = Mathf.Pow(pos.z - HipDropCollisionPos.z, 2);
-
-        if (x + y + z <= Mathf.Pow(HipDropColLength + collength, 2))//当たっていたら
-        {
-            return true;
-        }
+        
 
         return false;
     }
@@ -835,6 +812,7 @@ public class PlayerMove : MonoBehaviour
         return InsideFlg;
     }
 
+    //エフェクトの角度
     public float GetAngle()//現在の角度を渡す
     {
         float ans = 0;
@@ -871,21 +849,16 @@ public class PlayerMove : MonoBehaviour
         return ans;
     }
 
-    public bool GetHipDropNow()//ヒップドロップをしたかどうか
+    public bool GetHipDropNow()//ヒップドロップが終わった
     {
-
         return JumpOk;
     }
 
-    public float GetPlayerLength()
+    public bool GetHipDrop()//ヒップドロップ中かどうか
     {
-        return distanceTarget.y;
+        return HipDrop;
     }
 
-    public bool GetSpeedUp()//スピードアップしているか
-    {
-        return SpeedUpFlg;
-    }
 
     public bool GetJumpNow()//ジャンプしているかどうか
     {
@@ -897,6 +870,7 @@ public class PlayerMove : MonoBehaviour
         return true;
     }
 
+    //クリアの処理を行う
     public void ClearOn()
     {
         if (!Clear)
@@ -917,11 +891,13 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    //クリアの動きが終わったかどうか
     public bool GetStop()
     {
         return Stop;
     }
 
+    //ヒップドロップ中の位置
     public Vector3 GetHipDropPos()
     {
         return HipDropPos;

@@ -12,9 +12,9 @@ public class EnemyMove : MonoBehaviour
     public bool InsideFlg;                                                                          //メビウスの輪の内側か外側かを判定　true:内側　false:外側
     int SideCnt;                                                                                    //メビウスの輪に沿った動きにするためメビウスの輪を何回切り替えたかをカウント  2以上で外側内側入れ替える
     float counter;                                                                                  //乗り移るとき、元のメビウスの輪に戻らないようにカウントする値
-    
+
     [SerializeField, Range(0, 7)] public int StartPoint;                                                                         //メビウス上の点の番号
-                                                                                 
+
     GameObject player;
 
     private Transform target;
@@ -108,7 +108,7 @@ public class EnemyMove : MonoBehaviour
     void Update()
     {
         TogeFlg = rythm.rythmCheckFlag;
-        
+
         if (TogeFlg)
         {
             ball.SetActive(false);
@@ -118,9 +118,9 @@ public class EnemyMove : MonoBehaviour
         {
             ball.SetActive(true);
             toge.SetActive(false);
-            
+
         }
-        
+
         //Debug.Log(angle);
         target = Mobius[NowMobius].transform;
 
@@ -160,7 +160,7 @@ public class EnemyMove : MonoBehaviour
             {
                 angle -= (rotateSpeed * Speed) * Time.deltaTime;
             }
-            
+
         }
 
 
@@ -186,7 +186,7 @@ public class EnemyMove : MonoBehaviour
             }
         }
 
-        
+
 
         if (MobiusCol)
         {
@@ -204,13 +204,13 @@ public class EnemyMove : MonoBehaviour
                 }
             }
 
-            
+
         }
         else
         {
             CollisonMobius();//移り先のメビウスの輪を探す
         }
-        
+
 
     }//void Update()
 
@@ -220,7 +220,7 @@ public class EnemyMove : MonoBehaviour
         Gizmos.DrawSphere(transform.position, GetComponent<SphereCollider>().bounds.size.x / 2); //中心点とサイズ
     }
 
-  
+
 
 
     private void CollisonMobius()//プレイヤーと対象のメビウスの輪以外の一番近いメビウスの輪との判定
@@ -250,7 +250,7 @@ public class EnemyMove : MonoBehaviour
             Vector2 Vec = NextMobiusPos - NowMobiusPos;//対象のメビウスの輪と
             float VecLength = Mathf.Sqrt(Vec.x * Vec.x + Vec.y * Vec.y);
             VecLength += PlayerHankei - 10;//メビウス同士の当たり判定の長さを調整
-           
+
             if (hankei + hankei > VecLength)//メビウスの輪同士の当たり判定
             {
                 Vec.x = Vec.x / VecLength;
@@ -338,7 +338,7 @@ public class EnemyMove : MonoBehaviour
                         RotateLeftFlg = true;
                         if (!InsideFlg)//イレギュラー処理内側から外側に行くとずれる
                         {
-                            
+
                             //Debug.Log("2");
                         }
                         else
@@ -395,7 +395,7 @@ public class EnemyMove : MonoBehaviour
         StanTimeCount = 0;
         Stan = true;
     }
-    
+
 
     private void OnTriggerEnter(Collider other)
     {
