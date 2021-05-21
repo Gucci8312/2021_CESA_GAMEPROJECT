@@ -99,7 +99,7 @@ public class TitleManager : MonoBehaviour
 
         if (Controler.GetMenuButtonFlg())
         {
-            Window.SetActive(true);
+            Window.SetActive(!Window.activeSelf);
         }
     }
 }

@@ -84,6 +84,10 @@ public class Controler : MonoBehaviour
             // SoundManager.PlaySeName("決定音");
             Response = true;
         }
+        else if(Input.GetKeyDown(KeyCode.C))
+        {
+            Response = true;
+        }
 
         return Response;
     }
@@ -118,11 +122,21 @@ public class Controler : MonoBehaviour
         {
             Response = true;
             UpStickFlg = true;
+            return Response;
         }
         else if (Input.GetAxisRaw("Vertical") == 0.0f)
         {
             UpStickFlg = false;
         }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            Response = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            Response = true;
+        }
+
         return Response;
     }
     public static bool GetDownButtonFlg()
@@ -132,10 +146,19 @@ public class Controler : MonoBehaviour
         {
             Response = true;
             DownStickFlg = true;
+            return Response;
         }
         else if (Input.GetAxisRaw("Vertical") == 0.0f)
         {
             DownStickFlg = false;
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            Response = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            Response = true;
         }
         return Response;
     }
@@ -147,10 +170,19 @@ public class Controler : MonoBehaviour
         {
             Response = true;
             RightStickFlg = true;
+            return Response;
         }
         else if (Input.GetAxisRaw("Horizontal") == 0.0f)
         {
             RightStickFlg = false;
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            Response = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            Response = true;
         }
         return Response;
     }
@@ -161,10 +193,19 @@ public class Controler : MonoBehaviour
         {
             Response = true;
             LeftStickFlg = true;
+            return Response;
         }
         else if (Input.GetAxisRaw("Horizontal") == 0.0f)
         {
             LeftStickFlg = false;
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Response = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            Response = true;
         }
         return Response;
     }
