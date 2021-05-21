@@ -32,10 +32,12 @@ public class GameStart : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+	
 		if (cnt == 50)
 		{
 
+			SoundManager.PlaySeName("batibati");
+			
 			Blinking_True();
 		}
 		if (cnt == 60)
@@ -44,7 +46,7 @@ public class GameStart : MonoBehaviour
 		}
 		if (cnt == 70)
 		{
-
+			
 			Blinking_True();
 		}
 		if (cnt == 80)
@@ -54,19 +56,21 @@ public class GameStart : MonoBehaviour
 		}
 		if (cnt == 90)
 		{
-
+			
 			Blinking_True();
 		}
 		if (cnt == 100)
 		{
-
+			SoundManager.StopSE();
 			Blinking_False();
 		}
 		if (cnt == 150)
 		{
-
+			
 			Blinking_True();
+			
 		}
+	
 		cnt++;
 		
     }

@@ -742,7 +742,7 @@ PrefabInstance:
     - target: {fileID: 7984708624892546552, guid: f7a00c465ee1ab24baf205597a471688,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.77827644
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7984708624892546552, guid: f7a00c465ee1ab24baf205597a471688,
         type: 3}
@@ -3410,7 +3410,7 @@ MonoBehaviour:
   _material3: {fileID: 2100000, guid: 28073e6c20558d24db0dfff7b5101f34, type: 2}
   _FlameMaterial: {fileID: 2100000, guid: f8fc7ce66bece604fa3888dd263e764b, type: 2}
   _DirectionLight: {fileID: 0}
-  _PointLight1: {fileID: 1804938714}
+  _PointLight1: {fileID: 438886096}
   _PointLight2: {fileID: 438886096}
   _PointLight3: {fileID: 1804938714}
   DirectionLightPower: 0.05
@@ -4126,17 +4126,17 @@ PrefabInstance:
         type: 3}
       propertyPath: WindowButton.Array.data[0]
       value: 
-      objectReference: {fileID: 568373708}
+      objectReference: {fileID: 0}
     - target: {fileID: 5656675967479163706, guid: 8460a62803a7b24428708934cc55c7fd,
         type: 3}
       propertyPath: WindowButton.Array.data[1]
       value: 
-      objectReference: {fileID: 1238918930}
+      objectReference: {fileID: 568373708}
     - target: {fileID: 5656675967479163706, guid: 8460a62803a7b24428708934cc55c7fd,
         type: 3}
       propertyPath: WindowButton.Array.data[2]
       value: 
-      objectReference: {fileID: 1641736839}
+      objectReference: {fileID: 1238918930}
     - target: {fileID: 5656675967479163706, guid: 8460a62803a7b24428708934cc55c7fd,
         type: 3}
       propertyPath: WindowButton.Array.data[3]
@@ -4147,12 +4147,6 @@ PrefabInstance:
 --- !u!1 &1641736838 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5656675965608934542, guid: 8460a62803a7b24428708934cc55c7fd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1641736837}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1641736839 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7351625642814678988, guid: 8460a62803a7b24428708934cc55c7fd,
     type: 3}
   m_PrefabInstance: {fileID: 1641736837}
   m_PrefabAsset: {fileID: 0}
@@ -4980,8 +4974,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameClear: {fileID: 485889706}
   GameOver: {fileID: 241298333}
-  GameClearFlg: 0
-  GameOverFlg: 0
   JudgeUI:
   - {fileID: 1249069500}
   - {fileID: 1249069499}
