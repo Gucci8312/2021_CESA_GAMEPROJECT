@@ -209,7 +209,6 @@ public class Rythm : MonoBehaviour
         //壁に当たった＝ビートのタイミングが来た
         if (collision.gameObject.tag == "Flag")
         {
-            Debug.Log("ノーツ："+(fram_bgmm - time));
             m_EmobiusBeatFlag = true;
             m_beatCount++;
             m_changeColorScript.ChangeColor_Flame();
