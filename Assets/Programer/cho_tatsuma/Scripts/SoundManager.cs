@@ -37,6 +37,7 @@ public class SoundManager : MonoBehaviour
             masterVolume = Mathf.Clamp01(value);
             //音量変更（全体）
             m_bgmAudioSource.volume = bgmVolume * masterVolume;
+            m_bgmAudioSourceSub.volume = bgmVolume * masterVolume;
             m_seAudioSource.volume = seVolume * masterVolume;
         }
         get
@@ -55,6 +56,7 @@ public class SoundManager : MonoBehaviour
             bgmVolume = Mathf.Clamp01(value);
             //音量変更（全体）
             m_bgmAudioSource.volume = bgmVolume * masterVolume;
+            m_bgmAudioSourceSub.volume = bgmVolume * masterVolume;
 
         }
         get

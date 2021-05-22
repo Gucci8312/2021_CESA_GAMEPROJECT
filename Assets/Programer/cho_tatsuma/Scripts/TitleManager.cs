@@ -57,11 +57,11 @@ public class TitleManager : MonoBehaviour
     private void Update()
     {
         SoundManager.CheckLoop();
-        if (m_fadeTextScript.gameStartFlg && Window.activeSelf == false)
+        if (Window.activeSelf == false)
         {
             if (Controler.SubMitButtonFlg())
             {
-                StageSelect.GoStageSelect(this);
+                m_fadeTextScript.gameStartFlg = true;
             }
             else if (Controler.GetCanselButtonFlg())
             {
@@ -78,37 +78,6 @@ public class TitleManager : MonoBehaviour
             else if (bloom_propaty.intensity.value == 0f)
                 bloom_propaty.intensity.value = 5f;
         }
-
-        //if (!startMobiusAnimation && m_titlePointLight.GetComponent<TtilePLight>().titleAnimationFinished)
-        //{
-        //    startMobiusAnimation = true;
-        //    for (int i = 0; i < mobiusArray.Length - 2; i++)
-        //    {
-        //        mobiusArray[i].GetComponent<TitleMoveMobius>().enabled = true;
-        //    }
-        //}
-
-        //if (mobiusArray[0].GetComponent<TitleMoveMobius>().move_flg_back && mobiusArray[0].GetComponent<TitleMoveMobius>().enabled)
-        //{
-        //    mobiusArray[0].GetComponent<TitleMoveMobius>().enabled = false;
-        //    mobiusArray[1].GetComponent<TitleMoveMobius>().enabled = false;
-        //    mobius.GetComponent<MobiusAttachPos>().m_nowMobiusNo = 2;
-        //    mobiusArray[2].GetComponent<TitleMoveMobius>().Start();
-        //    mobiusArray[3].GetComponent<TitleMoveMobius>().Start();
-        //    mobiusArray[2].GetComponent<TitleMoveMobius>().enabled = true;
-        //    mobiusArray[3].GetComponent<TitleMoveMobius>().enabled = true;
-        //}
-
-        //if (mobiusArray[2].GetComponent<TitleMoveMobius>().move_flg_back && mobiusArray[2].GetComponent<TitleMoveMobius>().enabled)
-        //{
-        //    mobiusArray[0].GetComponent<TitleMoveMobius>().enabled = true;
-        //    mobiusArray[1].GetComponent<TitleMoveMobius>().enabled = true;
-        //    mobiusArray[0].GetComponent<TitleMoveMobius>().Start();
-        //    mobiusArray[1].GetComponent<TitleMoveMobius>().Start();
-        //    mobius.GetComponent<MobiusAttachPos>().m_nowMobiusNo = 0;
-        //    mobiusArray[2].GetComponent<TitleMoveMobius>().enabled = false;
-        //    mobiusArray[3].GetComponent<TitleMoveMobius>().enabled = false;
-        //}
 
         if (Controler.GetMenuButtonFlg())
         {

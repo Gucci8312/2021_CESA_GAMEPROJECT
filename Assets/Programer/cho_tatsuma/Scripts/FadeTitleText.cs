@@ -14,7 +14,8 @@ public class FadeTitleText : MonoBehaviour
     bool m_up;
     bool m_down;
 
-    public bool gameStartFlg = false;
+    public bool gameStartFlg;
+    bool once;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,14 +27,22 @@ public class FadeTitleText : MonoBehaviour
         m_up = false;
         m_down = false;
 
-        gameStartFlg = true;
+        gameStartFlg = false;
+        once = false;
         StartCoroutine(FadeCroutine());
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (gameStartFlg && !once)
+        {
+            StopCoroutine(FadeCroutine());
+            m_textColor.a = 1.0f;
+            this.gameObject.GetComponent<SpriteRenderer>().color = m_textColor;
+            StartCoroutine(Flash());
+            once = true;
+        }
     }
 
     IEnumerator FadeCroutine()
@@ -60,6 +69,28 @@ public class FadeTitleText : MonoBehaviour
             }
             this.gameObject.GetComponent<SpriteRenderer>().color = m_textColor;
             yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    IEnumerator Flash()
+    {
+        while (true)
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            yield return new WaitForSeconds(0.1f);
+            this.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            yield return new WaitForSeconds(0.1f);
+            this.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            yield return new WaitForSeconds(0.1f);
+            this.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            yield return new WaitForSeconds(0.1f);
+            this.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            yield return new WaitForSeconds(0.1f);
+            this.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            yield return new WaitForSeconds(0.1f);
+            StageSelect.GoStageSelect(this);
+            gameStartFlg = false;
+            yield break;
         }
     }
 }
