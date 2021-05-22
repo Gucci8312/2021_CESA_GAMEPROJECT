@@ -8,6 +8,7 @@ public class Controler : MonoBehaviour
     static bool DownStickFlg;
     static bool RightStickFlg;
     static bool LeftStickFlg;
+    static bool InputFlg = true;
 
     // Start is called before the first frame update
     void Start()
@@ -21,28 +22,49 @@ public class Controler : MonoBehaviour
 
     }
 
+    static  public void TrueInputFlg()
+    {
+        InputFlg = true;
+    }
+
+    static public void FalseInputFlg()
+    {
+        InputFlg = false;
+    }
+
+    public void WaitInput(float _Time)
+    {
+        InputFlg = false;
+        Invoke("InputFlg", _Time);
+    }
+
     public static bool GetJumpButtonFlg()
     {
         bool Response = false;
-        if (Input.GetKeyDown("joystick button 0"))
+
+        if (InputFlg)
         {
-            Response = true;
+            if (Input.GetKeyDown("joystick button 0"))
+            {
+                Response = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.J))
+            {
+                Response = true;
+            }
+            //return Response;
+            //bool Response = false;
+            else if (Input.GetAxis("LTrigger") != 0.0f && LeftStickFlg == false)
+            {
+                Response = true;
+                LeftStickFlg = true;
+            }
+            else if (Input.GetAxis("LTrigger") == 0.0f)
+            {
+                LeftStickFlg = false;
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.J))
-        {
-            Response = true;
-        }
-        //return Response;
-        //bool Response = false;
-        else if (Input.GetAxis("LTrigger") != 0.0f && LeftStickFlg == false)
-        {
-            Response = true;
-            LeftStickFlg = true;
-        }
-        else if (Input.GetAxis("LTrigger") == 0.0f)
-        {
-            LeftStickFlg = false;
-        }
+       
         return Response;
     }
 
@@ -84,7 +106,7 @@ public class Controler : MonoBehaviour
             // SoundManager.PlaySeName("決定音");
             Response = true;
         }
-        else if(Input.GetKeyDown(KeyCode.C))
+        else if (Input.GetKeyDown(KeyCode.C))
         {
             Response = true;
         }

@@ -56,7 +56,7 @@ public class UIManeger : MonoBehaviour
             Debug.Log(" ゲームクリア");
             //ClearDai.SetActive(true);
 
-
+            Controler.FalseInputFlg();
 
             GameClear.active = true;
             //_camera.OnZoom();                 //カメラズーム
@@ -66,6 +66,7 @@ public class UIManeger : MonoBehaviour
             if (Player.GetComponent<PlayerMove>().GetStop())//プレイヤーのクリアの動き終わった
             {
                 PauseManager.OnPause();
+                Controler.TrueInputFlg();
             }
 
             SoundManager.StopBGM();
