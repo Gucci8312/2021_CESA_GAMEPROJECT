@@ -676,6 +676,9 @@ public class MoveMobius : MonoBehaviour
                                 otherObj.GetComponent<MoveMobius>().ZeroVelo();
                                 float dis = (this.transform.position - otherObj.transform.position).magnitude;//自分と相手の距離を求める
                                 MobiusCol(ThisR + dis / 6, DisVec);//メビウス同士がぶつかった時の処理を実行(dis/6は差を埋める)
+
+
+                                SoundManager.PlaySeName("メビウス_sin");//SEを呼ぶ
                             }
                             else//近いところでぶつかったなら
                             {
@@ -693,7 +696,6 @@ public class MoveMobius : MonoBehaviour
                         {
                             MobiusColFlag = true;
 
-                            SoundManager.PlaySeName("メビウス_sin");//SEを呼ぶ
                         }
                         if (!SameFlag)//同じじゃなければ
                         {
