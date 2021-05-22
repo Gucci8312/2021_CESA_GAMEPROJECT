@@ -7,18 +7,19 @@ using UnityEngine;
 public class LinePutMobius : MonoBehaviour
 {
     public bool MoveLineFlag = false;//線が動いているかどうか
-    public bool MoveLinePutFlag=false;//線に乗っているかどうか
-    public Vector2 MoveLineVec;
+    public bool MoveLinePutFlag = false;//線に乗っているかどうか()
+    public Vector2 MoveLineVec;     //線が移動した方向（MoveLine側で操作）
 
     MoveMobius Mm;
 
-    public List<Vector2> vec;
-    public Vector2 ColVec;
     Vector3 OldPos;
 
     public List<GameObject> Line;
 
-    bool Old2Flag;
+
+    public List<Vector2> vec;
+    public Vector2 ColVec;
+    public int colcount;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,54 +34,69 @@ public class LinePutMobius : MonoBehaviour
 
         if (MoveLineFlag)//線が動いていたら
         {
-            PutMobiusCol();
+            PutMobiusRayCol();//当たり判定実行
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    if (!PutMobiusCol())
+            //    {
+            //        Debug.Log("colcount" + i);
+            //        break;
+            //    }
+            //    else
+            //    {
+            //        Debug.Log("ぶつかった" + i);
+            //        colcount++;
+            //    }
+            //}
         }
 
-        if (!MoveLineFlag)
+        //if (!MoveLineFlag)
+        //{
+        //    OldPos = this.transform.position;
+        //}
+        OldPos = this.transform.position;
+    }
+
+    //動く線に乗っているかどうか確認する
+    private void LinePutCheck()
+    {
+        //if (Mm.Getcl().Count != 0)
+        //{
+        //    for(int i=0;i< Mm.Getcl().Count;i++)
+        //    {
+        //        if (Mm.Getcl()[i].MoveLineFlag)
+        //        {
+        //            if (!Mm.Getcl()[i].MoveFlag)
+        //            {
+        //                MoveLinePutFlag = true;
+        //                break;
+        //            }                    
+        //        }
+        //        else
+        //        {
+        //            MoveLinePutFlag = false;
+        //        }
+
+        //    }
+        //}
+
+        if (Mm.MoveLineObj != null)
         {
-            Old2Flag = true;
+            MoveLinePutFlag = true;
         }
         else
         {
-            
-            if (Old2Flag)
-            {
-                OldPos = this.transform.position;
-            }
-            Old2Flag = !Old2Flag;
-        }
-    }
-
-    private void LinePutCheck()
-    {
-        if (Mm.Getcl().Count != 0)
-        {
-            for(int i=0;i< Mm.Getcl().Count;i++)
-            {
-                if (Mm.Getcl()[i].MoveLineFlag)
-                {
-                    if (!Mm.Getcl()[i].MoveFlag)
-                    {
-                        MoveLinePutFlag = true;
-                        break;
-                    }                    
-                }
-                else
-                {
-                    MoveLinePutFlag = false;
-                }
-                
-            }
+            MoveLinePutFlag = false;
         }
     }
 
     private void MoveLineTrueStop()
     {
-        if (Mm.MoveLineObj != null)//動く線に乗っているなら
+        if (MoveLinePutFlag)//動く線に乗っているなら
         {
-            if (Mm.MoveLineObj.GetComponent<MoveLine>().GetMoveFlag())//線が動いていたら
+            if (MoveLineFlag)//線が動いていたら
             {
-               // this.transform.position = Mm.StartMovePos;
+                this.transform.position = Mm.OldPos;
                 Mm.ZeroVelo();
             }
         }
@@ -101,7 +117,8 @@ public class LinePutMobius : MonoBehaviour
     private bool LeaveVector(Vector3 _Pos, out Vector2 outvec)
     {
         Vector2 disvec = Mm.SearchVector(this.transform.position, _Pos);//相手へのベクトルを取得
-       // Vector2 disvec =-_vec;//相手へのベクトルを取得
+        //Debug.Log("相手へのベクトルは" +disvec);
+        // Vector2 disvec =-_vec;//相手へのベクトルを取得
 
         //disvec = -disvec;//相手へのベクトルを反対方向にする
 
@@ -118,9 +135,9 @@ public class LinePutMobius : MonoBehaviour
                 Mm.Getcl()[i].ALLUpdate();
             }
 
-            float Gosa = 0.8f;//移動できるベクトルを取得する際、選定する用
+            float Gosa = 0.9f;//移動できるベクトルを取得する際、選定する用
 
-            if (!Mm.Getcl()[i].NearEndRPosFlag(this.transform.position,Mm.GetThisR()))//メビウスが右端に居なければ
+            if (!Mm.Getcl()[i].NearEndRPosFlag(this.transform.position, 100))//メビウスが右端に居なければ
             {
                 float distance = (Mm.Getcl()[i].GetRvec() - disvec).magnitude;
                 if (distance >= Gosa)
@@ -138,7 +155,7 @@ public class LinePutMobius : MonoBehaviour
                 Debug.Log(Mm.GetLine()[i].name + "のRposは" + Mm.Getcl()[i].GetRPos() + "distanceは" + dis);
             }
 
-            if (!Mm.Getcl()[i].NearEndLPosFlag(this.transform.position, Mm.GetThisR()))//メビウスが左端に居なければ
+            if (!Mm.Getcl()[i].NearEndLPosFlag(this.transform.position, 100))//メビウスが左端に居なければ
             {
                 float distance = (Mm.Getcl()[i].GetLvec() - disvec).magnitude;
                 if (distance >= Gosa)
@@ -147,7 +164,7 @@ public class LinePutMobius : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log(Mm.GetLine()[i].name + "のLvecは" + Mm.Getcl()[i].GetLvec()+ "distanceは" + distance);
+                    Debug.Log(Mm.GetLine()[i].name + "のLvecは" + Mm.Getcl()[i].GetLvec() + "distanceは" + distance);
                 }
             }
             else
@@ -161,7 +178,7 @@ public class LinePutMobius : MonoBehaviour
         vec = MoveVec;
         Line = Mm.GetLine();
 
-        Vector2 LeaveVec=Vector2.zero;
+        Vector2 LeaveVec = Vector2.zero;
         disvec = -disvec;//相手へのベクトルを反対方向にする
         if (MoveVec.Count != 0)
         {
@@ -175,7 +192,7 @@ public class LinePutMobius : MonoBehaviour
             }
             else//それ以外の方向へ移動させる
             {
-                for(int i = 0; i < MoveVec.Count; i++)
+                for (int i = 0; i < MoveVec.Count; i++)
                 {
                     if (LeaveVecRaySerch(MoveVec[i]))//移動させたい方にメビウスなどのオブジェクトが無ければ
                     {
@@ -200,10 +217,10 @@ public class LinePutMobius : MonoBehaviour
         {
             distance.Add((SerchVec - _vec[i]).magnitude);
 
-            if (distance[i] <= 0.1f)//差がない（同じ座標）場合
-            {
-                distance[i] = 10000;//適当に大きい値を入れて最小の値として取得させないようにする
-            }
+            //if (distance[i] <= 0.1f)//差がない（同じ座標）場合
+            //{
+            //    distance[i] = 10000;//適当に大きい値を入れて最小の値として取得させないようにする
+            //}
 
             if (distance[i] <= Min)//取得している最小の値より小さければ
             {
@@ -225,7 +242,7 @@ public class LinePutMobius : MonoBehaviour
     //離れさせる際にその方向にオブジェクトが無いかをレイで調べる（あればfalse,無ければtrue）
     private bool LeaveVecRaySerch(Vector2 _vec)
     {
-        float distance = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;//適切な長さを取得用
+        float distance = Mm.GetThisR();//適切な長さを取得用(メビウスの半径内にないかどうか調べる用)
         Ray ray = new Ray(new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z),
                         new Vector3(_vec.x * 1, _vec.y * 1, 0));
         //貫通レイキャスト
@@ -236,6 +253,7 @@ public class LinePutMobius : MonoBehaviour
             switch (hit.collider.gameObject.tag)
             {
                 case "Mobius":
+                    Debug.Log("ずらすところにMobiusがおる");
                     return false;
 
                 case "Block":
@@ -247,10 +265,13 @@ public class LinePutMobius : MonoBehaviour
     }
 
     //メビウスが線に乗っているときの当たり判定
-    private bool PutMobiusCol()
+    private bool PutMobiusRayCol()
     {
-        Vector3 Pos =this.transform.position;//レイを飛ばしすぎないようにするもの
+        Vector3 Pos = this.transform.position;//レイを飛ばしすぎないようにするもの
         Vector2 ColVec = Mm.SearchVector(OldPos, Pos);//前のフレームの座標からのベクトル
+
+        //Vector3 addpos = Pos - OldPos;
+        //OldPos -= addpos; 
 
         Ray ray;
         //float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 5;// プレイヤーのメビウスの輪の円の半径を取得
@@ -262,7 +283,7 @@ public class LinePutMobius : MonoBehaviour
         ray = new Ray(new Vector3(OldPos.x, OldPos.y, OldPos.z),    //Rayを飛ばす発射位置
          new Vector3(ColVec.x, ColVec.y, 0));                             //飛ばす方向
 
-        //Debug.DrawRay(ray.origin, ray.direction * distance, Color.red, 1000, false);
+        Debug.DrawRay(ray.origin, ray.direction * distance, Color.red, 1000, false);
 
         //貫通のレイキャスト
         foreach (RaycastHit hit in Physics.SphereCastAll(ray, Mm.GetThisR(), distance * 1.0f))
@@ -277,9 +298,9 @@ public class LinePutMobius : MonoBehaviour
                     hitObj = hit.collider.gameObject;
                     break;
 
-                //case "Block":
-                //    hitObj = hit.collider.gameObject;
-                //    break;
+                    //case "Block":
+                    //    hitObj = hit.collider.gameObject;
+                    //    break;
             }
 
             if (hitObj == this.gameObject || hit.point == Vector3.zero) { hitObj = null; }//ヒットした中に自身が含まれないようにする
@@ -288,14 +309,14 @@ public class LinePutMobius : MonoBehaviour
             if (ColObj.Count == 0 && hitObj != null) //レイが当たったオブジェクトがあれば　かつ　リストが空なら
             {
                 ColObj.Add(hitObj);//レイで当たったオブジェクトをリストに格納
-                HitPos.Add(hit.point); Debug.Log("HitPos" + hit.point);
+                HitPos.Add(hit.point);/* Debug.Log("HitPos" + hit.point);*/
             }
             else if (ColObj.Count != 0 && hitObj != null)
             {
                 if (Mm.SameObjListSearch(ColObj, hitObj))//ColObjリストの中に当たったものがなければ
                 {
                     ColObj.Add(hitObj);//レイで当たったオブジェクトをリストに格納
-                    HitPos.Add(hit.point); Debug.Log("HitPos" + hit.point);
+                    HitPos.Add(hit.point);/* Debug.Log("HitPos" + hit.point);*/
                 }
             }
         }//foreach
@@ -303,33 +324,18 @@ public class LinePutMobius : MonoBehaviour
         if (ColObj.Count != 0)//リストの中に要素があれば
         {
             GameObject otherObj = Mm.NearObjSearch(ColObj, HitPos, OldPos);//リストの中から始点に近いオブジェクトを取得
+            //Debug.Log(otherObj.name + "とぶつかった~～");
 
-            if (/*Mm.MoveLineObj != */!otherObj.GetComponent<MoveMobius>().MoveLineObj)//ぶつかった相手が動く線に乗っていない
+            if (/*Mm.MoveLineObj != */!otherObj.GetComponent<LinePutMobius>().MoveLinePutFlag)//ぶつかった相手が動く線に乗っていない
             {
-                //float ColR = otherObj.GetComponent<MoveMobius>().GetThisR();
 
-                //Vector2 disvec;
-                //if (otherObj.GetComponent<LinePutMobius>().LeaveVector(OldPos, out disvec))
-                //{
-                //    otherObj.GetComponent<MoveMobius>().MobiusCol(Mm.GetThisR() + ColR * 1.2f, -disvec);
-                //    //if(MoveLinePutFlag && otherObj.GetComponent<LinePutMobius>().MoveLinePutFlag)//お互いに動く線に乗っていたら
-                //    //{
-                //    //    Mm.MobiusCol(ThisR + ColR * 1.2f, disvec);
-                //    //}
-                //    Debug.Log("移動床によってぶつかった！！");
-                //}
-                //else
-                //{
-                //    Debug.Log("移動床によってぶつかっても移動しなかった…！！");
-                //}
-                //this.transform.position = other.gameObject.transform.position;
-                //Mm.MobiusCol(ThisR + ColR, -MoveLineVec);
-                //Debug.Log("移動床によってぶつかった！！");
+                //otherObj.transform.position = HitPos[Mm.ListNumberSearch(ColObj, otherObj)];//メビウスの座標を例が当たった座標にする（計算をしやすくするため）
+                //otherObj.GetComponent<MoveMobius>().Collision(this.gameObject);
 
                 Collision(otherObj);
             }
 
-            Debug.Log(otherObj.name + "とぶつかった~～");
+
             return true;
         }
         else
@@ -339,6 +345,7 @@ public class LinePutMobius : MonoBehaviour
         }
     }
 
+    //当たった時の処理（引数は相手のメビウス）
     private void Collision(GameObject ColObj)
     {
         float ColR = ColObj.GetComponent<MoveMobius>().GetThisR();
@@ -347,7 +354,9 @@ public class LinePutMobius : MonoBehaviour
         //Vector2 OldVec = Mm.SearchVector(OldPos, this.transform.position);
         if (ColObj.GetComponent<LinePutMobius>().LeaveVector(OldPos, out disvec))
         {
-            ColObj.GetComponent<MoveMobius>().MobiusCol(Mm.GetThisR() + ColR * 1.2f, -disvec);
+            float dis = (this.transform.position - ColObj.transform.position).magnitude;
+            ColObj.GetComponent<MoveMobius>().MobiusCol(Mm.GetThisR() + ColR + (dis), -disvec);
+            ColObj.GetComponent<MoveMobius>().ZeroVelo();
             Debug.Log("移動床によってぶつかった！！");
         }
         else
@@ -363,27 +372,13 @@ public class LinePutMobius : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Mobius"))
         {
-            if (MoveLinePutFlag && other.GetComponent<LinePutMobius>().MoveLinePutFlag)//ぶつかった相手が動く線に乗っていたら(止まったとき)
+            if (!MoveLineFlag)
             {
-                //float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
-                //float ColR = other.GetComponent<MoveMobius>().GetThisR();
+                if (MoveLinePutFlag && other.GetComponent<LinePutMobius>().MoveLinePutFlag)//ぶつかった相手が動く線に乗っていたら(止まったとき)
+                {
+                    Collision(other.gameObject);
 
-                //Vector2 disvec;
-                ////Vector2 OldVec = Mm.SearchVector(OldPos, this.transform.position);
-                //if (other.GetComponent<LinePutMobius>().LeaveVector(OldPos, out disvec))
-                //{
-                //    other.GetComponent<MoveMobius>().MobiusCol(Mm.GetThisR() + ColR * 1.2f, -disvec);
-                //    Debug.Log("移動床によってぶつかった！！");
-                //}
-                //else
-                //{
-                //    Debug.Log("移動床によってぶつかっても移動しなかった…！！");
-                //}
-                //this.transform.position = other.gameObject.transform.position;
-                //Mm.MobiusCol(ThisR + ColR, -MoveLineVec);
-                //Debug.Log("移動床によってぶつかった！！");
-                Collision(other.gameObject);
-
+                }
             }
         }
     }
