@@ -22,7 +22,7 @@ public class Controler : MonoBehaviour
 
     }
 
-    static  public void TrueInputFlg()
+    static public void TrueInputFlg()
     {
         InputFlg = true;
     }
@@ -64,7 +64,7 @@ public class Controler : MonoBehaviour
                 LeftStickFlg = false;
             }
         }
-       
+
         return Response;
     }
 

@@ -66,7 +66,7 @@ public class UIManeger : MonoBehaviour
             if (Player.GetComponent<PlayerMove>().GetStop())//プレイヤーのクリアの動き終わった
             {
                 PauseManager.OnPause();
-                Controler.TrueInputFlg();
+               // Controler.TrueInputFlg();
             }
 
             SoundManager.StopBGM();
