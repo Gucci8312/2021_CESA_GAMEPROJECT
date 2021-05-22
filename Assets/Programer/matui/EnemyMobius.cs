@@ -6,19 +6,20 @@ using UnityEngine;
 public class EnemyMobius : MonoBehaviour
 {
     private bool EnemyBeatFlag;                                 //ビートが指定した回数になったかどうか
-    public int MaxBeatNum = 4;                                  //ビート最大数指定
+    public int MaxBeatNum = 12;                                  //ビート最大数指定
     float BeatCount = 0;
 
     MoveMobius Mm;//MoveMobiusスクリプト
 
     private Vector3 PlayerVec;                                   //プレイヤーが乗っているメビウスへのベクトル
     private Vector2 TargetVec;                                   //最短距離へ移動するためのベクトル
-    MoveMobius[] Mobius;                                         //すべてのメビウスの輪（単体の輪）を格納
     GameObject Player;
 
     GameObject RythmObj;                                                                            //リズムオブジェクト
     Rythm rythm;                                                                                    //リズムスクリプト取得用
 
+    GameObject[] AllMobius;                                                        //全てのメビウスの輪
+   // List <MoveMobius> AllMm;                                                            //全てのMoveMobius
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +28,19 @@ public class EnemyMobius : MonoBehaviour
 
         RythmObj = GameObject.Find("rythm_circle");                                                   //リズムオブジェクト取得
         this.rythm = RythmObj.GetComponent<Rythm>();                                                  //リズムのコード
+
+        //全てのメビウス取得
+        AllMobius = GameObject.FindGameObjectsWithTag("Mobius");
+        for (int i = 0; i < AllMobius.Length; i++)
+        {
+            AllMobius[i] = GameObject.Find("Mobius (" + i + ")");           
+        }
+
+        //for (int i = 0; i < AllMobius.Length; i++)
+        //{
+        //    AllMm.Add(AllMobius[i].GetComponent<MoveMobius>());
+        //}
+
     }
 
     // Update is called once per frame
@@ -35,6 +49,7 @@ public class EnemyMobius : MonoBehaviour
         if (Time.timeScale != 0)//時間が止まっていなければ
         {
             BeatCounter();//ビート数チェック
+            MobiusStripBeatReset();
 
             if (Mm.EnemyMoveFlag && !Mm.PlayerMoveFlg && Mm.Getcl().Count != 0) //エネミーが乗ってたら かつ　線に乗っていたら
             {
@@ -64,6 +79,28 @@ public class EnemyMobius : MonoBehaviour
         {
             //time += Time.deltaTime;
             BeatCount++;
+        }
+    }
+
+  　//メビウスの輪の時にビートをリセット
+    private void MobiusStripBeatReset() 
+    {
+        bool MobiusStripCheckFlag = false;
+
+        //メビウスの輪になってないかチェック
+        for(int i = 0; i < AllMobius.Length; i++)
+        {
+            if (AllMobius[i].GetComponent<MoveMobius>().GetMobiusStripFlag())
+            {
+                MobiusStripCheckFlag = true;
+                break;
+            }
+        }
+
+        if (MobiusStripCheckFlag)//全てのメビウスのどれかが輪になっていたら
+        {
+            BeatCount = 0;
+            EnemyBeatFlag = false;
         }
     }
 
