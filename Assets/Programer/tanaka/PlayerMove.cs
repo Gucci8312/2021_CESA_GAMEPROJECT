@@ -574,7 +574,7 @@ public class PlayerMove : MonoBehaviour
 
             Vector2 Vec = NextMobiusPos - NowMobiusPos;//対象のメビウスの輪と
             float VecLength = Mathf.Sqrt(Vec.x * Vec.x + Vec.y * Vec.y);
-            VecLength += PlayerHankei - 10;//メビウス同士の当たり判定の長さを調整
+            //VecLength += PlayerHankei - 10;//メビウス同士の当たり判定の長さを調整
 
             if (hankei + hankei > VecLength)//メビウスの輪同士の当たり判定
             {
@@ -610,7 +610,6 @@ public class PlayerMove : MonoBehaviour
                     if (angle < 0)
                     {
                         angle = angle + 360;
-
                     }
 
 
