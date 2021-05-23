@@ -20,8 +20,9 @@ public class UIManeger : MonoBehaviour
 
     GameObject ZoomCameraObj;
     CameraZoom _camera;
-    //  public GameObject ClearDai;
+    public int ThisStageNum;
 
+    //  public GameObject ClearDai;
     private void Awake()
     {
         Player = GameObject.Find("Player");                                        //全てのメビウス取得
@@ -29,7 +30,7 @@ public class UIManeger : MonoBehaviour
 
     void Start()
     {
-        
+
         CountScript = GameObject.Find("CheckPointCount").GetComponent<CheckPointCount>();
         CheackPointObj = GameObject.FindGameObjectsWithTag("CheackPointJudge");
 
@@ -56,17 +57,15 @@ public class UIManeger : MonoBehaviour
             Debug.Log(" ゲームクリア");
             //ClearDai.SetActive(true);
 
-            Controler.FalseInputFlg();
 
             GameClear.active = true;
             //_camera.OnZoom();                 //カメラズーム
             //        Time.timeScale = 0.0f;
-
+            StageControl.SetOpenFlg(ThisStageNum);
             Player.GetComponent<PlayerMove>().ClearOn();//プレイヤーをクリアの動きに切り替え
             if (Player.GetComponent<PlayerMove>().GetStop())//プレイヤーのクリアの動き終わった
             {
                 PauseManager.OnPause();
-               // Controler.TrueInputFlg();
             }
 
             SoundManager.StopBGM();

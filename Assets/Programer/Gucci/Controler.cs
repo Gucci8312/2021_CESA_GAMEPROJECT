@@ -42,8 +42,8 @@ public class Controler : MonoBehaviour
     {
         bool Response = false;
 
-        if (InputFlg)
-        {
+       // if (InputFlg)
+       // {
             if (Input.GetKeyDown("joystick button 0"))
             {
                 Response = true;
@@ -63,7 +63,7 @@ public class Controler : MonoBehaviour
             {
                 LeftStickFlg = false;
             }
-        }
+      //  }
 
         return Response;
     }
@@ -258,6 +258,21 @@ public class Controler : MonoBehaviour
         {
             //LeftStickFlg = false;
         }
+        return Response;
+    }
+
+    public static bool GetXButtonFlg()
+    {
+        bool Response = false;
+        if (Input.GetKeyDown("joystick button 2"))
+        {
+            Response = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            Response = true;
+        }
+
         return Response;
     }
 }
