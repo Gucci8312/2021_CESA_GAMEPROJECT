@@ -56,7 +56,7 @@ public class UIManeger : MonoBehaviour
         {
             Debug.Log(" ゲームクリア");
             //ClearDai.SetActive(true);
-
+            GameClearFlg = true;
 
             GameClear.active = true;
             //_camera.OnZoom();                 //カメラズーム
@@ -79,7 +79,7 @@ public class UIManeger : MonoBehaviour
             }
         }
 
-        if (Player.GetComponent<PlayerMove>().GetCollisionState() && !GameClearFlg)  //チェックポイント0になったら
+        if (Player.GetComponent<PlayerMove>().GetCollisionState() && !GameClearFlg)  // ゲームオーバー時
         {
             Debug.Log(" ゲームオーバー");
             SoundManager.PlayBgmName("gameovermusic");
@@ -87,6 +87,7 @@ public class UIManeger : MonoBehaviour
             GameOver.active = true;
             //_camera.OnZoom();                //カメラズーム
             //Time.timeScale = 0.0f;
+            GameOverFlg = true;
         }
 
         if (GameOver.active == true)
