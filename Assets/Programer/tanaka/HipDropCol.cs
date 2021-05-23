@@ -29,7 +29,10 @@ public class HipDropCol : MonoBehaviour
             {
                 if (other.GetComponent<EnemyMove>().GetNowMobiusNum() == player.GetNowMobiusNum())
                 {
-                    other.GetComponent<EnemyMove>().StanOn();
+                    if (player.GetComponent<PlayerMove>().HipDrop)
+                    {
+                        other.GetComponent<EnemyMove>().StanOn();
+                    }
                 }
                 
             }
