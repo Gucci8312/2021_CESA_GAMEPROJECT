@@ -9,7 +9,7 @@ public class PlayerModel : MonoBehaviour
     void Start()
     {
         PlayerScript = GameObject.Find("Player").GetComponent<PlayerMove>();
-        
+
     }
 
     // Update is called once per frame
@@ -17,7 +17,7 @@ public class PlayerModel : MonoBehaviour
     {
         //int Point = PlayerScript.GetStartPoint();
         float InsideAngleSum = 0f;
-        if (PlayerScript.InsideFlg)
+        if (PlayerScript.GetInsideFlg())
         {
             InsideAngleSum = 180f;
         }
@@ -27,13 +27,13 @@ public class PlayerModel : MonoBehaviour
         }
 
 
-        if (PlayerScript.RotateLeftFlg)
+        if (PlayerScript.GetRotateLeftFlg())
         {
-            this.transform.eulerAngles = new Vector3(0, 180, 360f - PlayerScript.angle + InsideAngleSum);
+            this.transform.eulerAngles = new Vector3(0, 180, 360f - PlayerScript.GetModelAngle() + InsideAngleSum);
         }
         else
         {
-            this.transform.eulerAngles = new Vector3(0, 0, PlayerScript.angle + InsideAngleSum);
+            this.transform.eulerAngles = new Vector3(0, 0, PlayerScript.GetModelAngle() + InsideAngleSum);
         }
 
         this.transform.Rotate(0, InsideAngleSum, 0);
