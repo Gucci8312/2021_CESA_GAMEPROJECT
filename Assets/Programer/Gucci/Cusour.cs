@@ -25,6 +25,7 @@ public class Cusour : MonoBehaviour
     void Update()
     {
         Vector3 Pos = this.gameObject.transform.position;
+        transform.position = new Vector3(Pos.x, WindowButton[Idx].transform.position.y, Pos.z);
 
         if (!SoundFlg)
         {
@@ -35,7 +36,6 @@ public class Cusour : MonoBehaviour
                 {
                     Idx++;
                 }
-                transform.position = new Vector3(Pos.x, WindowButton[Idx].transform.position.y, Pos.z);
             }
             else if (Controler.GetDownButtonFlg())
             {
@@ -44,7 +44,6 @@ public class Cusour : MonoBehaviour
                 {
                     Idx--;
                 }
-                transform.position = new Vector3(Pos.x, WindowButton[Idx].transform.position.y, Pos.z);
             }
             if (Controler.GetCanselButtonFlg())
             {
