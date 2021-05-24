@@ -104,6 +104,9 @@ public class SceneMove : MonoBehaviour
 
             AllStageLightOff();
             stageNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
+            //Color cc=Color.
+            stageNum[(Select_Scene - 1)].GetComponent<Material>().color =Color.white;
+            //stageNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
             StagePictureActiveTrue(Select_Scene - 1);
 
             if (Controler.SubMitButtonFlg())

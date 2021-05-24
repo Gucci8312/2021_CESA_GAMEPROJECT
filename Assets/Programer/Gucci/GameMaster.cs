@@ -46,12 +46,14 @@ public class GameMaster : MonoBehaviour
             if(Menu.active == true)
             {  
                 Menu.active = false;
-                Time.timeScale = 1.0f;
+               // Time.timeScale = 1.0f;
+                PauseManager.OffPause();
             }
             else
             {
                 Menu.active = true;
-                Time.timeScale = 0.0f;
+                // Time.timeScale = 0.0f;
+                PauseManager.OnPause();
             }
         }
     }
@@ -77,6 +79,7 @@ public class GameMaster : MonoBehaviour
     {
        // Debug.Log("エスケープボタンが押された");
         Menu.active = false;
+        PauseManager.OffPause();
     }
 
     // リスタートボタンが押されたとき
