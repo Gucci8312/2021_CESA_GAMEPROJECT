@@ -27,7 +27,8 @@ public class MoveLine : MonoBehaviour
     public int MaxBeatNum = 5;                                               //ビート最大数指定
     float BeatCount = 0;
 
-   /* [HideInInspector] */public List<GameObject> PutOnMobius = new List<GameObject>();            //線上に乗っているメビウスオブジェクト
+    /* [HideInInspector] */
+    public List<GameObject> PutOnMobius = new List<GameObject>();            //線上に乗っているメビウスオブジェクト
     [HideInInspector] public List<MoveMobius> Mm = new List<MoveMobius>();
     [HideInInspector] public List<LinePutMobius> Lpm = new List<LinePutMobius>();
 
@@ -35,6 +36,8 @@ public class MoveLine : MonoBehaviour
     Rythm rythm;                                                                                    //リズムスクリプト取得用
 
     CrossLine Cl;                                                           //CrossLineスクリプト格納用
+
+    static bool StopFlag = false;//true:止める　false:動く
 
     // Start is called before the first frame update
     void Start()
@@ -51,19 +54,27 @@ public class MoveLine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!StopFlag)
+        {
+            MoveLineUpdate();
+        }
+    }
+
+    //EnemyMobiusの更新
+    private void MoveLineUpdate()
+    {
         Cl.MoveLineFlag = true;
         Cl.MoveFlag = MoveFlag;
 
-        if (Time.timeScale != 0)////時間が止まっていなければ
-        {
+        //if (Time.timeScale != 0)////時間が止まっていなければ
+        //{
             PutOnMobiusSetting();
             MovePosSet();
             BeatCounter();
             OuhukuMove();
-        }
+        //}
 
         OldPos = this.transform.position;
-
     }
 
     //ビートをカウントする
@@ -304,4 +315,10 @@ public class MoveLine : MonoBehaviour
     {
         return MoveFlag;
     }
+
+    static public void StopFlagSet(bool flag)
+    {
+        StopFlag = flag;
+    }
+
 }

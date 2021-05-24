@@ -51,6 +51,9 @@ public class MoveMobius : MonoBehaviour
     GameObject ColMobiusObj;                                                 //当たった相手メビウス格納用
 
     ShakeMobius Sm;
+
+    static bool StopFlag = false;//true:止める　false:動く
+
     void Start()
     {
         player = GameObject.Find("Player");
@@ -78,6 +81,16 @@ public class MoveMobius : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        if (!StopFlag)
+        {
+            MoveMobiusUpdate();
+        }
+
+    }
+
+    //MoveMobiusの更新
+    private void MoveMobiusUpdate()
     {
         MobiusColFlag = false;
 
@@ -771,6 +784,12 @@ public class MoveMobius : MonoBehaviour
             return false;
         }
     }
+
+    static public void StopFlagSet(bool flag)
+    {
+        StopFlag = flag;
+    }
+
     public void SetMobiusStrip(GameObject _obj)//メビウスの輪にする為の値をセット
     {
         ColMobiusObj = _obj;//ぶつかったメビウスを格納

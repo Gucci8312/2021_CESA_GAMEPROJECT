@@ -22,6 +22,9 @@ public class EnemyMobius : MonoBehaviour
     List <MoveMobius> AllMm = new List<MoveMobius>();                                                            //全てのMoveMobius
    // List<GameObject> Line = new List<GameObject>();                          //線のオブジェクト
 
+    static bool StopFlag = false;//true:止める　false:動く
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,8 +47,18 @@ public class EnemyMobius : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.timeScale != 0)//時間が止まっていなければ
+        if (!StopFlag)
         {
+            EnemyMobiusUpdate();
+        }
+    }
+
+
+    //EnemyMobiusの更新
+    private void EnemyMobiusUpdate()
+    {
+        //if (Time.timeScale != 0)//時間が止まっていなければ
+        //{
             BeatCounter();//ビート数チェック
             MobiusStripBeatReset();
 
@@ -56,7 +69,7 @@ public class EnemyMobius : MonoBehaviour
                     Mm.EnemyOnMoveFlag(EnemyBeatFlag, TargetVec);
                 }
             }
-        }
+        //}
     }
 
     //何ビートか調べる
@@ -195,4 +208,10 @@ public class EnemyMobius : MonoBehaviour
 
         return true;
     }
+
+    static public void StopFlagSet(bool flag)
+    {
+        StopFlag = flag;
+    }
+
 }
