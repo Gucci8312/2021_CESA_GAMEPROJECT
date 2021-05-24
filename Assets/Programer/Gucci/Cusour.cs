@@ -79,12 +79,14 @@ public class Cusour : MonoBehaviour
             else if (WindowButton[Idx].name == "RETRY")
             {
                 RestartBotton();
-                Time.timeScale = 1.0f;
+               // Time.timeScale = 1.0f;
+                PauseManager.OffPause();
             }
             else if (WindowButton[Idx].name == "STAGESELECT")
             {
                 StageSelectBotton();
-                Time.timeScale = 1.0f;
+                // Time.timeScale = 1.0f;
+                PauseManager.OffPause();
             }
             else if (WindowButton[Idx].name == "END")
             {
@@ -92,7 +94,8 @@ public class Cusour : MonoBehaviour
             }
             else if (WindowButton[Idx].name == "NEXTSTAGE")
             {
-                Time.timeScale = 1.0f;
+                //Time.timeScale = 1.0f;
+                PauseManager.OffPause();
                 StageSelect.LoadStage(NextStageNum, this);
             }
             else if (WindowButton[Idx].name == "SOUND")

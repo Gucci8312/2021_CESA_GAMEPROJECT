@@ -11,7 +11,7 @@ public class GameMaster : MonoBehaviour
     public GameObject Menu;
     public string BgmName;
     GameObject Player;
-
+    GameObject UI;
     private void Awake()
     {
         GameObject m_soundManager = GameObject.Find("SoundManager(Clone)");     //サウンドマネージャー検索
@@ -26,11 +26,12 @@ public class GameMaster : MonoBehaviour
     {
         //   Menu= GameObject.Find("Menu");
         Player = GameObject.Find("Player");                                        //全てのメビウス取得
-       // Menu = GameObject.Find("Menu");                                        //全てのメビウス取得
-       PauseManager.GameObjectFindInit();
+                                                                                   // Menu = GameObject.Find("Menu");                                        //全てのメビウス取得
+        PauseManager.GameObjectFindInit();
         Application.targetFrameRate = 60;
         StartCoroutine("CheckLoop");
         Invoke("OnStartBGM", 0.1f);
+        UI = GameObject.Find("UI");
     }
 
     void OnStartBGM()
@@ -40,20 +41,23 @@ public class GameMaster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape)| Controler.GetMenuButtonFlg())
+        if (!UI.GetComponent<UIManeger>().GameClearFlg && !UI.GetComponent<UIManeger>().GameOverFlg)
         {
-            Debug.Log("メニューボタン押された");
-            if(Menu.active == true)
-            {  
-                Menu.active = false;
-               // Time.timeScale = 1.0f;
-                PauseManager.OffPause();
-            }
-            else
+            if (Input.GetKeyDown(KeyCode.Escape) || Controler.GetMenuButtonFlg())
             {
-                Menu.active = true;
-                // Time.timeScale = 0.0f;
-                PauseManager.OnPause();
+                Debug.Log("メニューボタン押された");
+                if (Menu.active == true)
+                {
+                    Menu.active = false;
+                    // Time.timeScale = 1.0f;
+                    PauseManager.OffPause();
+                }
+                else
+                {
+                    Menu.active = true;
+                    // Time.timeScale = 0.0f;
+                    PauseManager.OnPause();
+                }
             }
         }
     }
@@ -77,7 +81,7 @@ public class GameMaster : MonoBehaviour
     // エスケープボタンが押されたとき
     public void ClickEscapeBotton()
     {
-       // Debug.Log("エスケープボタンが押された");
+        // Debug.Log("エスケープボタンが押された");
         Menu.active = false;
         PauseManager.OffPause();
     }
