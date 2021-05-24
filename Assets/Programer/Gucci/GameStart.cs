@@ -12,7 +12,7 @@ public class GameStart : MonoBehaviour
 
 
 	//public float StartTime;
-	float StartTime=2.0f;
+	public float StartTime=2.0f;
 	int cnt = 0;
     // Start is called before the first frame update
     void Start()

@@ -111,7 +111,7 @@ public class TtilePLight : MonoBehaviour
     // @brief  文字が徐々に色付きになる
     void ChangeTextColorWhite(GameObject _textObj)
     {
-        if (m_textColor.r >= 1.0f)
+        if (m_textColor.r >= 1.0f && !titleAnimationFinished)
         {
             m_pressAButtonText.SetActive(true);
             titleAnimationFinished = true;

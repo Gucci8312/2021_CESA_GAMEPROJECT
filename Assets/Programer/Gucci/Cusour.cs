@@ -19,12 +19,14 @@ public class Cusour : MonoBehaviour
         Vector3 Pos = this.gameObject.transform.position;
         transform.position = new Vector3(Pos.x, WindowButton[0].transform.position.y, Pos.z);
         // SoundRes = (GameObject)Resources.Load("VolumeSettings");
+        PauseManager.GameObjectFindInit();
     }
 
     // Update is called once per frame
     void Update()
     {
         Vector3 Pos = this.gameObject.transform.position;
+        transform.position = new Vector3(Pos.x, WindowButton[Idx].transform.position.y, Pos.z);
 
         if (!SoundFlg)
         {
@@ -35,7 +37,6 @@ public class Cusour : MonoBehaviour
                 {
                     Idx++;
                 }
-                transform.position = new Vector3(Pos.x, WindowButton[Idx].transform.position.y, Pos.z);
             }
             else if (Controler.GetDownButtonFlg())
             {
@@ -44,12 +45,12 @@ public class Cusour : MonoBehaviour
                 {
                     Idx--;
                 }
-                transform.position = new Vector3(Pos.x, WindowButton[Idx].transform.position.y, Pos.z);
             }
             if (Controler.GetCanselButtonFlg())
             {
                 Window.SetActive(!Window.activeSelf);
-                Time.timeScale = 1.0f;
+                //Time.timeScale = 1.0f;
+                PauseManager.OffPause();
                 //if(SoundFlg)
                 //{
                 //    Destroy(SoundObj);
@@ -72,7 +73,8 @@ public class Cusour : MonoBehaviour
             if (WindowButton[Idx].name == "PLAY")
             {
                 Window.SetActive(!Window.activeSelf);
-                Time.timeScale = 1.0f;
+                //Time.timeScale = 1.0f;
+                PauseManager.OffPause();
             }
             else if (WindowButton[Idx].name == "RETRY")
             {
@@ -114,6 +116,7 @@ public class Cusour : MonoBehaviour
     {
         // Debug.Log("エスケープボタンが押された");
         Window.active = false;
+        PauseManager.OffPause();
     }
 
     // リスタートボタンが押されたとき

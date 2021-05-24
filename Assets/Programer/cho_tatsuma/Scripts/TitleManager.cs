@@ -12,15 +12,9 @@ using UnityEngine.Rendering;
 // @brief  タイトルを管理するクラス
 public class TitleManager : MonoBehaviour
 {
-    [SerializeField] GameObject m_soundManagerPrefab;          //生成用プレハブ
+    [SerializeField] GameObject m_soundManagerPrefab = default;          //生成用プレハブ
     public string titleBgm;                                     //タイトルBGM
-
-    public GameObject[] mobiusArray;                            //メビウスの輪格納配列
-    public GameObject mobius;                                  //合体メビウスの輪格納配列
-    bool startMobiusAnimation;
-    static GameObject m_titlePointLight;              //ポイントライトオブジェクト
-    [SerializeField]
-    GameObject m_pressTextObj;
+    [SerializeField] GameObject m_pressTextObj = default;
     FadeTitleText m_fadeTextScript;
     public GameObject Window;
 
@@ -34,34 +28,27 @@ public class TitleManager : MonoBehaviour
         {
             Instantiate(m_soundManagerPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
         }
-
-        for (int i = 0; i < mobiusArray.Length; i++)
-        {
-            mobiusArray[i].GetComponent<TitleMoveMobius>().enabled = false;
-        }
     }
 
     private void OnEnable()
     {
         if (Time.timeScale == 0f) Time.timeScale = 1.0f;
-        m_titlePointLight = GameObject.Find("YellowLight");
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        startMobiusAnimation = false;
         m_fadeTextScript = m_pressTextObj.gameObject.GetComponent<FadeTitleText>();
     }
 
     private void Update()
     {
         SoundManager.CheckLoop();
-        if (m_fadeTextScript.gameStartFlg && Window.activeSelf == false)
+        if (Window.activeSelf == false)
         {
             if (Controler.SubMitButtonFlg())
             {
-                StageSelect.GoStageSelect(this);
+                m_fadeTextScript.gameStartFlg = true;
             }
             else if (Controler.GetCanselButtonFlg())
             {
@@ -76,39 +63,8 @@ public class TitleManager : MonoBehaviour
             if (bloom_propaty.intensity.value == 5f)
                 bloom_propaty.intensity.value = 0f;
             else if (bloom_propaty.intensity.value == 0f)
-                bloom_propaty.intensity.value = 5f;
+                bloom_propaty.intensity.value = 2f;
         }
-
-        //if (!startMobiusAnimation && m_titlePointLight.GetComponent<TtilePLight>().titleAnimationFinished)
-        //{
-        //    startMobiusAnimation = true;
-        //    for (int i = 0; i < mobiusArray.Length - 2; i++)
-        //    {
-        //        mobiusArray[i].GetComponent<TitleMoveMobius>().enabled = true;
-        //    }
-        //}
-
-        //if (mobiusArray[0].GetComponent<TitleMoveMobius>().move_flg_back && mobiusArray[0].GetComponent<TitleMoveMobius>().enabled)
-        //{
-        //    mobiusArray[0].GetComponent<TitleMoveMobius>().enabled = false;
-        //    mobiusArray[1].GetComponent<TitleMoveMobius>().enabled = false;
-        //    mobius.GetComponent<MobiusAttachPos>().m_nowMobiusNo = 2;
-        //    mobiusArray[2].GetComponent<TitleMoveMobius>().Start();
-        //    mobiusArray[3].GetComponent<TitleMoveMobius>().Start();
-        //    mobiusArray[2].GetComponent<TitleMoveMobius>().enabled = true;
-        //    mobiusArray[3].GetComponent<TitleMoveMobius>().enabled = true;
-        //}
-
-        //if (mobiusArray[2].GetComponent<TitleMoveMobius>().move_flg_back && mobiusArray[2].GetComponent<TitleMoveMobius>().enabled)
-        //{
-        //    mobiusArray[0].GetComponent<TitleMoveMobius>().enabled = true;
-        //    mobiusArray[1].GetComponent<TitleMoveMobius>().enabled = true;
-        //    mobiusArray[0].GetComponent<TitleMoveMobius>().Start();
-        //    mobiusArray[1].GetComponent<TitleMoveMobius>().Start();
-        //    mobius.GetComponent<MobiusAttachPos>().m_nowMobiusNo = 0;
-        //    mobiusArray[2].GetComponent<TitleMoveMobius>().enabled = false;
-        //    mobiusArray[3].GetComponent<TitleMoveMobius>().enabled = false;
-        //}
 
         if (Controler.GetMenuButtonFlg())
         {

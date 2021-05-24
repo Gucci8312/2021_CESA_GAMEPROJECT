@@ -7,17 +7,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
-
+using UnityEngine.UI;
 
 // @name   TutorialManager
 // @brief  チュートリアル時のビデオパネルの操作定義
 public class TutorialManager : MonoBehaviour
 {
-    [SerializeField] GameObject[] videoPanel;
+    [SerializeField] GameObject[] videoPanel = default;
 
-    [SerializeField] GameObject[] checkPoint;
-    [SerializeField] GameObject AButton;
-    [SerializeField] GameObject AButton2;
+    [SerializeField] GameObject[] checkPoint = default;
+    [SerializeField] GameObject APButton = default;
+    [SerializeField] GameObject AButton2 = default;
+
+    [SerializeField] GameObject BPButton = default;
+    [SerializeField] GameObject BButton2 = default;
+
+    [SerializeField] Text orText = default;
+
     Rythm rythm;
     GameObject player;
     GameObject enemy;
@@ -25,7 +31,7 @@ public class TutorialManager : MonoBehaviour
 
     bool endTutorial = false;
 
-    [SerializeField] Volume bloom;
+    [SerializeField] Volume bloom = default;
 
     // Start is called before the first frame update
     void Awake()
@@ -35,7 +41,10 @@ public class TutorialManager : MonoBehaviour
         mobius = GameObject.FindGameObjectsWithTag("Mobius");
         rythm = GameObject.Find("rythm_circle").GetComponent<Rythm>();
         AButton2.SetActive(false);
-        AButton.SetActive(false);
+        APButton.SetActive(false);
+        BButton2.SetActive(false);
+        BPButton.SetActive(false);
+        orText.enabled = false;
 
     }
 
@@ -46,11 +55,17 @@ public class TutorialManager : MonoBehaviour
         {
             if (rythm.rythmSendCheckFlag)
             {
-                AButton.SetActive(false);
+                APButton.SetActive(false);
+                BPButton.SetActive(false);
+                AButton2.SetActive(true);
+                BButton2.SetActive(true);
             }
             else
             {
-                AButton.SetActive(true);
+                APButton.SetActive(true);
+                BPButton.SetActive(true);
+                AButton2.SetActive(false);
+                BButton2.SetActive(false);
             }
         }
         //すべてのチェックポイントにキャラクターが触れているかチェック
@@ -98,7 +113,7 @@ public class TutorialManager : MonoBehaviour
             Invoke("ScriptsOn", 0.8f);
             videoPanel[_idx].GetComponentInChildren<VideoPlay>().endVideo = false;
             endTutorial = true;
-            AButton2.SetActive(true);
+            orText.enabled = true;
         }
 
     }
@@ -126,6 +141,6 @@ public class TutorialManager : MonoBehaviour
             mobius[i].GetComponent<EnemyMobius>().enabled = true;
         Bloom bloom_propaty;
         bloom.profile.TryGet(out bloom_propaty);
-        bloom_propaty.intensity.value = 5f;
+        bloom_propaty.intensity.value = 2f;
     }
 }

@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2977,6 +2977,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6560782196904396887, guid: 8460f56ea1359354da04962b6e4c523d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -18
+      objectReference: {fileID: 0}
+    - target: {fileID: 6560782196904396887, guid: 8460f56ea1359354da04962b6e4c523d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -131
+      objectReference: {fileID: 0}
     - target: {fileID: 8808710004290812509, guid: 8460f56ea1359354da04962b6e4c523d,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -3501,6 +3511,7 @@ MonoBehaviour:
   JudgeUI:
   - {fileID: 244264069}
   - {fileID: 1337011774}
+  ThisStageNum: 21
 --- !u!114 &1573163575
 MonoBehaviour:
   m_ObjectHideFlags: 0
