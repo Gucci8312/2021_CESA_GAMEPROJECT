@@ -63,6 +63,23 @@ public class SceneMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Controler.GetRightTriggerFlg())
+        {
+            Select_Scene += 5;
+            if(Select_Scene<1)
+            {
+                Select_Scene = 1;
+            }
+        }
+        else if(Controler.GetLeftTriggerFlg())
+        {
+            Select_Scene -= 5;
+            if(Select_Scene>25)
+            {
+                Select_Scene = 25;
+            }
+        }
+
         // if(Controler.GetRightTriggerFlg()&&Controler.GetLeftTriggerFlg())
         if (Controler.GetXButtonFlg())
         {

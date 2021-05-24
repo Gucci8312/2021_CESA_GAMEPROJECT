@@ -235,12 +235,12 @@ public class Controler : MonoBehaviour
     public static bool GetLeftTriggerFlg()
     {
         bool Response = false;
-        if (Input.GetAxisRaw("L_Trigger") < 0.0f /*&& LeftStickFlg == false*/)
+        if (Input.GetAxisRaw("LTrigger") < 0.0f /*&& LeftStickFlg == false*/)
         {
             Response = true;
             // LeftStickFlg = true;
         }
-        else if (Input.GetAxisRaw("L_Trigger") == 0.0f)
+        else if (Input.GetAxisRaw("LTrigger") == 0.0f)
         {
             // LeftStickFlg = false;
         }
@@ -249,12 +249,12 @@ public class Controler : MonoBehaviour
     public static bool GetRightTriggerFlg()
     {
         bool Response = false;
-        if (Input.GetAxisRaw("R_Trigger") < 0.0f /*&& LeftStickFlg == false*/)
+        if (Input.GetAxisRaw("RTrigger") < 0.0f /*&& LeftStickFlg == false*/)
         {
             Response = true;
             // LeftStickFlg = true;
         }
-        else if (Input.GetAxisRaw("R_Trigger") == 0.0f)
+        else if (Input.GetAxisRaw("RTrigger") == 0.0f)
         {
             //LeftStickFlg = false;
         }
@@ -272,7 +272,20 @@ public class Controler : MonoBehaviour
         {
             Response = true;
         }
+        return Response;
+    }
 
+    public static bool GetYButtonFlg()
+    {
+        bool Response = false;
+        if (Input.GetKeyDown("joystick button 3"))
+        {
+            Response = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Response = true;
+        }
         return Response;
     }
 }

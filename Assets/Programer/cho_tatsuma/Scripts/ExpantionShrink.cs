@@ -10,7 +10,7 @@ using UnityEngine;
 // @brief  オブジェクト拡縮クラス
 public class ExpantionShrink : MonoBehaviour
 {
-    const float MIN_SHRINK = 0.7f;      //最大縮小サイズ
+    public float MIN_SHRINK = 0.7f;      //最大縮小サイズ
     Rythm rythm;
     bool isExpantion;
     bool isShrink;
