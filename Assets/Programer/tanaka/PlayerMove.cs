@@ -52,17 +52,13 @@ public class PlayerMove : MobiusOnObj
     Camera cam;                                             //カメラ
     CameraShake camerashake;                                //カメラを揺らすスクリプト
 
-    [SerializeField]
-    GameObject missPrefab;                                  //リズムに合わなかった時のUI
+    [SerializeField]GameObject missPrefab;                  //リズムに合わなかった時のUI
 
-    [SerializeField]
-    GameObject successPrefab;                               //リズムに合った時のUI
+    [SerializeField]GameObject successPrefab;               //リズムに合った時のUI
 
-    [SerializeField]
-    GameObject HipDropCollisionObj;                         //ヒップドロップの当たり判定
+    [SerializeField]GameObject HipDropCollisionObj;         //ヒップドロップの当たり判定
 
-    [SerializeField]
-    Vector3 ClearPosition;                                  //クリア時の最終的な位置
+    [SerializeField]Vector3 ClearPosition;                  //クリア時の最終的な位置
 
     bool ClearOne;                                          //クリア時一度だけ通るフラグ　アニメーション調整してセットする用
 
@@ -96,14 +92,10 @@ public class PlayerMove : MobiusOnObj
         Clear = false;
         ClearOne = false;
         Stop = false;
-
         jumpmove = 0;
         jumpmovesave = jumpmove;
-
         HipDropSpeed = HipDropSpeed * 100f;
-
         SpeedPress = false;
-
         SpeedUpFlg = false;
 
         RythmFlg = this.rythm.rythmCheckFlag;
@@ -139,59 +131,8 @@ public class PlayerMove : MobiusOnObj
 
                 if (JumpFlg)
                 {
-                    if (InsideFlg)//内側
-                    {
-                        if (HipDrop)
-                        {
-                            HipDropCollisionObj.GetComponent<BoxCollider>().enabled = true;
-                            jumpmove += HipDropSpeed * Time.deltaTime;
-                            
-                            if (jumpmove > 0)
-                            {
-                                HipDropEndSetState();
-                            }
-                        }
-                        else
-                        {
-                            jumpmovesave = jumpmove;
-                            jumpmove += (jumpmove - jumpmove_prev) + pow;
-                            jumpmove_prev = jumpmovesave;
-                            pow = 1;
-
-                            if (jumpmove > jumpmovesave)
-                            {
-                                HipDrop = true;
-                            }
-                        }
-
-                    }
-                    else//外側
-                    {
-                        if (HipDrop)
-                        {
-                            HipDropCollisionObj.GetComponent<BoxCollider>().enabled = true;
-                            jumpmove -= HipDropSpeed * Time.deltaTime;
-                            
-                            if (jumpmove < 0)
-                            {
-                                HipDropEndSetState();
-                            }
-                        }
-                        else
-                        {
-                            jumpmovesave = jumpmove;
-                            jumpmove = jumpmove + ((jumpmove - jumpmove_prev) + pow);
-                            jumpmove_prev = jumpmovesave;
-
-                            pow = -1;
-                            if (jumpmove < jumpmovesave)
-                            {
-                                HipDrop = true;
-                            }
-                        }
-                    }
-                    
-                }//if (JumpFlg)
+                    HipDropSum();
+                }
                 else
                 {
                     if (InsideFlg)//内側
@@ -244,7 +185,6 @@ public class PlayerMove : MobiusOnObj
                                 SwitchMobius = false;
                             }
                         }
-
                     }
                     else
                     {
@@ -326,6 +266,62 @@ public class PlayerMove : MobiusOnObj
                 Instantiate(missPrefab);
             }
 
+        }
+    }
+
+    //ヒップドロップの計算
+    private void HipDropSum()
+    {
+        if (InsideFlg)//内側
+        {
+            if (HipDrop)
+            {
+                HipDropCollisionObj.GetComponent<BoxCollider>().enabled = true;
+                jumpmove += HipDropSpeed * Time.deltaTime;
+
+                if (jumpmove > 0)
+                {
+                    HipDropEndSetState();
+                }
+            }
+            else
+            {
+                jumpmovesave = jumpmove;
+                jumpmove += (jumpmove - jumpmove_prev) + pow;
+                jumpmove_prev = jumpmovesave;
+                pow = 1;
+
+                if (jumpmove > jumpmovesave)
+                {
+                    HipDrop = true;
+                }
+            }
+
+        }
+        else//外側
+        {
+            if (HipDrop)
+            {
+                HipDropCollisionObj.GetComponent<BoxCollider>().enabled = true;
+                jumpmove -= HipDropSpeed * Time.deltaTime;
+
+                if (jumpmove < 0)
+                {
+                    HipDropEndSetState();
+                }
+            }
+            else
+            {
+                jumpmovesave = jumpmove;
+                jumpmove = jumpmove + ((jumpmove - jumpmove_prev) + pow);
+                jumpmove_prev = jumpmovesave;
+
+                pow = -1;
+                if (jumpmove < jumpmovesave)
+                {
+                    HipDrop = true;
+                }
+            }
         }
     }
 
