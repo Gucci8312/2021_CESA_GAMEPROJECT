@@ -17,7 +17,7 @@ public class MobiusAttachPos : MonoBehaviour
     public int m_nowMobiusNo;      //プレイヤーが現在どのメビウスに乗っているかの情報
 
     public GameObject[] m_mobius;                  //すべてのメビウスの輪（単体の輪）を格納
-    GameObject m_pCylinder;              //MeshRendererが設定されているメビウスの輪のモデルオブジェクトを設定
+    //GameObject m_pCylinder;              //MeshRendererが設定されているメビウスの輪のモデルオブジェクトを設定
     Vector3 m_mobiusPosition;           //合体後のメビウスモデルの座標変数
 
     KeyCode m_keyCode;                  //どのキーを入力したかを保存
@@ -42,9 +42,9 @@ public class MobiusAttachPos : MonoBehaviour
         //メビウスの輪（単体）から当たった情報と中点を取得するためコンポーネントを取得
         m_mobius = GameObject.FindGameObjectsWithTag("Mobius");
 
-        m_pCylinder = GameObject.Find("pCylinder2");
+        //m_pCylinder = GameObject.Find("pCylinder2");
         //メビウスの輪（二つつなぎ）のモデルをいったん隠す
-        m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        this.gameObject.GetComponent<MeshRenderer>().enabled = false;
 
         //一度くっついたとき回転しない用にするため。
         m_mobiusCol = false;
@@ -201,7 +201,7 @@ public class MobiusAttachPos : MonoBehaviour
             m_MobiusPos = otherMobius.GetComponent<MoveMobius>().GetColPos();
         }
         //メビウスの輪のモデルを表示
-        m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled = true;
+        this.gameObject.GetComponent<MeshRenderer>().enabled = true;
 
         //if (before_degree == 90f || before_degree == 270f)
         //{
@@ -223,12 +223,12 @@ public class MobiusAttachPos : MonoBehaviour
     // @brief  他のメビウスと離れた時に実装したい部分
     public void MobiusCollisionOff()
     {
-        if (m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled)
+        if (this.gameObject.GetComponent<MeshRenderer>().enabled)
         {
             hitMobius = null;
             otherMobius = null;
             //メビウスの輪（二つつなぎ）のモデルをいったん隠す
-            m_pCylinder.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            this.gameObject.GetComponent<MeshRenderer>().enabled = false;
             for (int i = 0; i < m_mobius.Length; i++)
             {
                 MobiusChileMeshRenderOn(m_mobius[i]);
