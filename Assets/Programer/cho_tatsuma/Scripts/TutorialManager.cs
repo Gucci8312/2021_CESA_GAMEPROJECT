@@ -57,11 +57,15 @@ public class TutorialManager : MonoBehaviour
             {
                 APButton.SetActive(false);
                 BPButton.SetActive(false);
+                AButton2.SetActive(true);
+                BButton2.SetActive(true);
             }
             else
             {
                 APButton.SetActive(true);
                 BPButton.SetActive(true);
+                AButton2.SetActive(false);
+                BButton2.SetActive(false);
             }
         }
         //すべてのチェックポイントにキャラクターが触れているかチェック
@@ -109,8 +113,6 @@ public class TutorialManager : MonoBehaviour
             Invoke("ScriptsOn", 0.8f);
             videoPanel[_idx].GetComponentInChildren<VideoPlay>().endVideo = false;
             endTutorial = true;
-            AButton2.SetActive(true);
-            BButton2.SetActive(true);
             orText.enabled = true;
         }
 
