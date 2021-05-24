@@ -52,7 +52,6 @@ public class EnemyMove : MobiusOnObj
             {
                 ball.SetActive(true);
                 toge.SetActive(false);
-
             }
 
             PositionSum();

@@ -166,21 +166,16 @@ public class MobiusOnObj : MonoBehaviour
                 InsideLength = 50;//内側までの距離
                 InsideFlg = true;
             }
-
-
             SideCnt = 0;
         }//if (SideCnt>=2)//2回切り替えると
 
         if (RotateLeftFlg)
         {
             RotateLeftFlg = false;
-
-            
         }
         else
         {
             RotateLeftFlg = true;
-            
         }
 
         SideCnt++;
@@ -231,13 +226,13 @@ public class MobiusOnObj : MonoBehaviour
     }
 
     //ポーズをオンにする
-    public static  void PauseOn()
+    public virtual void PauseOn()
     {
         Pause = true;
     }
 
     //ポーズにオフにする
-    public static void PauseOff()
+    public virtual void PauseOff()
     {
         Pause = false;
     }

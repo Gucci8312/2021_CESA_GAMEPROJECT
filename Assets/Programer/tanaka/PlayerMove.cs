@@ -135,6 +135,7 @@ public class PlayerMove : MobiusOnObj
                 }
                 else
                 {
+                    //スピード決定
                     if (InsideFlg)//内側
                     {
                         if (SpeedUpFlg)
