@@ -63,8 +63,9 @@ public class SceneMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if(Controler.GetRightTriggerFlg()&&Controler.GetLeftTriggerFlg())
-        if (Controler.GetXButtonFlg())
+		
+		// if(Controler.GetRightTriggerFlg()&&Controler.GetLeftTriggerFlg())
+		if (Controler.GetXButtonFlg())
         {
             StageControl.AllStageOpen();
         }
@@ -78,7 +79,7 @@ public class SceneMove : MonoBehaviour
             {
                 if (Select_Scene != 25)
                 {
-                    if (StageControl.GetOpenFlg(Select_Scene ))
+                    if (StageControl.GetOpenFlg(Select_Scene))
                     {
                         Select_Scene++;
                     }
@@ -87,7 +88,7 @@ public class SceneMove : MonoBehaviour
                 {
                     Camera = false;
                 }
-                if (StageControl.GetOpenFlg(Select_Scene ))
+                if (StageControl.GetOpenFlg(Select_Scene))
                 {
                     if (Select_Scene % 5 == 1)
                     {
@@ -128,10 +129,12 @@ public class SceneMove : MonoBehaviour
             AllStageLightOff();
             stageNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
             ChangeColor();
-            //Color cc=Color.
-            // stageNum[(Select_Scene - 1)].GetComponent<Material>().color =Color.white;
-            //stageNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
-            StagePictureActiveTrue(Select_Scene - 1);
+			
+			
+			//Color cc=Color.
+			// stageNum[(Select_Scene - 1)].GetComponent<Material>().color =Color.white;
+			//stageNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
+			StagePictureActiveTrue(Select_Scene - 1);
 
             if (Controler.SubMitButtonFlg())
             {
@@ -150,7 +153,9 @@ public class SceneMove : MonoBehaviour
                 StageSelect.LoadStage(Select_Scene, this);
             }
         }
-    }
+
+		Release_Stage();
+	}
 
     // @name   AllStageLightOff
     // @brief  すべてのステージのライトをオフにする
@@ -190,16 +195,29 @@ public class SceneMove : MonoBehaviour
         int num = Select_Scene;
         while (num > 5)
         {
-            num = num <= 5 ? num : num -= 5;
+            num = num <= 5 ? num : num += -5;
         }
         for (int i = 0; i < 5; i++)
         {
-            float coefficient = (i + 1) == Select_Scene ? 1.0f : 0.05f;
+            float coefficient = (i + 1) == num ? 1.0f : 0.00f;
             ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * coefficient);
         }
        
     }
-    
+
+	void Release_Stage()
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			if(!StageControl.GetOpenFlg(i+1))
+			{
+				ColorNum[i].SetColor("_EmissionColor", new Color(0.4f,0.4f,0.4f));
+			}
+			
+		}
+	}
+
+
 }
 
 
