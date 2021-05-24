@@ -448,26 +448,26 @@ public class CrossLine : MonoBehaviour
         }
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.gameObject.CompareTag("Line"))
-    //    {
-    //        CrossLine otherCL = other.GetComponent<CrossLine>();//相手のCrossLineスクリプトを取得
+    private bool NearRvecFlag(Vector2 SerchVec)
+    {
+        float distance = (Rvec - SerchVec).magnitude;
+        if (distance <= 0.1f)
+        {
+            return true;
+        }
+        return false;
+    }
 
-    //        if (LineMovingFlag == otherCL.LineMovingFlag)
-    //        {
-    //            Vector2 vec;
-    //            if (CrossLinePosition(this.gameObject, other.gameObject, out vec))
-    //            {
-    //                CrossPos.Add(vec);
-    //            }
-    //            else
-    //            {
-    //                Debug.Log("交点が求められなかった");
-    //            }
-    //        }
-    //    }
-    //}
+    private bool NearLvecFlag(Vector2 SerchVec)
+    {
+        float distance = (Lvec - SerchVec).magnitude;
+        if (distance <= 0.1f)
+        {
+            return true;
+        }
+        return false;
+    }
+
 
     private void OnTriggerStay(Collider other)
     {
