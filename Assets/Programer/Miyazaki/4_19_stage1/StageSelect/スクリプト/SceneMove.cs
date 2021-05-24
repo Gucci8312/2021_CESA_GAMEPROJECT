@@ -11,6 +11,7 @@ using UnityEngine;
 public class SceneMove : MonoBehaviour
 {
     public GameObject[] stageNum;
+    public Material[] ColorNum;
     const int LIGHT_OFF = 1;
     const int LIGHT_ON = 10;
 
@@ -38,9 +39,15 @@ public class SceneMove : MonoBehaviour
 
     }
 
+
+
     // Update is called once per frame
     void Update()
     {
+       
+        // ColorNum[2].color = ;
+        //SetColor = Color.cyan;
+
         if (!gameObject.GetComponent<AreaSelectManeger>().GetMenuFlg())
         {
             fedeout.FedeOut_Update();
@@ -94,6 +101,7 @@ public class SceneMove : MonoBehaviour
 
             AllStageLightOff();
             stageNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
+            ChangeColor();
             StagePictureActiveTrue(Select_Scene - 1);
 
             if (Controler.SubMitButtonFlg())
@@ -134,6 +142,21 @@ public class SceneMove : MonoBehaviour
             stage_picture[i].SetActive(false);
         }
     }
+   
+    void ChangeColor()
+	{
+        int num = Select_Scene;   
+        while(num>5)
+		{
+            num = num <= 5 ? num : num -= 5;
+        }
+
+        for (int i = 0; i < 5; i++)
+        {
+            float coefficient= (i + 1)== num? 1.0f:0.05f;
+            ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * coefficient);
+        }
+    }
 
     // @name   StagePictureActiveTrue
     // @brief  特定の背景の絵柄を全部表示にする
@@ -147,4 +170,6 @@ public class SceneMove : MonoBehaviour
             stage_picture[_num].SetActive(true);
         }
     }
+
+    
 }
