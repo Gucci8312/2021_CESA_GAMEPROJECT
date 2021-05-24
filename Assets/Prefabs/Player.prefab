@@ -150,6 +150,7 @@ MonoBehaviour:
   RotateLeftFlg: 0
   InsideFlg: 0
   NormalSpeed: 2.5
+  rotateSpeed: 30
   InsideSpeed: 2
   StartPoint: 0
   angle: 0
@@ -160,13 +161,13 @@ MonoBehaviour:
   jumppow: 10
   HipDropSpeed: 15
   CollisionOn: 1
-  rotateSpeed: 30
   HipDrop: 0
   missPrefab: {fileID: 2473179551104762139, guid: 33eb7c88fc2c72749aa492d6edc1b1f3,
     type: 3}
   successPrefab: {fileID: 5678893864526686650, guid: 517a5c913ca164244ac09826fcc0984b,
     type: 3}
   HipDropCollisionObj: {fileID: 6409168518406717548}
+  ClearPosition: {x: 0, y: 7.5, z: -485}
 --- !u!114 &6560782196904396873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,7 +192,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 20
-  m_Center: {x: 0, y: 22.3, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &6560782196904396875
 Rigidbody:
   m_ObjectHideFlags: 0

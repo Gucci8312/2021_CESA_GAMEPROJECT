@@ -43,6 +43,7 @@ public class UIManeger : MonoBehaviour
 
         ZoomCameraObj = GameObject.Find("ZoomCameraObj");
         _camera = ZoomCameraObj.GetComponent<CameraZoom>();
+        StageControl.SetNowStage(ThisStageNum);
 
     }
 
