@@ -25,6 +25,9 @@ public class MobiusOnObj : MonoBehaviour
     protected Vector3 distanceTarget = new Vector3(0f, 0f, 0f);                 //メビウスからの距離
 
     protected bool SwitchMobius;                                                //メビウスを切り替えたときすぐに戻らないようにする
+
+    static protected bool Pause;                                                //ポーズ用フラグ
+
     protected virtual void Awake()
     {
         Mobius = GameObject.FindGameObjectsWithTag("Mobius");
@@ -226,4 +229,15 @@ public class MobiusOnObj : MonoBehaviour
         return InsideFlg;
     }
 
+    //ポーズをオンにする
+    public static  void PauseOn()
+    {
+        Pause = true;
+    }
+
+    //ポーズにオフにする
+    public static void PauseOff()
+    {
+        Pause = false;
+    }
 }

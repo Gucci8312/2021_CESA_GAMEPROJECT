@@ -6,70 +6,69 @@ using UnityEngine.SceneManagement;
 // プレイヤーの挙動
 public class PlayerMove : MobiusOnObj
 {
-    // Start is called before the first frame update
-    public int NowMobiusColor;                                                                      //松井君に渡す用　MobiusuColorから取得した変数格納
+    public int NowMobiusColor;                                                                      //現在のメビウスの色を返す
 
-    public float UpSpeed;
-    bool JumpFlg;
+    public float UpSpeed;                                                                           //スピードアップ時のスピード格納
+    bool JumpFlg;                                                                                   //ジャンプしているかどうか
     bool StartFlg;                                                                                  //初期位置設定用フラグ　最初の一回だけ通る
     GameObject RythmObj;                                                                            //リズムオブジェクト
     Rythm rythm;                                                                                    //リズムスクリプト取得用
-    public bool CollisionState;                                                                             //当たり判定を外部に渡す変数　treu:当たっている　false:当たっていない
-    
-    float jumpmove;//ジャンプの位置
-    float jumpmovesave;
+    public bool CollisionState;                                                                     //当たり判定を外部に渡す変数　treu:当たっている　false:当たっていない
 
+    float jumpmove;                                                                                 //ジャンプの位置
+    float jumpmovesave;                                                                             //前の処理時のジャンプの位置を保存
     float jumpmove_prev;
-    float pow;//jumppowをを保存した状態で使う変数
+    float pow;                                                                                      //ジャンプ力を計算
+    public bool JumpOk;                                                                             //ヒップドロップが完了したかどうか　
 
-    float jumpcount;//ジャンプ処理の時間
-    public bool JumpOk;//ヒップドロップが完了したかどうか　松井君に渡す用
+    [SerializeField] float jumppow = 10;                                                            //ジャンプ力
+    [SerializeField] float HipDropSpeed = 10;                                                       //ヒップドロップスピード
 
-    [SerializeField] float jumppow = 10;//ジャンプ力
-    [SerializeField] float HipDropSpeed = 10;//ヒップドロップスピード
+    public bool CollisionOn = true;                                                                 //敵との当たり判定
 
-    public bool CollisionOn = true;//敵との当たり判定
-
-    [SerializeField] private float rotateSpeed = 180f;//回転速度
-    
-
-    bool SpacePress;//スピードアップボタンの判定
-    bool SpeedUpMashing;//スピードアップが連打されているかどうか
-    bool JumpMashing;//ジャンプボタンが連打されているか
-    public bool HipDrop;//ヒップドロップ中
-
-    bool SpeedUpFlg;//スピードアップしているか
-
-    bool RythmSaveFlg;//リズムの切り替わりで判定させる
-    bool RythmFlg;//リズムが来ているかどうか
-
-    Vector3 HipDropCollisionPos;//ヒップドロップの当たり判定場所
-    Vector3 HipDropPos;//ヒップドロップを行っている場所　松井君の移動バグ修正用
-
-    AnimaterControl PlayerAnimation;//アニメーションのコントローラー
-
-    bool Clear;//クリアしたかどうか
-    bool Stop;//停止
-
-    bool GameOver;//ゲームオーバー
-
-    GameObject DushEffect;
-    GameObject SmokeEffect;
+    [SerializeField] private float rotateSpeed = 180f;                                              //回転速度
 
 
-    Camera cam;
-    CameraShake camerashake;
+    bool SpeedPress;                                                                                //スピードアップボタンの判定
+    bool SpeedUpMashing;                                                                            //スピードアップが連打されているかどうか
+    bool JumpMashing;                                                                               //ジャンプボタンが連打されているか
+    public bool HipDrop;                                                                            //ヒップドロップ中
+
+    bool SpeedUpFlg;                                                                                //スピードアップしているか
+
+    bool RythmSaveFlg;                                                                              //リズムの切り替わりで判定させる
+    bool RythmFlg;                                                                                  //リズムが来ているかどうか
+
+    Vector3 HipDropCollisionPos;                                                                    //ヒップドロップの当たり判定場所
+    Vector3 HipDropPos;                                                                             //ヒップドロップを行っている場所　移動バグ修正用
+
+    AnimaterControl PlayerAnimation;                                                                //アニメーションのコントローラー
+
+    bool Clear;                                                                                     //クリアしたかどうか
+    bool Stop;                                                                                      //停止
+
+    GameObject DushEffect;                                                                          //ダッシュした時のエフェクト
+    GameObject SmokeEffect;                                                                         //ヒップドロップ時のエフェクト
+
+
+    Camera cam;                                                                                     //カメラ
+    CameraShake camerashake;                                                                        //カメラを揺らすスクリプト
 
     [SerializeField]
-    GameObject missPrefab;
+    GameObject missPrefab;                                                                          //リズムに合わなかった時のUI
 
     [SerializeField]
-    GameObject successPrefab;
+    GameObject successPrefab;                                                                       //リズムに合った時のUI
 
     [SerializeField]
-    GameObject HipDropCollisionObj;
+    GameObject HipDropCollisionObj;                                                                 //ヒップドロップの当たり判定
 
-    bool ClearOne;
+    [SerializeField]
+    Vector3 ClearPosition;                                                                          //クリア時の最終的な位置
+
+    bool ClearOne;//クリア時一度だけ通るフラグ　アニメーション調整してセットする用
+
+
 
     protected override void Awake()
     {
@@ -77,9 +76,11 @@ public class PlayerMove : MobiusOnObj
 
         RythmObj = GameObject.Find("rythm_circle");                                                   //リズムオブジェクト取得
         this.rythm = RythmObj.GetComponent<Rythm>();                                                  //リズムのコード
-        PlayerAnimation = GameObject.Find("PlayerModel").GetComponent<AnimaterControl>();
-        DushEffect = transform.GetChild(1).gameObject;
-        SmokeEffect = transform.GetChild(2).gameObject;
+        PlayerAnimation = GameObject.Find("PlayerModel").GetComponent<AnimaterControl>();             //アニメーションコントローラ取得
+        DushEffect = transform.GetChild(1).gameObject;                                                //ダッシュエフェクト取得
+        SmokeEffect = transform.GetChild(2).gameObject;                                               //煙エフェクト取得
+        cam = Camera.main;                                                                            //カメラ取得
+        camerashake = cam.GetComponent<CameraShake>();                                                //カメラを揺らす取得
     }
 
     protected override void Start()
@@ -100,66 +101,52 @@ public class PlayerMove : MobiusOnObj
 
         jumpmove = 0;
         jumpmovesave = jumpmove;
-        jumpcount = 0;
 
-        SpacePress = false;
+        HipDropSpeed = HipDropSpeed * 100f;
+
+        SpeedPress = false;
 
         SpeedUpFlg = false;
-        GameOver = false;
 
         RythmFlg = this.rythm.rythmCheckFlag;
         RythmSaveFlg = RythmFlg;
-
-
-        cam = Camera.main;
-        camerashake = cam.GetComponent<CameraShake>();
     }
 
-    // Update is called once per frame  
-    //void FixedUpdate()
+    // Update is called once per frame
     void Update()
     {
 
-
         NowMobiusColor = Mobius[NowMobius].GetComponent<MobiusColor>().GetNowColorNum();//現在のメビウスの色を取得
 
-        if (Time.timeScale != 0)
+        if (!Pause)
         {
-
             if (!Clear)
             {
                 if (StartFlg)
                 {
                     StartFlg = false;
-
                 }
 
-                
                 PositionSum();//場所を求める
 
                 if (!CollisionState)
                 {
-
-
-                    RythmFlg = this.rythm.rythmCheckFlag;//リズム取得
-
-                    SpeedUpInput();//スピードアップ入力
-                    JumpInput();//ジャンプ入力
-
-
-                    RythmSaveFlg = RythmFlg;//リズムセーブ
+                    RythmFlg = this.rythm.rythmCheckFlag;                        //リズム取得
+                    SpeedUpInput();                                              //スピードアップ入力
+                    JumpInput();                                                 //ジャンプ入力
+                    RythmSaveFlg = RythmFlg;                                     //リズムセーブ
                 }
 
+                HipDropCollisionObj.GetComponent<BoxCollider>().enabled = false; //ヒップドロップの当たり判定消す
 
                 if (JumpFlg)
                 {
                     if (InsideFlg)//内側
                     {
-
                         if (HipDrop)
                         {
-
-                            jumpmove += (HipDropSpeed * 100f) * Time.deltaTime;
+                            HipDropCollisionObj.GetComponent<BoxCollider>().enabled = true;
+                            jumpmove += HipDropSpeed * Time.deltaTime;
 
                             camerashake.OnShake();
 
@@ -167,12 +154,10 @@ public class PlayerMove : MobiusOnObj
                             {
                                 jumpmove = 0;
                                 this.rythm.checkPlayerMove = false;
-                                jumpcount = 0;
                                 JumpOk = true;
                                 HipDrop = false;
                                 JumpFlg = false;
                                 SmokeEffect.SetActive(true);
-                                HipDropCollisionObj.GetComponent<HipDropCol>().HipDropFlg = false;
                             }
                         }//if (HipDrop)
                         else
@@ -180,13 +165,11 @@ public class PlayerMove : MobiusOnObj
                             jumpmovesave = jumpmove;
                             jumpmove += (jumpmove - jumpmove_prev) + pow;
                             jumpmove_prev = jumpmovesave;
-
                             pow = 1;
 
                             if (jumpmove > jumpmovesave)
                             {
                                 HipDrop = true;
-                                HipDropCollisionObj.GetComponent<HipDropCol>().HipDropFlg = true;
                             }
                         }//else
 
@@ -196,8 +179,8 @@ public class PlayerMove : MobiusOnObj
 
                         if (HipDrop)
                         {
-
-                            jumpmove -= (HipDropSpeed * 100f) * Time.deltaTime;
+                            HipDropCollisionObj.GetComponent<BoxCollider>().enabled = true;
+                            jumpmove -= HipDropSpeed * Time.deltaTime;
 
                             camerashake.OnShake();
 
@@ -205,27 +188,22 @@ public class PlayerMove : MobiusOnObj
                             {
                                 jumpmove = 0;
                                 this.rythm.checkPlayerMove = false;
-                                jumpcount = 0;
                                 JumpOk = true;
                                 HipDrop = false;
                                 JumpFlg = false;
                                 SmokeEffect.SetActive(true);
-                                HipDropCollisionObj.GetComponent<HipDropCol>().HipDropFlg = false;
                             }
                         }//if (HipDrop)
                         else
                         {
-
                             jumpmovesave = jumpmove;
                             jumpmove = jumpmove + ((jumpmove - jumpmove_prev) + pow);
                             jumpmove_prev = jumpmovesave;
 
                             pow = -1;
-
                             if (jumpmove < jumpmovesave)
                             {
                                 HipDrop = true;
-                                HipDropCollisionObj.GetComponent<HipDropCol>().HipDropFlg = true;
                             }
                         }//else
 
@@ -271,17 +249,7 @@ public class PlayerMove : MobiusOnObj
                         }
                     }
 
-                    //角度の範囲を指定(0～360)
-                    if (angle > 360)
-                    {
-                        angle = angle - 360;
-
-                    }
-                    if (angle < 0)
-                    {
-                        angle = angle + 360;
-
-                    }
+                    AngleRangeSum(angle);
 
                     if (SwitchMobius)
                     {
@@ -323,13 +291,16 @@ public class PlayerMove : MobiusOnObj
 
     void OnDrawGizmos()//当たり判定描画
     {
+        //本体の当たり判定
         Gizmos.color = new Vector4(0, 1, 0, 0.5f); //色指定
         Gizmos.DrawSphere(transform.position, GetComponent<SphereCollider>().bounds.size.x / 2); //中心点とサイズ
 
+        //ヒップドロップの当たり判定
         Gizmos.color = new Vector4(0, 0, 1, 0.5f); //色指定
-        Gizmos.DrawSphere(HipDropCollisionObj.GetComponent<SphereCollider>().center, HipDropCollisionObj.GetComponent<SphereCollider>().bounds.size.x / 2); //中心点とサイズ
+        Gizmos.DrawCube(HipDropCollisionObj.GetComponent<BoxCollider>().center, HipDropCollisionObj.GetComponent<BoxCollider>().size); //中心点とサイズ
     }
 
+    //ジャンプキー入力
     private void JumpInput()
     {
         if (RythmFlg)//リズムのタイミングが来た
@@ -370,9 +341,7 @@ public class PlayerMove : MobiusOnObj
         {
             if (RythmSaveFlg != RythmFlg)//タイミングがfalseになった瞬間
             {
-
                 JumpMashing = false;
-
             }
 
             if (Controler.GetJumpButtonFlg())
@@ -384,6 +353,7 @@ public class PlayerMove : MobiusOnObj
         }
     }
 
+    //スピードアップのキー入力
     private void SpeedUpInput()
     {
 
@@ -391,14 +361,14 @@ public class PlayerMove : MobiusOnObj
         {
             if (RythmSaveFlg != RythmFlg)//タイミングがtrueになった瞬間
             {
-                SpacePress = false;
+                SpeedPress = false;
                 SpeedUpMashing = false;
                 SmokeEffect.SetActive(false);
             }
 
             if (Controler.GetRythmButtonFlg())//スピードアップのキー入力
             {
-                if (!SpeedUpMashing && !SpacePress)
+                if (!SpeedUpMashing && !SpeedPress)
                 {
                     //ダッシュ成功時
                     SetSpeedUp();
@@ -419,7 +389,7 @@ public class PlayerMove : MobiusOnObj
             if (RythmSaveFlg != RythmFlg)//タイミングがfalseになった瞬間
             {
                 //スピードが反映されないバグを回避用
-                if (SpacePress)//スピードアップ入力があった
+                if (SpeedPress)//スピードアップ入力があった
                 {
                     SetSpeedUp();
                 }
@@ -441,7 +411,7 @@ public class PlayerMove : MobiusOnObj
     //スピードアップをセット
     private void SetSpeedUp()
     {
-        SpacePress = true;
+        SpeedPress = true;
         Speed = UpSpeed;
         SpeedUpFlg = true;
 
@@ -453,7 +423,7 @@ public class PlayerMove : MobiusOnObj
     //スピードを普通にセット
     private void SetSpeedNormal()
     {
-        SpacePress = false;
+        SpeedPress = false;
         Speed = NormalSpeed;
         SpeedUpFlg = false;
         SpeedUpMashing = true;
@@ -463,12 +433,23 @@ public class PlayerMove : MobiusOnObj
 
     }
 
+    //ジャンプの移動
+    private void JumpMoveSum()
+    {
+        jumpmovesave = jumpmove;
+        jumpmove = jumpmove + ((jumpmove - jumpmove_prev) + pow);
+        jumpmove_prev = jumpmovesave;
+        pow = -1;
+    }
+
+
+    //現在のメビウスから位置を計算
     protected override void PositionSum()
     {
         target = Mobius[NowMobius].transform;
 
         //メビウスの輪の中心とプレイヤーの距離を求める
-        distanceTarget.y = (Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 + 10.0f) - InsideLength+jumpmove;
+        distanceTarget.y = (Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 + 10.0f) - InsideLength + jumpmove;
         //プレイヤーの位置をメビウスの位置・メビウスから見たプレイヤーの角度・距離から求める
         transform.position = target.position + Quaternion.Euler(0f, 0f, angle) * distanceTarget;
         //プレイヤーの角度をメビウスから見た角度を計算し、設定する
@@ -486,10 +467,10 @@ public class PlayerMove : MobiusOnObj
 
 
 
-
-    private void CollisonMobius()//プレイヤーと対象のメビウスの輪以外の一番近いメビウスの輪との判定
+    //プレイヤーと対象のメビウスの輪以外の一番近いメビウスの輪との判定
+    private void CollisonMobius()
     {
-        bool sts = false;
+        bool MobiusCollision = false;
 
         for (int i = 0; i < Mobius.Length; i++)
         {
@@ -497,18 +478,19 @@ public class PlayerMove : MobiusOnObj
             if (i == SaveMobius) continue;
 
             //メビウス同士当たっているかどうか
-            sts = CollisionSphere(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center,                                                           // 現在のメビウスの輪の位置を取得
-                                  Mobius[i].GetComponent<SphereCollider>().bounds.center,                                                                   // 次ののメビウスの輪の位置を取得
-                                  Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2+10);// 円の半径を取得
+            MobiusCollision = CollisionSphere(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center,                                                  // 現在のメビウスの輪の位置を取得
+                                  Mobius[i].GetComponent<SphereCollider>().bounds.center,                                                                      // 次ののメビウスの輪の位置を取得
+                                  Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 + 10);   // 円の半径を取得
 
-            if (sts)
+            if (MobiusCollision)
             {
-                bool switching = MobiusSwitch(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center,                                               // 現在のメビウスの輪の位置を取得
-                                  Mobius[i].GetComponent<SphereCollider>().bounds.center,                                                                   // 次ののメビウスの輪の位置を取得
-                                  this.GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2);                // プレイヤーの半径を取得
+                bool switching = MobiusSwitch(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center,                                                  // 現在のメビウスの輪の位置を取得
+                                  Mobius[i].GetComponent<SphereCollider>().bounds.center,                                                                      // 次ののメビウスの輪の位置を取得
+                                  this.GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2);                   // プレイヤーの半径を取得
 
                 if (switching)
                 {
+                    //切り替えたときのステータスをセット
                     SwitchingSetStatus(i);
                 }
             }
@@ -517,7 +499,7 @@ public class PlayerMove : MobiusOnObj
     }
 
 
-
+    //クリア時の移動処理
     private void ClearMove()
     {
         if (!HipDrop)//ジャンプ中
@@ -546,13 +528,14 @@ public class PlayerMove : MobiusOnObj
 
             if (!ClearOne)
             {
+                //アニメーションをセット
                 PlayerAnimation.HipDrop();
                 ClearOne = true;
             }
 
-
+            float ClearHipDropSpeed = 15.0f;
             float y = transform.position.y;
-            y -= (HipDropSpeed * 15f) * Time.deltaTime;
+            y -= (HipDropSpeed * ClearHipDropSpeed) * Time.deltaTime;
             transform.position = new Vector3(0, y, -485);
 
             if (y < 7.5f)
@@ -570,7 +553,7 @@ public class PlayerMove : MobiusOnObj
 
     }
 
-    
+
     // 衝突時
     private void OnTriggerEnter(Collider other)
     {
@@ -600,7 +583,7 @@ public class PlayerMove : MobiusOnObj
             }
         }
     }
-    
+
 
     public bool GetCollisionState()//敵と当たっているかどうかを返す
     {
@@ -610,7 +593,7 @@ public class PlayerMove : MobiusOnObj
     {
         return NowMobiusColor;
     }
-    
+
 
     public float GetModelAngle()
     {

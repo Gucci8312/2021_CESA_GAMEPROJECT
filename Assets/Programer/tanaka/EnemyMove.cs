@@ -43,81 +43,83 @@ public class EnemyMove : MobiusOnObj
     {
         TogeFlg = rythm.rythmCheckFlag;
 
-        //リズムに合わせてトゲを出し入れする
-        if (TogeFlg)
+        if (!Pause)
         {
-            ball.SetActive(false);
-            toge.SetActive(true);
-        }
-        else
-        {
-            ball.SetActive(true);
-            toge.SetActive(false);
-
-        }
-        
-        PositionSum();
-
-        if (Stan)//スタン中
-        {
-            StanTimeCount += Time.deltaTime;
-            if (StanTimeCount > StanTime)
+            //リズムに合わせてトゲを出し入れする
+            if (TogeFlg)
             {
-                StanTimeCount = 0;
-                Stan = false;
-            }
-        }
-        else//通常時
-        {
-            //外内で速度調整
-            if (InsideFlg)
-            {
-                Speed = NormalSpeed * InsideSpeed;
+                ball.SetActive(false);
+                toge.SetActive(true);
             }
             else
             {
-                Speed = NormalSpeed;
+                ball.SetActive(true);
+                toge.SetActive(false);
+
             }
 
-            //移動計算
-            if (RotateLeftFlg)
+            PositionSum();
+
+            if (Stan)//スタン中
             {
-                angle += (rotateSpeed * Speed) * Time.deltaTime;
-            }
-            else
-            {
-                angle -= (rotateSpeed * Speed) * Time.deltaTime;
-            }
-
-        }
-
-        AngleRangeSum(angle);
-        
-
-        if (SwitchMobius)
-        {
-            counter += Time.deltaTime;
-
-            //移ったときに元のメビウスの輪に戻らないようにカウントする
-            if (counter > 0.2)
-            {
-                if (angle > saveangle + 90 || angle < saveangle - 90)
+                StanTimeCount += Time.deltaTime;
+                if (StanTimeCount > StanTime)
                 {
-                    //移り変わることができるようにする
-                    SaveMobius = NowMobius;
-                    counter = 0;
-                    SwitchMobius = false;
+                    StanTimeCount = 0;
+                    Stan = false;
                 }
             }
+            else//通常時
+            {
+                //外内で速度調整
+                if (InsideFlg)
+                {
+                    Speed = NormalSpeed * InsideSpeed;
+                }
+                else
+                {
+                    Speed = NormalSpeed;
+                }
 
+                //移動計算
+                if (RotateLeftFlg)
+                {
+                    angle += (rotateSpeed * Speed) * Time.deltaTime;
+                }
+                else
+                {
+                    angle -= (rotateSpeed * Speed) * Time.deltaTime;
+                }
+
+            }
+
+            AngleRangeSum(angle);
+
+
+            if (SwitchMobius)
+            {
+                counter += Time.deltaTime;
+
+                //移ったときに元のメビウスの輪に戻らないようにカウントする
+                if (counter > 0.2)
+                {
+                    if (angle > saveangle + 90 || angle < saveangle - 90)
+                    {
+                        //移り変わることができるようにする
+                        SaveMobius = NowMobius;
+                        counter = 0;
+                        SwitchMobius = false;
+                    }
+                }
+
+
+            }
+            else
+            {
+                CollisonMobius();//移り先のメビウスの輪を探す
+            }
 
         }
-        else
-        {
-            CollisonMobius();//移り先のメビウスの輪を探す
-        }
-
-
     }//void Update()
 
     void OnDrawGizmos()//当たり判定描画
