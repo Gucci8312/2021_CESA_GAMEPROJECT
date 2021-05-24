@@ -11,6 +11,7 @@ using UnityEngine;
 public class SceneMove : MonoBehaviour
 {
     public GameObject[] stageNum;
+    public Material[] ColorNum;
     const int LIGHT_OFF = 1;
     const int LIGHT_ON = 10;
 
@@ -126,8 +127,9 @@ public class SceneMove : MonoBehaviour
 
             AllStageLightOff();
             stageNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
+            ChangeColor();
             //Color cc=Color.
-           // stageNum[(Select_Scene - 1)].GetComponent<Material>().color =Color.white;
+            // stageNum[(Select_Scene - 1)].GetComponent<Material>().color =Color.white;
             //stageNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
             StagePictureActiveTrue(Select_Scene - 1);
 
@@ -182,4 +184,23 @@ public class SceneMove : MonoBehaviour
             stage_picture[_num].SetActive(true);
         }
     }
+
+    void ChangeColor()
+    {
+        int num = Select_Scene;
+        while (num > 5)
+        {
+            num = num <= 5 ? num : num -= 5;
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            float coefficient = (i + 1) == Select_Scene ? 1.0f : 0.05f;
+            ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * coefficient);
+        }
+       
+    }
+    
 }
+
+
+

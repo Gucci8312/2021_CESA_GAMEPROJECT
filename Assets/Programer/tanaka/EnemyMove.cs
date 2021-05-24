@@ -52,14 +52,14 @@ public class EnemyMove : MobiusOnObj
             {
                 ball.SetActive(true);
                 toge.SetActive(false);
-
             }
 
             PositionSum();
 
             if (Stan)//スタン中
             {
-
+                ball.SetActive(true);
+                toge.SetActive(false);
                 StanTimeCount += Time.deltaTime;
                 if (StanTimeCount > StanTime)
                 {
@@ -132,7 +132,7 @@ public class EnemyMove : MobiusOnObj
     //プレイヤーと対象のメビウスの輪以外の一番近いメビウスの輪との判定
     private void CollisonMobius()
     {
-        bool sts = false;
+        bool MobiusCollision = false;
 
         for (int i = 0; i < Mobius.Length; i++)
         {
@@ -140,11 +140,11 @@ public class EnemyMove : MobiusOnObj
             if (i == SaveMobius) continue;
 
             //メビウス同士当たっているかどうか
-            sts = CollisionSphere(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center,                                                             // 現在のメビウスの輪の位置を取得
+            MobiusCollision = CollisionSphere(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center,                                                             // 現在のメビウスの輪の位置を取得
                                   Mobius[i].GetComponent<SphereCollider>().bounds.center,                                                                     // 次ののメビウスの輪の位置を取得
                                   Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 +10); // 円の半径を取得
 
-            if (sts)
+            if (MobiusCollision)
             {
                 //切り替えることができたか
                 bool switching = MobiusSwitch(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center,                                                 // 現在のメビウスの輪の位置を取得
