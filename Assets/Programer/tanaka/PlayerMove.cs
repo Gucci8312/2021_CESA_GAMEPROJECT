@@ -663,15 +663,5 @@ public class PlayerMove : MobiusOnObj
         return HipDropPos;
     }
 
-    //ポーズをオンにする
-    public static void PauseOn()
-    {
-        Pause = true;
-    }
-
-    //ポーズにオフにする
-    public static void PauseOff()
-    {
-        Pause = false;
-    }
+    
 }
