@@ -14,18 +14,19 @@ using UnityEngine.SceneManagement;
 // @brief  ステージセレクト定義
 public static class StageSelect
 {
-    static public Image m_fadeImage;           //フェードゲームオブジェクトを選択（UIImage）
+    static public Image m_fadeImage;                                      //フェードゲームオブジェクトを選択（UIImage）
     static public Fade m_fade;                                            //フェードクラスを取得
 
-    [SerializeField] static private Slider m_gauge = default;              //ローディング画面のスライダー
-    static private AsyncOperation m_async;                                 //同期処理
+    [SerializeField] static private Slider m_gauge = default;             //ローディング画面のスライダー
+    static private AsyncOperation m_async;                                //同期処理
 
     // @name   GoStageSelect
     // @brief  ステージセレクト画面への遷移
     static public void GoStageSelect(MonoBehaviour monoBehaviour)
     {
+        m_fade.gameObject.SetActive(true);
         m_fade.StartFadeOut();
-        monoBehaviour.StartCoroutine(Loading("StageSelectScene"));
+        monoBehaviour.StartCoroutine(LoadingTitle("StageSelectScene"));
     }
 
     // @name   GoStageSelect
@@ -33,7 +34,7 @@ public static class StageSelect
     static public void GoTitleScene(MonoBehaviour monoBehaviour)
     {
         if (Time.timeScale == 0f) Time.timeScale = 1.0f;
-        m_fade.StartFadeOut();
+     //   m_fade.StartFadeOut();
         monoBehaviour.StartCoroutine(Loading("TitleScene"));
     }
 
@@ -45,7 +46,7 @@ public static class StageSelect
     }
 
     // @name   Loading
-    // @brief  NowLodingに対応させるための関数
+    // @brief  ただのシーン読み込み
    public static IEnumerator Loading(string _stageName)
     {
 		
@@ -75,9 +76,39 @@ public static class StageSelect
         }
     }
 
+    // @name   Loading
+    // @brief  NowLodingに対応させるための関数
+    public static IEnumerator LoadingTitle(string _stageName)
+    {
+
+        while (true)
+        {
+           // フェードが終わったこと知らせた後
+            if (m_fade.fadeFinished)
+            {
+            	//ローディング情報を返す
+            	m_async = SceneManager.LoadSceneAsync(_stageName);
+
+                //ロード中なら入る文
+                while (!m_async.isDone)
+            	{
+            		//ローディング時のゲージのスライダーを進める
+            		//var progressVal = Mathf.Clamp01(m_async.progress / 0.9f);
+            		//m_gauge.value = progressVal;
+            		yield return null;
+            	}
+                //終了処理
+                //m_fadeImage.gameObject.SetActive(false);
+                //m_fade.fadeFinished = false;
+            }
+            SoundManager.StopBGM();
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
     // @name   ClickGameEndBotton
     // @brief  ゲーム終了ボタン
-   static public void ClickGameEndBotton()
+    static public void ClickGameEndBotton()
     {
         //Debug.Log("ゲーム終了ボタンが押された");
         Application.Quit();

@@ -8,6 +8,7 @@ public class Controler : MonoBehaviour
     static bool DownStickFlg;
     static bool RightStickFlg;
     static bool LeftStickFlg;
+    static bool InputFlg = true;
 
     // Start is called before the first frame update
     void Start()
@@ -21,28 +22,49 @@ public class Controler : MonoBehaviour
 
     }
 
+    static public void TrueInputFlg()
+    {
+        InputFlg = true;
+    }
+
+    static public void FalseInputFlg()
+    {
+        InputFlg = false;
+    }
+
+    public void WaitInput(float _Time)
+    {
+        InputFlg = false;
+        Invoke("InputFlg", _Time);
+    }
+
     public static bool GetJumpButtonFlg()
     {
         bool Response = false;
-        if (Input.GetKeyDown("joystick button 0"))
-        {
-            Response = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.J))
-        {
-            Response = true;
-        }
-        //return Response;
-        //bool Response = false;
-        else if (Input.GetAxis("LTrigger") != 0.0f && LeftStickFlg == false)
-        {
-            Response = true;
-            LeftStickFlg = true;
-        }
-        else if (Input.GetAxis("LTrigger") == 0.0f)
-        {
-            LeftStickFlg = false;
-        }
+
+       // if (InputFlg)
+       // {
+            if (Input.GetKeyDown("joystick button 0"))
+            {
+                Response = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.J))
+            {
+                Response = true;
+            }
+            //return Response;
+            //bool Response = false;
+            else if (Input.GetAxis("LTrigger") != 0.0f && LeftStickFlg == false)
+            {
+                Response = true;
+                LeftStickFlg = true;
+            }
+            else if (Input.GetAxis("LTrigger") == 0.0f)
+            {
+                LeftStickFlg = false;
+            }
+      //  }
+
         return Response;
     }
 
@@ -84,6 +106,10 @@ public class Controler : MonoBehaviour
             // SoundManager.PlaySeName("決定音");
             Response = true;
         }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            Response = true;
+        }
 
         return Response;
     }
@@ -118,11 +144,21 @@ public class Controler : MonoBehaviour
         {
             Response = true;
             UpStickFlg = true;
+            return Response;
         }
         else if (Input.GetAxisRaw("Vertical") == 0.0f)
         {
             UpStickFlg = false;
         }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            Response = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            Response = true;
+        }
+
         return Response;
     }
     public static bool GetDownButtonFlg()
@@ -132,10 +168,19 @@ public class Controler : MonoBehaviour
         {
             Response = true;
             DownStickFlg = true;
+            return Response;
         }
         else if (Input.GetAxisRaw("Vertical") == 0.0f)
         {
             DownStickFlg = false;
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            Response = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            Response = true;
         }
         return Response;
     }
@@ -147,10 +192,19 @@ public class Controler : MonoBehaviour
         {
             Response = true;
             RightStickFlg = true;
+            return Response;
         }
         else if (Input.GetAxisRaw("Horizontal") == 0.0f)
         {
             RightStickFlg = false;
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            Response = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            Response = true;
         }
         return Response;
     }
@@ -161,10 +215,19 @@ public class Controler : MonoBehaviour
         {
             Response = true;
             LeftStickFlg = true;
+            return Response;
         }
         else if (Input.GetAxisRaw("Horizontal") == 0.0f)
         {
             LeftStickFlg = false;
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Response = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            Response = true;
         }
         return Response;
     }
@@ -195,6 +258,21 @@ public class Controler : MonoBehaviour
         {
             //LeftStickFlg = false;
         }
+        return Response;
+    }
+
+    public static bool GetXButtonFlg()
+    {
+        bool Response = false;
+        if (Input.GetKeyDown("joystick button 2"))
+        {
+            Response = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            Response = true;
+        }
+
         return Response;
     }
 }

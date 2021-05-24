@@ -113,7 +113,7 @@ public class Rythm : MonoBehaviour
         {
             m_startTime = Time.timeSinceLevelLoad;
             m_sphere.transform.position = new Vector3(m_currentPos.x, m_currentPos.y, m_currentPos.z);
-            if (SoundManager.m_bgmAudioSource.time > 0.1f)
+            if (SoundManager.m_bgmAudioSource.time > (m_time * 2.0f) / 2.0f)
             {
                 m_soundStopFlg = true;
             }
@@ -209,7 +209,6 @@ public class Rythm : MonoBehaviour
         //壁に当たった＝ビートのタイミングが来た
         if (collision.gameObject.tag == "Flag")
         {
-            //   Debug.Log("TriggerOn");
             m_EmobiusBeatFlag = true;
             m_beatCount++;
             m_changeColorScript.ChangeColor_Flame();

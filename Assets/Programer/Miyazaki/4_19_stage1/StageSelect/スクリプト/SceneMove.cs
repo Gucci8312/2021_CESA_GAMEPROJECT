@@ -35,12 +35,17 @@ public class SceneMove : MonoBehaviour
             stage_picture[i].SetActive(false);
         }
         fedeout = GetComponent<FedeOut>();
-
     }
 
     // Update is called once per frame
     void Update()
     {
+        // if(Controler.GetRightTriggerFlg()&&Controler.GetLeftTriggerFlg())
+        if (Controler.GetXButtonFlg())
+        {
+            StageControl.AllStageOpen();
+        }
+
         if (!gameObject.GetComponent<AreaSelectManeger>().GetMenuFlg())
         {
             fedeout.FedeOut_Update();
@@ -50,17 +55,22 @@ public class SceneMove : MonoBehaviour
             {
                 if (Select_Scene != 25)
                 {
-                    Select_Scene++;
+                    if (StageControl.GetOpenFlg(Select_Scene ))
+                    {
+                        Select_Scene++;
+                    }
                 }
                 if (Select_Scene == 25)
                 {
                     Camera = false;
                 }
-                if (Select_Scene % 5 == 1)
+                if (StageControl.GetOpenFlg(Select_Scene ))
                 {
-                    Camera = true;
+                    if (Select_Scene % 5 == 1)
+                    {
+                        Camera = true;
+                    }
                 }
-
             }
             else if (Controler.GetLeftButtonFlg())
             // else if (Input.GetKeyDown(KeyCode.LeftArrow))
