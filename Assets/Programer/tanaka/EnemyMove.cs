@@ -5,28 +5,25 @@ using UnityEngine;
 public class EnemyMove : MobiusOnObj
 {
     
-    GameObject player;
-    
-    
-    [SerializeField] private float rotateSpeed = 180f;
-    
-    public float StanTime = 1;              //スタン時の時間格納
-    float StanTimeCount;                    //スタン時のカウント
-    bool Stan;                              //スタン中かどうか
-    GameObject RythmObj;                    //リズムオブジェクト
-    Rythm rythm;                            //リズムスクリプト取得用
-    GameObject ball;                        //子オブジェクトのトゲなし
-    GameObject toge;                        //子オブジェクトのトゲあり
-    bool TogeFlg;                           //トゲのフラグ
+    GameObject player;                                       //プレイヤーオブジェクト
+
+    public float StanTime = 1;                               //スタン時の時間格納
+    float StanTimeCount;                                     //スタン時のカウント
+    bool Stan;                                               //スタン中かどうか
+    GameObject RythmObj;                                     //リズムオブジェクト
+    Rythm rythm;                                             //リズムスクリプト取得用
+    GameObject ball;                                         //子オブジェクトのトゲなし
+    GameObject toge;                                         //子オブジェクトのトゲあり
+    bool TogeFlg;                                            //トゲのフラグ
 
     protected override void Awake()
     {
         base.Awake();
-        player = GameObject.Find("Player");                                                         //プレイヤーオブジェクト取得
-        RythmObj = GameObject.Find("rythm_circle");                                                 //リズムオブジェクト取得
-        this.rythm = RythmObj.GetComponent<Rythm>();                                                //リズムのコード
-        ball = transform.GetChild(0).gameObject;                                                    //ボールオブジェクト取得
-        toge = transform.GetChild(1).gameObject;                                                    //トゲオブジェクト取得
+        player = GameObject.Find("Player");                  //プレイヤーオブジェクト取得
+        RythmObj = GameObject.Find("rythm_circle");          //リズムオブジェクト取得
+        this.rythm = RythmObj.GetComponent<Rythm>();         //リズムのコード
+        ball = transform.GetChild(0).gameObject;             //ボールオブジェクト取得
+        toge = transform.GetChild(1).gameObject;             //トゲオブジェクト取得
     }
 
     protected override void Start()
@@ -62,6 +59,7 @@ public class EnemyMove : MobiusOnObj
 
             if (Stan)//スタン中
             {
+
                 StanTimeCount += Time.deltaTime;
                 if (StanTimeCount > StanTime)
                 {
@@ -98,12 +96,15 @@ public class EnemyMove : MobiusOnObj
 
             if (SwitchMobius)
             {
+                float MaxCounter = 0.2f;//切り替えることができる時間
+
                 counter += Time.deltaTime;
 
                 //移ったときに元のメビウスの輪に戻らないようにカウントする
-                if (counter > 0.2)
+                if (counter > MaxCounter)
                 {
-                    if (angle > saveangle + 90 || angle < saveangle - 90)
+                    float AngleMoveWide = 90;//移動の範囲
+                    if (angle > saveangle + AngleMoveWide || angle < saveangle - AngleMoveWide)//９０度以上移動したかどうか
                     {
                         //移り変わることができるようにする
                         SaveMobius = NowMobius;
@@ -111,8 +112,6 @@ public class EnemyMove : MobiusOnObj
                         SwitchMobius = false;
                     }
                 }
-
-
             }
             else
             {
@@ -141,16 +140,16 @@ public class EnemyMove : MobiusOnObj
             if (i == SaveMobius) continue;
 
             //メビウス同士当たっているかどうか
-            sts = CollisionSphere(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center,                                                           // 現在のメビウスの輪の位置を取得
-                                  Mobius[i].GetComponent<SphereCollider>().bounds.center,                                                                   // 次ののメビウスの輪の位置を取得
-                                  Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 +10);// 円の半径を取得
+            sts = CollisionSphere(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center,                                                             // 現在のメビウスの輪の位置を取得
+                                  Mobius[i].GetComponent<SphereCollider>().bounds.center,                                                                     // 次ののメビウスの輪の位置を取得
+                                  Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 +10); // 円の半径を取得
 
             if (sts)
             {
                 //切り替えることができたか
-                bool switching = MobiusSwitch(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center,                                               // 現在のメビウスの輪の位置を取得
-                                  Mobius[i].GetComponent<SphereCollider>().bounds.center,                                                                   // 次ののメビウスの輪の位置を取得
-                                  this.GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2+10);                // プレイヤーの半径を取得
+                bool switching = MobiusSwitch(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center,                                                 // 現在のメビウスの輪の位置を取得
+                                  Mobius[i].GetComponent<SphereCollider>().bounds.center,                                                                     // 次ののメビウスの輪の位置を取得
+                                  this.GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2+10);               // プレイヤーの半径を取得
 
                 if (switching)
                 {

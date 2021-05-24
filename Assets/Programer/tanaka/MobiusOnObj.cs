@@ -12,6 +12,7 @@ public class MobiusOnObj : MonoBehaviour
     [SerializeField] protected bool InsideFlg;                                  //メビウスの輪の内側か外側かを判定　true:内側　false:外側
     [SerializeField] protected float NormalSpeed;                               //普通のスピードを格納している定数
 
+    [SerializeField] protected float rotateSpeed = 180f;                        //回転速度
     protected float Speed;                                                      //現在のスピード
     [SerializeField] protected float InsideSpeed = 2;                           //内側のスピードを調整するための変数
     protected int SideCnt;                                                      //メビウスの輪に沿った動きにするためメビウスの輪を何回切り替えたかをカウント  2以上で外側内側入れ替える
