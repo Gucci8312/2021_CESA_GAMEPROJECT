@@ -493,7 +493,7 @@ public class PlayerMove : MobiusOnObj
                 RotateLeftFlg = false;
                 PositionSum();
                 HipDrop = true;
-                transform.position = new Vector3(0, 100, -485);
+                transform.position = new Vector3(0, 100, ClearPosition.z);
 
             }
         }
@@ -509,7 +509,7 @@ public class PlayerMove : MobiusOnObj
 
             float ClearHipDropSpeed = 15.0f;
             float y = transform.position.y;
-            y -= (HipDropSpeed * ClearHipDropSpeed) * Time.deltaTime;
+            y -= (ClearHipDropSpeed * ClearHipDropSpeed) * Time.deltaTime;
             transform.position = new Vector3(0, y, ClearPosition.z);
 
             if (y < ClearPosition.y)
@@ -661,5 +661,17 @@ public class PlayerMove : MobiusOnObj
     public Vector3 GetHipDropPos()
     {
         return HipDropPos;
+    }
+
+    //ポーズをオンにする
+    public static void PauseOn()
+    {
+        Pause = true;
+    }
+
+    //ポーズにオフにする
+    public static void PauseOff()
+    {
+        Pause = false;
     }
 }
