@@ -226,13 +226,13 @@ public class MobiusOnObj : MonoBehaviour
     }
 
     //ポーズをオンにする
-    public virtual void PauseOn()
+    public static void PauseOn()
     {
         Pause = true;
     }
 
     //ポーズにオフにする
-    public virtual void PauseOff()
+    public static void PauseOff()
     {
         Pause = false;
     }
