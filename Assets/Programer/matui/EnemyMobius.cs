@@ -19,7 +19,12 @@ public class EnemyMobius : MonoBehaviour
     Rythm rythm;                                                                                    //リズムスクリプト取得用
 
     GameObject[] AllMobius;                                                        //全てのメビウスの輪
-   // List <MoveMobius> AllMm;                                                            //全てのMoveMobius
+    List <MoveMobius> AllMm = new List<MoveMobius>();                                                            //全てのMoveMobius
+   // List<GameObject> Line = new List<GameObject>();                          //線のオブジェクト
+
+    static bool StopFlag = false;//true:止める　false:動く
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,21 +38,27 @@ public class EnemyMobius : MonoBehaviour
         AllMobius = GameObject.FindGameObjectsWithTag("Mobius");
         for (int i = 0; i < AllMobius.Length; i++)
         {
-            AllMobius[i] = GameObject.Find("Mobius (" + i + ")");           
+            AllMobius[i] = GameObject.Find("Mobius (" + i + ")");
+            AllMm.Add(AllMobius[i].GetComponent<MoveMobius>());
+
         }
-
-        //for (int i = 0; i < AllMobius.Length; i++)
-        //{
-        //    AllMm.Add(AllMobius[i].GetComponent<MoveMobius>());
-        //}
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Time.timeScale != 0)//時間が止まっていなければ
+        if (!StopFlag)
         {
+            EnemyMobiusUpdate();
+        }
+    }
+
+
+    //EnemyMobiusの更新
+    private void EnemyMobiusUpdate()
+    {
+        //if (Time.timeScale != 0)//時間が止まっていなければ
+        //{
             BeatCounter();//ビート数チェック
             MobiusStripBeatReset();
 
@@ -58,7 +69,7 @@ public class EnemyMobius : MonoBehaviour
                     Mm.EnemyOnMoveFlag(EnemyBeatFlag, TargetVec);
                 }
             }
-        }
+        //}
     }
 
     //何ビートか調べる
@@ -85,12 +96,12 @@ public class EnemyMobius : MonoBehaviour
   　//メビウスの輪の時にビートをリセット
     private void MobiusStripBeatReset() 
     {
-        bool MobiusStripCheckFlag = false;
+        bool MobiusStripCheckFlag = false;//どれかがメビウスの輪になっているかどうか
 
         //メビウスの輪になってないかチェック
-        for(int i = 0; i < AllMobius.Length; i++)
+        for(int i = 0; i < AllMm.Count; i++)
         {
-            if (AllMobius[i].GetComponent<MoveMobius>().GetMobiusStripFlag())
+            if (AllMm[i].GetMobiusStripFlag()&& AllMm[i].GetPlayerMoveFlg())//プレイヤーが乗るメビウスが輪になれば
             {
                 MobiusStripCheckFlag = true;
                 break;
@@ -197,4 +208,10 @@ public class EnemyMobius : MonoBehaviour
 
         return true;
     }
+
+    static public void StopFlagSet(bool flag)
+    {
+        StopFlag = flag;
+    }
+
 }

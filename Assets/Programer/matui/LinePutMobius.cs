@@ -7,7 +7,7 @@ using UnityEngine;
 public class LinePutMobius : MonoBehaviour
 {
     public bool MoveLineFlag = false;//線が動いているかどうか
-    public bool MoveLinePutFlag = false;//線に乗っているかどうか()
+    public bool MoveLinePutFlag = false;//線に乗っているかどうか
     public Vector2 MoveLineVec;     //線が移動した方向（MoveLine側で操作）
 
     MoveMobius Mm;
@@ -30,11 +30,12 @@ public class LinePutMobius : MonoBehaviour
     void Update()
     {
         MoveLineTrueStop();
+        MoveLineSetting();
         LinePutCheck();
 
         if (MoveLineFlag)//線が動いていたら
         {
-            PutMobiusRayCol();//当たり判定実行
+            //PutMobiusRayCol();//当たり判定実行
             //for (int i = 0; i < 5; i++)
             //{
             //    if (!PutMobiusCol())
@@ -55,6 +56,38 @@ public class LinePutMobius : MonoBehaviour
         //    OldPos = this.transform.position;
         //}
         OldPos = this.transform.position;
+    }
+
+    private void MoveLineSetting()
+    {
+        int count = 0;
+
+        if (Mm.GetLine().Count != 0)
+        {
+            for (int i = 0; i < Mm.GetLine().Count; i++)
+            {
+                if (Mm.Getcl()[i].MoveLineFlag)
+                {
+                    if (!Mm.Getcl()[i].MoveFlag && Mm.MoveLineObj == null)
+                    {
+                        Mm.GetLine()[i].GetComponent<MoveLine>().PutMobiusOnOff(true, this.gameObject);
+                        Debug.Log(Mm.MoveLineObj.name + "に乗った");
+                        break;
+                    }
+                }
+                else
+                {
+                    count++;
+                }
+            }
+        }
+
+        if ((Mm.GetLine().Count == 0 || count == Mm.GetLine().Count) && Mm.MoveLineObj != null)
+        {
+            Debug.Log(Mm.MoveLineObj.name + "から離れた");
+            Mm.MoveLineObj.GetComponent<MoveLine>().PutMobiusOnOff(false, this.gameObject);
+        }
+
     }
 
     //動く線に乗っているかどうか確認する
@@ -79,6 +112,7 @@ public class LinePutMobius : MonoBehaviour
 
         //    }
         //}
+
 
         if (Mm.MoveLineObj != null)
         {
@@ -355,7 +389,7 @@ public class LinePutMobius : MonoBehaviour
         if (ColObj.GetComponent<LinePutMobius>().LeaveVector(OldPos, out disvec))
         {
             float dis = (this.transform.position - ColObj.transform.position).magnitude;
-            ColObj.GetComponent<MoveMobius>().MobiusCol(Mm.GetThisR() + ColR + (dis), -disvec);
+            ColObj.GetComponent<MoveMobius>().MobiusCol(Mm.GetThisR()/* + ColR*/ + 4, -disvec);
             ColObj.GetComponent<MoveMobius>().ZeroVelo();
             Debug.Log("移動床によってぶつかった！！");
         }
@@ -368,7 +402,7 @@ public class LinePutMobius : MonoBehaviour
         //Debug.Log("移動床によってぶつかった！！");
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Mobius"))
         {

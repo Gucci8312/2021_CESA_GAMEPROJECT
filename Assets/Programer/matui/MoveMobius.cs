@@ -22,7 +22,7 @@ public class MoveMobius : MonoBehaviour
     private bool FlickMoveFlag = false;                                       //弾き移動をさせるかどうか
     bool OneFlickFlag = false;                                                //スティック入力を連続でさせない用
 
-    List<GameObject> Line = new List<GameObject>();                          //線のオブジェクト
+    public List<GameObject> Line = new List<GameObject>();                          //線のオブジェクト
     List<CrossLine> cl = new List<CrossLine>();                              //CrossLineスクリプト
     [HideInInspector] public GameObject MoveLineObj;                         //動く線のオブジェクト格納用（MoveLineが操作する）
     int MobiusMoveCrossPosNum;                                               //メビウスが移動する交点の要素番号
@@ -51,6 +51,9 @@ public class MoveMobius : MonoBehaviour
     GameObject ColMobiusObj;                                                 //当たった相手メビウス格納用
 
     ShakeMobius Sm;
+
+    static bool StopFlag = false;//true:止める　false:動く
+
     void Start()
     {
         player = GameObject.Find("Player");
@@ -78,6 +81,16 @@ public class MoveMobius : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        if (!StopFlag)
+        {
+            MoveMobiusUpdate();
+        }
+
+    }
+
+    //MoveMobiusの更新
+    private void MoveMobiusUpdate()
     {
         MobiusColFlag = false;
 
@@ -442,7 +455,7 @@ public class MoveMobius : MonoBehaviour
             cl.Add(MoveLine.GetComponent<CrossLine>());
         }
 
-        Debug.Log("移動" + Line[0].name);
+        //Debug.Log("移動" + Line[0].name);
 
         return Seachflag;
     }
@@ -470,13 +483,13 @@ public class MoveMobius : MonoBehaviour
 
             //if (ColLine != null)
             //{
-                if (other.GetComponent<CrossLine>().MoveLineFlag && !other.GetComponent<CrossLine>().MoveFlag)
-                {
-                    if (MoveLineObj == null)
-                    {
-                        other.GetComponent<MoveLine>().PutMobiusOnOff(true, this.gameObject);
-                    }
-                }
+                //if (other.GetComponent<CrossLine>().MoveLineFlag && !other.GetComponent<CrossLine>().MoveFlag)
+                //{
+                //    if (MoveLineObj == null)
+                //    {
+                //        other.GetComponent<MoveLine>().PutMobiusOnOff(true, this.gameObject);
+                //    }
+                //}
             //}
         }
     }
@@ -488,14 +501,14 @@ public class MoveMobius : MonoBehaviour
             Line.Remove(other.gameObject);//登録したLineリストの中に該当する要素を削除する
             cl.Remove(other.GetComponent<CrossLine>());
 
-            if (other.GetComponent<CrossLine>().MoveLineFlag && !other.GetComponent<CrossLine>().MoveFlag)
-            {
-                if (MoveLineObj == other.gameObject)
-                {
-                    other.GetComponent<MoveLine>().PutMobiusOnOff(false, this.gameObject);
-                    //Debug.Log(other.gameObject.name + "から離れた");
-                }
-            }            
+            //if (other.GetComponent<CrossLine>().MoveLineFlag && !other.GetComponent<CrossLine>().MoveFlag)
+            //{
+            //    if (MoveLineObj == other.gameObject)
+            //    {
+            //        other.GetComponent<MoveLine>().PutMobiusOnOff(false, this.gameObject);
+            //        //Debug.Log(other.gameObject.name + "から離れた");
+            //    }
+            //}            
         }
 
         // メビウスの輪同士が離れたとき
@@ -771,6 +784,12 @@ public class MoveMobius : MonoBehaviour
             return false;
         }
     }
+
+    static public void StopFlagSet(bool flag)
+    {
+        StopFlag = flag;
+    }
+
     public void SetMobiusStrip(GameObject _obj)//メビウスの輪にする為の値をセット
     {
         ColMobiusObj = _obj;//ぶつかったメビウスを格納
