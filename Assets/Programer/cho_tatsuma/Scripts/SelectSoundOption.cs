@@ -25,7 +25,6 @@ public class SelectSoundOption : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         //現在選択されているオブジェクトの情報保存
        RectTransform nowObj =  m_sliderHandle[m_nowId].GetComponent<RectTransform>();
        

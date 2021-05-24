@@ -12,15 +12,9 @@ using UnityEngine.Rendering;
 // @brief  タイトルを管理するクラス
 public class TitleManager : MonoBehaviour
 {
-    [SerializeField] GameObject m_soundManagerPrefab;          //生成用プレハブ
+    [SerializeField] GameObject m_soundManagerPrefab = default;          //生成用プレハブ
     public string titleBgm;                                     //タイトルBGM
-
-    public GameObject[] mobiusArray;                            //メビウスの輪格納配列
-    public GameObject mobius;                                  //合体メビウスの輪格納配列
-    bool startMobiusAnimation;
-    static GameObject m_titlePointLight;              //ポイントライトオブジェクト
-    [SerializeField]
-    GameObject m_pressTextObj;
+    [SerializeField] GameObject m_pressTextObj = default;
     FadeTitleText m_fadeTextScript;
     public GameObject Window;
 
@@ -34,23 +28,16 @@ public class TitleManager : MonoBehaviour
         {
             Instantiate(m_soundManagerPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
         }
-
-        for (int i = 0; i < mobiusArray.Length; i++)
-        {
-            mobiusArray[i].GetComponent<TitleMoveMobius>().enabled = false;
-        }
     }
 
     private void OnEnable()
     {
         if (Time.timeScale == 0f) Time.timeScale = 1.0f;
-        m_titlePointLight = GameObject.Find("YellowLight");
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        startMobiusAnimation = false;
         m_fadeTextScript = m_pressTextObj.gameObject.GetComponent<FadeTitleText>();
     }
 
@@ -76,7 +63,7 @@ public class TitleManager : MonoBehaviour
             if (bloom_propaty.intensity.value == 5f)
                 bloom_propaty.intensity.value = 0f;
             else if (bloom_propaty.intensity.value == 0f)
-                bloom_propaty.intensity.value = 5f;
+                bloom_propaty.intensity.value = 2f;
         }
 
         if (Controler.GetMenuButtonFlg())
