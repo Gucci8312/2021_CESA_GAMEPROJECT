@@ -25,14 +25,17 @@ public class PauseManager : MonoBehaviour
     
     static public void OnPause()
     {
-        m_player.GetComponent<PlayerMove>().enabled = false;
+        PlayerMove.PauseOn();
         for(int i = 0; i < m_enemy.Length; i++)
         {
             m_enemy[i].GetComponent<EnemyMove>().enabled = false;
         }
         foreach(var obj in m_mobius)
         {
-            obj.GetComponent<MoveLine>().enabled = false;
+            if (obj.GetComponent<MoveLine>() != null)
+            {
+                obj.GetComponent<MoveLine>().enabled = false;
+            }
             obj.GetComponent<MoveMobius>().enabled = false;
             obj.GetComponent<EnemyMobius>().enabled = false;
         }
@@ -40,14 +43,17 @@ public class PauseManager : MonoBehaviour
 
     static public void OffPause()
     {
-        m_player.GetComponent<PlayerMove>().enabled = true;
+        PlayerMove.PauseOff();
         for (int i = 0; i < m_enemy.Length; i++)
         {
             m_enemy[i].GetComponent<EnemyMove>().enabled = true;
         }
         foreach (var obj in m_mobius)
         {
-            obj.GetComponent<MoveLine>().enabled = true;
+            if (obj.GetComponent<MoveLine>() != null)
+            {
+                obj.GetComponent<MoveLine>().enabled = true;
+            }
             obj.GetComponent<MoveMobius>().enabled = true;
             obj.GetComponent<EnemyMobius>().enabled = true;
         }
