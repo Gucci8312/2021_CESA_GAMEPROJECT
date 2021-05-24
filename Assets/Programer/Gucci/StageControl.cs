@@ -5,6 +5,7 @@ using UnityEngine;
 public class StageControl : MonoBehaviour
 {
     static bool[] OpenStageFlg = new bool[25];
+    static int NowStage=1;
 
     // Start is called before the first frame update
     void Start()
@@ -15,6 +16,16 @@ public class StageControl : MonoBehaviour
     void Update()
     {
 
+    }
+
+    static public void SetNowStage(int _NowStage)
+    {
+        NowStage = _NowStage;
+    }
+
+    static public int GetNowStage()
+    {
+        return NowStage;
     }
 
     static public void SetOpenFlg(int _Idx)

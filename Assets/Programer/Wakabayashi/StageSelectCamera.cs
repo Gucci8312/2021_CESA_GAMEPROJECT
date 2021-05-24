@@ -191,4 +191,30 @@ public class StageSelectCamera : MonoBehaviour
         minus = true;
     }
 
+    public void StageNum0()
+    {
+        stagenumber = 0;
+        position = 0;
+    }
+    public void StageNum1()
+    {
+        stagenumber = 1;
+        position = 50;
+    }
+    public void StageNum2()
+    {
+        stagenumber = 2;
+        position = 100;
+    }
+    public void StageNum3()
+    {
+        stagenumber = 3;
+        position = 150;
+    }
+    public void StageNum4()
+    {
+        stagenumber = 4;
+        position = 200;
+    }
+
 }
