@@ -14,16 +14,20 @@ public class ExpantionShrink : MonoBehaviour
     Rythm rythm;
     bool isExpantion;
     bool isShrink;
+    bool m_gameStart;
     float i = 1f;
     float j = 1f;
     Transform myTransform;
     Vector3 initLocalScale;
+      
     // Start is called before the first frame update
     void Start()
     {
         rythm = GameObject.Find("rythm_circle").GetComponent<Rythm>();
         isExpantion = false;
         isShrink = false;
+        m_gameStart = false;
+        Invoke("GameStart", 2.0f);
     }
 
     private void OnEnable()
@@ -33,13 +37,20 @@ public class ExpantionShrink : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!m_gameStart) return;
         myTransform = gameObject.transform;
-        Shrink();
         if (rythm.rythmSendCheckFlag && !isExpantion && !isShrink)
         {
             isExpantion = true;
         }
+        Shrink();
+
         Expantion();
+    }
+
+    void GameStart()
+    {
+        m_gameStart = true;
     }
 
     void Expantion()
