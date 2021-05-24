@@ -42,18 +42,9 @@ public class EnemyMove : MobiusOnObj
 
         if (!Pause)
         {
-            //リズムに合わせてトゲを出し入れする
-            if (TogeFlg)
-            {
-                ball.SetActive(false);
-                toge.SetActive(true);
-            }
-            else
-            {
-                ball.SetActive(true);
-                toge.SetActive(false);
-            }
-
+            ball.SetActive(false);
+            toge.SetActive(true);
+            
             PositionSum();
 
             if (Stan)//スタン中
