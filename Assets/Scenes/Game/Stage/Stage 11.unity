@@ -567,10 +567,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1306146980154631999, guid: 8681f6dce759b5642abd449330f09801,
+        type: 3}
+      propertyPath: MIN_SHRINK
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 4891522372691856172, guid: 8681f6dce759b5642abd449330f09801,
         type: 3}
       propertyPath: m_RootOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891522372691856172, guid: 8681f6dce759b5642abd449330f09801,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891522372691856172, guid: 8681f6dce759b5642abd449330f09801,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891522372691856172, guid: 8681f6dce759b5642abd449330f09801,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 4891522372691856172, guid: 8681f6dce759b5642abd449330f09801,
         type: 3}
@@ -1844,7 +1864,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: ae5125cc692618643a2d0d6b234875e1, type: 2}
+      objectReference: {fileID: 2100000, guid: 772dea5692e3f6b4299eb06020ba149d, type: 2}
     - target: {fileID: 7984708624892546552, guid: f7a00c465ee1ab24baf205597a471688,
         type: 3}
       propertyPath: m_Color.b
@@ -2453,8 +2473,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _material: {fileID: 2100000, guid: fae54e56a16ab5a4ebaa1308ebb0e74b, type: 2}
-  _material2: {fileID: 2100000, guid: ae5125cc692618643a2d0d6b234875e1, type: 2}
-  _material3: {fileID: 2100000, guid: 28073e6c20558d24db0dfff7b5101f34, type: 2}
+  _material2: {fileID: 2100000, guid: 772dea5692e3f6b4299eb06020ba149d, type: 2}
+  _material3: {fileID: 2100000, guid: 7dee5161f7a641148831900c047291a8, type: 2}
   _FlameMaterial: {fileID: 2100000, guid: f8fc7ce66bece604fa3888dd263e764b, type: 2}
   _DirectionLight: {fileID: 0}
   _PointLight1: {fileID: 1661827658}
@@ -3364,7 +3384,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 28073e6c20558d24db0dfff7b5101f34, type: 2}
+      objectReference: {fileID: 2100000, guid: 7dee5161f7a641148831900c047291a8, type: 2}
     - target: {fileID: 2470625702482347073, guid: 0a0649212c658664ba8b0c9952e0d559,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3823,6 +3843,7 @@ MonoBehaviour:
   - {fileID: 1487818961}
   - {fileID: 1183670599}
   plane: {fileID: 1783413408}
+  StartTime: 2
 --- !u!1 &1808304215 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6379461080380344005, guid: 92274c8293f96d442896e3f5014ddeec,
@@ -4123,6 +4144,7 @@ MonoBehaviour:
   - {fileID: 109081895}
   - {fileID: 1372388324}
   plane: {fileID: 1783413408}
+  StartTime: 2
 --- !u!1 &1937135280
 GameObject:
   m_ObjectHideFlags: 0

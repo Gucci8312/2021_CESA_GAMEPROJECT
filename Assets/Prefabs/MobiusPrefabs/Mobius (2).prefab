@@ -447,7 +447,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: fae54e56a16ab5a4ebaa1308ebb0e74b, type: 2}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 2100000, guid: 28073e6c20558d24db0dfff7b5101f34, type: 2}
+  - {fileID: 0}
   ColorChangeFlag: 0
 --- !u!114 &4260265600030706068
 MonoBehaviour:
@@ -467,6 +467,7 @@ MonoBehaviour:
   Enemy:
   - {fileID: 0}
   - {fileID: 0}
+  Line: []
   MoveLineObj: {fileID: 0}
   MovePos: {x: 0, y: 0, z: 0}
   OldMovePos: {x: 0, y: 0, z: 0}
@@ -497,6 +498,7 @@ GameObject:
   - component: {fileID: 4260265600720268094}
   - component: {fileID: 4260265600720268092}
   - component: {fileID: 4260265600720268093}
+  - component: {fileID: 8122415582631608581}
   m_Layer: 0
   m_Name: "\u30E1\u30D3\u30A6\u30B9.001"
   m_TagString: Untagged
@@ -544,7 +546,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 28073e6c20558d24db0dfff7b5101f34, type: 2}
+  - {fileID: 2100000, guid: 7dee5161f7a641148831900c047291a8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -565,6 +567,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &8122415582631608581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4260265600720268095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af9ce09ea64cd944f879216f46e21995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MIN_SHRINK: 0.9
 --- !u!1 &4260265600790777056
 GameObject:
   m_ObjectHideFlags: 0

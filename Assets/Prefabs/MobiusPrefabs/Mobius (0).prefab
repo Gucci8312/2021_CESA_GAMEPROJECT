@@ -542,6 +542,7 @@ MonoBehaviour:
   Enemy:
   - {fileID: 0}
   - {fileID: 0}
+  Line: []
   MoveLineObj: {fileID: 0}
   MovePos: {x: 0, y: 0, z: 0}
   OldMovePos: {x: 0, y: 0, z: 0}
@@ -681,6 +682,7 @@ GameObject:
   - component: {fileID: 9009114844433429470}
   - component: {fileID: 9009114844433429464}
   - component: {fileID: 9009114844433429465}
+  - component: {fileID: 5392040212864786446}
   m_Layer: 0
   m_Name: "\u30E1\u30D3\u30A6\u30B9.001"
   m_TagString: Untagged
@@ -749,3 +751,16 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &5392040212864786446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9009114844433429471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af9ce09ea64cd944f879216f46e21995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MIN_SHRINK: 0.9
