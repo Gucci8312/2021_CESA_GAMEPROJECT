@@ -388,8 +388,13 @@ public class LinePutMobius : MonoBehaviour
         //Vector2 OldVec = Mm.SearchVector(OldPos, this.transform.position);
         if (ColObj.GetComponent<LinePutMobius>().LeaveVector(OldPos, out disvec))
         {
-            float dis = (this.transform.position - ColObj.transform.position).magnitude;
-            ColObj.GetComponent<MoveMobius>().MobiusCol(Mm.GetThisR()/* + ColR*/ + 4, -disvec);
+            //ColObj.GetComponent<MoveMobius>().MobiusCol(Mm.GetThisR() /*+ ColR*/ + 4, -disvec);
+
+            float PosDis = (this.transform.position - ColObj.transform.position).magnitude;//位置の差を取得
+            float dis = (Mm.GetThisR() + ColR) - PosDis;//半径の合計と位置の差との差を取得
+
+            ColObj.GetComponent<MoveMobius>().MobiusCol(dis + PosDis * 0.5f, -disvec);
+
             ColObj.GetComponent<MoveMobius>().ZeroVelo();
             Debug.Log("移動床によってぶつかった！！");
         }
@@ -406,14 +411,17 @@ public class LinePutMobius : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Mobius"))
         {
-            if (!MoveLineFlag)
+            //if (!MoveLineFlag)
+            //{
+            if (MoveLinePutFlag && !other.GetComponent<LinePutMobius>().MoveLinePutFlag)//ぶつかった相手が動く線に乗っていたら(止まったとき)
             {
-                if (MoveLinePutFlag && other.GetComponent<LinePutMobius>().MoveLinePutFlag)//ぶつかった相手が動く線に乗っていたら(止まったとき)
-                {
-                    Collision(other.gameObject);
-
-                }
+                Collision(other.gameObject);
             }
+            else if (MoveLinePutFlag == other.GetComponent<LinePutMobius>().MoveLinePutFlag)
+            {
+                Collision(other.gameObject);
+            }
+            //}
         }
     }
 

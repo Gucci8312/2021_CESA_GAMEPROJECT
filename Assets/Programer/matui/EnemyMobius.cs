@@ -18,9 +18,7 @@ public class EnemyMobius : MonoBehaviour
     GameObject RythmObj;                                                                            //リズムオブジェクト
     Rythm rythm;                                                                                    //リズムスクリプト取得用
 
-    GameObject[] AllMobius;                                                        //全てのメビウスの輪
-    List <MoveMobius> AllMm = new List<MoveMobius>();                                                            //全てのMoveMobius
-   // List<GameObject> Line = new List<GameObject>();                          //線のオブジェクト
+    // List<GameObject> Line = new List<GameObject>();                          //線のオブジェクト
 
     static bool StopFlag = false;//true:止める　false:動く
 
@@ -33,15 +31,6 @@ public class EnemyMobius : MonoBehaviour
 
         RythmObj = GameObject.Find("rythm_circle");                                                   //リズムオブジェクト取得
         this.rythm = RythmObj.GetComponent<Rythm>();                                                  //リズムのコード
-
-        //全てのメビウス取得
-        AllMobius = GameObject.FindGameObjectsWithTag("Mobius");
-        for (int i = 0; i < AllMobius.Length; i++)
-        {
-            AllMobius[i] = GameObject.Find("Mobius (" + i + ")");
-            AllMm.Add(AllMobius[i].GetComponent<MoveMobius>());
-
-        }
     }
 
     // Update is called once per frame
@@ -59,23 +48,23 @@ public class EnemyMobius : MonoBehaviour
     {
         //if (Time.timeScale != 0)//時間が止まっていなければ
         //{
-            BeatCounter();//ビート数チェック
-            MobiusStripBeatReset();
+        BeatCounter();//ビート数チェック
+        MobiusStripBeatReset();
 
-            if (Mm.EnemyMoveFlag && !Mm.PlayerMoveFlg && Mm.Getcl().Count != 0) //エネミーが乗ってたら かつ　線に乗っていたら
+        if (Mm.EnemyMoveFlag && !Mm.PlayerMoveFlg && Mm.Getcl().Count != 0) //エネミーが乗ってたら かつ　線に乗っていたら
+        {
+            if (GoToVectorFlag())
             {
-                if (GoToVectorFlag())
-                {
-                    Mm.EnemyOnMoveFlag(EnemyBeatFlag, TargetVec);
-                }
+                Mm.EnemyOnMoveFlag(EnemyBeatFlag, TargetVec);
             }
+        }
         //}
     }
 
     //何ビートか調べる
     private void BeatCounter()
     {
-        if (BeatCount>=MaxBeatNum)
+        if (BeatCount >= MaxBeatNum)
         {
             EnemyBeatFlag = true;
             BeatCount = 0;
@@ -93,15 +82,15 @@ public class EnemyMobius : MonoBehaviour
         }
     }
 
-  　//メビウスの輪の時にビートをリセット
-    private void MobiusStripBeatReset() 
+    //メビウスの輪の時にビートをリセット
+    private void MobiusStripBeatReset()
     {
         bool MobiusStripCheckFlag = false;//どれかがメビウスの輪になっているかどうか
 
         //メビウスの輪になってないかチェック
-        for(int i = 0; i < AllMm.Count; i++)
+        for (int i = 0; i < Mm.GetAllMm().Count; i++)
         {
-            if (AllMm[i].GetMobiusStripFlag()&& AllMm[i].GetPlayerMoveFlg())//プレイヤーが乗るメビウスが輪になれば
+            if (Mm.GetAllMm()[i].GetMobiusStripFlag() && Mm.GetAllMm()[i].GetPlayerMoveFlg())//プレイヤーが乗るメビウスが輪になれば
             {
                 MobiusStripCheckFlag = true;
                 break;
@@ -119,7 +108,7 @@ public class EnemyMobius : MonoBehaviour
     private bool GoToVectorFlag()
     {
         List<Vector2> MoveVec = new List<Vector2>();
-        for(int i=0;i< Mm.Getcl().Count; i++)
+        for (int i = 0; i < Mm.Getcl().Count; i++)
         {
             if (!Mm.Getcl()[i].NearEndRCrossPosFlag(this.transform.position))
             {
@@ -145,7 +134,7 @@ public class EnemyMobius : MonoBehaviour
     }
 
     //指定した方向が引数のリスト中から近いものを調べる
-    private Vector2 NearVector(List<Vector2> _vec,Vector2 SerchVec)
+    private Vector2 NearVector(List<Vector2> _vec, Vector2 SerchVec)
     {
         List<float> distance = new List<float>();//引数の座標と交点との差
         float Min = 10000;//最小値
@@ -153,10 +142,10 @@ public class EnemyMobius : MonoBehaviour
         {
             distance.Add((SerchVec - _vec[i]).magnitude);
 
-            if (distance[i] == 0)//差がない（同じ座標）場合
-            {
-                distance[i] = 10000;//適当に大きい値を入れて最小の値として取得させないようにする
-            }
+            //if (distance[i] == 0)//差がない（同じ座標）場合
+            //{
+            //    distance[i] = 10000;//適当に大きい値を入れて最小の値として取得させないようにする
+            //}
 
             if (distance[i] <= Min)//取得している最小の値より小さければ
             {
@@ -178,21 +167,21 @@ public class EnemyMobius : MonoBehaviour
     //引数の方向にエネミーメビウスがあるかどうか
     private bool SearchMobiusFlag(Vector2 vec)
     {
-        float distance=0;//適切な長さを取得用
+        float distance = 0;//適切な長さを取得用
 
-        for(int i=0;i < Mm.Getcl().Count; i++)
+        for (int i = 0; i < Mm.Getcl().Count; i++)
         {
-            distance=Mm.Getcl()[i].NearLRPosDistance(this.transform.position,vec);
+            distance = Mm.Getcl()[i].NearLRPosDistance(this.transform.position, vec);
             if (distance != 0)
             {
                 break;
             }
         }
 
-        Ray ray = new Ray(new Vector3(this.transform.position.x , this.transform.position.y, this.transform.position.z),
+        Ray ray = new Ray(new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z),
                         new Vector3(vec.x * 1, vec.y * 1, 0));
         //貫通レイキャスト
-        foreach (RaycastHit hit in Physics.RaycastAll(ray, distance+100))
+        foreach (RaycastHit hit in Physics.RaycastAll(ray, distance + 100))
         {
             // Debug.Log(hit.collider.gameObject.name);//レイキャストが当たったオブジェクト
 
@@ -200,6 +189,8 @@ public class EnemyMobius : MonoBehaviour
             {
                 if (hit.collider.gameObject.GetComponent<MoveMobius>().EnemyMoveFlag//メビウスにエネミーが乗っていたなら
                     || hit.collider.gameObject.GetComponent<MoveMobius>().GetMobiusStripFlag())//メビウスの輪になっていたら 
+
+                //if (!hit.collider.gameObject.GetComponent<MoveMobius>().GetPlayerMoveFlg())//メビウスにエネミーが乗っていないなら
                 {
                     return false;
                 }
