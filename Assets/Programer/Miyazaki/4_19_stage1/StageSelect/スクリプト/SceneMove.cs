@@ -40,33 +40,9 @@ public class SceneMove : MonoBehaviour
         }
         fedeout = GetComponent<FedeOut>();
         Select_Scene = StageControl.GetNowStage();
+		
 
-        //if (Select_Scene >= 1 && Select_Scene <= 5)
-        //{
-        //    stageselectcam.StageNum0();
-        //}
-        //if (Select_Scene >= 6 && Select_Scene <= 10)
-        //{
-        //    stageselectcam.StageNum1();
-        //}
-        //if (Select_Scene >= 11 && Select_Scene <= 15)
-        //{
-        //    stageselectcam.StageNum2();
-        //}
-        //if (Select_Scene >= 16 && Select_Scene <= 20)
-        //{
-        //    stageselectcam.StageNum3();
-        //}
-        //if (Select_Scene >= 21 && Select_Scene <= 25)
-        //{
-        //    stageselectcam.StageNum4();
-        //}
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Select_Scene >= 1 && Select_Scene <= 5)
+		if (Select_Scene >= 1 && Select_Scene <= 5)
         {
             stageselectcam.StageNum0();
         }
@@ -86,9 +62,14 @@ public class SceneMove : MonoBehaviour
         {
             stageselectcam.StageNum4();
         }
+    }
 
-        // if(Controler.GetRightTriggerFlg()&&Controler.GetLeftTriggerFlg())
-        if (Controler.GetXButtonFlg())
+    // Update is called once per frame
+    void Update()
+    {
+		
+		// if(Controler.GetRightTriggerFlg()&&Controler.GetLeftTriggerFlg())
+		if (Controler.GetXButtonFlg())
         {
             StageControl.AllStageOpen();
         }
@@ -222,15 +203,14 @@ public class SceneMove : MonoBehaviour
         int num = Select_Scene;
         while (num > 5)
         {
-            num = num <= 5 ? num : num += -5;
+             num += -5;
         }
         for (int i = 0; i < 5; i++)
         {
-			if (StageControl.GetOpenFlg(i))
-			{
-				ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * ((i + 1) == num ? 1.0f : 0.005f));
-			}
+			float a = (i+1) == num ? 1.0f : 0.005f;
+			ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color *a );
         }
+	
        
     }
 
@@ -241,13 +221,9 @@ public class SceneMove : MonoBehaviour
 			int num = i;
 			if (StageControl.GetOpenFlg(i))
 			{
-				while (num > 5)
+				while (num >= 5)
 				{
-					num = num <= 5 ? num : num += -5;
-				}
-				if(num==5)
-				{
-					num = 0;
+					 num += -5;
 				}
 				stageNum[i].GetComponent<Renderer>().material = ColorNum[num];
 
