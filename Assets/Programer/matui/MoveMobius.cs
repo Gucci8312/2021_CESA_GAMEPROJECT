@@ -162,8 +162,8 @@ public class MoveMobius : MonoBehaviour
             if (PlayerHipDropMoveFlag() || //プレイヤーがヒップドロップしたら
                 (GetEnemyBeatFlag && EnemyMoveFlag))//EnemyMobius側で指定したビート数に達したら
             {
-
-                if (LineVecFlag())//自分の中心と線がはみ出てないか調べる
+                CrossLine CanCrossPosCl;
+                if (LineVecFlag(out CanCrossPosCl))//自分の中心と線がはみ出てないか調べる
                 {
 
                     //Ray (飛ばす発射位置、飛ばす方向）
@@ -177,7 +177,7 @@ public class MoveMobius : MonoBehaviour
                     List<Vector3> HitPos = new List<Vector3>();            //レイがあった座標を格納するリスト
 
                     //貫通レイキャスト
-                    foreach (RaycastHit hit in Physics.RaycastAll(ray, 1000))
+                    foreach (RaycastHit hit in Physics.SphereCastAll(ray,ThisR, 1000))
                     {
                         // Debug.Log(hit.collider.gameObject.name);//レイキャストが当たったオブジェクト
 
@@ -185,7 +185,7 @@ public class MoveMobius : MonoBehaviour
                         {
                             CrossLine HitCL = hit.collider.gameObject.GetComponent<CrossLine>();
 
-                            if (!HitCL.MoveFlag && !HitCL.SameLRvec(cl[0].GetLvec(), cl[0].GetRvec()))//動いていない　かつ　線の方向が同じじゃなければ
+                            if (!HitCL.MoveFlag && !HitCL.SameLRvec(CanCrossPosCl.GetLvec(), CanCrossPosCl.GetRvec()))//動いていない　かつ　線の方向が同じじゃなければ
                             {
                                 if (SameObjListSearch(Line, hit.collider.gameObject))//Lineリストの中にレイが当たったオブジェクトがなければ
                                 {
@@ -202,17 +202,15 @@ public class MoveMobius : MonoBehaviour
                     {
                         CrossLine NearCl = NearObjSearch(CrossLineObj, HitPos, this.transform.position).GetComponent<CrossLine>();//CrossLineゲットコンポーネントを取得
 
-                        for (int i = 0; i < cl.Count; i++)
+                        for (int j = 0; j < CanCrossPosCl.GetCrossPos().Count; j++)
                         {
-                            for (int j = 0; j < cl[i].GetCrossPos().Count; j++)
+                            if (NearCl.SameCrossPos(CanCrossPosCl.GetCrossPos()[j]))//一番近い線の交点とメビウスの輪が触れている線が持つ交点と同じ座標があれば
                             {
-                                if (NearCl.SameCrossPos(cl[i].GetCrossPos()[j]))//一番近い線の交点とメビウスの輪が触れている線が持つ交点と同じ座標があれば
-                                {
-                                    CrossLineFlag = true;
-                                    break;
-                                }
+                                CrossLineFlag = true;
+                                break;
                             }
                         }
+
                         // Debug.Log("ベクトル入手" + CrossLineFlag);
                         if (CrossLineFlag)//交点へ移動できるなら
                         {
@@ -221,7 +219,7 @@ public class MoveMobius : MonoBehaviour
                             //Rb.isKinematic = false;//物理的な動きをありにする
 
                             //最終的に入力した方向にある線に沿って交点へ移動
-                            MovePos = cl[0].NearCrossPos(NearCl.RayHitPos, out MobiusMoveCrossPosNum);//移動できる交点を取得
+                            MovePos = CanCrossPosCl.NearCrossPos(NearCl.RayHitPos, out MobiusMoveCrossPosNum);//移動できる交点を取得
                             MoveVec = SearchVector(this.transform.position, MovePos);
 
 
@@ -236,15 +234,7 @@ public class MoveMobius : MonoBehaviour
                                 this.rythm.checkMoviusMove = false;
                             }
                         }
-                        //else//移動できなければ
-                        //{
-                        //    Sm.ShakeOn();//失敗時の振動させる
-                        //}
                     }
-                    //else//移動できなければ
-                    //{
-                    //    Sm.ShakeOn();//失敗時の振動させる
-                    //}
                 }
                 else//移動できなければ
                 {
@@ -420,10 +410,11 @@ public class MoveMobius : MonoBehaviour
         Rb.isKinematic = true;
     }
 
-    private bool LineVecFlag()//メビウスの輪が線上に乗っているかどうか
+    private bool LineVecFlag(out CrossLine outCl)//メビウスの輪が線上に乗っているかどうか
     {
         bool Seachflag = false;
         GameObject MoveLine = null;
+        outCl = null;
         Vector2 Vec;//FlickVecに代入用
 
         for (int i = 0; i < Line.Count; i++)
@@ -444,7 +435,7 @@ public class MoveMobius : MonoBehaviour
                 }
                 else if (cl[i].GetLvec() == Vec)
                 {
-                    if (!cl[i].NearEndLCrossPosFlag(this.transform.position))
+                    if (!cl[i].NearEndLCrossPosFlag(this.transform.position))//自身の座標が左端になければ
                     {
 
                         FlickVec = Vec;
@@ -458,17 +449,20 @@ public class MoveMobius : MonoBehaviour
 
         }
 
-
+        
         if (Seachflag)
         {
-            //リストの中の余分なものを削除
-            Line.Clear();
-            Line.Add(MoveLine);
-            cl.Clear();
-            cl.Add(MoveLine.GetComponent<CrossLine>());
+            ////リストの中の余分なものを削除
+            //Line.Clear();
+            //Line.Add(MoveLine);
+            //cl.Clear();
+            //cl.Add(MoveLine.GetComponent<CrossLine>());
+
+            outCl = MoveLine.GetComponent<CrossLine>();
         }
 
         //Debug.Log("移動" + Line[0].name);
+
 
         return Seachflag;
     }
