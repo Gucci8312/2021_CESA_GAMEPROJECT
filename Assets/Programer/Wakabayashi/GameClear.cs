@@ -14,6 +14,7 @@ public class GameClear : MonoBehaviour
     public string BGM;
     bool GameStartFlg;
     Vector3 Scale;
+    float Size;
 
     void Start()
     {
@@ -23,15 +24,23 @@ public class GameClear : MonoBehaviour
         Invoke("StartGameClear", 1.9f);
     }
 
-    void Update()
+    void FixedUpdate()
     {
         //transform.position = new Vector3(player.transform.position.x + TransformX, player.transform.position.y + TransformY, -30);
         if (GameStartFlg)
         {
-            Scale.x += 0.1f;
-            Scale.y += 0.1f;
+            if (Size < 0.8f)
+            {
+                Size += 0.1f;
+            }
+            Scale.x = Size;
+            Scale.y = Size;
+
+            //Scale.x += 0.1f;
+            //Scale.y += 0.1f;
+
             gameObject.transform.localScale = Scale;
-            Invoke("EndGameClear",0.1f);
+            Invoke("EndGameClear", 0.2f);
         }
     }
     public void StartGameClear()

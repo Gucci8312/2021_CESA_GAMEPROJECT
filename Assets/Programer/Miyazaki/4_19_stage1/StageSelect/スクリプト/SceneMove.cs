@@ -38,6 +38,31 @@ public class SceneMove : MonoBehaviour
         fedeout = GetComponent<FedeOut>();
         Select_Scene = StageControl.GetNowStage();
 
+        //if (Select_Scene >= 1 && Select_Scene <= 5)
+        //{
+        //    stageselectcam.StageNum0();
+        //}
+        //if (Select_Scene >= 6 && Select_Scene <= 10)
+        //{
+        //    stageselectcam.StageNum1();
+        //}
+        //if (Select_Scene >= 11 && Select_Scene <= 15)
+        //{
+        //    stageselectcam.StageNum2();
+        //}
+        //if (Select_Scene >= 16 && Select_Scene <= 20)
+        //{
+        //    stageselectcam.StageNum3();
+        //}
+        //if (Select_Scene >= 21 && Select_Scene <= 25)
+        //{
+        //    stageselectcam.StageNum4();
+        //}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         if (Select_Scene >= 1 && Select_Scene <= 5)
         {
             stageselectcam.StageNum0();
@@ -58,14 +83,9 @@ public class SceneMove : MonoBehaviour
         {
             stageselectcam.StageNum4();
         }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-		
-		// if(Controler.GetRightTriggerFlg()&&Controler.GetLeftTriggerFlg())
-		if (Controler.GetXButtonFlg())
+        // if(Controler.GetRightTriggerFlg()&&Controler.GetLeftTriggerFlg())
+        if (Controler.GetXButtonFlg())
         {
             StageControl.AllStageOpen();
         }

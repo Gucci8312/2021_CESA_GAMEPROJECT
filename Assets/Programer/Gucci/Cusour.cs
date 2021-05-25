@@ -12,6 +12,7 @@ public class Cusour : MonoBehaviour
     bool SoundFlg;
     public GameObject SoundObj;
     // GameObject SoundRes;
+    GameObject UI;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,7 @@ public class Cusour : MonoBehaviour
         transform.position = new Vector3(Pos.x, WindowButton[0].transform.position.y, Pos.z);
         // SoundRes = (GameObject)Resources.Load("VolumeSettings");
         PauseManager.GameObjectFindInit();
+        UI = GameObject.Find("UI");
     }
 
     // Update is called once per frame
@@ -46,15 +48,18 @@ public class Cusour : MonoBehaviour
                     Idx--;
                 }
             }
-            if (Controler.GetCanselButtonFlg())
+            if (!UI.GetComponent<UIManeger>().GameClearFlg && !UI.GetComponent<UIManeger>().GameOverFlg)
             {
-                Window.SetActive(!Window.activeSelf);
-                //Time.timeScale = 1.0f;
-                PauseManager.OffPause();
-                //if(SoundFlg)
-                //{
-                //    Destroy(SoundObj);
-                //}
+                if (Controler.GetCanselButtonFlg())
+                {
+                    Window.SetActive(!Window.activeSelf);
+                    //Time.timeScale = 1.0f;
+                    PauseManager.OffPause();
+                    //if(SoundFlg)
+                    //{
+                    //    Destroy(SoundObj);
+                    //}
+                }
             }
         }
         else
