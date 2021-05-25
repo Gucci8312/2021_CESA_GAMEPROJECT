@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class HipDropCol : MonoBehaviour
 {
-    [SerializeField] GameObject AlertObj;
-    PlayerMove player;
-    GameObject[] enemy;
+    [SerializeField] GameObject AlertObj;   //アラートオブジェクト
+    PlayerMove player;                      //プレイヤー
+    GameObject[] enemy;                     //敵
     private void Awake()
     {
         player = GameObject.Find("Player").GetComponent<PlayerMove>();
@@ -24,12 +24,12 @@ public class HipDropCol : MonoBehaviour
         }
         AlertObj.SetActive(false);
     }
-  
+
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Enemy")
         {
-            
+
             if (other.GetComponent<EnemyMove>().GetInsideFlg() == player.GetInsideFlg())
             {
                 if (other.GetComponent<EnemyMove>().GetNowMobiusNum() == player.GetNowMobiusNum())
@@ -54,10 +54,11 @@ public class HipDropCol : MonoBehaviour
                 AlertObj.SetActive(false);
                 other.GetComponent<EnemyMove>().SetAlert(false);
             }
-            
+
         }
     }
 
+    //範囲にいる敵をスタンにする
     public void EnemyStanOn()
     {
         for (int i = 0; i < enemy.Length; i++)
