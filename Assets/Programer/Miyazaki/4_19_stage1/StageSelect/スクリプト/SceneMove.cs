@@ -12,6 +12,7 @@ public class SceneMove : MonoBehaviour
 {
     public GameObject[] stageNum;
     public Material[] ColorNum;
+
     const int LIGHT_OFF = 1;
     const int LIGHT_ON = 10;
 
@@ -29,7 +30,9 @@ public class SceneMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Activeflag = true;
+
+		StageControl.SetOpenFlg(0);
+		Activeflag = true;
        // Select_Scene = 1;
         for (int i = 0; i < stage_picture.Length; i++)
         {
@@ -37,8 +40,9 @@ public class SceneMove : MonoBehaviour
         }
         fedeout = GetComponent<FedeOut>();
         Select_Scene = StageControl.GetNowStage();
+		
 
-        if (Select_Scene >= 1 && Select_Scene <= 5)
+		if (Select_Scene >= 1 && Select_Scene <= 5)
         {
             stageselectcam.StageNum0();
         }
@@ -127,10 +131,12 @@ public class SceneMove : MonoBehaviour
             }
 
             AllStageLightOff();
-            stageNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
-            ChangeColor();
+            //stageNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
+			stageNum[(Select_Scene - 1)].GetComponentInChildren< Light >().intensity = LIGHT_ON;
+			ChangeColor();
 			
-			
+
+
 			//Color cc=Color.
 			// stageNum[(Select_Scene - 1)].GetComponent<Material>().color =Color.white;
 			//stageNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
@@ -163,8 +169,10 @@ public class SceneMove : MonoBehaviour
     {
         for (int i = 0; i < stageNum.Length; i++)
         {
-            stageNum[i].GetComponent<Light>().intensity = LIGHT_OFF;
-        }
+			//stageNum[i].GetComponent<Light>().intensity = LIGHT_OFF;
+			stageNum[i].GetComponentInChildren<Light>().intensity = LIGHT_OFF;
+			
+		}
     }
 
     // @name   AllStagePictureSetActiveFlase
@@ -199,21 +207,37 @@ public class SceneMove : MonoBehaviour
         }
         for (int i = 0; i < 5; i++)
         {
-            float coefficient = (i + 1) == num ? 1.0f : 0.00f;
-            ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * coefficient);
+			if (StageControl.GetOpenFlg(i))
+			{
+				ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * ((i + 1) == num ? 1.0f : 0.005f));
+			}
         }
        
     }
 
 	void Release_Stage()
 	{
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 25; i++)
 		{
-			if(!StageControl.GetOpenFlg(i+1))
+			int num = i;
+			if (StageControl.GetOpenFlg(i))
 			{
-				ColorNum[i].SetColor("_EmissionColor", new Color(0.4f,0.4f,0.4f));
+				while (num > 5)
+				{
+					num = num <= 5 ? num : num += -5;
+				}
+				if(num==5)
+				{
+					num = 0;
+				}
+				stageNum[i].GetComponent<Renderer>().material = ColorNum[num];
+
 			}
-			
+			else
+			{
+				stageNum[i].GetComponent<Renderer>().material = ColorNum[5];
+			}
+
 		}
 	}
 

@@ -10,7 +10,9 @@ public class StageControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-    }
+		
+
+	}
 
     // Update is called once per frame
     void Update()
@@ -37,6 +39,7 @@ public class StageControl : MonoBehaviour
     {
         return OpenStageFlg[_Idx];
     }
+
     static public void AllStageOpen()
     {
         for (int Idx = 0; Idx < 25; Idx++)
