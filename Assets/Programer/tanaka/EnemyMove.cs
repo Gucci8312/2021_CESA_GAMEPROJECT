@@ -15,6 +15,7 @@ public class EnemyMove : MobiusOnObj
     GameObject ball;                                         //子オブジェクトのトゲなし
     GameObject toge;                                         //子オブジェクトのトゲあり
     bool TogeFlg;                                            //トゲのフラグ
+    bool AlertCollision;                                     //アラートが出る範囲にいる
 
     protected override void Awake()
     {
@@ -32,6 +33,7 @@ public class EnemyMove : MobiusOnObj
         TogeFlg = false;
         Stan = false;
         StanTimeCount = 0;
+        AlertCollision = false;
     }
 
 
@@ -82,7 +84,7 @@ public class EnemyMove : MobiusOnObj
 
             }
 
-            AngleRangeSum(angle);
+            angle=AngleRangeSum(angle);
 
 
             if (SwitchMobius)
@@ -153,6 +155,24 @@ public class EnemyMove : MobiusOnObj
 
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+
+            if (other.GetComponent<PlayerMove>().GetNowMobiusNum() == NowMobius)//同じメビウスか
+            {
+                if (!Stan)//スタンしていないか
+                {
+                    if (other.GetComponent<PlayerMove>().GetInsideFlg() == InsideFlg)//外側か内側か
+                    {
+                        other.GetComponent<PlayerMove>().SetCollisionState();
+                    }
+                }
+            }
+        }
+    }
+
     //スタンしているかどうか
     public bool GetStanFlg()
     {
@@ -166,4 +186,14 @@ public class EnemyMove : MobiusOnObj
         Stan = true;
     }
     
+    public void SetAlert(bool flg)
+    {
+        AlertCollision = flg;
+    }
+
+    //アラートの範囲にいるかどうかを返す
+    public bool GetAlertCollision()
+    {
+        return AlertCollision;
+    }
 }
