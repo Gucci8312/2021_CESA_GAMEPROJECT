@@ -56,7 +56,7 @@ public class MobiusOnObj : MonoBehaviour
 
         PositionSum();
     }
-    
+
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -69,12 +69,12 @@ public class MobiusOnObj : MonoBehaviour
         {
             SideCnt = 1;
         }
-        
+
         SaveMobius = -1;
         counter = -1;
         Speed = NormalSpeed;
         SwitchMobius = false;
-        
+
     }
 
     //メビウスの輪からの場所を計算
@@ -83,12 +83,12 @@ public class MobiusOnObj : MonoBehaviour
         target = Mobius[NowMobius].transform;
 
         //メビウスの輪の中心とプレイヤーの距離を求める
-        distanceTarget.y = (Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 + 10.0f) - InsideLength ;
+        distanceTarget.y = (Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 ) - InsideLength;
         //プレイヤーの位置をメビウスの位置・メビウスから見たプレイヤーの角度・距離から求める
         transform.position = target.position + Quaternion.Euler(0f, 0f, angle) * distanceTarget;
         //プレイヤーの角度をメビウスから見た角度を計算し、設定する
         transform.rotation = Quaternion.LookRotation(transform.position - new Vector3(target.position.x, target.position.y, transform.position.z), -Vector3.forward);
-        
+
     }
 
     //メビウスの輪同士が当てっているかどうか
@@ -104,7 +104,7 @@ public class MobiusOnObj : MonoBehaviour
 
         return false;
     }
-    
+
     //メビウスの輪を切り替える為の計算
     protected virtual bool MobiusSwitch(Vector3 NowMobiusPos, Vector3 NextMobiusPos, float MyRadius)
     {
@@ -146,10 +146,10 @@ public class MobiusOnObj : MonoBehaviour
         counter = 0;
         angle += 180;
 
-        angle=AngleRangeSum(angle);
+        angle = AngleRangeSum(angle);
 
         saveangle = angle;
-        saveangle=AngleRangeSum(saveangle);
+        saveangle = AngleRangeSum(saveangle);
 
 
         if (SideCnt >= 2)//2回切り替えると
@@ -229,12 +229,7 @@ public class MobiusOnObj : MonoBehaviour
     {
         return InsideFlg;
     }
-
-    public virtual int GetSideCnt()
-    {
-        return SideCnt;
-    }
-
+    
     //ポーズをオンにする
     public static void PauseOn()
     {

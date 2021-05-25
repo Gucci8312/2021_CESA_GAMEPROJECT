@@ -23,10 +23,7 @@ public class PlayerMove : MobiusOnObj
 
     [SerializeField] float jumppow = 10;                    //ジャンプ力
     [SerializeField] float HipDropSpeed = 10;               //ヒップドロップスピード
-
-    public bool CollisionOn = true;                         //敵との当たり判定
     
-
     bool SpeedPress;                                        //スピードアップボタンの判定
     bool SpeedUpMashing;                                    //スピードアップが連打されているかどうか
     bool JumpMashing;                                       //ジャンプボタンが連打されているか
@@ -276,7 +273,6 @@ public class PlayerMove : MobiusOnObj
         {
             if (HipDrop)
             {
-                
                 jumpmove += HipDropSpeed * Time.deltaTime;
 
                 if (jumpmove > 0)
@@ -302,7 +298,6 @@ public class PlayerMove : MobiusOnObj
         {
             if (HipDrop)
             {
-                
                 jumpmove -= HipDropSpeed * Time.deltaTime;
 
                 if (jumpmove < 0)
@@ -526,35 +521,6 @@ public class PlayerMove : MobiusOnObj
     }
 
 
-    // 衝突時
-    private void OnTrrgerEnter(Collider other)
-    {
-        //if (other.gameObject.tag == "Enemy")
-        //{
-        //    if (!Clear && !StartFlg && jumpmove == 0)
-        //    {
-        //        if (other.GetComponent<EnemyMove>().GetNowMobiusNum() == NowMobius)//同じメビウスか
-        //        {
-        //            if (!other.GetComponent<EnemyMove>().GetStanFlg())//スタンしていないか
-        //            {
-        //                if (other.GetComponent<EnemyMove>().GetInsideFlg() == InsideFlg)//外側か内側か
-        //                {
-        //                    if (CollisionOn)
-        //                    {
-        //                        CollisionState = true;
-        //                        Debug.Log("Hit");
-
-        //                        DushEffect.SetActive(false);
-        //                        SmokeEffect.SetActive(false);
-        //                    }
-        //                }
-        //            }
-        //        }
-
-        //    }
-        //}
-    }
-
 
     //敵と当たっているかどうかを返す
     public bool GetCollisionState()
@@ -585,31 +551,18 @@ public class PlayerMove : MobiusOnObj
         float ans = 0;
         if (RotateLeftFlg)//イレギュラー処理　角度調整
         {
-            if (InsideFlg)
-            {
-                ans = (angle / 2f) + 180f;
-            }
-            else
-            {
-                ans = (angle / 2f) + 180f;
-            }
+            ans = (angle / 2f) + 180f;
         }
         else
         {
-            if (InsideFlg)
-            {
-                ans = (angle / 2f) - 180f;
-            }
-            else
-            {
-                ans = (angle / 2f) - 180f;
-            }
+            ans = (angle / 2f) - 180f;
         }
 
         return ans;
     }
 
-    public bool GetHipDropNow()//ヒップドロップが終わった
+    //ヒップドロップが終わった
+    public bool GetHipDropNow()
     {
         return JumpOk;
     }
@@ -618,14 +571,14 @@ public class PlayerMove : MobiusOnObj
     {
         return RotateLeftFlg;
     }
-
-    public bool GetHipDrop()//ヒップドロップ中かどうか
+    //ヒップドロップ中かどうか
+    public bool GetHipDrop()
     {
         return HipDrop;
     }
 
-
-    public bool GetJumpNow()//ジャンプしているかどうか
+    //ジャンプしているかどうか
+    public bool GetJumpNow()
     {
         if (jumpmove == 0)
         {
@@ -640,8 +593,7 @@ public class PlayerMove : MobiusOnObj
     {
         if (!Clear)
         {
-            float ClearJumpPow = 40;//クリアのジャンプ力
-            jumppow = ClearJumpPow;
+            jumppow = 40;//クリア時のジャンプ力
             if (InsideFlg)//ジャンプの力をセット
             {
                 pow = -jumppow;
