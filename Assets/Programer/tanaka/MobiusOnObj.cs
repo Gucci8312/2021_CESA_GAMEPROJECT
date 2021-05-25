@@ -146,10 +146,10 @@ public class MobiusOnObj : MonoBehaviour
         counter = 0;
         angle += 180;
 
-        AngleRangeSum(angle);
+        angle=AngleRangeSum(angle);
 
         saveangle = angle;
-        AngleRangeSum(saveangle);
+        saveangle=AngleRangeSum(saveangle);
 
 
         if (SideCnt >= 2)//2回切り替えると
@@ -167,7 +167,7 @@ public class MobiusOnObj : MonoBehaviour
                 InsideFlg = true;
             }
             SideCnt = 0;
-        }//if (SideCnt>=2)//2回切り替えると
+        }
 
         if (RotateLeftFlg)
         {
@@ -199,7 +199,7 @@ public class MobiusOnObj : MonoBehaviour
     }
 
     //角度を1～360の範囲に計算する
-    protected virtual void AngleRangeSum(float anglenum)
+    protected virtual float AngleRangeSum(float anglenum)
     {
         if (anglenum > 360)
         {
@@ -210,7 +210,12 @@ public class MobiusOnObj : MonoBehaviour
         {
             anglenum = anglenum + 360;
         }
-        
+        return anglenum;
+    }
+
+    public virtual float GetMoveAngle()
+    {
+        return angle;
     }
 
     //現在のメビウスの数字を返す
@@ -223,6 +228,11 @@ public class MobiusOnObj : MonoBehaviour
     public virtual bool GetInsideFlg()
     {
         return InsideFlg;
+    }
+
+    public virtual int GetSideCnt()
+    {
+        return SideCnt;
     }
 
     //ポーズをオンにする

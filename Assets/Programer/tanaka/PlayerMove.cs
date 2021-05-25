@@ -105,7 +105,7 @@ public class PlayerMove : MobiusOnObj
     // Update is called once per frame
     void Update()
     {
-
+        
         NowMobiusColor = Mobius[NowMobius].GetComponent<MobiusColor>().GetNowColorNum();//現在のメビウスの色を取得
 
         if (!Pause)
@@ -126,9 +126,7 @@ public class PlayerMove : MobiusOnObj
                     JumpInput();                                                 //ジャンプ入力
                     RythmSaveFlg = RythmFlg;                                     //リズムセーブ
                 }
-
-                HipDropCollisionObj.GetComponent<BoxCollider>().enabled = false; //ヒップドロップの当たり判定消す
-
+                
                 if (JumpFlg)
                 {
                     HipDropSum();
@@ -166,7 +164,7 @@ public class PlayerMove : MobiusOnObj
                         }
                     }
 
-                    AngleRangeSum(angle);
+                    angle=AngleRangeSum(angle);
 
                     if (SwitchMobius)
                     {
@@ -273,11 +271,12 @@ public class PlayerMove : MobiusOnObj
     //ヒップドロップの計算
     private void HipDropSum()
     {
+        
         if (InsideFlg)//内側
         {
             if (HipDrop)
             {
-                HipDropCollisionObj.GetComponent<BoxCollider>().enabled = true;
+                
                 jumpmove += HipDropSpeed * Time.deltaTime;
 
                 if (jumpmove > 0)
@@ -303,7 +302,7 @@ public class PlayerMove : MobiusOnObj
         {
             if (HipDrop)
             {
-                HipDropCollisionObj.GetComponent<BoxCollider>().enabled = true;
+                
                 jumpmove -= HipDropSpeed * Time.deltaTime;
 
                 if (jumpmove < 0)
@@ -408,6 +407,7 @@ public class PlayerMove : MobiusOnObj
     //ヒップドロップが終わったときのステータスセット
     private void HipDropEndSetState()
     {
+        HipDropCollisionObj.GetComponent<HipDropCol>().EnemyStanOn();
         jumpmove = 0;
         this.rythm.checkPlayerMove = false;
         JumpOk = true;
@@ -527,31 +527,32 @@ public class PlayerMove : MobiusOnObj
 
 
     // 衝突時
-    private void OnTriggerEnter(Collider other)
+    private void OnTrrgerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Enemy")
-        {
-            if (!Clear && !StartFlg && jumpmove == 0)
-            {
-                if (other.GetComponent<EnemyMove>().GetNowMobiusNum() == NowMobius)//同じメビウスか
-                {
-                    if (!other.GetComponent<EnemyMove>().GetStanFlg())//スタンしていないか
-                    {
-                        if (other.GetComponent<EnemyMove>().GetInsideFlg() == InsideFlg)//外側か内側か
-                        {
-                            if (CollisionOn)
-                            {
-                                CollisionState = true;
+        //if (other.gameObject.tag == "Enemy")
+        //{
+        //    if (!Clear && !StartFlg && jumpmove == 0)
+        //    {
+        //        if (other.GetComponent<EnemyMove>().GetNowMobiusNum() == NowMobius)//同じメビウスか
+        //        {
+        //            if (!other.GetComponent<EnemyMove>().GetStanFlg())//スタンしていないか
+        //            {
+        //                if (other.GetComponent<EnemyMove>().GetInsideFlg() == InsideFlg)//外側か内側か
+        //                {
+        //                    if (CollisionOn)
+        //                    {
+        //                        CollisionState = true;
+        //                        Debug.Log("Hit");
 
-                                DushEffect.SetActive(false);
-                                SmokeEffect.SetActive(false);
-                            }
-                        }
-                    }
-                }
+        //                        DushEffect.SetActive(false);
+        //                        SmokeEffect.SetActive(false);
+        //                    }
+        //                }
+        //            }
+        //        }
 
-            }
-        }
+        //    }
+        //}
     }
 
 
@@ -559,6 +560,11 @@ public class PlayerMove : MobiusOnObj
     public bool GetCollisionState()
     {
         return CollisionState;
+    }
+
+    public void SetCollisionState()
+    {
+        CollisionState = true;
     }
 
     //色のラベルを返す
