@@ -48,7 +48,23 @@ public class Cusour : MonoBehaviour
                     Idx--;
                 }
             }
-            if (!UI.GetComponent<UIManeger>().GameClearFlg && !UI.GetComponent<UIManeger>().GameOverFlg)
+            if (UI != null)
+            {
+                if (!UI.GetComponent<UIManeger>().GameClearFlg && !UI.GetComponent<UIManeger>().GameOverFlg)
+                {
+                    if (Controler.GetCanselButtonFlg())
+                    {
+                        Window.SetActive(!Window.activeSelf);
+                        //Time.timeScale = 1.0f;
+                        PauseManager.OffPause();
+                        //if(SoundFlg)
+                        //{
+                        //    Destroy(SoundObj);
+                        //}
+                    }
+                }
+            }
+            else
             {
                 if (Controler.GetCanselButtonFlg())
                 {
@@ -61,6 +77,7 @@ public class Cusour : MonoBehaviour
                     //}
                 }
             }
+
         }
         else
         {
@@ -84,7 +101,7 @@ public class Cusour : MonoBehaviour
             else if (WindowButton[Idx].name == "RETRY")
             {
                 RestartBotton();
-               // Time.timeScale = 1.0f;
+                // Time.timeScale = 1.0f;
                 PauseManager.OffPause();
             }
             else if (WindowButton[Idx].name == "STAGESELECT")
