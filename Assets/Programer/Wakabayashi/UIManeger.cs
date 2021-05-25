@@ -53,7 +53,7 @@ public class UIManeger : MonoBehaviour
         print(checkpointobjects.Length);
 
         //if (CountScript.CheckPointNum== CrearNum)  //チェックポイント0になったら
-        if (CountScript.CheckPointNum == JudgeUI.Length && !GameOverFlg)  //チェックポイント0になったら
+        if (CountScript.CheckPointNum == JudgeUI.Length && !GameOverFlg && !GameClearFlg)  //チェックポイント0になったら
         {
             Debug.Log(" ゲームクリア");
             //ClearDai.SetActive(true);
@@ -68,8 +68,7 @@ public class UIManeger : MonoBehaviour
             {
                 PauseManager.OnPause();
             }
-
-            SoundManager.StopBGM();
+            SoundManager.PlaySeName("clearmusic");
         }
 
         if (GameClear.active == true)
@@ -80,10 +79,10 @@ public class UIManeger : MonoBehaviour
             }
         }
 
-        if (Player.GetComponent<PlayerMove>().GetCollisionState() && !GameClearFlg)  // ゲームオーバー時
+        if (Player.GetComponent<PlayerMove>().GetCollisionState() && !GameClearFlg && !GameOverFlg)   // ゲームオーバー時
         {
             Debug.Log(" ゲームオーバー");
-            SoundManager.PlayBgmName("gameovermusic");
+            SoundManager.PlaySeName("gameovermusic");
 
             GameOver.active = true;
             //_camera.OnZoom();                //カメラズーム
