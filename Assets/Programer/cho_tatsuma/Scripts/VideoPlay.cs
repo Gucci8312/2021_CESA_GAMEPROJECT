@@ -18,6 +18,7 @@ public class VideoPlay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PauseManager.GameObjectFindInit();
         mPlayer = GetComponent<VideoPlayer>();
         mPlayer.Stop();
         skip = false;
@@ -28,6 +29,7 @@ public class VideoPlay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!endVideo) PauseManager.OnPause();
         if (PushButton()) { } else
         {
             m_time = 0f;

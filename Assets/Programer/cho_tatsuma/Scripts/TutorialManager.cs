@@ -25,10 +25,6 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] Text orText = default;
 
     Rythm rythm;
-    GameObject player;
-    GameObject enemy;
-    GameObject[] mobius;
-
     bool endTutorial = false;
 
     [SerializeField] Volume bloom = default;
@@ -36,9 +32,7 @@ public class TutorialManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        player = GameObject.Find("Player");
-        enemy = GameObject.Find("Enemy");
-        mobius = GameObject.FindGameObjectsWithTag("Mobius");
+        PauseManager.GameObjectFindInit();
         rythm = GameObject.Find("rythm_circle").GetComponent<Rythm>();
         AButton2.SetActive(false);
         APButton.SetActive(false);
@@ -121,11 +115,7 @@ public class TutorialManager : MonoBehaviour
     // @brief  特定のスクリプトを切りたい用
     void ScriptsOff()
     {
-        player.GetComponent<PlayerMove>().enabled = false;
-        enemy.GetComponent<EnemyMove>().enabled = false;
-        for (int i = 0; i < mobius.Length; i++)
-            mobius[i].GetComponent<EnemyMobius>().enabled = false;
-
+        PauseManager.OnPause();
         Bloom bloom_propaty;
         bloom.profile.TryGet(out bloom_propaty);
         bloom_propaty.intensity.value = 0f;
@@ -135,10 +125,7 @@ public class TutorialManager : MonoBehaviour
     // @brief  切ったスクリプトをONにする。
     void ScriptsOn()
     {
-        player.GetComponent<PlayerMove>().enabled = true;
-        enemy.GetComponent<EnemyMove>().enabled = true;
-        for (int i = 0; i < mobius.Length; i++)
-            mobius[i].GetComponent<EnemyMobius>().enabled = true;
+        PauseManager.OffPause();
         Bloom bloom_propaty;
         bloom.profile.TryGet(out bloom_propaty);
         bloom_propaty.intensity.value = 2f;
