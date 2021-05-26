@@ -13,14 +13,15 @@ public class EffectControl : MonoBehaviour
     Vector3 Pos;
     static bool OnpuDownFlg;
 
-    // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
     {
         Player = GameObject.Find("PLAYER"); ;
         DushEffect = GameObject.Find("DushEffect");
         SmokeEffect = GameObject.Find("SmokeEffect");
         obj = (GameObject)Resources.Load("音符");
     }
+    
 
     // Update is called once per frame
     void FixedUpdate()
