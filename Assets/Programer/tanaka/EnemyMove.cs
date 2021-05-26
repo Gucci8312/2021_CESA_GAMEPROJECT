@@ -162,11 +162,14 @@ public class EnemyMove : MobiusOnObj
 
             if (other.GetComponent<PlayerMove>().GetNowMobiusNum() == NowMobius)//同じメビウスか
             {
-                if (!Stan)//スタンしていないか
+                if (!other.GetComponent<PlayerMove>().GetJumpNow())//ジャンプしているかどうか
                 {
-                    if (other.GetComponent<PlayerMove>().GetInsideFlg() == InsideFlg)//外側か内側か
+                    if (!Stan)//スタンしていないか
                     {
-                        other.GetComponent<PlayerMove>().SetCollisionState();
+                        if (other.GetComponent<PlayerMove>().GetInsideFlg() == InsideFlg)//外側か内側か
+                        {
+                            other.GetComponent<PlayerMove>().SetCollisionState();
+                        }
                     }
                 }
             }
