@@ -6,9 +6,9 @@ using UnityEngine;
 //動く線に乗っているときのメビウスの処理
 public class LinePutMobius : MonoBehaviour
 {
-    public bool MoveLineFlag = false;//線が動いているかどうか
-    public bool MoveLinePutFlag = false;//線に乗っているかどうか
-    public Vector2 MoveLineVec;     //線が移動した方向（MoveLine側で操作）
+    private bool MoveLineFlag = false;//線が動いているかどうか
+    private bool MoveLinePutFlag = false;//線に乗っているかどうか
+   [HideInInspector] public Vector2 MoveLineVec;     //線が移動した方向（MoveLine側で操作）
 
     MoveMobius Mm;
 
@@ -19,7 +19,8 @@ public class LinePutMobius : MonoBehaviour
 
     public List<Vector2> vec;
     public Vector2 ColVec;
-    public int colcount;
+    public Vector2 hanareruVec;
+    public float Movedis;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +30,8 @@ public class LinePutMobius : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Movedis = (this.transform.position - OldPos).magnitude;//位置の差を取得
+
         MoveLineTrueStop();
         MoveLineSetting();
         LinePutCheck();
@@ -55,65 +58,54 @@ public class LinePutMobius : MonoBehaviour
         //{
         //    OldPos = this.transform.position;
         //}
-        OldPos = this.transform.position;
+        OldPos = this.transform.position;        
     }
 
     private void MoveLineSetting()
     {
-        int count = 0;
+        int NotMoveLinecount = 0;//MoveLineじゃない線を数える用
+        bool SameFlag = false;//登録したMoveLineと同じかどうか
 
         if (Mm.GetLine().Count != 0)
         {
             for (int i = 0; i < Mm.GetLine().Count; i++)
             {
-                if (Mm.Getcl()[i].MoveLineFlag)
+                if (Mm.Getcl()[i].MoveLineFlag)//MoveLineでなら
                 {
-                    if (!Mm.Getcl()[i].MoveFlag && Mm.MoveLineObj == null)
+                    if (!Mm.Getcl()[i].MoveFlag && Mm.MoveLineObj == null)//線が動いていない　かつ　まだ動く線を登録してなければ
                     {
+                        //MoveLineに登録
                         Mm.GetLine()[i].GetComponent<MoveLine>().PutMobiusOnOff(true, this.gameObject);
                         Debug.Log(Mm.MoveLineObj.name + "に乗った");
-                        break;
                     }
                 }
-                else
+                else//MoveLineでなければ
                 {
-                    count++;
+                    NotMoveLinecount++;
+                }
+
+                if (Mm.MoveLineObj == Mm.GetLine()[i])//登録したMoveLineと同じ奴なら
+                {
+                    SameFlag = true;
+                    //Debug.Log(Mm.GetLine()[i].name + "と同じ");
                 }
             }
         }
 
-        if ((Mm.GetLine().Count == 0 || count == Mm.GetLine().Count) && Mm.MoveLineObj != null)
+
+        if (((Mm.GetLine().Count == 0) || (NotMoveLinecount == Mm.GetLine().Count) || !SameFlag) && Mm.MoveLineObj != null)
         {
+            //MoveLineに登録したやつを削除
             Debug.Log(Mm.MoveLineObj.name + "から離れた");
             Mm.MoveLineObj.GetComponent<MoveLine>().PutMobiusOnOff(false, this.gameObject);
         }
+
 
     }
 
     //動く線に乗っているかどうか確認する
     private void LinePutCheck()
     {
-        //if (Mm.Getcl().Count != 0)
-        //{
-        //    for(int i=0;i< Mm.Getcl().Count;i++)
-        //    {
-        //        if (Mm.Getcl()[i].MoveLineFlag)
-        //        {
-        //            if (!Mm.Getcl()[i].MoveFlag)
-        //            {
-        //                MoveLinePutFlag = true;
-        //                break;
-        //            }                    
-        //        }
-        //        else
-        //        {
-        //            MoveLinePutFlag = false;
-        //        }
-
-        //    }
-        //}
-
-
         if (Mm.MoveLineObj != null)
         {
             MoveLinePutFlag = true;
@@ -151,6 +143,7 @@ public class LinePutMobius : MonoBehaviour
     private bool LeaveVector(Vector3 _Pos, out Vector2 outvec)
     {
         Vector2 disvec = Mm.SearchVector(this.transform.position, _Pos);//相手へのベクトルを取得
+        disvec = ColVec;
         //Debug.Log("相手へのベクトルは" +disvec);
         // Vector2 disvec =-_vec;//相手へのベクトルを取得
 
@@ -217,7 +210,7 @@ public class LinePutMobius : MonoBehaviour
         if (MoveVec.Count != 0)
         {
             LeaveVec = NearVector(MoveVec, disvec);//取得したリストの中から相手の反対方向に近いベクトルを取得
-            ColVec = LeaveVec;
+            hanareruVec = LeaveVec;
 
             if (LeaveVecRaySerch(LeaveVec))//一番移動させたい方にメビウスなどのオブジェクトが無ければ
             {
@@ -393,6 +386,7 @@ public class LinePutMobius : MonoBehaviour
             float PosDis = (this.transform.position - ColObj.transform.position).magnitude;//位置の差を取得
             float dis = (Mm.GetThisR() + ColR) - PosDis;//半径の合計と位置の差との差を取得
 
+            //ColObj.GetComponent<MoveMobius>().MobiusCol(dis + PosDis+4, -disvec);
             ColObj.GetComponent<MoveMobius>().MobiusCol(dis + PosDis * 0.5f, -disvec);
 
             ColObj.GetComponent<MoveMobius>().ZeroVelo();
@@ -446,5 +440,14 @@ public class LinePutMobius : MonoBehaviour
     //    }
     //}
 
+
+    public bool GetMoveLineFlag()
+    {
+        return MoveLineFlag;
+    }
+    public bool GetMoveLinePutFlag()
+    {
+        return MoveLinePutFlag;
+    }
 
 }

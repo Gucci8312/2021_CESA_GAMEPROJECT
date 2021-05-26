@@ -676,7 +676,7 @@ public class MoveMobius : MonoBehaviour
                         float ColR = otherObj.GetComponent<MoveMobius>().GetThisR();
                         float ScaleDistance = ThisR + ColR + 15;//お互いの半径分と少しだけ離す
 
-                        if (!otherObj.GetComponent<LinePutMobius>().MoveLineFlag)
+                        if (!otherObj.GetComponent<LinePutMobius>().GetMoveLineFlag())
                         {
                             if (ScaleDistance < PosDistance)//離れているところから移動してぶつかったなら
                             {
