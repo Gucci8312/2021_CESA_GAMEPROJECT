@@ -2028,11 +2028,11 @@ VisualEffectResource:
         data: 00000000
     m_Events:
     - name: OnPlay
-      playSystems: 0000000001000000
+      playSystems: 0100000000000000
       stopSystems: 
     - name: OnStop
       playSystems: 
-      stopSystems: 0000000001000000
+      stopSystems: 0100000000000000
     m_RuntimeVersion: 10
     m_RendererSettings:
       motionVectorGenerationMode: 0
@@ -3606,6 +3606,8 @@ MonoBehaviour:
   - link:
     - context: {fileID: 8926484042661614720}
       slotIndex: 0
+    - context: {fileID: 8926484042661614869}
+      slotIndex: 0
   eventName: OnPlay
 --- !u!114 &8926484042661614596
 MonoBehaviour:
@@ -3633,6 +3635,8 @@ MonoBehaviour:
   m_OutputFlowSlot:
   - link:
     - context: {fileID: 8926484042661614720}
+      slotIndex: 1
+    - context: {fileID: 8926484042661614869}
       slotIndex: 1
   eventName: OnStop
 --- !u!114 &8926484042661614602
@@ -7803,8 +7807,12 @@ MonoBehaviour:
   m_Label: 
   m_Data: {fileID: 0}
   m_InputFlowSlot:
-  - link: []
-  - link: []
+  - link:
+    - context: {fileID: 8926484042661614595}
+      slotIndex: 0
+  - link:
+    - context: {fileID: 8926484042661614596}
+      slotIndex: 0
   m_OutputFlowSlot:
   - link:
     - context: {fileID: 8926484042661614872}
