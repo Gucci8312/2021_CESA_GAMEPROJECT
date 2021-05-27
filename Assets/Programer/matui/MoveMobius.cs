@@ -177,7 +177,7 @@ public class MoveMobius : MonoBehaviour
                     List<Vector3> HitPos = new List<Vector3>();            //レイがあった座標を格納するリスト
 
                     //貫通レイキャスト
-                    foreach (RaycastHit hit in Physics.SphereCastAll(ray,ThisR, 1000))
+                    foreach (RaycastHit hit in Physics.SphereCastAll(ray,ThisR/3, 1000))
                     {
                         // Debug.Log(hit.collider.gameObject.name);//レイキャストが当たったオブジェクト
 
