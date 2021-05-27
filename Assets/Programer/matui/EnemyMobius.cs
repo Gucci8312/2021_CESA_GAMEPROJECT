@@ -21,7 +21,7 @@ public class EnemyMobius : MonoBehaviour
     // List<GameObject> Line = new List<GameObject>();                          //線のオブジェクト
 
     static bool StopFlag = false;//true:止める　false:動く
-
+    public bool PublicMobiusStripCheckFlag;
 
     // Start is called before the first frame update
     void Start()
@@ -96,7 +96,7 @@ public class EnemyMobius : MonoBehaviour
                 break;
             }
         }
-
+        PublicMobiusStripCheckFlag = MobiusStripCheckFlag;
         if (MobiusStripCheckFlag)//全てのメビウスのどれかが輪になっていたら
         {
             BeatCount = 0;
