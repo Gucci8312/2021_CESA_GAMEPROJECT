@@ -143,7 +143,8 @@ public class LinePutMobius : MonoBehaviour
     private bool LeaveVector(Vector3 _Pos, out Vector2 outvec)
     {
         Vector2 disvec = Mm.SearchVector(this.transform.position, _Pos);//相手へのベクトルを取得
-        disvec = ColVec;
+
+        ColVec= disvec;
         //Debug.Log("相手へのベクトルは" +disvec);
         // Vector2 disvec =-_vec;//相手へのベクトルを取得
 
@@ -152,10 +153,10 @@ public class LinePutMobius : MonoBehaviour
         List<Vector2> MoveVec = new List<Vector2>();//移動できる候補となるベクトル
         for (int i = 0; i < Mm.Getcl().Count; i++)
         {
-            //if (MoveLinePutFlag != Mm.Getcl()[i].MoveLineFlag)
-            //{
-            //    continue;
-            //}
+            if (MoveLinePutFlag != Mm.Getcl()[i].MoveLineFlag)//乗っている線と違う種類の線なら
+            {
+                continue;
+            }
 
             if (Mm.Getcl()[i].MoveFlag)
             {
@@ -164,7 +165,7 @@ public class LinePutMobius : MonoBehaviour
 
             float Gosa = 0.9f;//移動できるベクトルを取得する際、選定する用
 
-            if (!Mm.Getcl()[i].NearEndRPosFlag(this.transform.position, 100))//メビウスが右端に居なければ
+            if (!Mm.Getcl()[i].NearEndRPosFlag(this.transform.position, Mm.GetThisR()))//メビウスが右端に居なければ
             {
                 float distance = (Mm.Getcl()[i].GetRvec() - disvec).magnitude;
                 if (distance >= Gosa)
@@ -182,7 +183,7 @@ public class LinePutMobius : MonoBehaviour
                 Debug.Log(Mm.GetLine()[i].name + "のRposは" + Mm.Getcl()[i].GetRPos() + "distanceは" + dis);
             }
 
-            if (!Mm.Getcl()[i].NearEndLPosFlag(this.transform.position, 100))//メビウスが左端に居なければ
+            if (!Mm.Getcl()[i].NearEndLPosFlag(this.transform.position, Mm.GetThisR()))//メビウスが左端に居なければ
             {
                 float distance = (Mm.Getcl()[i].GetLvec() - disvec).magnitude;
                 if (distance >= Gosa)
@@ -295,7 +296,7 @@ public class LinePutMobius : MonoBehaviour
     private bool PutMobiusRayCol()
     {
         Vector3 Pos = this.transform.position;//レイを飛ばしすぎないようにするもの
-        Vector2 ColVec = Mm.SearchVector(OldPos, Pos);//前のフレームの座標からのベクトル
+        Vector2 OldVec = Mm.SearchVector(OldPos, Pos);//前のフレームの座標からのベクトル
 
         //Vector3 addpos = Pos - OldPos;
         //OldPos -= addpos; 
@@ -308,7 +309,7 @@ public class LinePutMobius : MonoBehaviour
         List<Vector3> HitPos = new List<Vector3>();                     //ヒットした座標
 
         ray = new Ray(new Vector3(OldPos.x, OldPos.y, OldPos.z),    //Rayを飛ばす発射位置
-         new Vector3(ColVec.x, ColVec.y, 0));                             //飛ばす方向
+         new Vector3(OldVec.x, OldVec.y, 0));                             //飛ばす方向
 
         Debug.DrawRay(ray.origin, ray.direction * distance, Color.red, 1000, false);
 
@@ -383,11 +384,11 @@ public class LinePutMobius : MonoBehaviour
         {
             //ColObj.GetComponent<MoveMobius>().MobiusCol(Mm.GetThisR() /*+ ColR*/ + 4, -disvec);
 
-            float PosDis = (this.transform.position - ColObj.transform.position).magnitude;//位置の差を取得
+            float PosDis = (OldPos - ColObj.transform.position).magnitude;//位置の差を取得
             float dis = (Mm.GetThisR() + ColR) - PosDis;//半径の合計と位置の差との差を取得
 
             //ColObj.GetComponent<MoveMobius>().MobiusCol(dis + PosDis+4, -disvec);
-            ColObj.GetComponent<MoveMobius>().MobiusCol(dis + PosDis * 0.5f, -disvec);
+            ColObj.GetComponent<MoveMobius>().MobiusCol(dis + PosDis/6, -disvec);
 
             ColObj.GetComponent<MoveMobius>().ZeroVelo();
             Debug.Log("移動床によってぶつかった！！");

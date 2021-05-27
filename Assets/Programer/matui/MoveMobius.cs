@@ -177,7 +177,7 @@ public class MoveMobius : MonoBehaviour
                     List<Vector3> HitPos = new List<Vector3>();            //レイがあった座標を格納するリスト
 
                     //貫通レイキャスト
-                    foreach (RaycastHit hit in Physics.SphereCastAll(ray,ThisR, 1000))
+                    foreach (RaycastHit hit in Physics.SphereCastAll(ray,ThisR/3, 1000))
                     {
                         // Debug.Log(hit.collider.gameObject.name);//レイキャストが当たったオブジェクト
 
@@ -630,7 +630,7 @@ public class MoveMobius : MonoBehaviour
         {
             //float ThisR = (this.GetComponent<SphereCollider>().bounds.size.x + this.GetComponent<SphereCollider>().bounds.size.y) / 4;// プレイヤーのメビウスの輪の円の半径を取得
             float ColR = (ColMobiusObj.GetComponent<MoveMobius>().GetThisR());// 相手メビウスの輪の円の半径を取得
-            float SocialDistance = ThisR + ColR + 15;//お互いの半径分と少しだけ離す
+            float SocialDistance = ThisR + ColR + 4;//お互いの半径分と少しだけ離す
 
             float distance = (this.transform.position - ColMobiusObj.transform.position).magnitude;//相手と自分の距離
 
@@ -674,7 +674,7 @@ public class MoveMobius : MonoBehaviour
                 case "Mobius":
                     {
                         float ColR = otherObj.GetComponent<MoveMobius>().GetThisR();
-                        float ScaleDistance = ThisR + ColR + 15;//お互いの半径分と少しだけ離す
+                        float ScaleDistance = ThisR + ColR + 4;//お互いの半径分と少しだけ離す
 
                         if (!otherObj.GetComponent<LinePutMobius>().GetMoveLineFlag())
                         {
