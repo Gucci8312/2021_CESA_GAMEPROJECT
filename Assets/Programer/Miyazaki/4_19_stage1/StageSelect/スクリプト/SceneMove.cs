@@ -116,7 +116,7 @@ public class SceneMove : MonoBehaviour
         }
 
         // if(Controler.GetRightTriggerFlg()&&Controler.GetLeftTriggerFlg())
-        if (Controler.GetXButtonFlg())
+        if (Controler.GetXButtonFlg()&&Controler.GetYButtonFlg())
         {
             StageControl.AllStageOpen();
         }
