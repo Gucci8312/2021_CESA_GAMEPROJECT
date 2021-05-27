@@ -47,8 +47,6 @@ MonoBehaviour:
   - {fileID: 8926484042661614934}
   - {fileID: 8926484042661614964}
   - {fileID: 8926484042661614972}
-  - {fileID: 8926484042661614997}
-  - {fileID: 8926484042661615030}
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 1
   m_UISuperCollapsed: 0
@@ -739,10 +737,10 @@ VisualEffectResource:
       on random with strip\n#endif\n        \n        {\n            SetAttribute_F0142CB9(
       /*inout */attributes.lifetime, (float)2);\n        }\n        {\n           
       PositionAABox_18D( /*inout */attributes.position,  /*inout */attributes.seed,
-      float3(-36.0999985, -13.8999996, 0), float3(20, 5, 10));\n        }\n       
-      {\n            SetAttribute_D51517D7( /*inout */attributes.scaleX,  /*inout
-      */attributes.scaleY,  /*inout */attributes.scaleZ,  /*inout */attributes.seed,
-      float3(30, 0, 15), float3(100, 5, 25));\n        }\n        \n\n\t\t\n#if VFX_USE_ALIVE_CURRENT\n       
+      float3(-14, -13.8999996, 0), float3(20, 5, 10));\n        }\n        {\n           
+      SetAttribute_D51517D7( /*inout */attributes.scaleX,  /*inout */attributes.scaleY, 
+      /*inout */attributes.scaleZ,  /*inout */attributes.seed, float3(30, 0, 15),
+      float3(100, 5, 25));\n        }\n        \n\n\t\t\n#if VFX_USE_ALIVE_CURRENT\n       
       if (attributes.alive)\n#endif       \n        {\n#if USE_DEAD_LIST\n\t       
       uint deadIndex = deadListIn.DecrementCounter();\n            uint index = deadListIn[deadIndex];\n#else\n           
       uint index = particleIndex;\n#endif\n            attributeBuffer.Store((index
@@ -1587,7 +1585,7 @@ VisualEffectResource:
         - m_ExpressionIndex: 2
           m_Value: {x: 0, y: -18, z: 0}
         - m_ExpressionIndex: 10
-          m_Value: {x: -36.1, y: -13.9, z: 0}
+          m_Value: {x: -14, y: -13.9, z: 0}
         - m_ExpressionIndex: 12
           m_Value: {x: 20, y: 5, z: 10}
         - m_ExpressionIndex: 13
@@ -10285,7 +10283,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.AABox, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"center":{"x":-36.099998474121097,"y":-13.899999618530274,"z":0.0},"size":{"x":20.0,"y":5.0,"z":10.0}}'
+      m_SerializableObject: '{"center":{"x":-14.0,"y":-13.899999618530274,"z":0.0},"size":{"x":20.0,"y":5.0,"z":10.0}}'
     m_Space: 0
   m_Property:
     name: Box

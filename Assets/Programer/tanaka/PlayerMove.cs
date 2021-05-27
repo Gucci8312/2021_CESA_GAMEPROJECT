@@ -100,7 +100,7 @@ public class PlayerMove : MobiusOnObj
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         
         NowMobiusColor = Mobius[NowMobius].GetComponent<MobiusColor>().GetNowColorNum();//現在のメビウスの色を取得
