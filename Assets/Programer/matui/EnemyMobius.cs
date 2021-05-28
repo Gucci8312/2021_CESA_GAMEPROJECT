@@ -21,7 +21,6 @@ public class EnemyMobius : MonoBehaviour
     // List<GameObject> Line = new List<GameObject>();                          //線のオブジェクト
 
     static bool StopFlag = false;//true:止める　false:動く
-    public bool PublicMobiusStripCheckFlag;
 
     // Start is called before the first frame update
     void Start()
@@ -96,7 +95,7 @@ public class EnemyMobius : MonoBehaviour
                 break;
             }
         }
-        PublicMobiusStripCheckFlag = MobiusStripCheckFlag;
+
         if (MobiusStripCheckFlag)//全てのメビウスのどれかが輪になっていたら
         {
             BeatCount = 0;
@@ -123,11 +122,18 @@ public class EnemyMobius : MonoBehaviour
 
         PlayerVec = Mm.SearchVector(this.transform.position, Player.transform.position);//プレイヤーが乗っているメビウスのベクトルを取得
 
-        TargetVec = NearVector(MoveVec, PlayerVec);//目標への最短距離を取得
-
-        if (SearchMobiusFlag(TargetVec))
+        int Count = MoveVec.Count;
+        for (int i = 0; i < Count; i++)
         {
-            return true;
+            TargetVec = NearVector(MoveVec, PlayerVec);//目標への最短距離を取得
+            if (SearchMobiusFlag(TargetVec))
+            {
+                return true;
+            }
+            else
+            {
+                MoveVec.Remove(TargetVec);
+            }
         }
 
         return false;
@@ -180,20 +186,68 @@ public class EnemyMobius : MonoBehaviour
 
         Ray ray = new Ray(new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z),
                         new Vector3(vec.x * 1, vec.y * 1, 0));
+
+        List<GameObject> ColObj = new List<GameObject>();               //すり抜けたメビウスオブジェクトを格納するリスト
+        List<Vector3> HitPos = new List<Vector3>();                     //ヒットした座標
+
         //貫通レイキャスト
-        foreach (RaycastHit hit in Physics.RaycastAll(ray, distance + 100))
+        foreach (RaycastHit hit in Physics.SphereCastAll(ray,Mm.GetThisR() ,distance + 10))
         {
             // Debug.Log(hit.collider.gameObject.name);//レイキャストが当たったオブジェクト
 
-            if (hit.collider.gameObject.CompareTag("Mobius"))
-            {
-                if (hit.collider.gameObject.GetComponent<MoveMobius>().EnemyMoveFlag//メビウスにエネミーが乗っていたなら
-                    || hit.collider.gameObject.GetComponent<MoveMobius>().GetMobiusStripFlag())//メビウスの輪になっていたら 
+            //if (hit.collider.gameObject.CompareTag("Mobius"))
+            //{
+            //    //if (hit.collider.gameObject.GetComponent<MoveMobius>().EnemyMoveFlag//メビウスにエネミーが乗っていたなら
+            //    //    || hit.collider.gameObject.GetComponent<MoveMobius>().GetMobiusStripFlag())//メビウスの輪になっていたら 
 
-                //if (!hit.collider.gameObject.GetComponent<MoveMobius>().GetPlayerMoveFlg())//メビウスにエネミーが乗っていないなら
+            //    //if (!hit.collider.gameObject.GetComponent<MoveMobius>().GetPlayerMoveFlg())//メビウスにプレイヤーが乗っていないなら
+            //    //{
+            //    //    return false;
+            //    //}
+            //}
+
+            // Debug.Log(hit.collider.gameObject.name);//レイキャストが当たったオブジェクト
+            GameObject hitObj = null;
+
+            //レイが当たったオブジェクト
+            switch (hit.collider.gameObject.tag)
+            {
+                case "Mobius":
+                    hitObj = hit.collider.gameObject;
+                    break;
+
+                    //case "Block":
+                    //    hitObj = hit.collider.gameObject;
+                    //    break;
+            }
+
+            if (hitObj == this.gameObject || hit.point == Vector3.zero) { hitObj = null; }//ヒットした中に自身が含まれないようにする
+
+
+            if (ColObj.Count == 0 && hitObj != null) //レイが当たったオブジェクトがあれば　かつ　リストが空なら
+            {
+                ColObj.Add(hitObj);//レイで当たったオブジェクトをリストに格納
+                HitPos.Add(hit.point);/* Debug.Log("HitPos" + hit.point);*/
+            }
+            else if (ColObj.Count != 0 && hitObj != null)
+            {
+                if (Mm.SameObjListSearch(ColObj, hitObj))//ColObjリストの中に当たったものがなければ
                 {
-                    return false;
+                    ColObj.Add(hitObj);//レイで当たったオブジェクトをリストに格納
+                    HitPos.Add(hit.point);/* Debug.Log("HitPos" + hit.point);*/
                 }
+            }
+        }
+
+
+        if (ColObj.Count != 0)//リストの中に要素があれば
+        {
+            GameObject otherObj = Mm.NearObjSearch(ColObj, HitPos, this.transform.position);//リストの中から始点に近いオブジェクトを取得
+                                                                                            //Debug.Log(otherObj.name + "とぶつかった~～");
+
+            if (!otherObj.GetComponent<MoveMobius>().GetPlayerMoveFlg())//メビウスにプレイヤーが乗っていないなら
+            {
+                return false;
             }
         }
 
