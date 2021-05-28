@@ -21,6 +21,7 @@ public class UIManeger : MonoBehaviour
     GameObject ZoomCameraObj;
     CameraZoom _camera;
     public int ThisStageNum;
+    int UINum=0;
 
     //  public GameObject ClearDai;
     private void Awake()
@@ -97,10 +98,23 @@ public class UIManeger : MonoBehaviour
                 SceneManager.LoadScene("TitleScene");
             }
         }
-
-        for (int idx = 0; idx < CountScript.CheckPointNum; idx++)
+        if(UINum!= CountScript.CheckPointNum)
         {
-            JudgeUI[idx].SetActive(true);
+            // JudgeUI[CountScript.CheckPointNum].SetActive(true);
+            Invoke("Create",1.0f);
+            UINum++;
+
+            // Create(UINum);
         }
+
+        //for (int idx = 0; idx < CountScript.CheckPointNum; idx++)
+        //{
+        //    JudgeUI[idx].SetActive(true);
+        //}
+    }
+
+    void Create()
+    {
+        JudgeUI[UINum-1].SetActive(true);
     }
 }

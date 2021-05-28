@@ -288,6 +288,34 @@ public class Controler : MonoBehaviour
         }
         return Response;
     }
+
+    public static bool GetLBButtonFlg()
+    {
+        bool Response = false;
+        if (Input.GetKeyDown("joystick button 4"))
+        {
+            Response = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.L))
+        {
+            Response = true;
+        }
+        return Response;
+    }
+
+    public static bool GetRBButtonFlg()
+    {
+        bool Response = false;
+        if (Input.GetKeyDown("joystick button 5"))
+        {
+            Response = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            Response = true;
+        }
+        return Response;
+    }
 }
 
 // A Button                 0

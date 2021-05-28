@@ -100,7 +100,7 @@ public class PlayerMove : MobiusOnObj
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         
         NowMobiusColor = Mobius[NowMobius].GetComponent<MobiusColor>().GetNowColorNum();//現在のメビウスの色を取得
@@ -115,14 +115,6 @@ public class PlayerMove : MobiusOnObj
                 }
 
                 PositionSum();//場所を求める
-
-                if (!CollisionState)
-                {
-                    RythmFlg = this.rythm.rythmCheckFlag;                        //リズム取得
-                    SpeedUpInput();                                              //スピードアップ入力
-                    JumpInput();                                                 //ジャンプ入力
-                    RythmSaveFlg = RythmFlg;                                     //リズムセーブ
-                }
                 
                 if (JumpFlg)
                 {
@@ -200,7 +192,25 @@ public class PlayerMove : MobiusOnObj
             ClearMove();
         }
 
-    }//void Update()
+    }
+
+    private void Update()
+    {
+        if (!Pause)
+        {
+            if (!Clear)
+            {
+                if (!CollisionState)
+                {
+                    RythmFlg = this.rythm.rythmCheckFlag;                        //リズム取得
+                    SpeedUpInput();                                              //スピードアップ入力
+                    JumpInput();                                                 //ジャンプ入力
+                    RythmSaveFlg = RythmFlg;                                     //リズムセーブ
+                }
+            }
+        }
+
+    }
 
     void OnDrawGizmos()//当たり判定描画
     {
@@ -208,9 +218,7 @@ public class PlayerMove : MobiusOnObj
         Gizmos.color = new Vector4(0, 1, 0, 0.8f); //色指定
         Gizmos.DrawSphere(transform.position + transform.GetComponent<SphereCollider>().center, GetComponent<SphereCollider>().bounds.size.x / 2); 
 
-        //ヒップドロップの当たり判定
-        Gizmos.color = new Vector4(0, 0, 1, 0.5f); //色指定
-        Gizmos.DrawCube(transform.position+HipDropCollisionObj.GetComponent<BoxCollider>().center, HipDropCollisionObj.GetComponent<BoxCollider>().size); 
+        
     }
 
     //ジャンプキー入力
@@ -449,7 +457,7 @@ public class PlayerMove : MobiusOnObj
             //メビウス同士当たっているかどうか
             MobiusCollision = CollisionSphere(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center,                                                  // 現在のメビウスの輪の位置を取得
                                   Mobius[i].GetComponent<SphereCollider>().bounds.center,                                                                      // 次ののメビウスの輪の位置を取得
-                                  Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 + 10); // 円の半径を取得
+                                  Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 ); // 円の半径を取得
 
             if (MobiusCollision)
             {

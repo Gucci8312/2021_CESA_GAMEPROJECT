@@ -37,6 +37,10 @@ public class StageControl : MonoBehaviour
 
     static public bool GetOpenFlg(int _Idx)
     {
+        if(_Idx>=24)
+        {
+            _Idx = 24;
+        }
         return OpenStageFlg[_Idx];
     }
 
