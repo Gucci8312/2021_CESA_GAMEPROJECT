@@ -11,6 +11,8 @@ public class MobiusOnObj : MonoBehaviour
     [SerializeField] protected bool RotateLeftFlg;                              //回転方向が左右のどちらかを判定　true:左　false:右
     [SerializeField] protected bool InsideFlg;                                  //メビウスの輪の内側か外側かを判定　true:内側　false:外側
     [SerializeField] protected float NormalSpeed;                               //普通のスピードを格納している定数
+    protected int InLength;                                                     //内側の位置
+    protected int OutLength;                                                    //外側の位置
 
     [SerializeField] protected float rotateSpeed = 180f;                        //回転速度
     protected float Speed;                                                      //現在のスピード
@@ -37,13 +39,14 @@ public class MobiusOnObj : MonoBehaviour
             Mobius[i] = GameObject.Find("Mobius (" + i + ")");                  //全てのメビウス取得
         }
 
+
         if (InsideFlg)//メビウスの輪の内側
         {
-            InsideLength = 50;//内側までの距離
+            InsideLength = InLength;//内側までの距離
         }
         else//外側
         {
-            InsideLength = 0;
+            InsideLength = OutLength;
         }
 
         //初期位置設定
@@ -158,12 +161,12 @@ public class MobiusOnObj : MonoBehaviour
             if (InsideFlg)
             {
                 InsideFlg = false;
-                InsideLength = 0;//内側までの距離
+                InsideLength = OutLength;//内側までの距離
 
             }
             else
             {
-                InsideLength = 50;//内側までの距離
+                InsideLength = InLength;//内側までの距離
                 InsideFlg = true;
             }
             SideCnt = 0;
