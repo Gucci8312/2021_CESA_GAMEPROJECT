@@ -112,7 +112,7 @@ public class EnemyMove : MobiusOnObj
             }
 
         }
-    }//void Update()
+    }
 
     void OnDrawGizmos()//当たり判定描画
     {
