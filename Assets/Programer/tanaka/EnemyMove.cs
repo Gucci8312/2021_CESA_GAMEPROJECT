@@ -38,7 +38,7 @@ public class EnemyMove : MobiusOnObj
 
 
     // Update is called once per frame  
-    void FixedUpdate()
+    void Update()
     {
         TogeFlg = rythm.rythmCheckFlag;
 
