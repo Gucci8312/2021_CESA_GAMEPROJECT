@@ -19,21 +19,26 @@ public class EnemyMove : MobiusOnObj
 
     protected override void Awake()
     {
+        InLength = 35;
+        OutLength = 0;
         base.Awake();
         player = GameObject.Find("Player");                  //プレイヤーオブジェクト取得
         RythmObj = GameObject.Find("rythm_circle");          //リズムオブジェクト取得
         this.rythm = RythmObj.GetComponent<Rythm>();         //リズムのコード
         ball = transform.GetChild(0).gameObject;             //ボールオブジェクト取得
         toge = transform.GetChild(1).gameObject;             //トゲオブジェクト取得
+
     }
 
     protected override void Start()
     {
+        
         base.Start();
         TogeFlg = false;
         Stan = false;
         StanTimeCount = 0;
         AlertCollision = false;
+        
     }
 
 

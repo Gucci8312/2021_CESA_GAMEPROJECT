@@ -63,6 +63,8 @@ public class PlayerMove : MobiusOnObj
 
     protected override void Awake()
     {
+        InLength = 50;
+        OutLength = 0;
         base.Awake();
 
         RythmObj = GameObject.Find("rythm_circle");                                                   //リズムオブジェクト取得
@@ -76,6 +78,7 @@ public class PlayerMove : MobiusOnObj
 
     protected override void Start()
     {
+        
         base.Start();
 
         DushEffect.SetActive(false);
@@ -94,6 +97,8 @@ public class PlayerMove : MobiusOnObj
         HipDropSpeed = HipDropSpeed * 100f;
         SpeedPress = false;
         SpeedUpFlg = false;
+
+        
 
         RythmFlg = this.rythm.rythmCheckFlag;
         RythmSaveFlg = RythmFlg;
