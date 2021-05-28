@@ -7,6 +7,7 @@ public class HipDropCol : MonoBehaviour
     [SerializeField] GameObject AlertObj;   //アラートオブジェクト
     PlayerMove player;                      //プレイヤー
     GameObject[] enemy;                     //敵
+    bool Clear;                             //クリアしたかどうか
     private void Awake()
     {
         player = GameObject.Find("Player").GetComponent<PlayerMove>();
@@ -23,24 +24,27 @@ public class HipDropCol : MonoBehaviour
             }
         }
         AlertObj.SetActive(false);
+        Clear = false;
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Enemy")
         {
-
-            if (other.GetComponent<EnemyMove>().GetInsideFlg() == player.GetInsideFlg())
+            if (!Clear)
             {
-                if (other.GetComponent<EnemyMove>().GetNowMobiusNum() == player.GetNowMobiusNum())
+                if (other.GetComponent<EnemyMove>().GetInsideFlg() == player.GetInsideFlg())
                 {
-                    if (!player.GetJumpNow())
+                    if (other.GetComponent<EnemyMove>().GetNowMobiusNum() == player.GetNowMobiusNum())
                     {
-                        other.GetComponent<EnemyMove>().SetAlert(true);
-                        AlertObj.SetActive(true);
+                        if (!player.GetJumpNow())
+                        {
+                            other.GetComponent<EnemyMove>().SetAlert(true);
+                            AlertObj.SetActive(true);
+                        }
                     }
-                }
 
+                }
             }
         }
     }
@@ -49,12 +53,14 @@ public class HipDropCol : MonoBehaviour
     {
         if (other.gameObject.tag == "Enemy")
         {
-            if (!player.GetJumpNow())
+            if (!Clear)
             {
-                AlertObj.SetActive(false);
-                other.GetComponent<EnemyMove>().SetAlert(false);
+                if (!player.GetJumpNow())
+                {
+                    AlertObj.SetActive(false);
+                    other.GetComponent<EnemyMove>().SetAlert(false);
+                }
             }
-
         }
     }
 
@@ -68,5 +74,11 @@ public class HipDropCol : MonoBehaviour
                 enemy[i].GetComponent<EnemyMove>().StanOn();
             }
         }
+    }
+
+    public void SetClear()
+    {
+        Clear = true;
+        AlertObj.SetActive(false);
     }
 }

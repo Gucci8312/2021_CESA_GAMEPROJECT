@@ -599,6 +599,7 @@ public class PlayerMove : MobiusOnObj
     //クリアの処理を行う
     public void ClearOn()
     {
+        HipDropCollisionObj.GetComponent<HipDropCol>().SetClear();
         if (!Clear)
         {
             jumppow = 40;//クリア時のジャンプ力
