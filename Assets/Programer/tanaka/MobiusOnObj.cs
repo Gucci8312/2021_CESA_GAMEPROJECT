@@ -66,11 +66,11 @@ public class MobiusOnObj : MonoBehaviour
     {
         if (RotateLeftFlg)//メビウスの輪の外内の切り替え調整
         {
-            SideCnt = 2;
+            SideCnt = 1;
         }
         else
         {
-            SideCnt = 1;
+            SideCnt = 2;
         }
 
         SaveMobius = -1;
