@@ -8,6 +8,7 @@ public class PauseManager : MonoBehaviour
     //static private GameObject[] m_enemy;
     //static private GameObject[] m_mobius;
     // Start is called before the first frame update
+    static public bool pause_value = false;
     void Start()
     {
     }
@@ -25,6 +26,7 @@ public class PauseManager : MonoBehaviour
     
     static public void OnPause()
     {
+        pause_value = true;
         PlayerMove.PauseOn();
         EnemyMove.PauseOn();
         MoveLine.StopFlagSet(true);
@@ -33,6 +35,7 @@ public class PauseManager : MonoBehaviour
 
     static public void OffPause()
     {
+        pause_value = false;
         PlayerMove.PauseOff();
         EnemyMove.PauseOff();
         MoveLine.StopFlagSet(false);

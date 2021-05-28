@@ -13,12 +13,14 @@ public class VideoPlay : MonoBehaviour
     float m_time;
     public float inputInterval;
     bool skip;
+    private GameMaster m_gameMaster;
     [SerializeField] Image m_circle = default;
 
     // Start is called before the first frame update
     void Start()
     {
         PauseManager.GameObjectFindInit();
+        m_gameMaster = GameObject.Find("GameManeger").GetComponent<GameMaster>();
         mPlayer = GetComponent<VideoPlayer>();
         mPlayer.Stop();
         skip = false;
@@ -30,7 +32,8 @@ public class VideoPlay : MonoBehaviour
     void Update()
     {
         if (!endVideo) PauseManager.OnPause();
-        if (PushButton()) { } else
+        if (PushButton() && !PauseManager.pause_value) { }
+        else
         {
             m_time = 0f;
             m_circle.fillAmount = 0;
@@ -40,23 +43,22 @@ public class VideoPlay : MonoBehaviour
             endVideo = true;
         }
 
-        if ( skip && !endVideo)
+        if (skip && !endVideo)
         {
             endVideo = true;
         }
 
-        if (Controler.GetMenuButtonFlg())
+        if (m_gameMaster.Menu.activeSelf)
         {
-            if (mPlayer.isPaused)
-            {
-                mPlayer.Play();
-            }
-            else
-            {
-                mPlayer.Pause();
-            }
+            mPlayer.Pause();
         }
+        else
+        {
+            mPlayer.Play();
+        }
+
     }
+
 
     void VideoPlayMethod()
     {
@@ -77,7 +79,7 @@ public class VideoPlay : MonoBehaviour
             }
             return true;
         }
-        else if(Input.GetKey("joystick button 0"))
+        else if (Input.GetKey("joystick button 0"))
         {
             m_time += Time.deltaTime;
             m_circle.fillAmount = m_time / inputInterval;
