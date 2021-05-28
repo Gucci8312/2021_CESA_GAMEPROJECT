@@ -118,9 +118,8 @@ public class PlayerMove : MobiusOnObj
                 {
                     StartFlg = false;
                 }
-
-                PositionSum();//場所を求める
                 
+
                 if (JumpFlg)
                 {
                     HipDropSum();
@@ -181,13 +180,12 @@ public class PlayerMove : MobiusOnObj
                     }
                     else
                     {
-                        if (jumpmove == 0)
-                        {
-                            CollisonMobius();//移り先のメビウスの輪を探す
-                        }
+
+                        CollisonMobius();//移り先のメビウスの輪を探す
+
                     }
                 }
-
+                PositionSum();//場所を求める
             }
         }
 
@@ -438,13 +436,7 @@ public class PlayerMove : MobiusOnObj
         //プレイヤーの角度をメビウスから見た角度を計算し、設定する
         transform.rotation = Quaternion.LookRotation(transform.position - new Vector3(target.position.x, target.position.y, transform.position.z), -Vector3.forward);
 
-        //ヒップドロップの当たる場所計算
-        float SumNum = 0;
-        Vector3 len = new Vector3(0, 0, 0);
-        //メビウスの輪の中心とプレイヤーの距離を求める
-        len.y = (Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 + 10.0f) - InsideLength + jumpmove - SumNum;
-        //プレイヤーの位置をメビウスの位置・メビウスから見たプレイヤーの角度・距離から求める
-        HipDropCollisionPos = target.position + Quaternion.Euler(0f, 0f, angle) * len;
+        
     }
 
 
@@ -462,7 +454,7 @@ public class PlayerMove : MobiusOnObj
             //メビウス同士当たっているかどうか
             MobiusCollision = CollisionSphere(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center,                                                  // 現在のメビウスの輪の位置を取得
                                   Mobius[i].GetComponent<SphereCollider>().bounds.center,                                                                      // 次ののメビウスの輪の位置を取得
-                                  Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 ); // 円の半径を取得
+                                  Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 );     // 円の半径を取得
 
             if (MobiusCollision)
             {
