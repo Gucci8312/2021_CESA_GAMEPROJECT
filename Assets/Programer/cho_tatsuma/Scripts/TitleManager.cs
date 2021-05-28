@@ -50,10 +50,6 @@ public class TitleManager : MonoBehaviour
             {
                 m_fadeTextScript.gameStartFlg = true;
             }
-            else if (Controler.GetCanselButtonFlg())
-            {
-                UnityEngine.Application.Quit();
-            }
         }
 
         if (Controler.GetMenuButtonFlg())
