@@ -82,6 +82,9 @@ public class MobiusAttachPos : MonoBehaviour
         {
             m_MobiusPos = /*m_mobius[m_nowMobiusNo].GetComponent<MoveMobius>().GetColPos()*/ (hitMobius.transform.position + otherMobius.transform.position) / 2;
             this.gameObject.GetComponent<Transform>().position = new Vector3(m_MobiusPos.x, m_MobiusPos.y, m_MobiusPos.z);
+            transform.Rotate(new Vector3(0, 0, -before_degree));
+            before_degree = MobiusRotateDegree();
+            transform.Rotate(new Vector3(0, 0, before_degree));
 
         }
     }
