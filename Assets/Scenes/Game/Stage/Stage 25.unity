@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1290,6 +1290,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 745702f1a16ab634fad2fdd5be6bbbd1, type: 3}
+--- !u!1 &346238113 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3437663547218832704, guid: 87ff4525b3a77074cab977e535961928,
+    type: 3}
+  m_PrefabInstance: {fileID: 2105921527}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &481211885
 GameObject:
   m_ObjectHideFlags: 0
@@ -2505,6 +2511,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4138193504067237160, guid: e34b0834316f2a447bda70aa78a39386,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9009114843697122167, guid: e34b0834316f2a447bda70aa78a39386,
         type: 3}
@@ -4514,6 +4525,7 @@ MonoBehaviour:
   - {fileID: 994085164}
   - {fileID: 212081475}
   - {fileID: 1938105999}
+  - {fileID: 346238113}
   plane: {fileID: 843081578}
   StartTime: 2
 --- !u!1 &1885251463 stripped
