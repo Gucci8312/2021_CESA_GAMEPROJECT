@@ -60,6 +60,7 @@ public class Target : MonoBehaviour
                     ColFlg = true;
                     ColPos = other.ClosestPointOnBounds(this.transform.position);
                     SoundManager.PlaySeName("checkpoint_sin");
+                   Destroy(GetComponent<CapsuleCollider>());
                     Invoke("Delete", 1.0f);
                 }
             }
