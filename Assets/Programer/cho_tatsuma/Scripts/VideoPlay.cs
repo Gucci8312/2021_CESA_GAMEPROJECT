@@ -32,7 +32,7 @@ public class VideoPlay : MonoBehaviour
     void Update()
     {
         if (!endVideo) PauseManager.OnPause();
-        if (PushButton() && !PauseManager.pause_value) { }
+        if (PushButton() && !m_gameMaster.Menu.activeSelf) { }
         else
         {
             m_time = 0f;
