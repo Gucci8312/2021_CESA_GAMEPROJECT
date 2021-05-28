@@ -52,13 +52,21 @@ public class MoveLine : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!StopFlag)
         {
             MoveLineUpdate();
         }
     }
+    void Update()
+    {
+        if (!StopFlag)
+        {
+            BeatCounter();
+        }
+    }
+
 
     //EnemyMobiusの更新
     private void MoveLineUpdate()
@@ -70,10 +78,9 @@ public class MoveLine : MonoBehaviour
         //{
             PutOnMobiusSetting();
             MovePosSet();
-            BeatCounter();
             OuhukuMove();
         //}
-
+        BeatFlag = false;
         OldPos = this.transform.position;
     }
 
@@ -85,11 +92,11 @@ public class MoveLine : MonoBehaviour
             BeatFlag = true;
             BeatCount = 0;
         }
-        else
-        {
-            BeatFlag = false;
+        //else
+        //{
+        //    BeatFlag = false;
 
-        }
+        //}
 
         if (this.rythm.m_EmobiusBeatFlag)//ビートを刻んだら
         {
@@ -161,8 +168,8 @@ public class MoveLine : MonoBehaviour
                 {
                     //メビウスに移動した変化量を加える
                     PutOnMobius[i].transform.position += AddPos;
-                    Mm[i].MovePos += AddPos;
-                    Mm[i].StartMovePos += AddPos;
+                    //Mm[i].MovePos += AddPos;
+                    //Mm[i].StartMovePos += AddPos;
                     Mm[i].OldPos += AddPos;
                 }
             }

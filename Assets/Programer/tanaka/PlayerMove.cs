@@ -23,7 +23,7 @@ public class PlayerMove : MobiusOnObj
 
     [SerializeField] float jumppow = 10;                    //ジャンプ力
     [SerializeField] float HipDropSpeed = 10;               //ヒップドロップスピード
-    
+
     bool SpeedPress;                                        //スピードアップボタンの判定
     bool SpeedUpMashing;                                    //スピードアップが連打されているかどうか
     bool JumpMashing;                                       //ジャンプボタンが連打されているか
@@ -49,13 +49,13 @@ public class PlayerMove : MobiusOnObj
     Camera cam;                                             //カメラ
     CameraShake camerashake;                                //カメラを揺らすスクリプト
 
-    [SerializeField]GameObject missPrefab;                  //リズムに合わなかった時のUI
+    [SerializeField] GameObject missPrefab;                  //リズムに合わなかった時のUI
 
-    [SerializeField]GameObject successPrefab;               //リズムに合った時のUI
+    [SerializeField] GameObject successPrefab;               //リズムに合った時のUI
 
-    [SerializeField]GameObject HipDropCollisionObj;         //ヒップドロップの当たり判定
+    [SerializeField] GameObject HipDropCollisionObj;         //ヒップドロップの当たり判定
 
-    [SerializeField]Vector3 ClearPosition;                  //クリア時の最終的な位置
+    [SerializeField] Vector3 ClearPosition;                  //クリア時の最終的な位置
 
     bool ClearOne;                                          //クリア時一度だけ通るフラグ　アニメーション調整してセットする用
 
@@ -78,7 +78,7 @@ public class PlayerMove : MobiusOnObj
 
     protected override void Start()
     {
-        
+
         base.Start();
 
         DushEffect.SetActive(false);
@@ -93,12 +93,13 @@ public class PlayerMove : MobiusOnObj
         ClearOne = false;
         Stop = false;
         jumpmove = 0;
-        jumpmovesave = jumpmove;
+        jumpmovesave = 0;
+        jumpmove_prev = 0;
         HipDropSpeed = HipDropSpeed * 100f;
         SpeedPress = false;
         SpeedUpFlg = false;
 
-        
+
 
         RythmFlg = this.rythm.rythmCheckFlag;
         RythmSaveFlg = RythmFlg;
@@ -107,7 +108,7 @@ public class PlayerMove : MobiusOnObj
     // Update is called once per frame
     void FixedUpdate()
     {
-        
+
         NowMobiusColor = Mobius[NowMobius].GetComponent<MobiusColor>().GetNowColorNum();//現在のメビウスの色を取得
 
         if (!Pause)
@@ -118,7 +119,7 @@ public class PlayerMove : MobiusOnObj
                 {
                     StartFlg = false;
                 }
-                
+
 
                 if (JumpFlg)
                 {
@@ -157,7 +158,7 @@ public class PlayerMove : MobiusOnObj
                         }
                     }
 
-                    angle=AngleRangeSum(angle);
+                    angle = AngleRangeSum(angle);
 
                     if (SwitchMobius)
                     {
@@ -219,9 +220,9 @@ public class PlayerMove : MobiusOnObj
     {
         //本体の当たり判定
         Gizmos.color = new Vector4(0, 1, 0, 0.8f); //色指定
-        Gizmos.DrawSphere(transform.position + transform.GetComponent<SphereCollider>().center, GetComponent<SphereCollider>().bounds.size.x / 2); 
+        Gizmos.DrawSphere(transform.position + transform.GetComponent<SphereCollider>().center, GetComponent<SphereCollider>().bounds.size.x / 2);
 
-        
+
     }
 
     //ジャンプキー入力
@@ -279,7 +280,7 @@ public class PlayerMove : MobiusOnObj
     //ヒップドロップの計算
     private void HipDropSum()
     {
-        
+
         if (InsideFlg)//内側
         {
             if (HipDrop)
@@ -436,7 +437,7 @@ public class PlayerMove : MobiusOnObj
         //プレイヤーの角度をメビウスから見た角度を計算し、設定する
         transform.rotation = Quaternion.LookRotation(transform.position - new Vector3(target.position.x, target.position.y, transform.position.z), -Vector3.forward);
 
-        
+
     }
 
 
@@ -454,7 +455,7 @@ public class PlayerMove : MobiusOnObj
             //メビウス同士当たっているかどうか
             MobiusCollision = CollisionSphere(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center,                                                  // 現在のメビウスの輪の位置を取得
                                   Mobius[i].GetComponent<SphereCollider>().bounds.center,                                                                      // 次ののメビウスの輪の位置を取得
-                                  Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2 );     // 円の半径を取得
+                                  Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2);     // 円の半径を取得
 
             if (MobiusCollision)
             {
@@ -476,35 +477,23 @@ public class PlayerMove : MobiusOnObj
     //クリア時の移動処理
     private void ClearMove()
     {
-        if (!HipDrop)//ジャンプ中
+        if (!HipDrop)//移動させる
         {
-            jumpmovesave = jumpmove;
-            jumpmove = jumpmove + ((jumpmove - jumpmove_prev) + pow);
-            jumpmove_prev = jumpmovesave;
-
-            pow = -1;
-
+            angle = 0;
+            InsideFlg = false;
+            RotateLeftFlg = false;
             PositionSum();
-
-            if (jumpmove < jumpmovesave)
-            {
-                angle = 0;
-                InsideFlg = false;
-                RotateLeftFlg = false;
-                PositionSum();
-                HipDrop = true;
-                transform.position = new Vector3(0, 100, ClearPosition.z);
-
-            }
+            HipDrop = true;
+            transform.position = new Vector3(0, 100, ClearPosition.z);
         }
         else//ヒップドロップ中
         {
-
             if (!ClearOne)
             {
                 //アニメーションをセット
                 PlayerAnimation.HipDrop();
                 ClearOne = true;
+
             }
 
             float ClearHipDropSpeed = 15.0f;
@@ -596,18 +585,11 @@ public class PlayerMove : MobiusOnObj
     //クリアの処理を行う
     public void ClearOn()
     {
+
         HipDropCollisionObj.GetComponent<HipDropCol>().SetClear();
         if (!Clear)
         {
-            jumppow = 40;//クリア時のジャンプ力
-            if (InsideFlg)//ジャンプの力をセット
-            {
-                pow = -jumppow;
-            }
-            else
-            {
-                pow = jumppow;
-            }
+
             PlayerAnimation.HipDrop();
 
             saveangle = angle;
@@ -627,5 +609,5 @@ public class PlayerMove : MobiusOnObj
         return HipDropPos;
     }
 
-    
+
 }
