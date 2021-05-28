@@ -57,7 +57,7 @@ public class MoveMobius : MonoBehaviour
     GameObject[] AllMobius;                                                        //全てのメビウスの輪
     List<MoveMobius> AllMm = new List<MoveMobius>();                               //全てのMoveMobius
 
-
+    LinePutMobius Lpm;
     void Start()
     {
         player = GameObject.Find("Player");
@@ -70,7 +70,7 @@ public class MoveMobius : MonoBehaviour
 
         Mc = this.GetComponent<MobiusColor>();  //MobiusColor取得        
         Sm = this.GetComponent<ShakeMobius>();
-        this.gameObject.AddComponent<LinePutMobius>();
+        Lpm = this.gameObject.AddComponent<LinePutMobius>();
 
         //MaPos = GameObject.Find("mebiusu").GetComponent<MobiusAttachPos>();
 
@@ -93,7 +93,7 @@ public class MoveMobius : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!StopFlag)
         {
@@ -113,7 +113,10 @@ public class MoveMobius : MonoBehaviour
         // プレイヤーが乗っているとき
         if (PlayerMoveFlg || EnemyMoveFlag || Mc.GetColorSameFlag())
         {
-            CrossPosMove();
+            //if (!Lpm.GetMoveLineFlag())
+            //{
+                CrossPosMove();
+            //}
 
             Rb.isKinematic = false;//物理的な動きをありにする
 
@@ -167,7 +170,7 @@ public class MoveMobius : MonoBehaviour
                 {
 
                     //Ray (飛ばす発射位置、飛ばす方向）
-                    Ray ray = new Ray(new Vector3(this.transform.position.x + (FlickVec.x * 10), this.transform.position.y + (FlickVec.y * 10), this.transform.position.z),
+                    Ray ray = new Ray(new Vector3(this.transform.position.x/* + (FlickVec.x * 10)*/, this.transform.position.y/* + (FlickVec.y * 10)*/, this.transform.position.z),
                         new Vector3(FlickVec.x * 1, FlickVec.y * 1, 0));
 
                     //Debug.DrawRay(ray.origin, ray.direction * 1000, Color.green, 100, false);//レイが見えるようになる（デバッグの時のみ）
@@ -606,7 +609,7 @@ public class MoveMobius : MonoBehaviour
             }
         }//foreach
 
-        if (ColObj.Count != 0)//リストの中に要素があれば
+        if (ColObj.Count != 0 && FlickMoveFlag)//リストの中に要素があれば
         {
             GameObject otherObj = NearObjSearch(ColObj, HitPos, StartMovePos);//リストの中から始点に近いオブジェクトを取得
 
