@@ -21,6 +21,8 @@ public class LinePutMobius : MonoBehaviour
     public Vector2 ColVec;
     public Vector2 hanareruVec;
     public float Movedis;
+
+    public bool LinePutMobiusColFlag;
     // Start is called before the first frame update
     void Start()
     {
@@ -63,44 +65,47 @@ public class LinePutMobius : MonoBehaviour
 
     private void MoveLineSetting()
     {
-        int NotMoveLinecount = 0;//MoveLineじゃない線を数える用
-        bool SameFlag = false;//登録したMoveLineと同じかどうか
-
-        if (Mm.GetLine().Count != 0)
+        if (!MoveLineFlag)
         {
-            for (int i = 0; i < Mm.GetLine().Count; i++)
+
+            int NotMoveLinecount = 0;//MoveLineじゃない線を数える用
+            bool SameFlag = false;//登録したMoveLineと同じかどうか
+
+            if (Mm.GetLine().Count != 0)
             {
-                if (Mm.Getcl()[i].MoveLineFlag)//MoveLineでなら
+                for (int i = 0; i < Mm.GetLine().Count; i++)
                 {
-                    if (!Mm.Getcl()[i].MoveFlag && Mm.MoveLineObj == null)//線が動いていない　かつ　まだ動く線を登録してなければ
+                    if (Mm.Getcl()[i].MoveLineFlag)//MoveLineでなら
                     {
-                        //MoveLineに登録
-                        Mm.GetLine()[i].GetComponent<MoveLine>().PutMobiusOnOff(true, this.gameObject);
-                        Debug.Log(Mm.MoveLineObj.name + "に乗った");
+                        if (!Mm.Getcl()[i].MoveFlag && Mm.MoveLineObj == null)//線が動いていない　かつ　まだ動く線を登録してなければ
+                        {
+                            //MoveLineに登録
+                            Mm.GetLine()[i].GetComponent<MoveLine>().PutMobiusOnOff(true, this.gameObject);
+                            Debug.Log(Mm.MoveLineObj.name + "に乗った");
+                        }
+                    }
+                    else//MoveLineでなければ
+                    {
+                        NotMoveLinecount++;
+                    }
+
+                    if (Mm.MoveLineObj == Mm.GetLine()[i])//登録したMoveLineと同じ奴なら
+                    {
+                        SameFlag = true;
+                        //Debug.Log(Mm.GetLine()[i].name + "と同じ");
                     }
                 }
-                else//MoveLineでなければ
-                {
-                    NotMoveLinecount++;
-                }
-
-                if (Mm.MoveLineObj == Mm.GetLine()[i])//登録したMoveLineと同じ奴なら
-                {
-                    SameFlag = true;
-                    //Debug.Log(Mm.GetLine()[i].name + "と同じ");
-                }
             }
+
+
+            if (((Mm.GetLine().Count == 0) || (NotMoveLinecount == Mm.GetLine().Count) || !SameFlag) && Mm.MoveLineObj != null)
+            {
+                //MoveLineに登録したやつを削除
+                Debug.Log(Mm.MoveLineObj.name + "から離れた");
+                Mm.MoveLineObj.GetComponent<MoveLine>().PutMobiusOnOff(false, this.gameObject);
+            }
+
         }
-
-
-        if (((Mm.GetLine().Count == 0) || (NotMoveLinecount == Mm.GetLine().Count) || !SameFlag) && Mm.MoveLineObj != null)
-        {
-            //MoveLineに登録したやつを削除
-            Debug.Log(Mm.MoveLineObj.name + "から離れた");
-            Mm.MoveLineObj.GetComponent<MoveLine>().PutMobiusOnOff(false, this.gameObject);
-        }
-
-
     }
 
     //動く線に乗っているかどうか確認する
@@ -165,7 +170,7 @@ public class LinePutMobius : MonoBehaviour
 
             float Gosa = 0.9f;//移動できるベクトルを取得する際、選定する用
 
-            if (!Mm.Getcl()[i].NearEndRPosFlag(this.transform.position, Mm.GetThisR()))//メビウスが右端に居なければ
+            if (!Mm.Getcl()[i].NearEndRPosFlag(this.transform.position, Mm.GetThisR() * 1.2f))//メビウスが右端に居なければ
             {
                 float distance = (Mm.Getcl()[i].GetRvec() - disvec).magnitude;
                 if (distance >= Gosa)
@@ -183,7 +188,7 @@ public class LinePutMobius : MonoBehaviour
                 Debug.Log(Mm.GetLine()[i].name + "のRposは" + Mm.Getcl()[i].GetRPos() + "distanceは" + dis);
             }
 
-            if (!Mm.Getcl()[i].NearEndLPosFlag(this.transform.position, Mm.GetThisR()))//メビウスが左端に居なければ
+            if (!Mm.Getcl()[i].NearEndLPosFlag(this.transform.position, Mm.GetThisR() * 1.2f))//メビウスが左端に居なければ
             {
                 float distance = (Mm.Getcl()[i].GetLvec() - disvec).magnitude;
                 if (distance >= Gosa)
@@ -408,13 +413,20 @@ public class LinePutMobius : MonoBehaviour
         {
             //if (!MoveLineFlag)
             //{
-            if (MoveLinePutFlag && !other.GetComponent<LinePutMobius>().MoveLinePutFlag)//ぶつかった相手が動く線に乗っていたら(止まったとき)
+            LinePutMobius OtherLpm= other.GetComponent<LinePutMobius>();
+
+            if (MoveLinePutFlag && !OtherLpm.MoveLinePutFlag)//ぶつかった相手が動く線に乗っていたら(止まったとき)
             {
                 Collision(other.gameObject);
+                LinePutMobiusColFlag = true;
+                OtherLpm.LinePutMobiusColFlag = true;
             }
-            else if (MoveLinePutFlag == other.GetComponent<LinePutMobius>().MoveLinePutFlag)
+            else if (MoveLinePutFlag == OtherLpm.MoveLinePutFlag &&
+                (LinePutMobiusColFlag && OtherLpm.LinePutMobiusColFlag))
             {
                 Collision(other.gameObject);
+                LinePutMobiusColFlag = false;
+                OtherLpm.LinePutMobiusColFlag = false;
             }
             //}
         }
