@@ -422,6 +422,7 @@ public class PlayerMove : MobiusOnObj
         JumpFlg = false;
         SmokeEffect.SetActive(true);
         camerashake.OnShake();
+        SoundManager.PlaySeName("hipdrop");
     }
 
 
