@@ -12,7 +12,7 @@ public class LinePutMobius : MonoBehaviour
 
     MoveMobius Mm;
 
-    Vector3 OldPos;
+    [HideInInspector] public Vector3 OldPos;
 
     public List<GameObject> Line;
 

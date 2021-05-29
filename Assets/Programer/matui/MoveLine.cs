@@ -167,10 +167,11 @@ public class MoveLine : MonoBehaviour
                 for (int i = 0; i < PutOnMobius.Count; i++)
                 {
                     //メビウスに移動した変化量を加える
-                    PutOnMobius[i].transform.position += AddPos;
-                    //Mm[i].MovePos += AddPos;
-                    //Mm[i].StartMovePos += AddPos;
-                    Mm[i].OldPos += AddPos;
+                    //PutOnMobius[i].transform.position += AddPos;
+                    ////Mm[i].MovePos += AddPos;
+                    ////Mm[i].StartMovePos += AddPos;
+                    //Mm[i].OldPos += AddPos;
+                    Mm[i].AddMoveLinetoPositionSet(AddPos);
                 }
             }
 

@@ -788,6 +788,14 @@ public class MoveMobius : MonoBehaviour
         }
     }
 
+    public void AddMoveLinetoPositionSet(Vector3 addpos)
+    {
+        this.transform.position += addpos;
+        ////Mm[i].MovePos += AddPos;
+        ////Mm[i].StartMovePos += AddPos;
+        OldPos += addpos;
+        Lpm.OldPos += addpos;
+    }
     static public void StopFlagSet(bool flag)
     {
         StopFlag = flag;
