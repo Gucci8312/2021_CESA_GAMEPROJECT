@@ -127,8 +127,11 @@ public class LinePutMobius : MonoBehaviour
         {
             if (MoveLineFlag)//線が動いていたら
             {
-                this.transform.position = Mm.OldPos;
-                Mm.ZeroVelo();
+                if (Mm.GetFlickMoveFlag())
+                {
+                    this.transform.position = Mm.OldPos;
+                    Mm.ZeroVelo();
+                }
             }
         }
     }
@@ -170,7 +173,7 @@ public class LinePutMobius : MonoBehaviour
 
             float Gosa = 0.9f;//移動できるベクトルを取得する際、選定する用
 
-            if (!Mm.Getcl()[i].NearEndRPosFlag(this.transform.position, Mm.GetThisR() * 1.2f))//メビウスが右端に居なければ
+            if (!Mm.Getcl()[i].NearEndRPosFlag(this.transform.position, Mm.GetThisR() * 1.1f))//メビウスが右端に居なければ
             {
                 float distance = (Mm.Getcl()[i].GetRvec() - disvec).magnitude;
                 if (distance >= Gosa)
@@ -188,7 +191,7 @@ public class LinePutMobius : MonoBehaviour
                 Debug.Log(Mm.GetLine()[i].name + "のRposは" + Mm.Getcl()[i].GetRPos() + "distanceは" + dis);
             }
 
-            if (!Mm.Getcl()[i].NearEndLPosFlag(this.transform.position, Mm.GetThisR() * 1.2f))//メビウスが左端に居なければ
+            if (!Mm.Getcl()[i].NearEndLPosFlag(this.transform.position, Mm.GetThisR() * 1.1f))//メビウスが左端に居なければ
             {
                 float distance = (Mm.Getcl()[i].GetLvec() - disvec).magnitude;
                 if (distance >= Gosa)
@@ -415,7 +418,8 @@ public class LinePutMobius : MonoBehaviour
             //{
             LinePutMobius OtherLpm= other.GetComponent<LinePutMobius>();
 
-            if (MoveLinePutFlag && !OtherLpm.MoveLinePutFlag)//ぶつかった相手が動く線に乗っていたら(止まったとき)
+            if ((MoveLinePutFlag && !OtherLpm.MoveLinePutFlag)//相手が動く線に乗ってなく自分が乗っていたら
+                || ((MoveLinePutFlag&& OtherLpm.MoveLinePutFlag)&& (!MoveLineFlag&& !OtherLpm.MoveLineFlag)))//お互いに動く線に乗って動いてなかったら
             {
                 Collision(other.gameObject);
                 LinePutMobiusColFlag = true;
