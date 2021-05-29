@@ -34,14 +34,39 @@ public class Target : MonoBehaviour
         if (ColFlg)
         {
             kaitenn-=1.0f;
-            //gameObject.transform.Rotate(,,);
             Vector3 WorldAngle = transform.localEulerAngles;
             WorldAngle.x = 0.0f;
             WorldAngle.y = 0.0f;
             WorldAngle.z = kaitenn;
-            //transform.eulerAngles = WorldAngle;
+            transform.Rotate(WorldAngle);
+           // gameObject.GetComponent<Rigidbody>().AddForce(0.0f, 10000.0f, 0.0f);
+            //Vector3 Pos = gameObject.transform.position;
+           // gameObject.transform.Translate(Pos.x, Pos.y+kaitenn, Pos.z);
+
+        }
+        else
+        {
+            kaitenn = 2.0f;
+            Vector3 WorldAngle = transform.localEulerAngles;
+            WorldAngle.x = 0.0f;
+            WorldAngle.y = 0.0f;
+            WorldAngle.z = kaitenn;
             transform.Rotate(WorldAngle);
         }
+        //kaitenn = 0.1f;
+        //if (ColFlg)
+        //{
+        //    kaitenn -= 0.5f;
+        //    gameObject.GetComponent<Rigidbody>().AddForce(0.0f, 100.0f, 0.0f);
+        //    //gameObject.transform.Rotate(,,);
+        //}
+        //Vector3 WorldAngle = transform.localEulerAngles;
+        //WorldAngle.x = 0.0f;
+        //WorldAngle.y = 0.0f;
+        //WorldAngle.z = kaitenn;
+        ////transform.eulerAngles = WorldAngle;
+        //transform.Rotate(WorldAngle);
+
     }
 
     // 衝突時
