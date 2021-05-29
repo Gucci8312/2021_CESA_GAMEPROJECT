@@ -115,6 +115,10 @@ public class UIManeger : MonoBehaviour
 
     void Create()
     {
-        JudgeUI[UINum-1].SetActive(true);
+       // JudgeUI[UINum-1].SetActive(true);
+        for (int idx = 0; idx < UINum; idx++)
+        {
+            JudgeUI[idx].SetActive(true);
+        }
     }
 }
