@@ -22,7 +22,7 @@ public class Target : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //何故か親オブジェクトについていかないので、代入してあげて追従させている
         this.transform.localPosition = LocalPos;

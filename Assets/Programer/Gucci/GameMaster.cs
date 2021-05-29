@@ -56,6 +56,7 @@ public class GameMaster : MonoBehaviour
                 {
                     Menu.active = true;
                     // Time.timeScale = 0.0f;
+                    SoundManager.PlaySeName("メニュー開く");
                     PauseManager.OnPause();
                 }
             }

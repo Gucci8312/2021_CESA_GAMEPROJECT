@@ -39,6 +39,7 @@ public class Cusour : MonoBehaviour
                 {
                     Idx++;
                 }
+                SoundManager.PlaySeName("選択する際のカーソルが移動する時");
             }
             else if (Controler.GetDownButtonFlg())
             {
@@ -47,6 +48,7 @@ public class Cusour : MonoBehaviour
                 {
                     Idx--;
                 }
+                SoundManager.PlaySeName("選択する際のカーソルが移動する時");
             }
             if (UI != null)
             {
