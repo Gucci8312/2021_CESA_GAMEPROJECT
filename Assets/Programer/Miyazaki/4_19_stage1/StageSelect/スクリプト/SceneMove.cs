@@ -13,7 +13,11 @@ public class SceneMove : MonoBehaviour
     public GameObject[] stageNum;
     public Material[] ColorNum;
 
-    const int LIGHT_OFF = 1;
+	public GameObject UI;
+	bool UI_Flag;
+	float UI_Time;
+
+	const int LIGHT_OFF = 1;
     const int LIGHT_ON = 10;
 
     public StageSelectCamera stageselectcam;
@@ -208,7 +212,9 @@ public class SceneMove : MonoBehaviour
         }
 
         Release_Stage();
-    }
+		Blinking_UI();
+
+	}
 
     // @name   AllStageLightOff
     // @brief  すべてのステージのライトをオフにする
@@ -282,6 +288,32 @@ public class SceneMove : MonoBehaviour
 
         }
     }
+
+	void Blinking_UI()
+	{
+
+		UI_Time -= Time.deltaTime;
+		if (UI_Time <= 0.0)
+		{
+			UI_Time = 0.25f;
+			
+			if(UI_Flag)
+			{
+				UI.SetActive(UI_Flag);
+				UI_Flag = false;
+			}
+			else
+			{
+				UI.SetActive(UI_Flag);
+				UI_Flag = true;
+			}
+
+
+			//ここに処理
+		}
+
+
+	}
 
 
 }
