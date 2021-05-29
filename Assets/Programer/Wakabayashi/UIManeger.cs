@@ -18,6 +18,8 @@ public class UIManeger : MonoBehaviour
     CheckPointCount CountScript;
     GameObject[] CheackPointObj;
 
+	public GameObject[] Check_Point_Light;
+
     GameObject ZoomCameraObj;
     CameraZoom _camera;
     public int ThisStageNum;
@@ -89,6 +91,7 @@ public class UIManeger : MonoBehaviour
             //_camera.OnZoom();                //カメラズーム
             //Time.timeScale = 0.0f;
             GameOverFlg = true;
+
         }
 
         if (GameOver.active == true)
@@ -98,12 +101,22 @@ public class UIManeger : MonoBehaviour
                 SceneManager.LoadScene("TitleScene");
             }
         }
-        if(UINum!= CountScript.CheckPointNum)
-        {
-            // JudgeUI[CountScript.CheckPointNum].SetActive(true);
-            Invoke("Create",1.0f);
-            UINum++;
 
+        if(UINum!= CountScript.CheckPointNum)//2 0
+        {
+
+			
+			for (int i = 0; i < Check_Point_Light.Length; i++)
+			{
+				if (!Check_Point_Light[i].activeSelf)
+				{
+					Check_Point_Light[i].SetActive(true);
+					break;
+				}
+			}
+			// JudgeUI[CountScript.CheckPointNum].SetActive(true);
+			Invoke("Create",1.0f);
+			UINum++;
             // Create(UINum);
         }
 
