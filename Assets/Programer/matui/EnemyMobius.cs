@@ -55,8 +55,12 @@ public class EnemyMobius : MonoBehaviour
             if (GoToVectorFlag())
             {
                 Mm.EnemyOnMoveFlag(EnemyBeatFlag, TargetVec);
+                
             }
         }
+
+        EnemyBeatFlag = false;
+
         //}
     }
 
@@ -68,11 +72,11 @@ public class EnemyMobius : MonoBehaviour
             EnemyBeatFlag = true;
             BeatCount = 0;
         }
-        else
-        {
-            EnemyBeatFlag = false;
+        //else
+        //{
+        //    EnemyBeatFlag = false;
 
-        }
+        //}
 
         if (this.rythm.m_EmobiusBeatFlag)//ビートを刻んだら
         {
