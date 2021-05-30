@@ -81,7 +81,7 @@ public class LinePutMobius : MonoBehaviour
                         {
                             //MoveLineに登録
                             Mm.GetLine()[i].GetComponent<MoveLine>().PutMobiusOnOff(true, this.gameObject);
-                            Debug.Log(Mm.MoveLineObj.name + "に乗った");
+                            //Debug.Log(Mm.MoveLineObj.name + "に乗った");
                         }
                     }
                     else//MoveLineでなければ
@@ -101,7 +101,7 @@ public class LinePutMobius : MonoBehaviour
             if (((Mm.GetLine().Count == 0) || (NotMoveLinecount == Mm.GetLine().Count) || !SameFlag) && Mm.MoveLineObj != null)
             {
                 //MoveLineに登録したやつを削除
-                Debug.Log(Mm.MoveLineObj.name + "から離れた");
+                //Debug.Log(Mm.MoveLineObj.name + "から離れた");
                 Mm.MoveLineObj.GetComponent<MoveLine>().PutMobiusOnOff(false, this.gameObject);
             }
 
@@ -182,13 +182,13 @@ public class LinePutMobius : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log(Mm.GetLine()[i].name + "のRvecは" + Mm.Getcl()[i].GetRvec() + "distanceは" + distance);
+                    //Debug.Log(Mm.GetLine()[i].name + "のRvecは" + Mm.Getcl()[i].GetRvec() + "distanceは" + distance);
                 }
             }
             else
             {
                 float dis = (new Vector2(this.transform.position.x, this.transform.position.y) - Mm.Getcl()[i].GetRPos()).magnitude;
-                Debug.Log(Mm.GetLine()[i].name + "のRposは" + Mm.Getcl()[i].GetRPos() + "distanceは" + dis);
+                //Debug.Log(Mm.GetLine()[i].name + "のRposは" + Mm.Getcl()[i].GetRPos() + "distanceは" + dis);
             }
 
             if (!Mm.Getcl()[i].NearEndLPosFlag(this.transform.position, Mm.GetThisR() * 1.1f))//メビウスが左端に居なければ
@@ -200,13 +200,13 @@ public class LinePutMobius : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log(Mm.GetLine()[i].name + "のLvecは" + Mm.Getcl()[i].GetLvec() + "distanceは" + distance);
+                    //Debug.Log(Mm.GetLine()[i].name + "のLvecは" + Mm.Getcl()[i].GetLvec() + "distanceは" + distance);
                 }
             }
             else
             {
                 float dis = (new Vector2(this.transform.position.x, this.transform.position.y) - Mm.Getcl()[i].GetLPos()).magnitude;
-                Debug.Log(Mm.GetLine()[i].name + "のLposは" + Mm.Getcl()[i].GetLPos() + "distanceは" + dis);
+                //Debug.Log(Mm.GetLine()[i].name + "のLposは" + Mm.Getcl()[i].GetLPos() + "distanceは" + dis);
             }
             //line.Add(Mm.GetLine()[i]);
         }
@@ -223,7 +223,7 @@ public class LinePutMobius : MonoBehaviour
 
             if (LeaveVecRaySerch(LeaveVec))//一番移動させたい方にメビウスなどのオブジェクトが無ければ
             {
-                outvec = LeaveVec; Debug.Log("一番移動させたいLeaveVecは" + LeaveVec);
+                outvec = LeaveVec; /*Debug.Log("一番移動させたいLeaveVecは" + LeaveVec);*/
                 return true;
             }
             else//それ以外の方向へ移動させる
@@ -232,7 +232,7 @@ public class LinePutMobius : MonoBehaviour
                 {
                     if (LeaveVecRaySerch(MoveVec[i]))//移動させたい方にメビウスなどのオブジェクトが無ければ
                     {
-                        outvec = MoveVec[i]; Debug.Log("次に移動させたいLeaveVecは" + LeaveVec);
+                        outvec = MoveVec[i]; /*Debug.Log("次に移動させたいLeaveVecは" + LeaveVec);*/
                         return true;
 
                     }
@@ -289,7 +289,7 @@ public class LinePutMobius : MonoBehaviour
             switch (hit.collider.gameObject.tag)
             {
                 case "Mobius":
-                    Debug.Log("ずらすところにMobiusがおる");
+                    //Debug.Log("ずらすところにMobiusがおる");
                     return false;
 
                 case "Block":
@@ -376,7 +376,7 @@ public class LinePutMobius : MonoBehaviour
         }
         else
         {
-            Debug.Log("すり抜けてない");
+            //Debug.Log("すり抜けてない");
             return false;
         }
     }
@@ -397,6 +397,10 @@ public class LinePutMobius : MonoBehaviour
 
             //ColObj.GetComponent<MoveMobius>().MobiusCol(dis + PosDis+4, -disvec);
             ColObj.GetComponent<MoveMobius>().MobiusCol(dis + PosDis/6, -disvec);
+
+            Mm.SetMobiusStrip(ColObj);
+            ColObj.GetComponent<MoveMobius>().SetMobiusStrip(this.gameObject);
+
 
             ColObj.GetComponent<MoveMobius>().ZeroVelo();
             Debug.Log("移動床によってぶつかった！！");
