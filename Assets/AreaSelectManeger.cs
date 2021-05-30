@@ -31,16 +31,20 @@ public class AreaSelectManeger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Controler.GetMenuButtonFlg())
+        if (Controler.GetMenuButtonFlg())
         {
             MenuFlg = !MenuFlg;
             Menu.SetActive(MenuFlg);
+            if (MenuFlg)
+            {
+                SoundManager.PlaySeName("メニュー開く");
+            }
         }
     }
 
     public bool GetMenuFlg()
     {
-        if(Menu.activeSelf== false)
+        if (Menu.activeSelf == false)
         {
             MenuFlg = false;
         }

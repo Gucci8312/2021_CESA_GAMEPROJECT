@@ -65,6 +65,10 @@ public class TitleManager : MonoBehaviour
         if (Controler.GetMenuButtonFlg())
         {
             Window.SetActive(!Window.activeSelf);
+            if (Window.activeSelf)
+            {
+                SoundManager.PlaySeName("メニュー開く");
+            }
         }
     }
 }
