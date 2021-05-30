@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -205,6 +205,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c80e19240f42d44e850c0dad64e698c, type: 3}
+--- !u!1 &19494466 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5185553873557292434, guid: 8c80e19240f42d44e850c0dad64e698c,
+    type: 3}
+  m_PrefabInstance: {fileID: 172847044}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &26627489
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -481,13 +487,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1679682594661291526, guid: cadb3f5602813cf46abf33c9c723ed57,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 199
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679682594661291526, guid: cadb3f5602813cf46abf33c9c723ed57,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 267.8
       objectReference: {fileID: 0}
     - target: {fileID: 1679682594661291526, guid: cadb3f5602813cf46abf33c9c723ed57,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 66
+      value: 64.2
       objectReference: {fileID: 0}
     - target: {fileID: 1679682594661291526, guid: cadb3f5602813cf46abf33c9c723ed57,
         type: 3}
@@ -576,6 +587,7 @@ MonoBehaviour:
   - {fileID: 1517614920}
   - {fileID: 1517614919}
   - {fileID: 1517614918}
+  Check_Point_Light: []
   ThisStageNum: 25
 --- !u!114 &76939459
 MonoBehaviour:
@@ -1942,6 +1954,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 31
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679682594661291526, guid: cadb3f5602813cf46abf33c9c723ed57,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 199
       objectReference: {fileID: 0}
     - target: {fileID: 1679682594661291526, guid: cadb3f5602813cf46abf33c9c723ed57,
         type: 3}
@@ -4606,6 +4623,7 @@ MonoBehaviour:
   - {fileID: 212081475}
   - {fileID: 1938105999}
   - {fileID: 346238113}
+  - {fileID: 19494466}
   plane: {fileID: 843081578}
   StartTime: 2
 --- !u!1 &1885251463 stripped
