@@ -20,11 +20,12 @@ public class GameStart : MonoBehaviour
 
 		Blinking_False();
 		plane.SetActive(false);
-		player.GetComponent<PlayerMove>().enabled = false;
-        for (int idx = 0; idx < enemy.Length; idx++)
-        {
-            enemy[idx].GetComponent<EnemyMove>().enabled = false;
-        }
+		//player.GetComponent<PlayerMove>().enabled = false;
+		//      for (int idx = 0; idx < enemy.Length; idx++)
+		//      {
+		//          enemy[idx].GetComponent<EnemyMove>().enabled = false;
+		//      }
+		PauseManager.OnPause();
 
 		Invoke("Active", StartTime);
 	}
@@ -77,12 +78,13 @@ public class GameStart : MonoBehaviour
 
     void Active()
     {
-        player.GetComponent<PlayerMove>().enabled = true;
-        for (int idx = 0; idx < enemy.Length; idx++)
-        {
-            enemy[idx].GetComponent<EnemyMove>().enabled = true;
-        }
-    }
+		//player.GetComponent<PlayerMove>().enabled = true;
+		//for (int idx = 0; idx < enemy.Length; idx++)
+		//{
+		//    enemy[idx].GetComponent<EnemyMove>().enabled = true;
+		//}
+		PauseManager.OffPause();
+	}
 
 	void Blinking_True()
 	{

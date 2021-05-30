@@ -39,6 +39,7 @@ public class TitleManager : MonoBehaviour
     void Start()
     {
         m_fadeTextScript = m_pressTextObj.gameObject.GetComponent<FadeTitleText>();
+        Cursor.visible = false;
     }
 
     private void Update()
