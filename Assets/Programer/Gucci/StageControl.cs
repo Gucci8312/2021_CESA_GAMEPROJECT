@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StageControl : MonoBehaviour
 {
-    static bool[] OpenStageFlg = new bool[25];
+    static bool[] OpenStageFlg = new bool[26];
     static int NowStage=1;
 
     // Start is called before the first frame update
