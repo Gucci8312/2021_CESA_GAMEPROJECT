@@ -295,7 +295,7 @@ public class SceneMove : MonoBehaviour
 		UI_Time -= Time.deltaTime;
 		if (UI_Time <= 0.0)
 		{
-			UI_Time = 0.25f;
+			UI_Time = 1.0f;
 			
 			if(UI_Flag)
 			{
