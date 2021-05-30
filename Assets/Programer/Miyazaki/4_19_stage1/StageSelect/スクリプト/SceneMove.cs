@@ -102,6 +102,7 @@ public class SceneMove : MonoBehaviour
                 {
                     Select_Scene = 1;
                 }
+                SoundManager.PlaySeName("選択する際のカーソルが移動する時");
             }
 
         }
@@ -115,6 +116,7 @@ public class SceneMove : MonoBehaviour
                 {
                     Select_Scene = 25;
                 }
+                SoundManager.PlaySeName("選択する際のカーソルが移動する時");
             }
 
         }
@@ -150,6 +152,7 @@ public class SceneMove : MonoBehaviour
                         Camera = true;
                     }
                 }
+                SoundManager.PlaySeName("選択する際のカーソルが移動する時");
             }
             else if (Controler.GetLeftButtonFlg())
             // else if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -168,6 +171,7 @@ public class SceneMove : MonoBehaviour
                 {
                     Camera1 = true;
                 }
+                SoundManager.PlaySeName("選択する際のカーソルが移動する時");
             }
             if (Camera == true)
             {
