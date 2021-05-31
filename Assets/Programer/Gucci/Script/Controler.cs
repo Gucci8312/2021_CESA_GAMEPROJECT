@@ -267,11 +267,11 @@ public class Controler : MonoBehaviour
     public static bool GetXButtonFlg()
     {
         bool Response = false;
-        if (Input.GetKeyDown("joystick button 2"))
+        if (Input.GetKey("joystick button 2"))
         {
             Response = true;
         }
-        else if (Input.GetKeyDown(KeyCode.X))
+        else if (Input.GetKey(KeyCode.X))
         {
             Response = true;
         }
@@ -281,11 +281,11 @@ public class Controler : MonoBehaviour
     public static bool GetYButtonFlg()
     {
         bool Response = false;
-        if (Input.GetKeyDown("joystick button 3"))
+        if (Input.GetKey("joystick button 3"))
         {
             Response = true;
         }
-        else if (Input.GetKeyDown(KeyCode.Z))
+        else if (Input.GetKey(KeyCode.Z))
         {
             Response = true;
         }

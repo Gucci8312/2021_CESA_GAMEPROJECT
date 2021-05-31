@@ -71,6 +71,7 @@ public class UIManeger : MonoBehaviour
             {
                 PauseManager.OnPause();
             }
+            SoundManager.StopBGM();
             SoundManager.PlaySeName("clearmusic");
         }
 
@@ -85,6 +86,7 @@ public class UIManeger : MonoBehaviour
         if (Player.GetComponent<PlayerMove>().GetCollisionState() && !GameClearFlg && !GameOverFlg)   // ゲームオーバー時
         {
             Debug.Log(" ゲームオーバー");
+            SoundManager.StopBGM();
             SoundManager.PlaySeName("gameovermusic");
 
             GameOver.active = true;

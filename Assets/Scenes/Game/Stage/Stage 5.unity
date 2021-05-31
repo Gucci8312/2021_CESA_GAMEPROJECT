@@ -1825,6 +1825,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa19cfecec978b549978b8f54e0ea002, type: 3}
+--- !u!1 &959500752 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8705751085379567541, guid: fa19cfecec978b549978b8f54e0ea002,
+    type: 3}
+  m_PrefabInstance: {fileID: 959500751}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &959500753 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8705751086205903085, guid: fa19cfecec978b549978b8f54e0ea002,
+    type: 3}
+  m_PrefabInstance: {fileID: 959500751}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &968912508
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2218,8 +2230,8 @@ MonoBehaviour:
   GameClearFlg: 0
   GameOverFlg: 0
   JudgeUI:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 959500753}
+  - {fileID: 959500752}
   Check_Point_Light:
   - {fileID: 486899928}
   - {fileID: 1458684407}
@@ -3740,7 +3752,7 @@ PrefabInstance:
     - target: {fileID: 4336239928291370095, guid: 8460a62803a7b24428708934cc55c7fd,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4336239928579636840, guid: 8460a62803a7b24428708934cc55c7fd,
         type: 3}

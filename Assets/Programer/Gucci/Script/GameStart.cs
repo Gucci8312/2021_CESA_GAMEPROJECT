@@ -69,9 +69,9 @@ public class GameStart : MonoBehaviour
 		{
 			
 			Blinking_True();
-			
+			PauseManager.OffPause();
 		}
-	
+
 		cnt++;
 		
     }
@@ -83,7 +83,6 @@ public class GameStart : MonoBehaviour
 		//{
 		//    enemy[idx].GetComponent<EnemyMove>().enabled = true;
 		//}
-		PauseManager.OffPause();
 	}
 
 	void Blinking_True()
@@ -99,6 +98,6 @@ public class GameStart : MonoBehaviour
 		{
 			obj[idx].SetActive(false);
 		}
-
+		PauseManager.OnPause();
 	}
 }
