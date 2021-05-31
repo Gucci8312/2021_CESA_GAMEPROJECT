@@ -51,4 +51,14 @@ public class StageControl : MonoBehaviour
             OpenStageFlg[Idx] = true;
         }
     }
+
+    static public int OpenStageNum()
+    {
+        int Idx=0;
+        while(OpenStageFlg[Idx])
+        {
+            Idx++;
+        }
+        return Idx;
+    }
 }
