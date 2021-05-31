@@ -69,8 +69,8 @@ public class UIManeger : MonoBehaviour
             Player.GetComponent<PlayerMove>().ClearOn();//プレイヤーをクリアの動きに切り替え
             if (Player.GetComponent<PlayerMove>().GetStop())//プレイヤーのクリアの動き終わった
             {
-                PauseManager.OnPause();
             }
+            PauseManager.OnPause();
             SoundManager.StopBGM();
             SoundManager.PlaySeName("clearmusic");
         }
@@ -88,7 +88,7 @@ public class UIManeger : MonoBehaviour
             Debug.Log(" ゲームオーバー");
             SoundManager.StopBGM();
             SoundManager.PlaySeName("gameovermusic");
-
+            PauseManager.OnPause();
             GameOver.active = true;
             //_camera.OnZoom();                //カメラズーム
             //Time.timeScale = 0.0f;
