@@ -55,11 +55,11 @@ public class EnemyMobius : MonoBehaviour
             if (GoToVectorFlag())
             {
                 Mm.EnemyOnMoveFlag(EnemyBeatFlag, TargetVec);
-                
+                EnemyBeatFlag = false;
             }
         }
 
-        EnemyBeatFlag = false;
+        
 
         //}
     }

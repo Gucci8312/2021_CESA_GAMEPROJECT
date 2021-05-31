@@ -47,11 +47,12 @@ public class Controler : MonoBehaviour
 
         // if (InputFlg)
         // {
-        if (Input.GetKeyDown("joystick button 0"))
-        {
-            Response = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.J))
+        //if (Input.GetKeyDown("joystick button 0"))
+        //{
+        //    Response = true;
+        //}
+        //else 
+        if (Input.GetKeyDown(KeyCode.J))
         {
             Response = true;
         }
@@ -120,11 +121,12 @@ public class Controler : MonoBehaviour
     public static bool GetRythmButtonFlg()
     {
         bool Response = false;
-        if (Input.GetKeyDown("joystick button 1"))
-        {
-            Response = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.F))
+        //if (Input.GetKeyDown("joystick button 1"))
+        //{
+        //    Response = true;
+        //}
+        //else 
+        if (Input.GetKeyDown(KeyCode.F))
         {
             Response = true;
         }

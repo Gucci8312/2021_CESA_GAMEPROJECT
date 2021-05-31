@@ -25,7 +25,7 @@ public class MoveLine : MonoBehaviour
 
     private bool BeatFlag;                                                   //ビートが指定した回数になったかどうか
     public int MaxBeatNum = 5;                                               //ビート最大数指定
-    float BeatCount = 0;
+    public float BeatCount = 0;
 
     /* [HideInInspector] */
     public List<GameObject> PutOnMobius = new List<GameObject>();            //線上に乗っているメビウスオブジェクト

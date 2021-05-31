@@ -14,7 +14,7 @@ public class GameStart : MonoBehaviour
 	//public float StartTime;
 	public float StartTime=1.5f;
 	int cnt = 0;
-	public bool Blinking_Flag;
+	static public bool Blinking_Flag;
 	// Start is called before the first frame update
 	void Start()
     {
