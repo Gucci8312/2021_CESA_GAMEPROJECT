@@ -13,7 +13,7 @@ public class SceneMove : MonoBehaviour
     public GameObject[] stageNum;
     public Material[] ColorNum;
 
-	public GameObject UI;
+	public GameObject[] UI;
 	bool UI_Flag;
 	float UI_Time;
 
@@ -306,12 +306,19 @@ public class SceneMove : MonoBehaviour
 			
 			if(UI_Flag)
 			{
-				UI.SetActive(UI_Flag);
+                for (int i = 0; i < UI.Length; i++)
+                {
+                    UI[i].SetActive(UI_Flag);
+                }
+                    
 				UI_Flag = false;
 			}
 			else
 			{
-				UI.SetActive(UI_Flag);
+                for (int i = 0; i < UI.Length; i++)
+                {
+                    UI[i].SetActive(UI_Flag);
+                }
 				UI_Flag = true;
 			}
 
