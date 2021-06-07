@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2018,7 +2018,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_VideoClip
       value: 
-      objectReference: {fileID: 32900000, guid: 0d8267264d84c164c9e05c0f35221a07,
+      objectReference: {fileID: 32900000, guid: a5bfa19011dcee54992ccce703d4bcbc,
         type: 3}
     - target: {fileID: 1038300895829923250, guid: 7640759b1e3582c42995adc3aec5f2e2,
         type: 3}
@@ -2223,7 +2223,7 @@ PrefabInstance:
     - target: {fileID: 2531618603077177498, guid: 7640759b1e3582c42995adc3aec5f2e2,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2531618603077177500, guid: 7640759b1e3582c42995adc3aec5f2e2,
         type: 3}
@@ -2235,6 +2235,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: dd94576e9e86d7b498c1138aa7676c84, type: 2}
+    - target: {fileID: 2531618603308911174, guid: 7640759b1e3582c42995adc3aec5f2e2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2531618603308911174, guid: 7640759b1e3582c42995adc3aec5f2e2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.11
+      objectReference: {fileID: 0}
     - target: {fileID: 2845697189742495842, guid: 7640759b1e3582c42995adc3aec5f2e2,
         type: 3}
       propertyPath: speed
@@ -3812,7 +3822,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1736429488}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -472.43945}
+  m_LocalPosition: {x: 0, y: 0, z: -472.4}
   m_LocalScale: {x: 2.5399811, y: 2.5399811, z: 2.5399811}
   m_Children: []
   m_Father: {fileID: 1339061590}
@@ -3820,7 +3830,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -619.7435, y: -858.5146}
+  m_AnchoredPosition: {x: -602, y: -847.1}
   m_SizeDelta: {x: 25, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1736429490
@@ -3847,7 +3857,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0
+  m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 2
   m_UseSpriteMesh: 0

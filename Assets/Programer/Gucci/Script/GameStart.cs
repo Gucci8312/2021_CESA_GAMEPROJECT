@@ -14,10 +14,11 @@ public class GameStart : MonoBehaviour
 	//public float StartTime;
 	public float StartTime=1.5f;
 	int cnt = 0;
-    // Start is called before the first frame update
-    void Start()
+	static public bool Blinking_Flag;
+	// Start is called before the first frame update
+	void Start()
     {
-
+		Blinking_Flag = false;
 		Blinking_False();
 		plane.SetActive(false);
 		//player.GetComponent<PlayerMove>().enabled = false;
@@ -69,10 +70,14 @@ public class GameStart : MonoBehaviour
 		{
 			
 			Blinking_True();
+			PauseManager.OffPause();
 			
 		}
-	
-		cnt++;
+		if (cnt == 151)
+		{
+			Blinking_Flag = true;
+		}
+			cnt++;
 		
     }
 
@@ -83,7 +88,6 @@ public class GameStart : MonoBehaviour
 		//{
 		//    enemy[idx].GetComponent<EnemyMove>().enabled = true;
 		//}
-		PauseManager.OffPause();
 	}
 
 	void Blinking_True()
@@ -99,6 +103,6 @@ public class GameStart : MonoBehaviour
 		{
 			obj[idx].SetActive(false);
 		}
-
+		PauseManager.OnPause();
 	}
 }

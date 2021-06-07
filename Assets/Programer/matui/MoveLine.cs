@@ -25,8 +25,7 @@ public class MoveLine : MonoBehaviour
 
     private bool BeatFlag;                                                   //ビートが指定した回数になったかどうか
     public int MaxBeatNum = 5;                                               //ビート最大数指定
-    public float BeatCount = 0;                                              //現在のビート数
-    bool BeatOnOffFlag=false;                                                //一度だけrythmSendCheckFlagを取得用
+    public float BeatCount = 0;
 
     /* [HideInInspector] */
     public List<GameObject> PutOnMobius = new List<GameObject>();            //線上に乗っているメビウスオブジェクト
@@ -57,17 +56,16 @@ public class MoveLine : MonoBehaviour
     {
         if (!StopFlag)
         {
-            BeatCounter();
             MoveLineUpdate();
         }
     }
-    //void Update()
-    //{
-    //    if (!StopFlag)
-    //    {
-    //        BeatCounter();
-    //    }
-    //}
+    void Update()
+    {
+        if (!StopFlag)
+        {
+            BeatCounter();
+        }
+    }
 
 
     //EnemyMobiusの更新
@@ -89,11 +87,10 @@ public class MoveLine : MonoBehaviour
     //ビートをカウントする
     private void BeatCounter()
     {
-        if (BeatCount>= MaxBeatNum)
+        if (BeatCount >= MaxBeatNum)
         {
             BeatFlag = true;
             BeatCount = 0;
-
         }
         //else
         //{
@@ -101,17 +98,11 @@ public class MoveLine : MonoBehaviour
 
         //}
 
-
-        if (this.rythm.rythmSendCheckFlag&&!BeatOnOffFlag)//ビートを刻んだら
+        if (this.rythm.m_EmobiusBeatFlag)//ビートを刻んだら
         {
             //time += Time.deltaTime;
-            //MoveLine.BeatCount++;
             BeatCount++;
-            BeatOnOffFlag = true;
-        }
-        else if(!this.rythm.rythmSendCheckFlag && BeatOnOffFlag)
-        {
-            BeatOnOffFlag = false;
+
         }
 
     }
@@ -336,11 +327,6 @@ public class MoveLine : MonoBehaviour
     static public void StopFlagSet(bool flag)
     {
         StopFlag = flag;
-    }
-
-    static public void BeatUp()
-    {
-        
     }
 
 }

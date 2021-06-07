@@ -41,7 +41,7 @@ public class GameMaster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!UI.GetComponent<UIManeger>().GameClearFlg && !UI.GetComponent<UIManeger>().GameOverFlg)
+        if (!UI.GetComponent<UIManeger>().GameClearFlg && !UI.GetComponent<UIManeger>().GameOverFlg&&GameStart.Blinking_Flag)
         {
             if (Input.GetKeyDown(KeyCode.Escape) || Controler.GetMenuButtonFlg())
             {

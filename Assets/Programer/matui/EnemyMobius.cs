@@ -5,10 +5,9 @@ using UnityEngine;
 //敵が乗っているメビウスの輪の挙動
 public class EnemyMobius : MonoBehaviour
 {
-    public bool EnemyBeatFlag;                                 //ビートが指定した回数になったかどうか
-    public int MaxBeatNum = 12;                                //ビート最大数指定
-    public float BeatCount = 0;                                //現在のビート数
-    bool BeatOnOffFlag = false;                                //一度だけrythmSendCheckFlagを取得用
+    private bool EnemyBeatFlag;                                 //ビートが指定した回数になったかどうか
+    public int MaxBeatNum = 12;                                  //ビート最大数指定
+    float BeatCount = 0;
 
     MoveMobius Mm;//MoveMobiusスクリプト
 
@@ -34,7 +33,7 @@ public class EnemyMobius : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (!StopFlag)
         {
@@ -57,10 +56,10 @@ public class EnemyMobius : MonoBehaviour
             {
                 Mm.EnemyOnMoveFlag(EnemyBeatFlag, TargetVec);
                 EnemyBeatFlag = false;
-
             }
         }
 
+        
 
         //}
     }
@@ -72,25 +71,17 @@ public class EnemyMobius : MonoBehaviour
         {
             EnemyBeatFlag = true;
             BeatCount = 0;
-
         }
         //else
         //{
-        //    BeatFlag = false;
+        //    EnemyBeatFlag = false;
 
         //}
 
-
-        if (this.rythm.rythmSendCheckFlag && !BeatOnOffFlag)//ビートを刻んだら
+        if (this.rythm.m_EmobiusBeatFlag)//ビートを刻んだら
         {
             //time += Time.deltaTime;
-            //MoveLine.BeatCount++;
             BeatCount++;
-            BeatOnOffFlag = true;
-        }
-        else if (!this.rythm.rythmSendCheckFlag && BeatOnOffFlag)
-        {
-            BeatOnOffFlag = false;
         }
     }
 

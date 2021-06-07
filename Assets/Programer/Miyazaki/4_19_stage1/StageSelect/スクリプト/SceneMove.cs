@@ -13,7 +13,7 @@ public class SceneMove : MonoBehaviour
     public GameObject[] stageNum;
     public Material[] ColorNum;
 
-	public GameObject UI;
+	public GameObject[] UI;
 	bool UI_Flag;
 	float UI_Time;
 
@@ -102,23 +102,26 @@ public class SceneMove : MonoBehaviour
                 {
                     Select_Scene = 1;
                 }
-                SoundManager.PlaySeName("選択する際のカーソルが移動する時");
             }
-
+            SoundManager.PlaySeName("選択する際のカーソルが移動する時");
         }
         else if (Controler.GetRBButtonFlg())
+        //else if (Controler.OpenStageNum() <)
         {
             Debug.Log("次のエリアへ");
             if (StageControl.GetOpenFlg(Select_Scene))
             {
                 Select_Scene += 5;
+                if (!StageControl.GetOpenFlg(Select_Scene))
+                {
+                    Select_Scene -= 5;
+                }
                 if (Select_Scene > 25)
                 {
                     Select_Scene = 25;
                 }
-                SoundManager.PlaySeName("選択する際のカーソルが移動する時");
             }
-
+            SoundManager.PlaySeName("選択する際のカーソルが移動する時");
         }
 
         // if(Controler.GetRightTriggerFlg()&&Controler.GetLeftTriggerFlg())
@@ -303,12 +306,19 @@ public class SceneMove : MonoBehaviour
 			
 			if(UI_Flag)
 			{
-				UI.SetActive(UI_Flag);
+                for (int i = 0; i < UI.Length; i++)
+                {
+                    UI[i].SetActive(UI_Flag);
+                }
+                    
 				UI_Flag = false;
 			}
 			else
 			{
-				UI.SetActive(UI_Flag);
+                for (int i = 0; i < UI.Length; i++)
+                {
+                    UI[i].SetActive(UI_Flag);
+                }
 				UI_Flag = true;
 			}
 
