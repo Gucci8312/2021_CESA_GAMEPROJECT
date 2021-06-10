@@ -61,4 +61,12 @@ public class StageControl : MonoBehaviour
         }
         return Idx;
     }
+
+    static public void ReleaseStage(int _StageNum)
+    {
+        for (int Idx = 0; Idx < _StageNum; Idx++)
+        {
+            OpenStageFlg[Idx] = true;
+        }
+    }
 }

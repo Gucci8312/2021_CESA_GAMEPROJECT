@@ -71,5 +71,10 @@ public class TitleManager : MonoBehaviour
                 SoundManager.PlaySeName("メニュー開く");
             }
         }
+
+        if(Controler.GetXButtonFlg())
+        {
+            SaveControl.Load();
+        }
     }
 }

@@ -163,5 +163,6 @@ public class Cusour : MonoBehaviour
     public void GameEnd()
     {
         UnityEngine.Application.Quit();
+        SaveControl.Save();
     }
 }
