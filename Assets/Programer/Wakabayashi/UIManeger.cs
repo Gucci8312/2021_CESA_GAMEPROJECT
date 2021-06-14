@@ -83,7 +83,7 @@ public class UIManeger : MonoBehaviour
             }
         }
 
-        if (Player.GetComponent<PlayerMove>().GetCollisionState() && !GameClearFlg && !GameOverFlg)   // ゲームオーバー時
+        if (Player.GetComponent<PlayerMove>().GetCollisionState()||TimeAttack.timeUp && !GameClearFlg && !GameOverFlg)   // ゲームオーバー時
         {
             Debug.Log(" ゲームオーバー");
             SoundManager.StopBGM();

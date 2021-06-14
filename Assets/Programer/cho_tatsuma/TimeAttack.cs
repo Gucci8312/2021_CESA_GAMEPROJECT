@@ -32,6 +32,9 @@ public class TimeAttack : MonoBehaviour
             //ゲームオーバー処理
             timeUp = true;
         }
+
+        NumControl.DrawTime(GetTime());
+        Debug.Log(GetTime());
     }
 
     //@name     MinusTime
