@@ -53,7 +53,7 @@ public class UIManeger : MonoBehaviour
     void Update()
     {
         checkpointobjects = GameObject.FindGameObjectsWithTag("CheckPoint");    //CheckPointのタグを鉾に入れる
-        print(checkpointobjects.Length);
+        //print(checkpointobjects.Length);
 
         //if (CountScript.CheckPointNum== CrearNum)  //チェックポイント0になったら
         if (CountScript.CheckPointNum == JudgeUI.Length && !GameOverFlg && !GameClearFlg)  //チェックポイント0になったら

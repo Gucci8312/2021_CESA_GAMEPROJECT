@@ -7,11 +7,13 @@ using UnityEngine.VFX;
 public class GameMaster : MonoBehaviour
 {
     [SerializeField] GameObject m_soundManagerPrefab;          //生成用プレハブ
-
+    
     public GameObject Menu;
     public string BgmName;
     GameObject Player;
     GameObject UI;
+    
+    public int DrowScore;
     private void Awake()
     {
         GameObject m_soundManager = GameObject.Find("SoundManager(Clone)");     //サウンドマネージャー検索
@@ -32,6 +34,7 @@ public class GameMaster : MonoBehaviour
         StartCoroutine("CheckLoop");
         Invoke("OnStartBGM", 0.1f);
         UI = GameObject.Find("UI");
+        NumControl.InitNum();
     }
 
     void OnStartBGM()
@@ -41,6 +44,8 @@ public class GameMaster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        NumControl.DrawScore(DrowScore);
+
         if (!UI.GetComponent<UIManeger>().GameClearFlg && !UI.GetComponent<UIManeger>().GameOverFlg&&GameStart.Blinking_Flag)
         {
             if (Input.GetKeyDown(KeyCode.Escape) || Controler.GetMenuButtonFlg())

@@ -33,5 +33,6 @@ public class SaveControl : MonoBehaviour
         sw.Write(StageControl.OpenStageNum());
         sw.Flush();
         sw.Close();
+        Debug.Log("Save");
     }
 }
