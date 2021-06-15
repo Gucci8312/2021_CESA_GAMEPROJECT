@@ -22,9 +22,12 @@ public class CrossLine : MonoBehaviour
     [HideInInspector] public bool MoveFlag = false;               //動いてるかどうか（MoveLineから操作）
 
     private bool GotoLineFlag = false; //通ったかどうか
+
+    Transform ThisTransform;
     // Start is called before the first frame update
     void Start()
     {
+        ThisTransform = this.GetComponent<Transform>();
         this.GetComponent<BoxCollider>().isTrigger = true;
         this.GetComponent<BoxCollider>().size = new Vector3(1.05f, 1, 1);
 
@@ -66,8 +69,8 @@ public class CrossLine : MonoBehaviour
     //端の座標と方向の更新
     private void LRPosVecUpdate()
     {
-        LPos = RotationfromPosition(this.transform.position, this.transform.localScale, this.transform.localEulerAngles.z, 1);//自分の左端の回転を含めた座標を取得
-        RPos = RotationfromPosition(this.transform.position, this.transform.localScale, this.transform.localEulerAngles.z, 0);//自分の右端の回転を含めた座標を取得
+        LPos = RotationfromPosition(ThisTransform.position, ThisTransform.localScale, ThisTransform.localEulerAngles.z, 1);//自分の左端の回転を含めた座標を取得
+        RPos = RotationfromPosition(ThisTransform.position, ThisTransform.localScale, ThisTransform.localEulerAngles.z, 0);//自分の右端の回転を含めた座標を取得
 
         float Radius = Mathf.Atan2(LPos.y - RPos.y, LPos.x - RPos.x); //自分と指定した座標とのラジアンを求める
         Lvec = new Vector3(Mathf.Cos(Radius), Mathf.Sin(Radius), 0);

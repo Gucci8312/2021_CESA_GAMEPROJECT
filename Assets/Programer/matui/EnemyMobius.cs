@@ -5,9 +5,10 @@ using UnityEngine;
 //敵が乗っているメビウスの輪の挙動
 public class EnemyMobius : MonoBehaviour
 {
-    private bool EnemyBeatFlag;                                 //ビートが指定した回数になったかどうか
-    public int MaxBeatNum = 12;                                  //ビート最大数指定
-    float BeatCount = 0;
+    public bool EnemyBeatFlag;                                 //ビートが指定した回数になったかどうか
+    public int MaxBeatNum = 12;                                //ビート最大数指定
+    public float BeatCount = 0;                                //現在のビート数
+    bool BeatOnOffFlag = false;                                //一度だけrythmSendCheckFlagを取得用
 
     MoveMobius Mm;//MoveMobiusスクリプト
 
@@ -33,7 +34,7 @@ public class EnemyMobius : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!StopFlag)
         {
@@ -56,10 +57,10 @@ public class EnemyMobius : MonoBehaviour
             {
                 Mm.EnemyOnMoveFlag(EnemyBeatFlag, TargetVec);
                 EnemyBeatFlag = false;
+
             }
         }
 
-        
 
         //}
     }
@@ -71,17 +72,25 @@ public class EnemyMobius : MonoBehaviour
         {
             EnemyBeatFlag = true;
             BeatCount = 0;
+
         }
         //else
         //{
-        //    EnemyBeatFlag = false;
+        //    BeatFlag = false;
 
         //}
 
-        if (this.rythm.m_EmobiusBeatFlag)//ビートを刻んだら
+
+        if (this.rythm.rythmSendCheckFlag && !BeatOnOffFlag)//ビートを刻んだら
         {
             //time += Time.deltaTime;
+            //MoveLine.BeatCount++;
             BeatCount++;
+            BeatOnOffFlag = true;
+        }
+        else if (!this.rythm.rythmSendCheckFlag && BeatOnOffFlag)
+        {
+            BeatOnOffFlag = false;
         }
     }
 
@@ -195,7 +204,7 @@ public class EnemyMobius : MonoBehaviour
         List<Vector3> HitPos = new List<Vector3>();                     //ヒットした座標
 
         //貫通レイキャスト
-        foreach (RaycastHit hit in Physics.SphereCastAll(ray,Mm.GetThisR() ,distance + 10))
+        foreach (RaycastHit hit in Physics.SphereCastAll(ray, Mm.GetThisR(), distance + 10))
         {
             // Debug.Log(hit.collider.gameObject.name);//レイキャストが当たったオブジェクト
 
