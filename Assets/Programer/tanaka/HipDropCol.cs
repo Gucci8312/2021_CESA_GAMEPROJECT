@@ -67,11 +67,27 @@ public class HipDropCol : MonoBehaviour
     //範囲にいる敵をスタンにする
     public void EnemyStanOn()
     {
-        for (int i = 0; i < enemy.Length; i++)
+        enemy = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach(GameObject enemyobj in enemy)
         {
-            if (enemy[i].GetComponent<EnemyMove>().GetAlertCollision())
+            
+            if (enemyobj.GetComponent<EnemyMove>().GetAlertCollision())
             {
-                enemy[i].GetComponent<EnemyMove>().StanOn();
+                
+                if (enemyobj.GetComponent<EnemyMove>().type == (int)EnemyType.Normal)
+                {
+                    enemyobj.GetComponent<EnemyMove>().StanOn();
+                }
+                else if(enemyobj.GetComponent<EnemyMove>().type == (int)EnemyType.Adult)
+                {
+                    enemyobj.GetComponent<AdultEnemy>().SplitOn();
+                    enemyobj.GetComponent<AdultEnemy>().StanOn();
+                }
+                else if(enemyobj.GetComponent<EnemyMove>().type == (int)EnemyType.Larvae)
+                {
+                    Destroy(enemyobj);
+                }
             }
         }
     }

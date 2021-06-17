@@ -44,9 +44,7 @@ public class PlayerMove : MobiusOnObj
 
     GameObject DushEffect;                                  //ダッシュした時のエフェクト
     GameObject SmokeEffect;                                 //ヒップドロップ時のエフェクト
-
-
-    Camera cam;                                             //カメラ
+    
     CameraShake camerashake;                                //カメラを揺らすスクリプト
 
     [SerializeField] GameObject missPrefab;                  //リズムに合わなかった時のUI
@@ -72,8 +70,7 @@ public class PlayerMove : MobiusOnObj
         PlayerAnimation = GameObject.Find("PlayerModel").GetComponent<AnimaterControl>();             //アニメーションコントローラ取得
         DushEffect = transform.GetChild(1).gameObject;                                                //ダッシュエフェクト取得
         SmokeEffect = transform.GetChild(2).gameObject;                                               //煙エフェクト取得
-        cam = Camera.main;                                                                            //カメラ取得
-        camerashake = cam.GetComponent<CameraShake>();                                                //カメラを揺らす取得
+        camerashake = Camera.main.GetComponent<CameraShake>();                                        //カメラを揺らす取得
     }
 
     protected override void Start()
@@ -207,8 +204,11 @@ public class PlayerMove : MobiusOnObj
                 if (!CollisionState)
                 {
                     RythmFlg = this.rythm.rythmCheckFlag;                        //リズム取得
+
                     SpeedUpInput();                                              //スピードアップ入力
+
                     JumpInput();                                                 //ジャンプ入力
+
                     RythmSaveFlg = RythmFlg;                                     //リズムセーブ
                 }
             }
@@ -221,8 +221,7 @@ public class PlayerMove : MobiusOnObj
         //本体の当たり判定
         Gizmos.color = new Vector4(0, 1, 0, 0.8f); //色指定
         Gizmos.DrawSphere(transform.position + transform.GetComponent<SphereCollider>().center, GetComponent<SphereCollider>().bounds.size.x / 2);
-
-
+        
     }
 
     //ジャンプキー入力
@@ -456,7 +455,7 @@ public class PlayerMove : MobiusOnObj
             //メビウス同士当たっているかどうか
             MobiusCollision = CollisionSphere(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center,                                                  // 現在のメビウスの輪の位置を取得
                                   Mobius[i].GetComponent<SphereCollider>().bounds.center,                                                                      // 次ののメビウスの輪の位置を取得
-                                  Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2);     // 円の半径を取得
+                                  Mobius[NowMobius].GetComponent<SphereCollider>().bounds.size.x / 2 + GetComponent<SphereCollider>().bounds.size.x / 2);      // 円の半径を取得
 
             if (MobiusCollision)
             {

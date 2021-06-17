@@ -2,20 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public  enum EnemyType
+{
+    Normal,
+    Adult,
+    Larvae,
+}
+
 public class EnemyMove : MobiusOnObj
 {
     
-    GameObject player;                                       //プレイヤーオブジェクト
+    public int type;
+
+    protected GameObject player;                             //プレイヤーオブジェクト
 
     public float StanTime = 1;                               //スタン時の時間格納
     float StanTimeCount;                                     //スタン時のカウント
-    bool Stan;                                               //スタン中かどうか
-    GameObject RythmObj;                                     //リズムオブジェクト
-    Rythm rythm;                                             //リズムスクリプト取得用
+    protected bool Stan;                                               //スタン中かどうか
     GameObject ball;                                         //子オブジェクトのトゲなし
     GameObject toge;                                         //子オブジェクトのトゲあり
-    bool TogeFlg;                                            //トゲのフラグ
-    bool AlertCollision;                                     //アラートが出る範囲にいる
+    protected bool AlertCollision;                           //アラートが出る範囲にいる
 
     protected override void Awake()
     {
@@ -23,30 +29,23 @@ public class EnemyMove : MobiusOnObj
         OutLength = 0;
         base.Awake();
         player = GameObject.Find("Player");                  //プレイヤーオブジェクト取得
-        RythmObj = GameObject.Find("rythm_circle");          //リズムオブジェクト取得
-        this.rythm = RythmObj.GetComponent<Rythm>();         //リズムのコード
         ball = transform.GetChild(0).gameObject;             //ボールオブジェクト取得
         toge = transform.GetChild(1).gameObject;             //トゲオブジェクト取得
-
+        type = (int)EnemyType.Normal;
     }
 
     protected override void Start()
     {
-        
         base.Start();
-        TogeFlg = false;
         Stan = false;
         StanTimeCount = 0;
         AlertCollision = false;
-        
     }
 
 
     // Update is called once per frame  
     void Update()
     {
-        TogeFlg = rythm.rythmCheckFlag;
-
         if (!Pause)
         {
             ball.SetActive(false);
@@ -128,7 +127,7 @@ public class EnemyMove : MobiusOnObj
 
 
     //プレイヤーと対象のメビウスの輪以外の一番近いメビウスの輪との判定
-    private void CollisonMobius()
+    protected void CollisonMobius()
     {
         bool MobiusCollision = false;
 
