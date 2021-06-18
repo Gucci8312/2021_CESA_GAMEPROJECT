@@ -35,4 +35,12 @@ public class Score : MonoBehaviour
 		
 	}
 
+    public void Collision()
+    {
+        //a++;
+        SupureManager.get_supure++;
+        Debug.Log(SupureManager.GetScore());
+        Debug.Log("GUCCI_BOKE");
+        this.gameObject.SetActive(false);
+    }
 }

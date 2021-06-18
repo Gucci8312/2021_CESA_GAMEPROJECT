@@ -58,6 +58,7 @@ public class MoveMobius : MonoBehaviour
     List<MoveMobius> AllMm = new List<MoveMobius>();                         //全てのMoveMobius
 
     LinePutMobius Lpm;                                                       //LinePutMobiusスクリプト
+    SupureCollision Sc;                                                      //SupureCollisionスクリプト
 
     Transform ThisTransform;
     void Start()
@@ -74,6 +75,7 @@ public class MoveMobius : MonoBehaviour
         Mc = this.GetComponent<MobiusColor>();  //MobiusColor取得        
         Sm = this.GetComponent<ShakeMobius>();
         Lpm = this.gameObject.AddComponent<LinePutMobius>();
+        Sc = this.gameObject.AddComponent<SupureCollision>();
 
         //MaPos = GameObject.Find("mebiusu").GetComponent<MobiusAttachPos>();
 
