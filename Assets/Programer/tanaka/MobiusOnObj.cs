@@ -244,4 +244,9 @@ public class MobiusOnObj : MonoBehaviour
     {
         Pause = false;
     }
+
+    public virtual bool GetRotateFlg()
+    {
+        return RotateLeftFlg;
+    }
 }
