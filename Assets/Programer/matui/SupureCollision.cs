@@ -22,7 +22,7 @@ public class SupureCollision : MonoBehaviour
 
     private void RayCollision()
     {
-        if (Mm.GetFlickMoveFlag())
+        if (Mm.GetFlickMoveFlag()&&Mm.GetPlayerMoveFlg())
         {
             float distance = (this.transform.position - OldPos).magnitude;
             Vector2 vec = Mm.SearchVector(OldPos, this.transform.position);
