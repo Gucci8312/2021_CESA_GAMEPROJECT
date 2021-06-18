@@ -19,14 +19,18 @@ public class Score : MonoBehaviour
     }
 
 
+
 	void OnTriggerEnter(Collider other)
 	{
 		//Debug.Log("すり抜けた！");
 		if (other.tag == "Wa")
 		{
 			//a++;
-			Debug.Log("当たっているわよ");
+			SupureManager.get_supure++;
+			Debug.Log(SupureManager.GetScore());
+			Debug.Log("GUCCI_BOKE");
 			this.gameObject.SetActive(false);
+			
 		}
 		
 	}
