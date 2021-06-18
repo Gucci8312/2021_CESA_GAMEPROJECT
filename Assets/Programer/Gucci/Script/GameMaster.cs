@@ -45,7 +45,7 @@ public class GameMaster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        NumControl.DrawScore(ScoreNum);
+        NumControl.DrawScore((int)SupureManager.GetScore());
 
         if (!UI.GetComponent<UIManeger>().GameClearFlg && !UI.GetComponent<UIManeger>().GameOverFlg && GameStart.Blinking_Flag)
         {
