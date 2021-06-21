@@ -72,13 +72,29 @@ public class AdultEnemy : EnemyMove
     }
 
     //生成した時の状態をセット
-    public void SetMakeState(bool rotateleftflg,int nowmobius,bool insideflg ,float nowangle)
+    public void SetMakeState(bool rotateleftflg,int nowmobius,bool insideflg ,float nowangle,int sidecnt)
     {
+        SideCnt = sidecnt - 1;
+        if (SideCnt < 0) SideCnt = 2;
         RotateLeftFlg = rotateleftflg;
         NowMobius = nowmobius;
         InsideFlg = insideflg;
         angle = nowangle;
-        Debug.Log("合体");
+
+        InsideFlg = insideflg;
+        InsideFlg = !InsideFlg;
+        if (InsideFlg)
+        {
+            InsideFlg = false;
+            InsideLength = OutLength;//内側までの距離
+
+        }
+        else
+        {
+            InsideLength = InLength;//内側までの距離
+            InsideFlg = true;
+        }
+        
     }
 
     public void SplitOn()
@@ -86,10 +102,10 @@ public class AdultEnemy : EnemyMove
         GameObject NewLarvaeEnemy1 = Instantiate(LarvaeEnemyObj);
         GameObject NewLarvaeEnemy2 = Instantiate(LarvaeEnemyObj);
 
-        NewLarvaeEnemy1.GetComponent<LarvaeEnemy>().SetMakeState(true, NowMobius, InsideFlg, angle-10);
+        NewLarvaeEnemy1.GetComponent<LarvaeEnemy>().SetMakeState(true, NowMobius, InsideFlg, angle-10,SideCnt);
         NewLarvaeEnemy1.GetComponent<LarvaeEnemy>().SetAdultRotateLeftFlg(RotateLeftFlg);
 
-        NewLarvaeEnemy2.GetComponent<LarvaeEnemy>().SetMakeState(false, NowMobius, InsideFlg, angle+10);
+        NewLarvaeEnemy2.GetComponent<LarvaeEnemy>().SetMakeState(false, NowMobius, InsideFlg, angle+10,SideCnt);
         NewLarvaeEnemy2.GetComponent<LarvaeEnemy>().SetAdultRotateLeftFlg(RotateLeftFlg);
 
         Destroy(this.gameObject);

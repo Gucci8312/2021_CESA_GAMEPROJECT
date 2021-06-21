@@ -28,7 +28,7 @@ public class LarvaeEnemy : EnemyMove
     {
         if (!Pause)
         {
-
+            
             PositionSum();
 
             //外内で速度調整
@@ -112,7 +112,7 @@ public class LarvaeEnemy : EnemyMove
                     {
                         if (other.GetComponent<PlayerMove>().GetInsideFlg() == InsideFlg)//外側か内側か
                         {
-                            //other.GetComponent<PlayerMove>().SetCollisionState();
+                            other.GetComponent<PlayerMove>().SetCollisionState();
                         }
                     }
                 }
@@ -128,7 +128,7 @@ public class LarvaeEnemy : EnemyMove
                     {
                         Destroy(other.gameObject);
                         GameObject NewAdultEnemy = Instantiate(AdultEnemyObj);
-                        NewAdultEnemy.GetComponent<AdultEnemy>().SetMakeState(AdultRotateLeftFlg, NowMobius, InsideFlg, angle);
+                        NewAdultEnemy.GetComponent<AdultEnemy>().SetMakeState(AdultRotateLeftFlg, NowMobius, InsideFlg, angle,SideCnt);
 
                         Destroy(this.gameObject);
                     }
@@ -138,13 +138,38 @@ public class LarvaeEnemy : EnemyMove
     }
 
 
-    public void SetMakeState(bool rotateleftflg,int nowmobius,bool insideflg,float nowangle)
+    public void SetMakeState(bool rotateleftflg,int nowmobius,bool insideflg,float nowangle,int sidecnt)
     {
-        RotateLeftFlg = rotateleftflg;
+        SideCnt = sidecnt - 1;
+        if (SideCnt < 0) SideCnt = 2;
+         RotateLeftFlg = rotateleftflg;
         NowMobius = nowmobius;
-        InsideFlg = insideflg;
+        
         angle = nowangle;
-        InvincibilityTime = 0.3f;
+        InvincibilityTime = 0.5f;
+        //外内で速度調整
+        if (InsideFlg)
+        {
+            Speed = NormalSpeed * InsideSpeed;
+        }
+        else
+        {
+            Speed = NormalSpeed;
+        }
+
+        InsideFlg = insideflg;
+        InsideFlg = !InsideFlg;
+        if (InsideFlg)
+        {
+            InsideFlg = false;
+            InsideLength = OutLength;//内側までの距離
+
+        }
+        else
+        {
+            InsideLength = InLength;//内側までの距離
+            InsideFlg = true;
+        }
     }
 
     public void SetAdultRotateLeftFlg(bool rotateleftflg)
