@@ -48,10 +48,10 @@ public class MoveLine : MonoBehaviour
         RythmObj = GameObject.Find("rythm_circle");                                                   //リズムオブジェクト取得
         this.rythm = RythmObj.GetComponent<Rythm>();                                                  //リズムのコード
         Cl = this.GetComponent<CrossLine>();
-
+        Cl.Type = CrossLine.GimicType.MoveLine;
         //Cl.LineMovingFlag = true;
 
-        StartMovePos = this.ThisTransform.position;
+        StartMovePos = ThisTransform.position;
     }
 
     // Update is called once per frame
@@ -64,11 +64,11 @@ public class MoveLine : MonoBehaviour
         }
     }
 
-    //EnemyMobiusの更新
+    //MoveLineの更新
     private void MoveLineUpdate()
     {
-        Cl.MoveLineFlag = true;
-        Cl.MoveFlag = MoveFlag;
+        Cl.GimicLineFlag = true;
+        Cl.GimicOnFlag = MoveFlag;
 
         //if (Time.timeScale != 0)////時間が止まっていなければ
         //{
@@ -89,12 +89,6 @@ public class MoveLine : MonoBehaviour
             BeatCount = 0;
 
         }
-        //else
-        //{
-        //    BeatFlag = false;
-
-        //}
-
 
         if (this.rythm.rythmSendCheckFlag && !BeatOnOffFlag)//ビートを刻んだら
         {
@@ -170,7 +164,7 @@ public class MoveLine : MonoBehaviour
                 for (int i = 0; i < PutOnMobius.Count; i++)
                 {
                     //メビウスに移動した変化量を加える
-                    Mm[i].AddMoveLinetoPositionSet(AddPos);
+                    Mm[i].AddGimicLinetoPositionSet(AddPos);
                 }
             }
 
@@ -185,20 +179,21 @@ public class MoveLine : MonoBehaviour
         }
     }
 
+    //メビウスが線に乗っているかどうかの情報を与える関数（CrossLine経由で呼ぶ）
     public void PutMobiusOnOff(bool flag, GameObject _obj)
     {
         MoveMobius otherMm = _obj.GetComponent<MoveMobius>();
 
         if (flag)
         {
-            otherMm.MoveLineObj = this.gameObject;
+            otherMm.GimicLineObj = this.gameObject;
             PutOnMobius.Add(_obj);
             Mm.Add(otherMm);
             Lpm.Add(_obj.GetComponent<LinePutMobius>());
         }
         else
         {
-            otherMm.MoveLineObj = null;
+            otherMm.GimicLineObj = null;
             PutOnMobius.Remove(_obj);
             Mm.Remove(otherMm);
             Lpm.Remove(_obj.GetComponent<LinePutMobius>());
@@ -259,11 +254,6 @@ public class MoveLine : MonoBehaviour
     static public void StopFlagSet(bool flag)
     {
         StopFlag = flag;
-    }
-
-    static public void BeatUp()
-    {
-
     }
 
 }

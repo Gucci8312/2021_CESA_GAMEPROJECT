@@ -24,21 +24,22 @@ public class RotationLine : MonoBehaviour
 
     public float GoalAngleTime;                                             //目標角度へ到達するまでの時間（秒）
     float NowAngletime;                                                     //移動時間（秒）
-    public bool RotationFlag;                                               //回転角度
+    public bool RotationFlag;                                               //回転しているかどうか
     bool OuhukuFlag = true;                                                 //true:行き　false:帰り
 
     private bool BeatFlag;                                                   //ビートが指定した回数になったかどうか
     public int MaxBeatNum = 5;                                               //ビート最大数指定
-    float BeatCount = 0;
+    float BeatCount = 0;                                                     //現在のビート数
+    bool BeatOnOffFlag = false;                                              //一度だけrythmSendCheckFlagを取得用
 
     Vector3 InitRotation;                                                    //初期回転値
 
     Vector2 LPos;
     Vector2 RPos;
 
-    List<GameObject> PutOnMobius = new List<GameObject>();            //線上に乗っているメビウスオブジェクト
-    List<MoveMobius> Mm = new List<MoveMobius>();
-    List<LinePutMobius> Lpm = new List<LinePutMobius>();
+    public List<GameObject> PutOnMobius = new List<GameObject>();            //線上に乗っているメビウスオブジェクト
+    [HideInInspector] public List<MoveMobius> Mm = new List<MoveMobius>();
+    [HideInInspector] public List<LinePutMobius> Lpm = new List<LinePutMobius>();
 
     CrossLine Cl;                                                            //CrossLineスクリプト格納用
 
@@ -46,10 +47,18 @@ public class RotationLine : MonoBehaviour
     Rythm rythm;                                                                                    //リズムスクリプト取得用
 
     Vector3 OldPos;
+
+    static bool StopFlag = false;//true:止める　false:動く
+
+    Transform ThisTransform;
+
     // Start is called before the first frame update
     void Start()
     {
+        ThisTransform = this.GetComponent<Transform>();
         Cl = this.gameObject.GetComponent<CrossLine>();
+        Cl.Type = CrossLine.GimicType.RootationLine;
+
         InitAngle = this.transform.localEulerAngles.z;
         InitRotation = this.transform.localEulerAngles;
 
@@ -61,19 +70,31 @@ public class RotationLine : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        Cl.MoveLineFlag = RotationFlag;
-
-        BeatCounter();
-        OuhukuRotation();
-
-        OldPos = this.transform.position;
+        if (!StopFlag)
+        {
+            BeatCounter();
+            RotationLineUpdate();
+        }
 
     }
 
-    //指定したビート数に達したら回転（往復）
+    private void RotationLineUpdate()
+    {
+        Cl.GimicLineFlag = true;
+        Cl.GimicOnFlag = RotationFlag;
 
+        //Cl.GimicLineFlag = RotationFlag;
+
+        OuhukuRotation();
+
+        BeatFlag = false;
+        OldPos = ThisTransform.position;
+    }
+
+
+    //指定したビート数に達したら回転（往復）
     private void OuhukuRotation()
     {
         if (BeatFlag)//指定したビート数に達したら
@@ -124,10 +145,11 @@ public class RotationLine : MonoBehaviour
                     }
 
                     //メビウスに移動した変化量を加える
-                    PutOnMobius[i].transform.position += AddPos *(distance*0.005f);//0.005fで移動量を調整
-                    Mm[i].MovePos += AddPos;
-                    Mm[i].StartMovePos += AddPos;
-                    Mm[i].OldPos += AddPos;
+                    //PutOnMobius[i].transform.position += AddPos *(distance*0.005f);//0.005fで移動量を調整
+                    //Mm[i].MovePos += AddPos;
+                    //Mm[i].StartMovePos += AddPos;
+                    //Mm[i].OldPos += AddPos;
+                    Mm[i].AddGimicLinetoPositionSet(AddPos * (distance * 0.005f));
                 }
             }
 
@@ -141,19 +163,19 @@ public class RotationLine : MonoBehaviour
 
             }
         }
-        else
-        {
-            if (PutOnMobius.Count != 0)
-            {
-                for (int i = 0; i < PutOnMobius.Count; i++)
-                {
-                    PutOnMobius[i].GetComponent<MoveMobius>().MoveLineObj = null;
-                }
-                PutOnMobius.Clear();
-                Mm.Clear();
-                Lpm.Clear();
-            }
-        }
+        //else
+        //{
+        //    if (PutOnMobius.Count != 0)
+        //    {
+        //        for (int i = 0; i < PutOnMobius.Count; i++)
+        //        {
+        //            PutOnMobius[i].GetComponent<MoveMobius>().MoveLineObj = null;
+        //        }
+        //        PutOnMobius.Clear();
+        //        Mm.Clear();
+        //        Lpm.Clear();
+        //    }
+        //}
     }
 
     //ビートをカウントする
@@ -163,18 +185,19 @@ public class RotationLine : MonoBehaviour
         {
             BeatFlag = true;
             BeatCount = 0;
-        }
-        else
-        {
-            BeatFlag = false;
 
         }
 
-        if (this.rythm.m_EmobiusBeatFlag)//ビートを刻んだら
+        if (this.rythm.rythmSendCheckFlag && !BeatOnOffFlag)//ビートを刻んだら
         {
             //time += Time.deltaTime;
+            //MoveLine.BeatCount++;
             BeatCount++;
-
+            BeatOnOffFlag = true;
+        }
+        else if (!this.rythm.rythmSendCheckFlag && BeatOnOffFlag)
+        {
+            BeatOnOffFlag = false;
         }
     }
 
@@ -257,24 +280,50 @@ public class RotationLine : MonoBehaviour
         return Angle;
     }
 
-    private void OnTriggerStay(Collider other)
+    //メビウスが線に乗っているかどうかの情報を与える関数（CrossLine経由で呼ぶ）
+    public void PutMobiusOnOff(bool flag, GameObject _obj)
     {
-        if (other.gameObject.CompareTag("Mobius"))
+        MoveMobius otherMm = _obj.GetComponent<MoveMobius>();
+
+        if (flag)
         {
-            MoveMobius otherMm = other.gameObject.GetComponent<MoveMobius>();
-
-            if (!RotationFlag)//線が動いていないとき
-            {
-                if (otherMm.MoveLineObj == null)//当たったメビウスがまだどの動く線にくっつくか決めてなければ
-                {
-                    otherMm.MoveLineObj = this.gameObject;
-                    PutOnMobius.Add(other.gameObject);
-                    Mm.Add(otherMm);
-                    Lpm.Add(other.GetComponent<LinePutMobius>());
-                }
-
-            }
+            otherMm.GimicLineObj = this.gameObject;
+            PutOnMobius.Add(_obj);
+            Mm.Add(otherMm);
+            Lpm.Add(_obj.GetComponent<LinePutMobius>());
+        }
+        else
+        {
+            otherMm.GimicLineObj = null;
+            PutOnMobius.Remove(_obj);
+            Mm.Remove(otherMm);
+            Lpm.Remove(_obj.GetComponent<LinePutMobius>());
         }
     }
+
+    static public void StopFlagSet(bool flag)
+    {
+        StopFlag = flag;
+    }
+
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Mobius"))
+    //    {
+    //        MoveMobius otherMm = other.gameObject.GetComponent<MoveMobius>();
+
+    //        if (!RotationFlag)//線が動いていないとき
+    //        {
+    //            if (otherMm.MoveLineObj == null)//当たったメビウスがまだどの動く線にくっつくか決めてなければ
+    //            {
+    //                otherMm.MoveLineObj = this.gameObject;
+    //                PutOnMobius.Add(other.gameObject);
+    //                Mm.Add(otherMm);
+    //                Lpm.Add(other.GetComponent<LinePutMobius>());
+    //            }
+
+    //        }
+    //    }
+    //}
 
 }

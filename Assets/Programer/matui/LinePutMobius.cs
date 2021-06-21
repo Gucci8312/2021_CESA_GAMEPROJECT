@@ -6,8 +6,8 @@ using UnityEngine;
 //動く線に乗っているときのメビウスの処理
 public class LinePutMobius : MonoBehaviour
 {
-    private bool MoveLineFlag = false;//線が動いているかどうか
-    private bool MoveLinePutFlag = false;//線に乗っているかどうか
+    private bool GimicLineFlag = false;//線が動いているかどうか
+    private bool GimicLinePutFlag = false;//線に乗っているかどうか
    [HideInInspector] public Vector2 MoveLineVec;     //線が移動した方向（MoveLine側で操作）
 
     MoveMobius Mm;
@@ -38,7 +38,7 @@ public class LinePutMobius : MonoBehaviour
         MoveLineSetting();
         LinePutCheck();
 
-        if (MoveLineFlag)//線が動いていたら
+        if (GimicLineFlag)//線が動いていたら
         {
             //PutMobiusRayCol();//当たり判定実行
             //for (int i = 0; i < 5; i++)
@@ -65,7 +65,7 @@ public class LinePutMobius : MonoBehaviour
 
     private void MoveLineSetting()
     {
-        if (!MoveLineFlag)
+        if (!GimicLineFlag)
         {
 
             int NotMoveLinecount = 0;//MoveLineじゃない線を数える用
@@ -75,12 +75,12 @@ public class LinePutMobius : MonoBehaviour
             {
                 for (int i = 0; i < Mm.GetLine().Count; i++)
                 {
-                    if (Mm.Getcl()[i].MoveLineFlag)//MoveLineでなら
+                    if (Mm.Getcl()[i].GimicLineFlag)//MoveLineでなら
                     {
-                        if (!Mm.Getcl()[i].MoveFlag && Mm.MoveLineObj == null)//線が動いていない　かつ　まだ動く線を登録してなければ
+                        if (!Mm.Getcl()[i].GimicOnFlag && Mm.GimicLineObj == null)//線が動いていない　かつ　まだ動く線を登録してなければ
                         {
                             //MoveLineに登録
-                            Mm.GetLine()[i].GetComponent<MoveLine>().PutMobiusOnOff(true, this.gameObject);
+                            Mm.Getcl()[i].PutMobiusOnOff(true, this.gameObject);
                             //Debug.Log(Mm.MoveLineObj.name + "に乗った");
                         }
                     }
@@ -89,7 +89,7 @@ public class LinePutMobius : MonoBehaviour
                         NotMoveLinecount++;
                     }
 
-                    if (Mm.MoveLineObj == Mm.GetLine()[i])//登録したMoveLineと同じ奴なら
+                    if (Mm.GimicLineObj == Mm.GetLine()[i])//登録したMoveLineと同じ奴なら
                     {
                         SameFlag = true;
                         //Debug.Log(Mm.GetLine()[i].name + "と同じ");
@@ -98,11 +98,11 @@ public class LinePutMobius : MonoBehaviour
             }
 
 
-            if (((Mm.GetLine().Count == 0) || (NotMoveLinecount == Mm.GetLine().Count) || !SameFlag) && Mm.MoveLineObj != null)
+            if (((Mm.GetLine().Count == 0) || (NotMoveLinecount == Mm.GetLine().Count) || !SameFlag) && Mm.GimicLineObj != null)
             {
                 //MoveLineに登録したやつを削除
                 //Debug.Log(Mm.MoveLineObj.name + "から離れた");
-                Mm.MoveLineObj.GetComponent<MoveLine>().PutMobiusOnOff(false, this.gameObject);
+                Mm.GimicLineObj.GetComponent<CrossLine>().PutMobiusOnOff(false, this.gameObject);
             }
 
         }
@@ -111,21 +111,21 @@ public class LinePutMobius : MonoBehaviour
     //動く線に乗っているかどうか確認する
     private void LinePutCheck()
     {
-        if (Mm.MoveLineObj != null)
+        if (Mm.GimicLineObj != null)
         {
-            MoveLinePutFlag = true;
+            GimicLinePutFlag = true;
         }
         else
         {
-            MoveLinePutFlag = false;
+            GimicLinePutFlag = false;
         }
     }
 
     private void MoveLineTrueStop()
     {
-        if (MoveLinePutFlag)//動く線に乗っているなら
+        if (GimicLinePutFlag)//動く線に乗っているなら
         {
-            if (MoveLineFlag)//線が動いていたら
+            if (GimicLineFlag)//線が動いていたら
             {
                 if (Mm.GetFlickMoveFlag())
                 {
@@ -144,7 +144,7 @@ public class LinePutMobius : MonoBehaviour
 
     public void SetMoveLineFlag(bool flag)
     {
-        MoveLineFlag = flag;
+        GimicLineFlag = flag;
     }
 
     //引数の位置から離れた方のベクトルを返す
@@ -161,12 +161,12 @@ public class LinePutMobius : MonoBehaviour
         List<Vector2> MoveVec = new List<Vector2>();//移動できる候補となるベクトル
         for (int i = 0; i < Mm.Getcl().Count; i++)
         {
-            if (MoveLinePutFlag != Mm.Getcl()[i].MoveLineFlag)//乗っている線と違う種類の線なら
+            if (GimicLinePutFlag != Mm.Getcl()[i].GimicLineFlag)//乗っている線と違う種類の線なら
             {
                 continue;
             }
 
-            if (Mm.Getcl()[i].MoveFlag)
+            if (Mm.Getcl()[i].GimicOnFlag)
             {
                 Mm.Getcl()[i].ALLUpdate();
             }
@@ -362,7 +362,7 @@ public class LinePutMobius : MonoBehaviour
             GameObject otherObj = Mm.NearObjSearch(ColObj, HitPos, OldPos);//リストの中から始点に近いオブジェクトを取得
             //Debug.Log(otherObj.name + "とぶつかった~～");
 
-            if (/*Mm.MoveLineObj != */!otherObj.GetComponent<LinePutMobius>().MoveLinePutFlag)//ぶつかった相手が動く線に乗っていない
+            if (/*Mm.MoveLineObj != */!otherObj.GetComponent<LinePutMobius>().GimicLinePutFlag)//ぶつかった相手が動く線に乗っていない
             {
 
                 //otherObj.transform.position = HitPos[Mm.ListNumberSearch(ColObj, otherObj)];//メビウスの座標を例が当たった座標にする（計算をしやすくするため）
@@ -422,14 +422,14 @@ public class LinePutMobius : MonoBehaviour
             //{
             LinePutMobius OtherLpm= other.GetComponent<LinePutMobius>();
 
-            if ((MoveLinePutFlag && !OtherLpm.MoveLinePutFlag)//相手が動く線に乗ってなく自分が乗っていたら
-                || ((MoveLinePutFlag&& OtherLpm.MoveLinePutFlag)&& (!MoveLineFlag&& !OtherLpm.MoveLineFlag)))//お互いに動く線に乗って動いてなかったら
+            if ((GimicLinePutFlag && !OtherLpm.GimicLinePutFlag)//相手が動く線に乗ってなく自分が乗っていたら
+                || ((GimicLinePutFlag&& OtherLpm.GimicLinePutFlag)&& (!GimicLineFlag&& !OtherLpm.GimicLineFlag)))//お互いに動く線に乗って動いてなかったら
             {
                 Collision(other.gameObject);
                 LinePutMobiusColFlag = true;
                 OtherLpm.LinePutMobiusColFlag = true;
             }
-            else if (MoveLinePutFlag == OtherLpm.MoveLinePutFlag &&
+            else if (GimicLinePutFlag == OtherLpm.GimicLinePutFlag &&
                 (LinePutMobiusColFlag && OtherLpm.LinePutMobiusColFlag))
             {
                 Collision(other.gameObject);
@@ -462,13 +462,13 @@ public class LinePutMobius : MonoBehaviour
     //}
 
 
-    public bool GetMoveLineFlag()
+    public bool GetGimicLineFlag()
     {
-        return MoveLineFlag;
+        return GimicLineFlag;
     }
-    public bool GetMoveLinePutFlag()
+    public bool GetGimicLinePutFlag()
     {
-        return MoveLinePutFlag;
+        return GimicLinePutFlag;
     }
 
 }

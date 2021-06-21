@@ -24,7 +24,7 @@ public class MoveMobius : MonoBehaviour
 
     public List<GameObject> Line = new List<GameObject>();                    //線のオブジェクト（CollisionLineが操作する）
     public List<CrossLine> cl = new List<CrossLine>();                        //CrossLineスクリプト（CollisionLineが操作する）
-    [HideInInspector] public GameObject MoveLineObj;                         //動く線のオブジェクト格納用（MoveLineが操作する）
+    [HideInInspector] public GameObject GimicLineObj;                         //動く線のオブジェクト格納用（MoveLineが操作する）
     int MobiusMoveCrossPosNum;                                               //メビウスが移動する交点の要素番号
 
     private Rigidbody Rb;
@@ -193,7 +193,7 @@ public class MoveMobius : MonoBehaviour
                         {
                             CrossLine HitCL = hit.collider.gameObject.GetComponent<CrossLine>();
 
-                            if (!HitCL.MoveFlag && !HitCL.SameLRvec(CanCrossPosCl.GetLvec(), CanCrossPosCl.GetRvec()))//動いていない　かつ　線の方向が同じじゃなければ
+                            if (!HitCL.GimicOnFlag && !HitCL.SameLRvec(CanCrossPosCl.GetLvec(), CanCrossPosCl.GetRvec()))//動いていない　かつ　線の方向が同じじゃなければ
                             {
                                 if (SameObjListSearch(Line, hit.collider.gameObject))//Lineリストの中にレイが当たったオブジェクトがなければ
                                 {
@@ -421,7 +421,7 @@ public class MoveMobius : MonoBehaviour
     private bool LineVecFlag(out CrossLine outCl)//メビウスの輪が線上に乗っているかどうか
     {
         bool Seachflag = false;
-        GameObject MoveLine = null;
+        GameObject GimicLine = null;
         outCl = null;
         Vector2 Vec;//FlickVecに代入用
 
@@ -436,7 +436,7 @@ public class MoveMobius : MonoBehaviour
 
                         FlickVec = Vec;
                         Seachflag = true;
-                        MoveLine = Line[i];
+                        GimicLine = Line[i];
                         break;
 
                     }
@@ -448,7 +448,7 @@ public class MoveMobius : MonoBehaviour
 
                         FlickVec = Vec;
                         Seachflag = true;
-                        MoveLine = Line[i];
+                        GimicLine = Line[i];
                         break;
 
                     }
@@ -460,7 +460,7 @@ public class MoveMobius : MonoBehaviour
         
         if (Seachflag)
         {
-            outCl = MoveLine.GetComponent<CrossLine>();
+            outCl = GimicLine.GetComponent<CrossLine>();
         }
 
         //Debug.Log("移動" + Line[0].name);
@@ -635,7 +635,7 @@ public class MoveMobius : MonoBehaviour
 
                         float ScaleDistance = ThisR + ColR + dis+1;//お互いの半径分と少しだけ離す
 
-                        if (!otherObj.GetComponent<LinePutMobius>().GetMoveLineFlag())//相手メビウスが動く線によって移動してなければ
+                        if (!otherObj.GetComponent<LinePutMobius>().GetGimicLineFlag())//相手メビウスが動く線によって移動してなければ
                         {
                             if (ScaleDistance < PosDistance)//離れているところから移動してぶつかったなら
                             {
@@ -741,7 +741,7 @@ public class MoveMobius : MonoBehaviour
         }
     }
 
-    public void AddMoveLinetoPositionSet(Vector3 addpos)//MoveMobius以外で動かす用
+    public void AddGimicLinetoPositionSet(Vector3 addpos)//MoveMobius以外で動かす用
     {
         ThisTransform.position += addpos;
         ////Mm[i].MovePos += AddPos;

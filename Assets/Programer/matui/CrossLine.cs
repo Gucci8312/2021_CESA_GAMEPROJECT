@@ -5,6 +5,14 @@ using UnityEngine;
 //線の処理
 public class CrossLine : MonoBehaviour
 {
+    public enum GimicType//線のギミックの種類
+    {
+       NONE = 0,
+       MoveLine,
+       RootationLine,
+    }
+    public GimicType Type;
+
     //MoveLineで変更したりするのでpublicにしてる
     [HideInInspector] public List<Vector2> CrossPos = new List<Vector2>();                            //自身の交点
     [HideInInspector] public List<GameObject> Line = new List<GameObject>();                          //線のオブジェクト
@@ -18,8 +26,8 @@ public class CrossLine : MonoBehaviour
 
     [HideInInspector] public Vector3 RayHitPos;
 
-    [HideInInspector] public bool MoveLineFlag=false;             //動く床かどうか（MoveLineから操作）
-    [HideInInspector] public bool MoveFlag = false;               //動いてるかどうか（MoveLineから操作）
+    [HideInInspector] public bool GimicLineFlag=false;             //動く床かどうか（MoveLineから操作）
+    [HideInInspector] public bool GimicOnFlag = false;             //動いてるかどうか（MoveLineから操作）
 
     private bool GotoLineFlag = false; //通ったかどうか
 
@@ -469,6 +477,21 @@ public class CrossLine : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    //メビウスが線に乗っているかどうかの情報を与える関数
+    public void PutMobiusOnOff(bool flag, GameObject _obj)
+    {
+        switch (Type)
+        {
+            case GimicType.MoveLine:
+                this.GetComponent<MoveLine>().PutMobiusOnOff(flag, _obj);
+                break;
+
+            case GimicType.RootationLine:
+                this.GetComponent<RotationLine>().PutMobiusOnOff(flag, _obj);
+                break;
+        }
     }
 
 
