@@ -245,6 +245,7 @@ public class MobiusOnObj : MonoBehaviour
         Pause = false;
     }
 
+    //どっち周りかどうかを返す
     public virtual bool GetRotateFlg()
     {
         return RotateLeftFlg;

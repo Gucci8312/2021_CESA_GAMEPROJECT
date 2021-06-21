@@ -65,11 +65,7 @@ public class AdultEnemy : EnemyMove
         }
     }
 
-
-    public void SetLeftDirection(bool direction)
-    {
-        RotateLeftFlg = direction;
-    }
+    
 
     //生成した時の状態をセット
     public void SetMakeState(bool rotateleftflg,int nowmobius,bool insideflg ,float nowangle,int sidecnt)
@@ -102,10 +98,11 @@ public class AdultEnemy : EnemyMove
         GameObject NewLarvaeEnemy1 = Instantiate(LarvaeEnemyObj);
         GameObject NewLarvaeEnemy2 = Instantiate(LarvaeEnemyObj);
 
+        //敵を左方向に生成
         NewLarvaeEnemy1.GetComponent<LarvaeEnemy>().SetMakeState(true, NowMobius, InsideFlg, angle-10,SideCnt);
         NewLarvaeEnemy1.GetComponent<LarvaeEnemy>().SetAdultRotateLeftFlg(RotateLeftFlg);
-
-        NewLarvaeEnemy2.GetComponent<LarvaeEnemy>().SetMakeState(false, NowMobius, InsideFlg, angle+10,SideCnt);
+        //敵を右方向に生成
+        NewLarvaeEnemy2.GetComponent<LarvaeEnemy>().SetMakeState(false, NowMobius, InsideFlg, angle+10,SideCnt-1);
         NewLarvaeEnemy2.GetComponent<LarvaeEnemy>().SetAdultRotateLeftFlg(RotateLeftFlg);
 
         Destroy(this.gameObject);

@@ -85,19 +85,7 @@ public class LarvaeEnemy : EnemyMove
 
         }
     }
-
-    public void SetLeftDirection(bool direction)
-    {
-        RotateLeftFlg = direction;
-    }
-
-    public void DethOn()//破棄
-    {
-        Deth = true;
-        Destroy(this.gameObject);
-    }
-
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (InvincibilityTime == 0)
@@ -140,22 +128,13 @@ public class LarvaeEnemy : EnemyMove
 
     public void SetMakeState(bool rotateleftflg,int nowmobius,bool insideflg,float nowangle,int sidecnt)
     {
-        SideCnt = sidecnt - 1;
-        if (SideCnt < 0) SideCnt = 2;
+        SideCnt = sidecnt;
          RotateLeftFlg = rotateleftflg;
         NowMobius = nowmobius;
         
         angle = nowangle;
         InvincibilityTime = 0.5f;
-        //外内で速度調整
-        if (InsideFlg)
-        {
-            Speed = NormalSpeed * InsideSpeed;
-        }
-        else
-        {
-            Speed = NormalSpeed;
-        }
+        
 
         InsideFlg = insideflg;
         InsideFlg = !InsideFlg;
