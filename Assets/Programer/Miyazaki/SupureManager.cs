@@ -19,6 +19,11 @@ public class SupureManager : MonoBehaviour
 
 	}
 
+	static public void ResetScore()
+    {
+		get_supure = 0;
+	}
+
 	void OnEnable()
 	{
 		supure_num = max_supure;

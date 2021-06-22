@@ -18,12 +18,12 @@ public class UIManeger : MonoBehaviour
     CheckPointCount CountScript;
     GameObject[] CheackPointObj;
 
-	public GameObject[] Check_Point_Light;
+    public GameObject[] Check_Point_Light;
 
     GameObject ZoomCameraObj;
     CameraZoom _camera;
     public int ThisStageNum;
-    int UINum=0;
+    int UINum = 0;
 
     //  public GameObject ClearDai;
     private void Awake()
@@ -65,7 +65,9 @@ public class UIManeger : MonoBehaviour
             GameClear.active = true;
             //_camera.OnZoom();                 //カメラズーム
             //        Time.timeScale = 0.0f;
-            StageControl.SetOpenFlg(ThisStageNum);
+            StageControl.SetClearFlg(ThisStageNum-1);
+            StageControl.SetParcent(ThisStageNum - 1, NumControl.GetScore());
+            SaveControl.Save();
             Player.GetComponent<PlayerMove>().ClearOn();//プレイヤーをクリアの動きに切り替え
             if (Player.GetComponent<PlayerMove>().GetStop())//プレイヤーのクリアの動き終わった
             {
@@ -83,7 +85,7 @@ public class UIManeger : MonoBehaviour
             }
         }
 
-        if (Player.GetComponent<PlayerMove>().GetCollisionState()||TimeAttack.timeUp && !GameClearFlg && !GameOverFlg)   // ゲームオーバー時
+        if (Player.GetComponent<PlayerMove>().GetCollisionState() || TimeAttack.timeUp && !GameClearFlg && !GameOverFlg)   // ゲームオーバー時
         {
             Debug.Log(" ゲームオーバー");
             SoundManager.StopBGM();
@@ -104,21 +106,21 @@ public class UIManeger : MonoBehaviour
             }
         }
 
-        if(UINum!= CountScript.CheckPointNum)//2 0
+        if (UINum != CountScript.CheckPointNum)//2 0
         {
 
-			
-			for (int i = 0; i < Check_Point_Light.Length; i++)
-			{
-				if (!Check_Point_Light[i].activeSelf)
-				{
-					Check_Point_Light[i].SetActive(true);
-					break;
-				}
-			}
-			// JudgeUI[CountScript.CheckPointNum].SetActive(true);
-			Invoke("Create",1.0f);
-			UINum++;
+
+            for (int i = 0; i < Check_Point_Light.Length; i++)
+            {
+                if (!Check_Point_Light[i].activeSelf)
+                {
+                    Check_Point_Light[i].SetActive(true);
+                    break;
+                }
+            }
+            // JudgeUI[CountScript.CheckPointNum].SetActive(true);
+            Invoke("Create", 1.0f);
+            UINum++;
             // Create(UINum);
         }
 
@@ -130,7 +132,7 @@ public class UIManeger : MonoBehaviour
 
     void Create()
     {
-       // JudgeUI[UINum-1].SetActive(true);
+        // JudgeUI[UINum-1].SetActive(true);
         for (int idx = 0; idx < UINum; idx++)
         {
             JudgeUI[idx].SetActive(true);

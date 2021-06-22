@@ -13,19 +13,19 @@ public class SceneMove : MonoBehaviour
     public GameObject[] stageNum;
     public Material[] ColorNum;
 
-	public GameObject[] UI;
-	bool UI_Flag;
-	float UI_Time;
+    public GameObject[] UI;
+    bool UI_Flag;
+    float UI_Time;
 
-	const int LIGHT_OFF = 1;
+    const int LIGHT_OFF = 1;
     const int LIGHT_ON = 10;
 
-    public StageSelectCamera stageselectcam;
     public FedeOut fedeout;
+    public DollyDriver dollyDriver;
 
 
-    bool Camera = false;
-    bool Camera1 = false;
+    bool StopCamera = false;
+    bool StopCamera1 = false;
     [SerializeField] GameObject[] stage_picture;
 
     public int Select_Scene;
@@ -34,62 +34,55 @@ public class SceneMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        NumControl.InitNum();
 
         StageControl.SetOpenFlg(0);
         Activeflag = true;
-        // Select_Scene = 1;
         for (int i = 0; i < stage_picture.Length; i++)
         {
             stage_picture[i].SetActive(false);
         }
         fedeout = GetComponent<FedeOut>();
         Select_Scene = StageControl.GetNowStage();
-
-
-        //if (Select_Scene >= 1 && Select_Scene <= 5)
-        //      {
-        //          stageselectcam.StageNum0();
-        //      }
-        //      if (Select_Scene >= 6 && Select_Scene <= 10)
-        //      {
-        //          stageselectcam.StageNum1();
-        //      }
-        //      if (Select_Scene >= 11 && Select_Scene <= 15)
-        //      {
-        //          stageselectcam.StageNum2();
-        //      }
-        //      if (Select_Scene >= 16 && Select_Scene <= 20)
-        //      {
-        //          stageselectcam.StageNum3();
-        //      }
-        //      if (Select_Scene >= 21 && Select_Scene <= 25)
-        //      {
-        //          stageselectcam.StageNum4();
-        //      }
     }
 
     // Update is called once per frame
     void Update()
     {
+        // ロード
+        if (Controler.GetXButtonFlg())
+        {
+            SaveControl.Load();
+        }
+        // セーブ
+        if (Controler.GetYButtonFlg())
+        {
+            SaveControl.Save();
+        }
+
+        // スコア表示
+        NumControl.DrawScore(StageControl.GetStageParsent(Select_Scene-1));
+        //Debug.Log(Select_Scene);
+
         if (Select_Scene >= 1 && Select_Scene <= 5)
         {
-            stageselectcam.StageNum0();
+            dollyDriver.StageNum0();
         }
         if (Select_Scene >= 6 && Select_Scene <= 10)
         {
-            stageselectcam.StageNum1();
+            dollyDriver.StageNum1();
         }
         if (Select_Scene >= 11 && Select_Scene <= 15)
         {
-            stageselectcam.StageNum2();
+            dollyDriver.StageNum2();
         }
         if (Select_Scene >= 16 && Select_Scene <= 20)
         {
-            stageselectcam.StageNum3();
+            dollyDriver.StageNum3();
         }
         if (Select_Scene >= 21 && Select_Scene <= 25)
         {
-            stageselectcam.StageNum4();
+            dollyDriver.StageNum4();
         }
 
         if (Controler.GetLBButtonFlg())
@@ -106,7 +99,6 @@ public class SceneMove : MonoBehaviour
             SoundManager.PlaySeName("選択する際のカーソルが移動する時");
         }
         else if (Controler.GetRBButtonFlg())
-        //else if (Controler.OpenStageNum() <)
         {
             Debug.Log("次のエリアへ");
             if (StageControl.GetOpenFlg(Select_Scene))
@@ -124,8 +116,7 @@ public class SceneMove : MonoBehaviour
             SoundManager.PlaySeName("選択する際のカーソルが移動する時");
         }
 
-        // if(Controler.GetRightTriggerFlg()&&Controler.GetLeftTriggerFlg())
-        if (Controler.GetXButtonFlg()&&Controler.GetYButtonFlg())
+        if (Controler.GetXButtonFlg() && Controler.GetYButtonFlg())
         {
             StageControl.AllStageOpen();
         }
@@ -135,7 +126,6 @@ public class SceneMove : MonoBehaviour
             fedeout.FedeOut_Update();
 
             if (Controler.GetRightButtonFlg())
-            //if(Input.GetKeyDown(KeyCode.RightArrow))
             {
                 if (Select_Scene != 25)
                 {
@@ -146,19 +136,18 @@ public class SceneMove : MonoBehaviour
                 }
                 if (Select_Scene == 25)
                 {
-                    Camera = false;
+                    StopCamera = false;
                 }
                 if (StageControl.GetOpenFlg(Select_Scene))
                 {
                     if (Select_Scene % 5 == 1)
                     {
-                        Camera = true;
+                        StopCamera = true;
                     }
                 }
                 SoundManager.PlaySeName("選択する際のカーソルが移動する時");
             }
             else if (Controler.GetLeftButtonFlg())
-            // else if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 if (Select_Scene != 0)
                 {
@@ -168,24 +157,24 @@ public class SceneMove : MonoBehaviour
                 if (Select_Scene == 0)
                 {
                     Select_Scene = 1;
-                    Camera1 = false;
+                    StopCamera1 = false;
                 }
                 if (Select_Scene % 5 == 0)
                 {
-                    Camera1 = true;
+                    StopCamera1 = true;
                 }
                 SoundManager.PlaySeName("選択する際のカーソルが移動する時");
             }
-            if (Camera == true)
+            if (StopCamera == true)
             {
-                stageselectcam.OnPlus();
-                Camera = false;
+                dollyDriver.OnPlus();
+                StopCamera = false;
             }
 
-            if (Camera1 == true)
+            if (StopCamera1 == true)
             {
-                stageselectcam.OnMinus();
-                Camera1 = false;
+                dollyDriver.OnMinus();
+                StopCamera1 = false;
             }
 
             AllStageLightOff();
@@ -219,9 +208,8 @@ public class SceneMove : MonoBehaviour
         }
 
         Release_Stage();
-		Blinking_UI();
-
-	}
+        Blinking_UI();
+    }
 
     // @name   AllStageLightOff
     // @brief  すべてのステージのライトをオフにする
@@ -296,38 +284,38 @@ public class SceneMove : MonoBehaviour
         }
     }
 
-	void Blinking_UI()
-	{
+    void Blinking_UI()
+    {
 
-		UI_Time -= Time.deltaTime;
-		if (UI_Time <= 0.0)
-		{
-			UI_Time = 1.0f;
-			
-			if(UI_Flag)
-			{
+        UI_Time -= Time.deltaTime;
+        if (UI_Time <= 0.0)
+        {
+            UI_Time = 1.0f;
+
+            if (UI_Flag)
+            {
                 for (int i = 0; i < UI.Length; i++)
                 {
                     UI[i].SetActive(UI_Flag);
                 }
-                    
-				UI_Flag = false;
-			}
-			else
-			{
+
+                UI_Flag = false;
+            }
+            else
+            {
                 for (int i = 0; i < UI.Length; i++)
                 {
                     UI[i].SetActive(UI_Flag);
                 }
-				UI_Flag = true;
-			}
+                UI_Flag = true;
+            }
 
 
-			//ここに処理
-		}
+            //ここに処理
+        }
 
 
-	}
+    }
 
 
 }

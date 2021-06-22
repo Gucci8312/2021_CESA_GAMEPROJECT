@@ -36,6 +36,7 @@ public class GameMaster : MonoBehaviour
         Invoke("OnStartBGM", 0.1f);
         UI = GameObject.Find("UI");
         NumControl.InitNum();
+        SupureManager.ResetScore();
     }
 
     void OnStartBGM()

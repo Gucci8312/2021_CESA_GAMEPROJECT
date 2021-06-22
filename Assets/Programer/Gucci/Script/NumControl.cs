@@ -9,6 +9,7 @@ public class NumControl : MonoBehaviour
     static GameObject[] HundredObj = new GameObject[10];
     static int TempOne = 0, TempTen = 0, TempHundred = 1;
     static Material NumColor;
+    static int NowScore;
 
     // Start is called before the first frame update
     void Start()
@@ -69,13 +70,14 @@ public class NumControl : MonoBehaviour
             HundredObj[Idx].SetActive(false);
             Cnt += 100;
         }
+        DrawScore(0);
     }
 
     // 
     static public void DrawScore(int _Num)
     {
         int One, Ten, Hundred;
-
+        NowScore = _Num;
         One = _Num % 10;        // 一の位
         Ten = (_Num % 100) / 10;        // 十の位
         Hundred = _Num / 100;   // 百の位
@@ -83,19 +85,19 @@ public class NumControl : MonoBehaviour
         {
             TempTen = 0;
         }
-        if(_Num<30)
+        if (_Num < 30)
         {
             ChangeColor(1.0f, 0.6f, 0.0f, 0.0f);
         }
-        else if(_Num<50)
+        else if (_Num < 50)
         {
             ChangeColor(1.0f, 1.0f, 0.0f, 0.0f);
         }
-        else if(_Num<70)
+        else if (_Num < 70)
         {
             ChangeColor(0.0f, 1.0f, 0.0f, 0.0f);
         }
-        else if(_Num==100)
+        else if (_Num == 100)
         {
             ChangeColor(0.0f, 1.0f, 1.0f, 0.0f);
         }
@@ -520,5 +522,10 @@ public class NumControl : MonoBehaviour
         }
         // }
 
+    }
+
+    static public int GetScore()
+    {
+        return NowScore;
     }
 }

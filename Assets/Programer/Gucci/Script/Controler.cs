@@ -287,7 +287,7 @@ public class Controler : MonoBehaviour
         {
             Response = true;
         }
-        else if (Input.GetKey(KeyCode.Z))
+        else if (Input.GetKey(KeyCode.Y))
         {
             Response = true;
         }
