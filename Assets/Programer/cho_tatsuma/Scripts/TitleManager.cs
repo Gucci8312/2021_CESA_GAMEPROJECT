@@ -76,9 +76,9 @@ public class TitleManager : MonoBehaviour
         {
             SaveControl.Load();
         } 
-        if(Controler.GetYButtonFlg())
-        {
-            SaveControl.Save();
-        }
+        //if(Controler.GetYButtonFlg())
+        //{
+        //    SaveControl.Save();
+        //}
     }
 }

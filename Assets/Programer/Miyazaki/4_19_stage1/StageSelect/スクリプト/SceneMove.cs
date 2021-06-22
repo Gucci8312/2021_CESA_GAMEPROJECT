@@ -49,17 +49,6 @@ public class SceneMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // ロード
-        if (Controler.GetXButtonFlg())
-        {
-            SaveControl.Load();
-        }
-        // セーブ
-        if (Controler.GetYButtonFlg())
-        {
-            SaveControl.Save();
-        }
-
         // スコア表示
         NumControl.DrawScore(StageControl.GetStageParsent(Select_Scene-1));
         //Debug.Log(Select_Scene);
