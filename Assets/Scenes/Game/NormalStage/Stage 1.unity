@@ -430,12 +430,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &69175089
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2534,12 +2535,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &663117197
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3195,12 +3197,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &957082223
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4181,12 +4184,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &1386414858
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5100,7 +5104,7 @@ PrefabInstance:
     - target: {fileID: 1998768043982401862, guid: 3bd1c35edd901b14abcff70f3c17f88a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 166
+      value: 114.9
       objectReference: {fileID: 0}
     - target: {fileID: 1998768043982401862, guid: 3bd1c35edd901b14abcff70f3c17f88a,
         type: 3}
@@ -5909,6 +5913,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[2]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8955852150560048632, guid: 8460f56ea1359354da04962b6e4c523d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8460f56ea1359354da04962b6e4c523d, type: 3}
