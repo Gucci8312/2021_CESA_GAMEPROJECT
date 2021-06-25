@@ -8,9 +8,10 @@ using UnityEngine;
 
 // @name   ExpantionShrink
 // @brief  オブジェクト拡縮クラス
+//拡大縮小の英語文字が逆になっていてわかりにくいかもごめん。
 public class ExpantionShrink : MonoBehaviour
 {
-    public float MIN_SHRINK = 0.7f;      //最大縮小サイズ
+    public float MIN_SHRINK = 0.7f;      //最大縮小サイズ　ここを変えるとリズムのタイミングでの縮小サイズが変わる
     Rythm rythm;
     bool isExpantion;
     bool isShrink;
@@ -53,12 +54,15 @@ public class ExpantionShrink : MonoBehaviour
         m_gameStart = true;
     }
 
+    //縮小
     void Expantion()
     {
         if (isExpantion)
         {
+            //徐々に縮小
             myTransform.localScale = new Vector3(myTransform.localScale.x * i, myTransform.localScale.y * i, myTransform.localScale.z);
             i -= 0.01f;
+            //最大縮小サイズより小さくなったら　最大縮小サイズに強制固定
             if (myTransform.localScale.x <= initLocalScale.x * MIN_SHRINK)
             {
                 myTransform.localScale = new Vector3(initLocalScale.x * MIN_SHRINK, initLocalScale.y * MIN_SHRINK, myTransform.localScale.z);
@@ -69,12 +73,15 @@ public class ExpantionShrink : MonoBehaviour
         }
     }
 
+    //拡大
     void Shrink()
     {
         if (isShrink)
         {
+            //徐々に拡大
             myTransform.localScale = new Vector3(myTransform.localScale.x * j, myTransform.localScale.y * j, myTransform.localScale.z);
             j += 0.2f;
+            //元のサイズより越えてしまったら　元のサイズに強制変更
             if (myTransform.localScale.x >= initLocalScale.x)
             {
                 myTransform.localScale = new Vector3(initLocalScale.x, initLocalScale.y, myTransform.localScale.z);
