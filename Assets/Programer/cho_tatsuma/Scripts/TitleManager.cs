@@ -48,6 +48,7 @@ public class TitleManager : MonoBehaviour
         m_loadTextObj.GetComponent<StageAnim>().enabled = false;
         m_SelectObj.GetComponent<SpriteRenderer>().enabled = false;
         Cursor.visible = false;
+        m_SelectObj.SetActive(false);
     }
 
     private void Update()
@@ -81,13 +82,14 @@ public class TitleManager : MonoBehaviour
             }
         }
 
-        if(Controler.GetXButtonFlg())
+        if (Controler.GetXButtonFlg())
         {
             SaveControl.Load();
         }
 
         if (m_fadeTextScript.saveLoadFlg)
         {
+            m_SelectObj.SetActive(true);
             m_saveTextObj.GetComponent<StageAnim>().enabled = true;
             m_loadTextObj.GetComponent<StageAnim>().enabled = true;
             m_SelectObj.GetComponent<SpriteRenderer>().enabled = true;

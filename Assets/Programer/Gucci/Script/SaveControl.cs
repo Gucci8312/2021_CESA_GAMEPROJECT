@@ -36,6 +36,25 @@ public class SaveControl : MonoBehaviour
         }
     }
 
+    static public void NewGame()
+    {
+        StreamWriter sw = new StreamWriter("./Assets/Data/SaveData.txt");
+        Debug.Log("NewGame");
+
+        for (int Idx = 0; Idx < 25; Idx++)
+        {
+            sw.Write(false);                                                 // クリアしているか
+            sw.Write(",");
+            sw.Write(0);                                            // スプレー取得パーセント
+            sw.Write(",");
+            sw.Write(false);                                      // タイムアタッククリアしているか
+            sw.Write("\n");
+        }
+
+        sw.Flush();
+        sw.Close();
+    }
+
     static public void Save()
     {
         StreamWriter sw = new StreamWriter("./Assets/Data/SaveData.txt");

@@ -129,6 +129,16 @@ public class Cusour : MonoBehaviour
                 // SoundObj = (GameObject)Instantiate(SoundRes, new Vector3(-80.0f, 25.0f, -290.0f), Quaternion.identity);
                 // SoundObj.transform.parent=this.gameObject.transform;
             }
+            else if (WindowButton[Idx].name == "NEWGAME")
+            {
+                SaveControl.NewGame();
+                SceneManager.LoadScene("StageSelectScene");
+            }
+            else if (WindowButton[Idx].name == "CONTINUE")
+            {
+                SaveControl.Load();
+                SceneManager.LoadScene("StageSelectScene");
+            }
         }
     }
 
