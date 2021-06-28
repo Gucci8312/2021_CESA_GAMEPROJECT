@@ -13,7 +13,7 @@ public class GameMaster : MonoBehaviour
     GameObject Player;
     GameObject UI;
     public int ScoreNum = 100;
-
+    ObjectDraw objdraw;
     // public int DrowScore;
     private void Awake()
     {
@@ -37,6 +37,11 @@ public class GameMaster : MonoBehaviour
         UI = GameObject.Find("UI");
         NumControl.InitNum();
         SupureManager.ResetScore();
+        //ObjectDraw.Object_Draw_Update(0.5f);
+
+        objdraw = GetComponent<ObjectDraw>();
+
+
     }
 
     void OnStartBGM()
@@ -46,6 +51,10 @@ public class GameMaster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        objdraw.Object_Draw_Update(SupureManager.GetScore());
+
+
         NumControl.DrawScore((int)SupureManager.GetScore());
 
         if (!UI.GetComponent<UIManeger>().GameClearFlg && !UI.GetComponent<UIManeger>().GameOverFlg && GameStart.Blinking_Flag)

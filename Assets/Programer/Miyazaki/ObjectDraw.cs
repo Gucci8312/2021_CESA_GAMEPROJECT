@@ -15,11 +15,11 @@ public class ObjectDraw : MonoBehaviour
 
 
 
-	void Object_Draw_Update(int nowsocre)
+	public void Object_Draw_Update(float nowsocre)
     {
 		for (int i=0;i<Score_Obj.Count;i++)
 		{
-			if (nowsocre < Score_Obj[i].threshold)
+			if (nowsocre >= Score_Obj[i].threshold)
 			{
 				Score_Obj[i].gameobject.SetActive(true);
 			}
