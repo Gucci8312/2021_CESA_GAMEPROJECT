@@ -86,6 +86,7 @@ public class HipDropCol : MonoBehaviour
                 }
                 else if(enemyobj.GetComponent<EnemyMove>().type == (int)EnemyType.Larvae)
                 {
+                    enemyobj.transform.position = new Vector3(10000, 10000, 10000);//OnTriggerExitを起動させるために飛ばす
                     Destroy(enemyobj);
                 }
             }

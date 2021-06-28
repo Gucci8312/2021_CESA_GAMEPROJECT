@@ -98,11 +98,11 @@ public class AdultEnemy : EnemyMove
         GameObject NewLarvaeEnemy1 = Instantiate(LarvaeEnemyObj);
         GameObject NewLarvaeEnemy2 = Instantiate(LarvaeEnemyObj);
 
-        //敵を左方向に生成
-        NewLarvaeEnemy1.GetComponent<LarvaeEnemy>().SetMakeState(true, NowMobius, InsideFlg, angle-10,SideCnt);
-        NewLarvaeEnemy1.GetComponent<LarvaeEnemy>().SetAdultRotateLeftFlg(RotateLeftFlg);
         //敵を右方向に生成
-        NewLarvaeEnemy2.GetComponent<LarvaeEnemy>().SetMakeState(false, NowMobius, InsideFlg, angle+10,SideCnt-1);
+        NewLarvaeEnemy1.GetComponent<LarvaeEnemy>().SetMakeState(true, NowMobius, InsideFlg, angle+30,SideCnt);
+        NewLarvaeEnemy1.GetComponent<LarvaeEnemy>().SetAdultRotateLeftFlg(RotateLeftFlg);
+        //敵を左方向に生成
+        NewLarvaeEnemy2.GetComponent<LarvaeEnemy>().SetMakeState(false, NowMobius, InsideFlg, angle-30,SideCnt-1);
         NewLarvaeEnemy2.GetComponent<LarvaeEnemy>().SetAdultRotateLeftFlg(RotateLeftFlg);
 
         Destroy(this.gameObject);

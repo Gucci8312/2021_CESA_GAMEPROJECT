@@ -21,8 +21,8 @@ public class MobiusOnObj : MonoBehaviour
     protected float counter;                                                    //乗り移るとき、元のメビウスの輪に戻らないようにカウントする値
     [SerializeField, Range(0, 7)] public int StartPoint;                        //メビウス上の点の番号
 
-    [SerializeField] protected float angle;                                     //現在のメビウスからのプレイヤーの角度
-    protected float saveangle;                                                  //切り替えのための角度を保存
+    [SerializeField] protected  float angle;                                     //現在のメビウスからのプレイヤーの角度
+    protected  float saveangle;                                                  //切り替えのための角度を保存
 
     protected Transform target;                                                 //現在のメビウスのトランスフォーム
     protected Vector3 distanceTarget = new Vector3(0f, 0f, 0f);                 //メビウスからの距離
@@ -93,6 +93,8 @@ public class MobiusOnObj : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(transform.position - new Vector3(target.position.x, target.position.y, transform.position.z), -Vector3.forward);
 
     }
+
+   
 
     //メビウスの輪同士が当てっているかどうか
     protected virtual bool CollisionSphere(Vector3 NowMobiusPos, Vector3 NextMobiusPos, float MobiusRadius)
