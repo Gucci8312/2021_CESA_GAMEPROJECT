@@ -132,12 +132,12 @@ public class Cusour : MonoBehaviour
             else if (WindowButton[Idx].name == "NEWGAME")
             {
                 SaveControl.NewGame();
-                SceneManager.LoadScene("StageSelectScene");
+                StageSelect.GoStageSelect(this);
             }
             else if (WindowButton[Idx].name == "CONTINUE")
             {
                 SaveControl.Load();
-                SceneManager.LoadScene("StageSelectScene");
+                StageSelect.GoStageSelect(this);
             }
         }
     }

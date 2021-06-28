@@ -82,10 +82,10 @@ public class TitleManager : MonoBehaviour
             }
         }
 
-        if (Controler.GetXButtonFlg())
-        {
-            SaveControl.Load();
-        }
+        //if (Controler.GetXButtonFlg())
+        //{
+        //    SaveControl.Load();
+        //}
 
         if (m_fadeTextScript.saveLoadFlg)
         {
