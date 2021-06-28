@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class TimeAttack : MonoBehaviour
 {
+    static private int MaxTime;
     static private float m_time;                    //ゲーム時間
     [Header("時間切れかどうか")]
     static public bool timeUp;                      //時間切れかどうか
@@ -14,6 +15,7 @@ public class TimeAttack : MonoBehaviour
     void Start()
     {
         m_time = timeLimit;
+        MaxTime = timeLimit;
         timeUp = false;
     }
 
@@ -50,5 +52,13 @@ public class TimeAttack : MonoBehaviour
     {
         return (int)m_time;
     }
+
+    //@name     GetMaxTime
+    //@brief    もともとのタイムリミット自体を返す     
+    static public int GetMaxTime()
+    {
+        return MaxTime;
+    }
+
 }
 
