@@ -47,20 +47,22 @@ public class PlayerMove : MobiusOnObj
     
     CameraShake camerashake;                                //カメラを揺らすスクリプト
 
-    [SerializeField] GameObject missPrefab;                  //リズムに合わなかった時のUI
+    [SerializeField] GameObject missPrefab;                 //リズムに合わなかった時のUI
 
-    [SerializeField] GameObject successPrefab;               //リズムに合った時のUI
+    [SerializeField] GameObject successPrefab;              //リズムに合った時のUI
 
-    [SerializeField] GameObject HipDropCollisionObj;         //ヒップドロップの当たり判定
+    [SerializeField] GameObject HipDropCollisionObj;        //ヒップドロップの当たり判定
 
-    [SerializeField] Vector3 ClearPosition;                  //クリア時の最終的な位置
+    [SerializeField] Vector3 ClearPosition;                 //クリア時の最終的な位置
 
     bool ClearOne;                                          //クリア時一度だけ通るフラグ　アニメーション調整してセットする用
 
-
-
+    [SerializeField] GameObject Menu;
+    [SerializeField] Vector3 PausePos;                      //ポーズ中の位置
+    Quaternion InitRot;                                     //初期の回転数値
     protected override void Awake()
     {
+        InitRot = default;
         InLength = 50;
         OutLength = 0;
         base.Awake();
@@ -185,6 +187,16 @@ public class PlayerMove : MobiusOnObj
                 }
                 PositionSum();//場所を求める
             }
+        }
+        if (Menu.active == true && !Clear)
+        {
+            
+            if (!Stop) PauseMove();
+            this.transform.rotation = InitRot;
+        }
+        else
+        {
+            Stop = false;
         }
 
         //クリアの動き
@@ -514,6 +526,30 @@ public class PlayerMove : MobiusOnObj
 
     }
 
+    private void PauseMove()
+    {
+        
+        if (!HipDrop)//移動させる
+        {
+            HipDrop = true;
+            transform.position = new Vector3(PausePos.x, 100, PausePos.z);
+        }
+        else//ヒップドロップ中
+        {
+            
+
+            float ClearHipDropSpeed = 15.0f;
+            float y = transform.position.y;
+            y -= (ClearHipDropSpeed * ClearHipDropSpeed) * Time.deltaTime;
+            transform.position = new Vector3(PausePos.x, y, PausePos.z);
+
+            if (y < PausePos.y)
+            {
+                Stop = true;
+            }
+        }
+        
+    }
 
 
     //敵と当たっているかどうかを返す
@@ -609,5 +645,18 @@ public class PlayerMove : MobiusOnObj
         return HipDropPos;
     }
 
+    //public static void PauseOn()
+    //{
+    //    Pause = true;
+    //    saveangle = angle;
+    //    angle = 0;
+    //}
 
+    //public static void PauseOff()
+    //{
+    //    Pause = false;
+    //    angle = saveangle;
+    //}
+
+  
 }
