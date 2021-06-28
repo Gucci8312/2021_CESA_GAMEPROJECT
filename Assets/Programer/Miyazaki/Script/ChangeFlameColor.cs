@@ -16,7 +16,10 @@ public class ChangeFlameColor : MonoBehaviour
 	public GameObject _PointLight2;
 	public GameObject _PointLight3;
 	//public GameObject _PointLight4;
-
+	public GameObject Flame1;
+	public GameObject Flame2;
+	public GameObject Flame3;
+	public GameObject Flame4;
 	public float DirectionLightPower = 0.05f;
 	public float PointLightPower = 2000;
 	int cnt = 0;
@@ -90,6 +93,17 @@ public class ChangeFlameColor : MonoBehaviour
 		_PointLight1.GetComponent<Light>().intensity = PointLightPower;
 		_PointLight2.GetComponent<Light>().intensity = PointLightPower;
 		_PointLight3.GetComponent<Light>().intensity = PointLightPower;
+
+		
+		if(TimeAttack.GetTime()<=10)
+		{
+			Flame1.SetActive(true);
+			Flame2.SetActive(true);
+			Flame3.SetActive(true);
+			Flame4.SetActive(true);
+		}
+		
+
 		//_PointLight4.GetComponent<Light>().intensity = PointLightPower;
 
 	}
@@ -107,6 +121,14 @@ public class ChangeFlameColor : MonoBehaviour
 			_PointLight1.GetComponent<Light>().intensity = 1000;
 			_PointLight2.GetComponent<Light>().intensity = 1000;
 			_PointLight3.GetComponent<Light>().intensity = 1000;
+
+			if (TimeAttack.GetTime() <= 10)
+			{
+				Flame1.SetActive(false);
+				Flame2.SetActive(false);
+				Flame3.SetActive(false);
+				Flame4.SetActive(false);
+			}
 			
 			//_PointLight4.GetComponent<Light>().intensity = 0;
 			cnt = 0;
