@@ -18,7 +18,12 @@ public class TitleManager : MonoBehaviour
     FadeTitleText m_fadeTextScript;
     public GameObject Window;
 
-    [SerializeField] Volume bloom;
+    [SerializeField] Volume bloom = default;
+
+    [SerializeField] GameObject m_saveTextObj = default;          //生成用プレハブ
+    [SerializeField] GameObject m_loadTextObj = default;          //生成用プレハブ
+    [SerializeField] GameObject m_SelectObj = default;          //生成用プレハブ
+
 
     private void Awake()
     {
@@ -39,11 +44,16 @@ public class TitleManager : MonoBehaviour
     void Start()
     {
         m_fadeTextScript = m_pressTextObj.gameObject.GetComponent<FadeTitleText>();
+        m_saveTextObj.GetComponent<StageAnim>().enabled = false;
+        m_loadTextObj.GetComponent<StageAnim>().enabled = false;
+        m_SelectObj.GetComponent<SpriteRenderer>().enabled = false;
         Cursor.visible = false;
+        m_SelectObj.SetActive(false);
     }
 
     private void Update()
     {
+        //音ループ処理用
         SoundManager.CheckLoop();
         if (Window.activeSelf == false)
         {
@@ -72,13 +82,17 @@ public class TitleManager : MonoBehaviour
             }
         }
 
-        if(Controler.GetXButtonFlg())
+        if (Controler.GetXButtonFlg())
         {
             SaveControl.Load();
-        } 
-        //if(Controler.GetYButtonFlg())
-        //{
-        //    SaveControl.Save();
-        //}
+        }
+
+        if (m_fadeTextScript.saveLoadFlg)
+        {
+            m_SelectObj.SetActive(true);
+            m_saveTextObj.GetComponent<StageAnim>().enabled = true;
+            m_loadTextObj.GetComponent<StageAnim>().enabled = true;
+            m_SelectObj.GetComponent<SpriteRenderer>().enabled = true;
+        }
     }
 }

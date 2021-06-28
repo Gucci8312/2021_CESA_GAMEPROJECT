@@ -294,6 +294,16 @@ public class Controler : MonoBehaviour
         return Response;
     }
 
+    public static bool GetZButtonFlg()
+    {
+        bool Response = false;
+     if (Input.GetKey(KeyCode.Z))
+        {
+            Response = true;
+        }
+        return Response;
+    }
+
     public static bool GetLBButtonFlg()
     {
         bool Response = false;

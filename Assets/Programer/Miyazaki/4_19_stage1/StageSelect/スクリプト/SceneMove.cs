@@ -10,8 +10,10 @@ using UnityEngine;
 // @brief  シーンセレクト時のマネージャークラス
 public class SceneMove : MonoBehaviour
 {
+    public GameObject[] TimeAttackObj;
     public GameObject[] stageNum;
     public Material[] ColorNum;
+    bool TimeAttackFlg;
 
     public GameObject[] UI;
     bool UI_Flag;
@@ -28,7 +30,7 @@ public class SceneMove : MonoBehaviour
     bool StopCamera1 = false;
     [SerializeField] GameObject[] stage_picture;
 
-    public int Select_Scene;
+    public int Select_Scene = 1;
     bool Activeflag;
 
     // Start is called before the first frame update
@@ -44,13 +46,20 @@ public class SceneMove : MonoBehaviour
         }
         fedeout = GetComponent<FedeOut>();
         Select_Scene = StageControl.GetNowStage();
+
+        for (int i = 0; i < 25; i++)
+        {
+            //TimeAttackObj[i] = GameObject.Find("TimeAttackStage(" + i + 1 + ")");
+            TimeAttackObj[i].SetActive(false);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        //+Debug.Log(Select_Scene);
         // スコア表示
-        NumControl.DrawScore(StageControl.GetStageParsent(Select_Scene-1));
+        NumControl.DrawScore(StageControl.GetStageParsent(Select_Scene - 1));
         //Debug.Log(Select_Scene);
 
         if (Select_Scene >= 1 && Select_Scene <= 5)
@@ -116,6 +125,9 @@ public class SceneMove : MonoBehaviour
 
             if (Controler.GetRightButtonFlg())
             {
+                TimeAttackObj[Select_Scene - 1].SetActive(false);
+                TimeAttackFlg = false;
+
                 if (Select_Scene != 25)
                 {
                     if (StageControl.GetOpenFlg(Select_Scene))
@@ -138,6 +150,9 @@ public class SceneMove : MonoBehaviour
             }
             else if (Controler.GetLeftButtonFlg())
             {
+                TimeAttackObj[Select_Scene - 1].SetActive(false);
+                TimeAttackFlg = false;
+
                 if (Select_Scene != 0)
                 {
                     Select_Scene--;
@@ -164,6 +179,22 @@ public class SceneMove : MonoBehaviour
             {
                 dollyDriver.OnMinus();
                 StopCamera1 = false;
+            }
+            if (Controler.GetUpButtonFlg())
+            {
+                //if(StageControl.GetTimeAttackClearFlg(Select_Scene - 1))
+                {
+                    TimeAttackFlg = true;
+                }
+            }
+            else if (Controler.GetDownButtonFlg())
+            {
+                TimeAttackFlg = false;
+            }
+
+            if (Controler.GetXButtonFlg() && Controler.GetZButtonFlg())
+            {
+                StageControl.AllStageOpen();
             }
 
             AllStageLightOff();
@@ -192,12 +223,25 @@ public class SceneMove : MonoBehaviour
             }
             if (fedeout.Getflag())
             {
+                if (TimeAttackFlg == true)
+                {
+                    Select_Scene += 25;
+                }
                 StageSelect.LoadStage(Select_Scene, this);
             }
         }
 
         Release_Stage();
         Blinking_UI();
+        if (TimeAttackFlg == true)
+        {
+            TimeAttackObj[Select_Scene - 1].SetActive(true);
+        }
+        else if (TimeAttackFlg == false)
+        {
+            TimeAttackObj[Select_Scene - 1].SetActive(false);
+        }
+
     }
 
     // @name   AllStageLightOff

@@ -15,6 +15,7 @@ public class FadeTitleText : MonoBehaviour
     bool m_down;
 
     public bool gameStartFlg;
+    public bool saveLoadFlg = false;
     bool once;
     // Start is called before the first frame update
     void Start()
@@ -88,8 +89,10 @@ public class FadeTitleText : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             this.gameObject.GetComponent<SpriteRenderer>().enabled = true;
             yield return new WaitForSeconds(0.1f);
-            StageSelect.GoStageSelect(this);
+            //StageSelect.GoStageSelect(this);
             gameStartFlg = false;
+            saveLoadFlg = true;
+            this.gameObject.GetComponent<SpriteRenderer>().enabled = false;
             yield break;
         }
     }

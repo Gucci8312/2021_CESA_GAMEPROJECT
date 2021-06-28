@@ -32,7 +32,7 @@ public class VideoPlay : MonoBehaviour
     void Update()
     {
         if (!endVideo) PauseManager.OnPause();
-        if (PushButton() && !m_gameMaster.Menu.activeSelf) { }
+        if (PushButton() && mPlayer.isPlaying) { }
         else
         {
             m_time = 0f;
@@ -41,6 +41,8 @@ public class VideoPlay : MonoBehaviour
         if (mPlayer.time >= mPlayer.length - 1f && !endVideo)
         {
             endVideo = true;
+            m_time = 0f;
+            m_circle.fillAmount = 0;
         }
 
         if (skip && !endVideo)
@@ -48,15 +50,16 @@ public class VideoPlay : MonoBehaviour
             endVideo = true;
         }
 
-        if (m_gameMaster.Menu.activeSelf)
-        {
-            mPlayer.Pause();
+        if (Controler.GetMenuButtonFlg()) {
+            if (mPlayer.isPlaying)
+            {
+                mPlayer.Pause();
+            }
+            else if(mPlayer.isPaused)
+            {
+                mPlayer.Play();
+            }
         }
-        else
-        {
-            mPlayer.Play();
-        }
-
     }
 
 
