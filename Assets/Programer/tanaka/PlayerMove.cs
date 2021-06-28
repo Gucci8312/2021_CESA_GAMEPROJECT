@@ -218,6 +218,7 @@ public class PlayerMove : MobiusOnObj
                 InsideFlg = SaveInsideFlg;
                 RotateLeftFlg = SaveRotateFlg;
                 Stop = false;
+                HipDrop = false;
             }
             
             MenuOnOne = false;
@@ -556,17 +557,18 @@ public class PlayerMove : MobiusOnObj
         if (!HipDrop)//移動させる
         {
             HipDrop = true;
-            transform.position = new Vector3(PausePos.x, 100, PausePos.z);
+            transform.position = new Vector3(PausePos.x, 50, PausePos.z);
         }
         else//ヒップドロップ中
         {
-            float ClearHipDropSpeed = 15.0f;
+            float ClearHipDropSpeed = 20.0f;
             float y = transform.position.y;
             y -= (ClearHipDropSpeed * ClearHipDropSpeed) * Time.deltaTime;
             transform.position = new Vector3(PausePos.x, y, PausePos.z);
 
-            if (y < PausePos.y)
+            if (y <= PausePos.y)
             {
+                y = PausePos.y;
                 Stop = true;
             }
         }
