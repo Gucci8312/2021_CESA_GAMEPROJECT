@@ -217,8 +217,9 @@ public class PlayerMove : MobiusOnObj
                 MenuOffOne = true;
                 InsideFlg = SaveInsideFlg;
                 RotateLeftFlg = SaveRotateFlg;
+                Stop = false;
             }
-            Stop = false;
+            
             MenuOnOne = false;
         }
 
@@ -540,7 +541,7 @@ public class PlayerMove : MobiusOnObj
             {
                 Stop = true;
                 PlayerAnimation.GameClearRightVer();
-
+                
             }
         }
 
@@ -559,8 +560,6 @@ public class PlayerMove : MobiusOnObj
         }
         else//ヒップドロップ中
         {
-            
-
             float ClearHipDropSpeed = 15.0f;
             float y = transform.position.y;
             y -= (ClearHipDropSpeed * ClearHipDropSpeed) * Time.deltaTime;
@@ -650,8 +649,6 @@ public class PlayerMove : MobiusOnObj
         {
 
             PlayerAnimation.HipDrop();
-
-            saveangle = angle;
             Clear = true;
         }
     }
