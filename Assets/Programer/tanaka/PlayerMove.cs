@@ -60,9 +60,14 @@ public class PlayerMove : MobiusOnObj
     [SerializeField] GameObject Menu;
     [SerializeField] Vector3 PausePos;                      //ポーズ中の位置
     Quaternion InitRot;                                     //初期の回転数値
+    bool MenuOnOne;                                         //メニューが呼ばれて１回だけ処理する
+    bool MenuOffOne;                                        //メニューが消えたとき1回だけ処理する
+
+    bool SaveInsideFlg;
+    bool SaveRotateFlg;
     protected override void Awake()
     {
-        InitRot = default;
+        InitRot = transform.rotation;
         InLength = 50;
         OutLength = 0;
         base.Awake();
@@ -97,8 +102,8 @@ public class PlayerMove : MobiusOnObj
         HipDropSpeed = HipDropSpeed * 100f;
         SpeedPress = false;
         SpeedUpFlg = false;
-
-
+        MenuOnOne = false;
+        MenuOffOne =true;
 
         RythmFlg = this.rythm.rythmCheckFlag;
         RythmSaveFlg = RythmFlg;
@@ -188,15 +193,33 @@ public class PlayerMove : MobiusOnObj
                 PositionSum();//場所を求める
             }
         }
+
         if (Menu.active == true && !Clear)
         {
-            
+            if (!MenuOnOne)
+            {
+                SaveInsideFlg = InsideFlg;
+                SaveRotateFlg = RotateLeftFlg;
+                saveangle = angle;
+                MenuOnOne = true;
+            }
+            MenuOffOne = false;
+            InsideFlg = false;
+            RotateLeftFlg = false;
+            angle = 0;
             if (!Stop) PauseMove();
-            this.transform.rotation = InitRot;
         }
         else
         {
+            if (!MenuOffOne)
+            {
+                angle = saveangle;
+                MenuOffOne = true;
+                InsideFlg = SaveInsideFlg;
+                RotateLeftFlg = SaveRotateFlg;
+            }
             Stop = false;
+            MenuOnOne = false;
         }
 
         //クリアの動き
@@ -644,19 +667,5 @@ public class PlayerMove : MobiusOnObj
     {
         return HipDropPos;
     }
-
-    //public static void PauseOn()
-    //{
-    //    Pause = true;
-    //    saveangle = angle;
-    //    angle = 0;
-    //}
-
-    //public static void PauseOff()
-    //{
-    //    Pause = false;
-    //    angle = saveangle;
-    //}
-
-  
+    
 }
