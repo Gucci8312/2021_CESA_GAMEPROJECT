@@ -50,10 +50,10 @@ public class SceneMove : MonoBehaviour
         for (int i = 0; i < 25; i++)
         {
             //TimeAttackObj[i] = GameObject.Find("TimeAttackStage(" + i + 1 + ")");
-            TimeAttackObj[i].SetActive(false);
-            if (StageControl.GetTimeAttackClearFlg(Select_Scene - 1))
+            //TimeAttackObj[i].SetActive(false);
+            if (!StageControl.GetTimeAttackClearFlg(i))
             {
-                TimeAttackObj[i].SetActive(true);
+                TimeAttackObj[i].SetActive(false);
             }
         }
     }
@@ -129,7 +129,7 @@ public class SceneMove : MonoBehaviour
 
             if (Controler.GetRightButtonFlg())
             {
-                TimeAttackObj[Select_Scene - 1].SetActive(false);
+                //TimeAttackObj[Select_Scene - 1].SetActive(false);
                 TimeAttackFlg = false;
 
                 if (Select_Scene != 25)
@@ -154,7 +154,7 @@ public class SceneMove : MonoBehaviour
             }
             else if (Controler.GetLeftButtonFlg())
             {
-                TimeAttackObj[Select_Scene - 1].SetActive(false);
+                //TimeAttackObj[Select_Scene - 1].SetActive(false);
                 TimeAttackFlg = false;
 
                 if (Select_Scene != 0)
@@ -237,14 +237,14 @@ public class SceneMove : MonoBehaviour
 
         Release_Stage();
         Blinking_UI();
-        if (TimeAttackFlg == true)
-        {
-            TimeAttackObj[Select_Scene - 1].SetActive(true);
-        }
-        else if (TimeAttackFlg == false)
-        {
-            TimeAttackObj[Select_Scene - 1].SetActive(false);
-        }
+        //if (TimeAttackFlg == true)
+        //{
+        //    TimeAttackObj[Select_Scene - 1].SetActive(true);
+        //}
+        //else if (TimeAttackFlg == false)
+        //{
+        //    TimeAttackObj[Select_Scene - 1].SetActive(false);
+        //}
 
     }
 
