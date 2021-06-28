@@ -51,8 +51,10 @@ public class GameMaster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        objdraw.Object_Draw_Update(SupureManager.GetScore());
+        if(objdraw!=null)
+        {
+            objdraw.Object_Draw_Update(SupureManager.GetScore());
+        }
 
 
         NumControl.DrawScore((int)SupureManager.GetScore());

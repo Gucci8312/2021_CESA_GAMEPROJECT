@@ -303,6 +303,10 @@ MonoBehaviour:
   _PointLight1: {fileID: 618929595}
   _PointLight2: {fileID: 1543871306}
   _PointLight3: {fileID: 759198770}
+  Flame1: {fileID: 0}
+  Flame2: {fileID: 0}
+  Flame3: {fileID: 0}
+  Flame4: {fileID: 0}
   DirectionLightPower: 0.05
   PointLightPower: 2000
   ring:
@@ -995,12 +999,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &577132839
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1124,12 +1129,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &593555678
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1259,12 +1265,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &616891050
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2138,12 +2145,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &771220154
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2673,12 +2681,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &874154233
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2808,12 +2817,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &922218955
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3006,12 +3016,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &957362129
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3520,7 +3531,7 @@ MonoBehaviour:
     type: 3}
   Menu: {fileID: 840627606}
   BgmName: Area4
-  DrowScore: 0
+  ScoreNum: 100
 --- !u!4 &1131573031
 Transform:
   m_ObjectHideFlags: 0
@@ -3657,12 +3668,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &1219327683
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4100,12 +4112,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &1504503585
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4229,12 +4242,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &1523208053
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4879,6 +4893,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6560782196904396886, guid: 8460f56ea1359354da04962b6e4c523d,
+        type: 3}
+      propertyPath: Menu
+      value: 
+      objectReference: {fileID: 840627606}
     - target: {fileID: 6560782196904396887, guid: 8460f56ea1359354da04962b6e4c523d,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -531,6 +531,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6560782196904396886, guid: 8460f56ea1359354da04962b6e4c523d,
+        type: 3}
+      propertyPath: Menu
+      value: 
+      objectReference: {fileID: 984588990}
     - target: {fileID: 6560782196904396887, guid: 8460f56ea1359354da04962b6e4c523d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -691,12 +696,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &267957993
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -809,6 +815,10 @@ MonoBehaviour:
   _PointLight1: {fileID: 1169162613}
   _PointLight2: {fileID: 1169162613}
   _PointLight3: {fileID: 53817764}
+  Flame1: {fileID: 0}
+  Flame2: {fileID: 0}
+  Flame3: {fileID: 0}
+  Flame4: {fileID: 0}
   DirectionLightPower: 0.05
   PointLightPower: 2000
   ring:
@@ -902,12 +912,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &337221652
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1031,12 +1042,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &366679030
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1614,7 +1626,7 @@ MonoBehaviour:
     type: 3}
   Menu: {fileID: 984588990}
   BgmName: Area4
-  DrowScore: 0
+  ScoreNum: 100
 --- !u!4 &577383558
 Transform:
   m_ObjectHideFlags: 0
@@ -1832,12 +1844,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &634823087
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2053,12 +2066,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &716213316
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2272,12 +2286,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &811955958
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3331,12 +3346,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &1152112677
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4057,12 +4073,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &1441636563
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4186,12 +4203,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &1457421882
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4315,12 +4333,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &1494566503
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4444,12 +4463,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &1495970106
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5027,12 +5047,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e881911bd67823f45b03516bd5f2982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   CrossPos: []
   Line: []
   cl: []
   RayHitPos: {x: 0, y: 0, z: 0}
-  MoveLineFlag: 0
-  MoveFlag: 0
+  GimicLineFlag: 0
+  GimicOnFlag: 0
 --- !u!65 &1701866085
 BoxCollider:
   m_ObjectHideFlags: 0

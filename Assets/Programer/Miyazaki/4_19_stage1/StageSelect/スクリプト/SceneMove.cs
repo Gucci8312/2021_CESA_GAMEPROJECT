@@ -51,6 +51,10 @@ public class SceneMove : MonoBehaviour
         {
             //TimeAttackObj[i] = GameObject.Find("TimeAttackStage(" + i + 1 + ")");
             TimeAttackObj[i].SetActive(false);
+            if (StageControl.GetTimeAttackClearFlg(Select_Scene - 1))
+            {
+                TimeAttackObj[i].SetActive(true);
+            }
         }
     }
 
@@ -182,7 +186,7 @@ public class SceneMove : MonoBehaviour
             }
             if (Controler.GetUpButtonFlg())
             {
-                //if(StageControl.GetTimeAttackClearFlg(Select_Scene - 1))
+                if(StageControl.GetTimeAttackClearFlg(Select_Scene - 1))
                 {
                     TimeAttackFlg = true;
                 }
