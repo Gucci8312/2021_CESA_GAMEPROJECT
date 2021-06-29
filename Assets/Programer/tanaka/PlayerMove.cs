@@ -115,6 +115,37 @@ public class PlayerMove : MobiusOnObj
 
         NowMobiusColor = Mobius[NowMobius].GetComponent<MobiusColor>().GetNowColorNum();//現在のメビウスの色を取得
 
+        //メニュー移動処理
+        if (Menu.activeSelf == true && !Clear)
+        {
+            if (!MenuOnOne)
+            {
+                SaveInsideFlg = InsideFlg;
+                SaveRotateFlg = RotateLeftFlg;
+                saveangle = angle;
+                MenuOnOne = true;
+            }
+            MenuOffOne = false;
+            InsideFlg = false;
+            RotateLeftFlg = false;
+            angle = 0;
+            if (!Stop) PauseMove();
+        }
+        else
+        {
+            if (!MenuOffOne)
+            {
+                angle = saveangle;
+                MenuOffOne = true;
+                InsideFlg = SaveInsideFlg;
+                RotateLeftFlg = SaveRotateFlg;
+                Stop = false;
+                HipDrop = false;
+            }
+
+            MenuOnOne = false;
+        }
+
         if (!Pause)
         {
             if (!Clear)
@@ -194,35 +225,7 @@ public class PlayerMove : MobiusOnObj
             }
         }
 
-        if (Menu.active == true && !Clear)
-        {
-            if (!MenuOnOne)
-            {
-                SaveInsideFlg = InsideFlg;
-                SaveRotateFlg = RotateLeftFlg;
-                saveangle = angle;
-                MenuOnOne = true;
-            }
-            MenuOffOne = false;
-            InsideFlg = false;
-            RotateLeftFlg = false;
-            angle = 0;
-            if (!Stop) PauseMove();
-        }
-        else
-        {
-            if (!MenuOffOne)
-            {
-                angle = saveangle;
-                MenuOffOne = true;
-                InsideFlg = SaveInsideFlg;
-                RotateLeftFlg = SaveRotateFlg;
-                Stop = false;
-                HipDrop = false;
-            }
-            
-            MenuOnOne = false;
-        }
+        
 
         //クリアの動き
         if (!Stop && !CollisionState && Clear)
