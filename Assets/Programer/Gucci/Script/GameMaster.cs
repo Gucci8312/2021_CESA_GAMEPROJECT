@@ -40,8 +40,6 @@ public class GameMaster : MonoBehaviour
         //ObjectDraw.Object_Draw_Update(0.5f);
 
         objdraw = GetComponent<ObjectDraw>();
-
-
     }
 
     void OnStartBGM()
@@ -51,11 +49,10 @@ public class GameMaster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(objdraw!=null)
+        if (objdraw != null)
         {
             objdraw.Object_Draw_Update(SupureManager.GetScore());
         }
-
 
         NumControl.DrawScore((int)SupureManager.GetScore());
 
