@@ -13,7 +13,9 @@ public class GameMaster : MonoBehaviour
     GameObject Player;
     GameObject UI;
     public int ScoreNum = 100;
-    ObjectDraw objdraw;
+
+   private float frame_count = 0;
+    private int scoreUp = 0;
     // public int DrowScore;
     private void Awake()
     {
@@ -37,9 +39,7 @@ public class GameMaster : MonoBehaviour
         UI = GameObject.Find("UI");
         NumControl.InitNum();
         SupureManager.ResetScore();
-        //ObjectDraw.Object_Draw_Update(0.5f);
-
-        objdraw = GetComponent<ObjectDraw>();
+        
     }
 
     void OnStartBGM()
@@ -49,13 +49,14 @@ public class GameMaster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (objdraw != null)
+        if (frame_count % 3 == 0)
         {
-            objdraw.Object_Draw_Update(SupureManager.GetScore());
+            if (scoreUp < (int)SupureManager.GetScore())
+            {
+                NumControl.DrawScore(scoreUp);
+                scoreUp++;
+            }
         }
-
-        NumControl.DrawScore((int)SupureManager.GetScore());
-
         if (!UI.GetComponent<UIManeger>().GameClearFlg && !UI.GetComponent<UIManeger>().GameOverFlg && GameStart.Blinking_Flag)
         {
             if (Input.GetKeyDown(KeyCode.Escape) || Controler.GetMenuButtonFlg())
@@ -76,6 +77,8 @@ public class GameMaster : MonoBehaviour
                 }
             }
         }
+
+        frame_count++;
     }
 
     private void FixedUpdate()
