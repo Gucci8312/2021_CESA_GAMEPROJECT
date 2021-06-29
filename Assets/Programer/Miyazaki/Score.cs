@@ -10,7 +10,7 @@ public class Score : MonoBehaviour
     GameObject scoreObj;
     void Start()
     {
-        scoreObj = GameObject.Find("Num");
+        scoreObj = GameObject.Find("Score");
     }
 
     // Update is called once per frame
