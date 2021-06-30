@@ -14,6 +14,7 @@ public class SceneMove : MonoBehaviour
     public GameObject[] stageNum;
     public Material[] ColorNum;
     bool TimeAttackFlg;
+    public GameObject Score;
 
     public GameObject[] UI;
     bool UI_Flag;
@@ -61,6 +62,15 @@ public class SceneMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Select_Scene == 1 || Select_Scene == 2)
+        {
+            Score.SetActive(false);
+        }
+        else
+        {
+            Score.SetActive(true);
+        }
+
         //+Debug.Log(Select_Scene);
         // スコア表示
         NumControl.DrawScore(StageControl.GetStageParsent(Select_Scene - 1));
@@ -129,8 +139,9 @@ public class SceneMove : MonoBehaviour
 
             if (Controler.GetRightButtonFlg())
             {
-                //TimeAttackObj[Select_Scene - 1].SetActive(false);
-                TimeAttackFlg = false;
+                //TimeAttackObj[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(false);
+                //stageNum[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(false);
+                //TimeAttackFlg = false;
 
                 if (Select_Scene != 25)
                 {
@@ -154,8 +165,9 @@ public class SceneMove : MonoBehaviour
             }
             else if (Controler.GetLeftButtonFlg())
             {
-                //TimeAttackObj[Select_Scene - 1].SetActive(false);
-                TimeAttackFlg = false;
+                //TimeAttackObj[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(false);
+                //stageNum[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(false);
+                //TimeAttackFlg = false;
 
                 if (Select_Scene != 0)
                 {
@@ -186,19 +198,31 @@ public class SceneMove : MonoBehaviour
             }
             if (Controler.GetUpButtonFlg())
             {
-                if(StageControl.GetTimeAttackClearFlg(Select_Scene - 1))
+                if (StageControl.GetTimeAttackClearFlg(Select_Scene - 1))
                 {
-                    TimeAttackFlg = true;
+                    TimeAttackFlg = !TimeAttackFlg;
                 }
             }
             else if (Controler.GetDownButtonFlg())
             {
-                TimeAttackFlg = false;
+                if (StageControl.GetTimeAttackClearFlg(Select_Scene - 1))
+                {
+                    TimeAttackFlg = !TimeAttackFlg;
+                }
             }
 
             if (Controler.GetXButtonFlg() && Controler.GetZButtonFlg())
             {
                 StageControl.AllStageOpen();
+                for (int i = 0; i < 25; i++)
+                {
+                    //TimeAttackObj[i] = GameObject.Find("TimeAttackStage(" + i + 1 + ")");
+                    //TimeAttackObj[i].SetActive(false);
+                    if (StageControl.GetTimeAttackClearFlg(i))
+                    {
+                        TimeAttackObj[i].SetActive(true);
+                    }
+                }
             }
 
             AllStageLightOff();
@@ -237,14 +261,16 @@ public class SceneMove : MonoBehaviour
 
         Release_Stage();
         Blinking_UI();
-        //if (TimeAttackFlg == true)
-        //{
-        //    TimeAttackObj[Select_Scene - 1].SetActive(true);
-        //}
-        //else if (TimeAttackFlg == false)
-        //{
-        //    TimeAttackObj[Select_Scene - 1].SetActive(false);
-        //}
+        if (TimeAttackFlg == true)
+        {
+            TimeAttackObj[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(true);
+            stageNum[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(false);
+        }
+        else if (TimeAttackFlg == false)
+        {
+            TimeAttackObj[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(false);
+            stageNum[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(true);
+        }
 
     }
 

@@ -22,7 +22,7 @@ public class NumControl : MonoBehaviour
     {
     }
 
-    static void ChangeColor(float R, float G, float B, float A)
+    static public void ChangeColor(float R, float G, float B, float A)
     {
         Color color = new Vector4(R, G, B, A);
         OneObj[0].GetComponent<Renderer>().material.SetColor("_EmissionColor", color);
