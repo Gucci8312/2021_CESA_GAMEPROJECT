@@ -54,6 +54,7 @@ public class SceneMove : MonoBehaviour
             //TimeAttackObj[i].SetActive(false);
             if (!StageControl.GetTimeAttackClearFlg(i))
             {
+                stageNum[i].GetComponent<StageRingRotate>().SetRotateFlg(true);
                 TimeAttackObj[i].SetActive(false);
             }
         }
@@ -141,7 +142,7 @@ public class SceneMove : MonoBehaviour
             {
                 //TimeAttackObj[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(false);
                 //stageNum[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(false);
-                //TimeAttackFlg = false;
+                TimeAttackFlg = false;
 
                 if (Select_Scene != 25)
                 {
@@ -167,7 +168,7 @@ public class SceneMove : MonoBehaviour
             {
                 //TimeAttackObj[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(false);
                 //stageNum[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(false);
-                //TimeAttackFlg = false;
+                TimeAttackFlg = false;
 
                 if (Select_Scene != 0)
                 {

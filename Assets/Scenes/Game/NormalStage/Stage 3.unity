@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1161,6 +1161,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 734970417490861909, guid: 977286c5fe9be2a45bafb7c4d419c4de,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 734970417490861909, guid: 977286c5fe9be2a45bafb7c4d419c4de,
+        type: 3}
+      propertyPath: isExpantion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3088328858986160652, guid: 977286c5fe9be2a45bafb7c4d419c4de,
         type: 3}
       propertyPath: m_RootOrder
@@ -5260,10 +5270,7 @@ MonoBehaviour:
   _PointLight1: {fileID: 1609908144}
   _PointLight2: {fileID: 1693186250}
   _PointLight3: {fileID: 1609908144}
-  Flame1: {fileID: 0}
-  Flame2: {fileID: 0}
-  Flame3: {fileID: 0}
-  Flame4: {fileID: 0}
+  Flame: []
   DirectionLightPower: 0.05
   PointLightPower: 2000
   ring:

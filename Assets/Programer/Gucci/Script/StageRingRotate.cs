@@ -8,6 +8,9 @@ public class StageRingRotate : MonoBehaviour
     public int Angle;
     Vector3 InitPos;
     bool AngleFlg;
+    int RotateSpeed = 20;
+    float OffSet = 0.65f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -30,32 +33,31 @@ public class StageRingRotate : MonoBehaviour
             }
             if (Angle < 260)
             {
-                Angle += 5;
+                Angle += RotateSpeed;
             }
 
             Vector3 Pos = this.transform.position;
             //int Angle = 180;
-            float Index = 0.5f;
             //Pos.x = Mathf.Cos(Angle) * Index;
-            Pos.y = InitPos.y + Mathf.Sin(Mathf.Deg2Rad * Angle) * Index;
-            Pos.z = InitPos.z + Mathf.Cos(Mathf.Deg2Rad * Angle) * Index;
+            Pos.y = InitPos.y + Mathf.Sin(Mathf.Deg2Rad * Angle) * OffSet;
+            Pos.z = InitPos.z + Mathf.Cos(Mathf.Deg2Rad * Angle) * OffSet;
 
             //this.transform.Translate(Pos.x, Pos.y, 10);
             this.transform.position = Pos;
         }
         else
         {
-            if (Angle >= 90)
+            if (Angle >= 110)
             {
-                Angle -= 5;
+                Angle -= RotateSpeed;
             }
 
             Vector3 Pos = this.transform.position;
             //int Angle = 0;
-            float Index = 0.5f;
+
             //Pos.x = Mathf.Cos(Angle) * Index;
-            Pos.y = InitPos.y + Mathf.Sin(Mathf.Deg2Rad * Angle) * Index;
-            Pos.z = InitPos.z + Mathf.Cos(Mathf.Deg2Rad * Angle) * Index;
+            Pos.y = InitPos.y + Mathf.Sin(Mathf.Deg2Rad * Angle) * OffSet;
+            Pos.z = InitPos.z + Mathf.Cos(Mathf.Deg2Rad * Angle) * OffSet;
 
             //this.transform.Translate(Pos.x, Pos.y, 10);
             this.transform.position = Pos;
@@ -66,5 +68,9 @@ public class StageRingRotate : MonoBehaviour
     public void SetRotateFlg(bool _Flg)
     {
         RotateFlg = _Flg;
+    }
+    public bool GetRotateFlg()
+    {
+        return RotateFlg;
     }
 }
