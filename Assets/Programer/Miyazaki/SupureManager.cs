@@ -16,7 +16,7 @@ public class SupureManager : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-
+		if (get_supure >= supure_num) get_supure = supure_num;
 	}
 
 	static public void ResetScore()

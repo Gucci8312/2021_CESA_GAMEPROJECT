@@ -13,7 +13,9 @@ public class ExpantionShrink : MonoBehaviour
 {
     public float MIN_SHRINK = 0.7f;      //最大縮小サイズ　ここを変えるとリズムのタイミングでの縮小サイズが変わる
     Rythm rythm;
-    bool isExpantion;
+    [Header("音に合わせるか")]
+    public bool musicOn;
+    public bool isExpantion;
     bool isShrink;
     bool m_gameStart;
     float i = 1f;
@@ -28,6 +30,7 @@ public class ExpantionShrink : MonoBehaviour
         isExpantion = false;
         isShrink = false;
         m_gameStart = false;
+        musicOn = true;
         Invoke("GameStart", 2.0f);
     }
 
@@ -40,7 +43,7 @@ public class ExpantionShrink : MonoBehaviour
     {
         if (!m_gameStart) return;
         myTransform = gameObject.transform;
-        if (rythm.rythmSendCheckFlag && !isExpantion && !isShrink)
+        if (rythm.rythmSendCheckFlag && !isExpantion && !isShrink && musicOn)
         {
             isExpantion = true;
         }
