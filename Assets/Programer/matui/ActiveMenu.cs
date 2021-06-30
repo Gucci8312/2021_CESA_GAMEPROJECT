@@ -18,11 +18,12 @@ public class ActiveMenu : MonoBehaviour
     public float SlideTime = 1.0f;//スライドさせたい時間（秒）
     private float NowSlideTime=0;//スライドしている時間（秒）
 
+    List<SpriteRenderer> UiColor=new List<SpriteRenderer>();
     // Start is called before the first frame update
     void Start()
     {
         Menu = this.GetComponent<GameMaster>().Menu;
-
+        //Menu.SetActive(true);
         MenuTransform = Menu.GetComponent<Transform>();
         SlidePos = MenuTransform.position;
 
@@ -31,6 +32,12 @@ public class ActiveMenu : MonoBehaviour
         OldSlidePos.x += 400;//画面外に離れさせる
         MenuTransform.position = OldSlidePos;
 
+        for (int i = 0; i < MenuTransform.childCount - 1; i++)
+        {
+            UiColor.Add(MenuTransform.GetChild(i).gameObject.GetComponent<SpriteRenderer>());
+        }
+
+        //Menu.SetActive(false);
     }
 
     // Update is called once per frame
@@ -51,15 +58,34 @@ public class ActiveMenu : MonoBehaviour
                 SlideFlag = false;
             }
 
+            Vector3 StartPos, GoalPos;
+            StartPos = GoalPos = Vector3.zero;
+
+            float StartA, GoalA;
+            StartA = GoalA = 0;
+
             if (Menu.activeSelf == false)
             {
-                MenuTransform.position = 
-                    SenkeiHokan(SlidePos, OldSlidePos, NowSlideTime, 0, SlideTime);
+                StartPos = SlidePos;
+                GoalPos = OldSlidePos;
+                StartA = 1;
+                GoalA = 0;
             }
             if (Menu.activeSelf == true)
             {
-                MenuTransform.position =
-                    SenkeiHokan(OldSlidePos, SlidePos, NowSlideTime, 0, SlideTime);
+                GoalPos = SlidePos;
+                StartPos = OldSlidePos;
+                StartA = 0;
+                GoalA = 1;
+            }
+
+            MenuTransform.position = SenkeiHokan(StartPos, GoalPos, NowSlideTime, 0, SlideTime);
+    
+            for (int i = 0; i < UiColor.Count; i++)
+            {
+                Color color = UiColor[i].color;
+                color.a = SenkeiHokan(StartA, GoalA, NowSlideTime, 0, SlideTime);
+                UiColor[i].color = color;
             }
 
         }
@@ -77,6 +103,14 @@ public class ActiveMenu : MonoBehaviour
         pos.y = P0.y + (P1.y - P0.y) * (t - t0) / (t1 - t0);
 
         return pos;
+    }
+
+    //	S：始点　,G：終点　,t：時間　,t0：始点位置での時間　,t1：終点位置での時間
+    private float SenkeiHokan(float S, float G, float t, float t0, float t1)
+    {
+        float n;
+        n = S + (G - S) * (t - t0) / (t1 - t0);
+        return n;
     }
 
 
