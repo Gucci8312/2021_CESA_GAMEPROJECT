@@ -34,7 +34,7 @@ public class ActiveMenu : MonoBehaviour
         OldSlidePos.x += 400;//画面外に離れさせる
         MenuTransform.position = OldSlidePos;
 
-        for (int i = 0; i < MenuTransform.childCount; i++)
+        for (int i = 0; i < MenuTransform.childCount-1; i++)
         {
             //メニューの子オブジェクトが持つSpriteRendererを取得
             SpriteColor.Add(MenuTransform.GetChild(i).gameObject.GetComponent<SpriteRenderer>());
