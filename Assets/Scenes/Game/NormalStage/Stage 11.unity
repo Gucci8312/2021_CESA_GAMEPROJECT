@@ -4159,10 +4159,7 @@ MonoBehaviour:
   _PointLight1: {fileID: 1661827658}
   _PointLight2: {fileID: 1150216996}
   _PointLight3: {fileID: 2051341277}
-  Flame1: {fileID: 0}
-  Flame2: {fileID: 0}
-  Flame3: {fileID: 0}
-  Flame4: {fileID: 0}
+  Flame: []
   DirectionLightPower: 0.05
   PointLightPower: 2000
   ring:
@@ -6535,6 +6532,7 @@ GameObject:
   - component: {fileID: 1894673255}
   - component: {fileID: 1894673254}
   - component: {fileID: 1894673258}
+  - component: {fileID: 1894673259}
   m_Layer: 0
   m_Name: GameManeger
   m_TagString: Untagged
@@ -6723,6 +6721,19 @@ MonoBehaviour:
   - {fileID: 1323055830}
   plane: {fileID: 1783413408}
   StartTime: 2
+--- !u!114 &1894673259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894673253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c340e9782b8c544b8d27f5acc484927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SlideTime: 0.25
 --- !u!1001 &1904137950
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5,15 +5,15 @@ using UnityEngine.VFX;
 
 public class PlayerEffect : MonoBehaviour
 {
-    GameObject DushEffect;
-    GameObject SmokeEffect;
+    public GameObject DushEffect;
+    public GameObject SmokeEffect;
     GameObject Player;
     // Start is called before the first frame update
     void Start()
     {
         Player = GameObject.Find("Player"); ;
-        DushEffect = GameObject.Find("DushEffect");
-        SmokeEffect = GameObject.Find("SmokeEffect");
+        //DushEffect = GameObject.Find("DushEffect");
+        // SmokeEffect = GameObject.Find("SmokeEffect");
         //Instantiate(DushEffect,Player.transform.position,Quaternion.identity);
         // vf = this.gameObject.GetComponent<VisualEffect>();
     }
