@@ -1136,6 +1136,7 @@ GameObject:
   - component: {fileID: 371337740}
   - component: {fileID: 371337741}
   - component: {fileID: 371337742}
+  - component: {fileID: 371337743}
   m_Layer: 0
   m_Name: GameManeger
   m_TagString: Untagged
@@ -1354,6 +1355,19 @@ MonoBehaviour:
   Score_Obj:
   - gameobject: {fileID: 1978197716}
     threshold: 100
+--- !u!114 &371337743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371337734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c340e9782b8c544b8d27f5acc484927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SlideTime: 0.25
 --- !u!1 &377126355 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6560782196904396874, guid: 8460f56ea1359354da04962b6e4c523d,

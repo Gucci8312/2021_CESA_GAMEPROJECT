@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -3819,6 +3819,7 @@ GameObject:
   - component: {fileID: 1780746167}
   - component: {fileID: 1780746168}
   - component: {fileID: 1780746169}
+  - component: {fileID: 1780746170}
   m_Layer: 0
   m_Name: GameManeger
   m_TagString: Untagged
@@ -4026,6 +4027,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   max_supure: 19
+--- !u!114 &1780746170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780746162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c340e9782b8c544b8d27f5acc484927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SlideTime: 0.25
 --- !u!1 &1788964033
 GameObject:
   m_ObjectHideFlags: 0
@@ -4250,10 +4264,7 @@ MonoBehaviour:
   _PointLight1: {fileID: 1609908144}
   _PointLight2: {fileID: 1693186250}
   _PointLight3: {fileID: 1609908144}
-  Flame1: {fileID: 0}
-  Flame2: {fileID: 0}
-  Flame3: {fileID: 0}
-  Flame4: {fileID: 0}
+  Flame: []
   DirectionLightPower: 0.05
   PointLightPower: 2000
   ring:
