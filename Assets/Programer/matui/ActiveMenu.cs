@@ -9,6 +9,8 @@ public class ActiveMenu : MonoBehaviour
     /*public*/ GameObject Menu;
 
     static public bool SlideFlag = false;//メニューをスライドさせるかどうか(メニューボタン押したときにtrueにすると動く)
+    static public bool MenuFlag = false;//メニューをスライドさせるかどうか(メニューボタン押したときにtrueにすると動く)
+    static public bool MenuInOutFlag = false;//メニューをスライドさせるかどうか(メニューボタン押したときにtrueにすると動く)
 
     Vector3 SlidePos;//スライドさせる座標（初期座標）
     Vector3 OldSlidePos;//スライドさせる前の座標
@@ -18,7 +20,7 @@ public class ActiveMenu : MonoBehaviour
     public float SlideTime = 1.0f;//スライドさせたい時間（秒）
     private float NowSlideTime=0;//スライドしている時間（秒）
 
-    List<SpriteRenderer> UiColor=new List<SpriteRenderer>();
+    List<SpriteRenderer> SpriteColor=new List<SpriteRenderer>();//メニューのスプライト
     // Start is called before the first frame update
     void Start()
     {
@@ -32,9 +34,10 @@ public class ActiveMenu : MonoBehaviour
         OldSlidePos.x += 400;//画面外に離れさせる
         MenuTransform.position = OldSlidePos;
 
-        for (int i = 0; i < MenuTransform.childCount - 1; i++)
+        for (int i = 0; i < MenuTransform.childCount; i++)
         {
-            UiColor.Add(MenuTransform.GetChild(i).gameObject.GetComponent<SpriteRenderer>());
+            //メニューの子オブジェクトが持つSpriteRendererを取得
+            SpriteColor.Add(MenuTransform.GetChild(i).gameObject.GetComponent<SpriteRenderer>());
         }
 
         //Menu.SetActive(false);
@@ -43,13 +46,9 @@ public class ActiveMenu : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) || Controler.GetMenuButtonFlg())
-        {
-            SlideFlag = true;
-        }
 
 
-        if (SlideFlag)
+        if (SlideFlag)//スライドしてるとき
         {
             NowSlideTime += Time.deltaTime;
             if (NowSlideTime >= SlideTime)
@@ -58,10 +57,10 @@ public class ActiveMenu : MonoBehaviour
                 SlideFlag = false;
             }
 
-            Vector3 StartPos, GoalPos;
+            Vector3 StartPos, GoalPos;//始点、終点座標
             StartPos = GoalPos = Vector3.zero;
 
-            float StartA, GoalA;
+            float StartA, GoalA;//始点、終点アルファ
             StartA = GoalA = 0;
 
             if (Menu.activeSelf == false)
@@ -79,19 +78,25 @@ public class ActiveMenu : MonoBehaviour
                 GoalA = 1;
             }
 
+            //線形補間でスライド
             MenuTransform.position = SenkeiHokan(StartPos, GoalPos, NowSlideTime, 0, SlideTime);
-    
-            for (int i = 0; i < UiColor.Count; i++)
+            for (int i = 0; i < SpriteColor.Count; i++)
             {
-                Color color = UiColor[i].color;
+                Color color = SpriteColor[i].color;
                 color.a = SenkeiHokan(StartA, GoalA, NowSlideTime, 0, SlideTime);
-                UiColor[i].color = color;
+                SpriteColor[i].color = color;
             }
 
         }
-        else
+        else//スライドしてないとき
         {
             NowSlideTime = 0;
+
+            if (Input.GetKeyDown(KeyCode.Escape) || Controler.GetMenuButtonFlg())
+            {
+                SlideFlag = true;
+            }
+
         }
     }
 
