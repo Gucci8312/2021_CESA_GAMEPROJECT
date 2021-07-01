@@ -6,7 +6,7 @@ public class AnimaterControl : MonoBehaviour
 {
     private CharacterController CharaContorler;
     private Animator Anim;
-    string NowState;
+    string NowStateFlg;
     string OldState;
 
     // Start is called before the first frame update
@@ -14,59 +14,72 @@ public class AnimaterControl : MonoBehaviour
     {
         CharaContorler = GetComponent<CharacterController>();
         Anim = GetComponent<Animator>();
-        NowState = "Walk";
-        Anim.SetBool("WalkFlg", true);
+        NowStateFlg = "WaitFlg";
+        Anim.SetBool("WaitFlg", true);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.RightArrow))
-        //{
-        //    HipDrop();
-        //    OldState = NowState;
-        //    NowState = "HipDrop";
-        //}
-        //else if (Input.GetKeyDown(KeyCode.UpArrow))
-        //{
-        //    Run();
-        //    OldState = NowState;
-        //    NowState = "Run";
-        //}
-        //else if (Input.GetKeyDown(KeyCode.DownArrow))
-        //{
-        //    Walk();
-        //    OldState = NowState;
-        //    NowState = "Walk";
-        //}
+
+    }
+
+    public void Wait()
+    {
+        //  OldState = NowState;
+        // NowState = "HipDrop";
+        if (NowStateFlg != "WaitFlg")
+        {
+            Anim.SetBool(NowStateFlg, false);
+        }
+        Anim.SetBool("WaitFlg", true);
+        NowStateFlg = "WaitFlg";
     }
     public void HipDrop()
     {
-      //  OldState = NowState;
-       // NowState = "HipDrop";
+        //  OldState = NowState;
+        // NowState = "HipDrop";
+        if (NowStateFlg != "HipDropFlg")
+        {
+            Anim.SetBool(NowStateFlg, false);
+        }
         Anim.SetBool("HipDropFlg", true);
+        NowStateFlg = "HipDropFlg";
+        //Anim.SetBool(NowStateFlg, false);
     }
 
     public void Walk()
     {
+        if (NowStateFlg != "WalkFlg")
+        {
+            Anim.SetBool(NowStateFlg, false);
+        }
         Anim.SetBool("WalkFlg", true);
-        Anim.SetBool("RunFlg", false);
-       // OldState = NowState;
-       // NowState = "Walk";
+        NowStateFlg = "WalkFlg";
+        // NowState = "Walk";
     }
 
     public void Run()
     {
+        if (NowStateFlg != "RunFlg")
+        {
+            Anim.SetBool(NowStateFlg, false);
+        }
         Anim.SetBool("RunFlg", true);
-        Anim.SetBool("WalkFlg", false);
-        //OldState = NowState;
-       // NowState = "Run";
+        NowStateFlg = "RunFlg";
+        //Anim.SetBool("WalkFlg", false);
+        OldState = "Run";
+        // NowState = "Run";
     }
 
     void StopHipDrop()
     {
-        Debug.Log("ヒップドロップ終わった");
+        //Debug.Log("ヒップドロップ終わった");
+        //if (NowStateFlg != "HipDropFlg")
+        //{
+        //    Anim.SetBool(NowStateFlg, false);
+        //}
         Anim.SetBool("HipDropFlg", false);
         if (OldState == "Walk")
         {
@@ -80,10 +93,19 @@ public class AnimaterControl : MonoBehaviour
 
     public void GameClearRightVer()
     {
+        if (NowStateFlg != "GameClearRFlg")
+        {
+            Anim.SetBool(NowStateFlg, false);
+        }
         Anim.SetBool("GameClearRFlg", true);
-    }   
+    }
     public void GameClearLightVer()
     {
+        if (NowStateFlg != "GameClearLFlg")
+        {
+            Anim.SetBool(NowStateFlg, false);
+        }
+
         Anim.SetBool("GameClearLFlg", true);
     }
 }

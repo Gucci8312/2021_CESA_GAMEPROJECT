@@ -107,6 +107,7 @@ public class PlayerMove : MobiusOnObj
 
         RythmFlg = this.rythm.rythmCheckFlag;
         RythmSaveFlg = RythmFlg;
+        PlayerAnimation.Walk();
     }
 
     // Update is called once per frame
@@ -573,6 +574,7 @@ public class PlayerMove : MobiusOnObj
             {
                 y = PausePos.y;
                 Stop = true;
+                PlayerAnimation.Wait();
             }
         }
         
