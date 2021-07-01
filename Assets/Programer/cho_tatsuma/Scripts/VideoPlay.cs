@@ -13,14 +13,14 @@ public class VideoPlay : MonoBehaviour
     float m_time;
     public float inputInterval;
     bool skip;
-    private GameMaster m_gameMaster;
+   // private GameMaster m_gameMaster;
     [SerializeField] Image m_circle = default;
 
     // Start is called before the first frame update
     void Start()
     {
         PauseManager.GameObjectFindInit();
-        m_gameMaster = GameObject.Find("GameManeger").GetComponent<GameMaster>();
+       // m_gameMaster = GameObject.Find("GameManeger").GetComponent<GameMaster>();
         mPlayer = GetComponent<VideoPlayer>();
         mPlayer.Stop();
         skip = false;
