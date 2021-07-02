@@ -16,15 +16,11 @@ public class CameraZoom : MonoBehaviour
 
     PlayerMove player;
 
-    private void Awake()
-    {
-        player = GameObject.Find("Player").GetComponent<PlayerMove>();
-    }
-
     // Start is called before the first frame update
     void Start()
     {
         Cam = Camera.main;
+        player = GameObject.Find("Player").GetComponent<PlayerMove>();
     }
 
     // Update is called once per frame

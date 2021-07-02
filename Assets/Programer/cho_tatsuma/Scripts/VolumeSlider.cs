@@ -24,16 +24,11 @@ public class VolumeSlider : MonoBehaviour
     [SerializeField]
     Type type = Type.MASTER;            //ボリューム調整タイプ変数
 
-    public Slider slider;                    //スライダーバーの変数
+    Slider m_slider;                    //スライダーバーの変数
     // Start is called before the first frame update
     void Start()
     {
-        slider = GetComponent<Slider>();
-    }
-
-    private void Update()
-    {
-
+        m_slider = GetComponent<Slider>();
     }
 
     // @name   VolumeChange
@@ -44,15 +39,15 @@ public class VolumeSlider : MonoBehaviour
         {
             //マスター音量
             case Type.MASTER:
-                SoundManager.MasterVolume = slider.value;
+                SoundManager.MasterVolume = m_slider.value;
                 break;
             //BGM音量
             case Type.BGM:
-                SoundManager.BgmVolume = slider.value;
+                SoundManager.BgmVolume = m_slider.value;
                 break;
             //SE音量
             case Type.SE:
-                SoundManager.SeVolume = slider.value;
+                SoundManager.SeVolume = m_slider.value;
                 break;
         }
     }

@@ -14,19 +14,18 @@ using UnityEngine.SceneManagement;
 // @brief  ステージセレクト定義
 public static class StageSelect
 {
-    static public Image m_fadeImage;                                      //フェードゲームオブジェクトを選択（UIImage）
+    static public Image m_fadeImage;           //フェードゲームオブジェクトを選択（UIImage）
     static public Fade m_fade;                                            //フェードクラスを取得
 
-    [SerializeField] static private Slider m_gauge = default;             //ローディング画面のスライダー
-    static private AsyncOperation m_async;                                //同期処理
+    [SerializeField] static private Slider m_gauge = default;              //ローディング画面のスライダー
+    static private AsyncOperation m_async;                                 //同期処理
 
     // @name   GoStageSelect
     // @brief  ステージセレクト画面への遷移
     static public void GoStageSelect(MonoBehaviour monoBehaviour)
     {
-        m_fade.gameObject.SetActive(true);
         m_fade.StartFadeOut();
-        monoBehaviour.StartCoroutine(LoadingTitle("StageSelectScene"));
+        monoBehaviour.StartCoroutine(Loading("StageSelectScene"));
     }
 
     // @name   GoStageSelect
@@ -34,81 +33,48 @@ public static class StageSelect
     static public void GoTitleScene(MonoBehaviour monoBehaviour)
     {
         if (Time.timeScale == 0f) Time.timeScale = 1.0f;
-     //   m_fade.StartFadeOut();
-        monoBehaviour.StartCoroutine(Loading("TitleScene"));
+        m_fade.StartFadeOut();
+        monoBehaviour.StartCoroutine(Loading("TittleScene"));
     }
 
    static public void LoadStage(int _num, MonoBehaviour monoBehaviour)
     {
-       //m_fade.gameObject.SetActive(true);
-      // m_fade.StartFadeOut();
-       monoBehaviour.StartCoroutine(Loading("Stage " + _num));
-    }
-
-    // @name   Loading
-    // @brief  ただのシーン読み込み
-   public static IEnumerator Loading(string _stageName)
-    {
-		
-		while (true)
-        {
-			//フェードが終わったこと知らせた後
-			//if (true)
-			//{
-			//	//ローディング情報を返す
-			//	m_async = 
-
-   //             //ロード中なら入る文
-   //             while (!m_async.isDone)
-			//	{
-			//		//ローディング時のゲージのスライダーを進める
-			//		//var progressVal = Mathf.Clamp01(m_async.progress / 0.9f);
-			//		//m_gauge.value = progressVal;
-			//		yield return null;
-			//	}
-			//	//終了処理
-			//	// m_fadeImage.gameObject.SetActive(false);
-			//	//m_fade.fadeFinished = false;
-			//}
-            SceneManager.LoadScene(_stageName);
-            SoundManager.StopBGM();
-            yield return new WaitForSeconds(0.1f);
-        }
+        m_fade.gameObject.SetActive(true);
+        m_fade.StartFadeOut();
+        monoBehaviour.StartCoroutine(Loading("Stage" + _num));
     }
 
     // @name   Loading
     // @brief  NowLodingに対応させるための関数
-    public static IEnumerator LoadingTitle(string _stageName)
+   public static IEnumerator Loading(string _stageName)
     {
-
         while (true)
         {
-           // フェードが終わったこと知らせた後
+            //フェードが終わったこと知らせた後
             if (m_fade.fadeFinished)
             {
-            	//ローディング情報を返す
-            	m_async = SceneManager.LoadSceneAsync(_stageName);
+                //ローディング情報を返す
+                m_async = SceneManager.LoadSceneAsync(_stageName);
 
                 //ロード中なら入る文
                 while (!m_async.isDone)
-            	{
-            		//ローディング時のゲージのスライダーを進める
-            		//var progressVal = Mathf.Clamp01(m_async.progress / 0.9f);
-            		//m_gauge.value = progressVal;
-            		yield return null;
-            	}
+                {
+                    //ローディング時のゲージのスライダーを進める
+                    //var progressVal = Mathf.Clamp01(m_async.progress / 0.9f);
+                    //m_gauge.value = progressVal;
+                    yield return null;
+                }
                 //終了処理
-                //m_fadeImage.gameObject.SetActive(false);
-                //m_fade.fadeFinished = false;
+               // m_fadeImage.gameObject.SetActive(false);
+                m_fade.fadeFinished = false;
             }
-            SoundManager.StopBGM();
             yield return new WaitForSeconds(0.1f);
         }
     }
 
     // @name   ClickGameEndBotton
     // @brief  ゲーム終了ボタン
-    static public void ClickGameEndBotton()
+   static public void ClickGameEndBotton()
     {
         //Debug.Log("ゲーム終了ボタンが押された");
         Application.Quit();
