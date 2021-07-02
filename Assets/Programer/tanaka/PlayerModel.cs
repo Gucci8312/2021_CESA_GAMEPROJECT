@@ -15,17 +15,23 @@ public class PlayerModel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+<<<<<<< HEAD
         //int Point = PlayerScript.GetStartPoint();
         float InsideAngleSum = 0f;
         if (PlayerScript.InsideFlg)
+=======
+        if (!PlayerScript.GetPause())
+>>>>>>> ac80fc59d50ecb856359ffdfa34f34eba4e94ef9
         {
-            InsideAngleSum = 180f;
+            
         }
         else
         {
-            InsideAngleSum = 0f;
+           
         }
+    }
 
+<<<<<<< HEAD
 
         if (PlayerScript.RotateLeftFlg)
         {
@@ -37,8 +43,51 @@ public class PlayerModel : MonoBehaviour
         }
 
         this.transform.Rotate(0, InsideAngleSum, 0);
+=======
+    public void NormalModel()
+    {
+        //int Point = PlayerScript.GetStartPoint();
+            float InsideAngleSum = 0f;
+            if (PlayerScript.GetInsideFlg())
+            {
+                InsideAngleSum = 180f;
+            }
+            else
+            {
+                InsideAngleSum = 0f;
+            }
 
+
+            if (PlayerScript.GetRotateLeftFlg())
+            {
+                this.transform.eulerAngles = new Vector3(0, 180, 360f - PlayerScript.GetModelAngle() + InsideAngleSum);
+
+                if (AngleY < InsideAngleSum)
+                {
+                    AngleY += 10;
+                }
+                else if (AngleY > InsideAngleSum)
+                {
+                    AngleY -= 10;
+                }
+            }
+            else
+            {
+                this.transform.eulerAngles = new Vector3(0, 0, PlayerScript.GetModelAngle() + InsideAngleSum);
+                if (AngleY < InsideAngleSum)
+                {
+                    AngleY += 10;
+                }
+                else if (AngleY > InsideAngleSum)
+                {
+                    AngleY -= 10;
+                }
+            }
+>>>>>>> ac80fc59d50ecb856359ffdfa34f34eba4e94ef9
+
+            this.transform.Rotate(0, InsideAngleSum, 0);
     }
+
 }
 
 

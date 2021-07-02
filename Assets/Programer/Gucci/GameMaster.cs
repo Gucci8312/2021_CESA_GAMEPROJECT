@@ -12,6 +12,15 @@ public class GameMaster : MonoBehaviour
     public string BgmName;
     GameObject Player;
 
+<<<<<<< HEAD:Assets/Programer/Gucci/GameMaster.cs
+=======
+    private float frame_count = 0;
+    private int scoreUp = 0;
+    GameObject ScoreObj;
+    ObjectDraw objDraw;
+
+    // public int DrowScore;
+>>>>>>> ac80fc59d50ecb856359ffdfa34f34eba4e94ef9:Assets/Programer/Gucci/Script/GameMaster.cs
     private void Awake()
     {
         GameObject m_soundManager = GameObject.Find("SoundManager(Clone)");     //サウンドマネージャー検索
@@ -31,6 +40,15 @@ public class GameMaster : MonoBehaviour
         Application.targetFrameRate = 60;
         StartCoroutine("CheckLoop");
         Invoke("OnStartBGM", 0.1f);
+<<<<<<< HEAD:Assets/Programer/Gucci/GameMaster.cs
+=======
+        UI = GameObject.Find("UI");
+        NumControl.InitNum();
+        SupureManager.ResetScore();
+        ScoreObj = GameObject.Find("Score");
+        ScoreObj.GetComponent<ExpantionShrink>().musicOn = false;
+        objDraw = GetComponent<ObjectDraw>();
+>>>>>>> ac80fc59d50ecb856359ffdfa34f34eba4e94ef9:Assets/Programer/Gucci/Script/GameMaster.cs
     }
 
     void OnStartBGM()
@@ -40,6 +58,7 @@ public class GameMaster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+<<<<<<< HEAD:Assets/Programer/Gucci/GameMaster.cs
         if(Input.GetKeyDown(KeyCode.Escape)| Controler.GetMenuButtonFlg())
         {
             Debug.Log("メニューボタン押された");
@@ -49,6 +68,22 @@ public class GameMaster : MonoBehaviour
                 Time.timeScale = 1.0f;
             }
             else
+=======
+        //if (frame_count % 3 == 0)
+        if (objDraw != null)
+        {
+            objDraw.Object_Draw_Update(SupureManager.GetScore());
+        }
+        if (scoreUp < (int)SupureManager.GetScore())
+        {
+            scoreUp++;
+            ScoreObj.GetComponent<ExpantionShrink>().isExpantion = true;
+            NumControl.DrawScore(scoreUp);
+        }
+        if (!UI.GetComponent<UIManeger>().GameClearFlg && !UI.GetComponent<UIManeger>().GameOverFlg && GameStart.Blinking_Flag)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape) || Controler.GetMenuButtonFlg())
+>>>>>>> ac80fc59d50ecb856359ffdfa34f34eba4e94ef9:Assets/Programer/Gucci/Script/GameMaster.cs
             {
                 Menu.active = true;
                 Time.timeScale = 0.0f;

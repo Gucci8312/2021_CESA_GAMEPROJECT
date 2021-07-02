@@ -84,10 +84,25 @@ public class PlayerMove : MonoBehaviour
 
         Mobius = GameObject.FindGameObjectsWithTag("Mobius");
 
+<<<<<<< HEAD
         for (int i = 0; i < Mobius.Length; i++)
         {
             Mobius[i] = GameObject.Find("Mobius (" + i + ")");                                        //全てのメビウス取得
         }
+=======
+    bool SaveInsideFlg;
+    bool SaveRotateFlg;
+
+    float AngleY;
+    float HipDropEffectTime;
+    protected override void Awake()
+    {
+        InitRot = transform.rotation;
+        InLength = 50;
+        OutLength = 0;
+        HipDropEffectTime = 0;
+        base.Awake();
+>>>>>>> ac80fc59d50ecb856359ffdfa34f34eba4e94ef9
 
         RythmObj = GameObject.Find("rythm_circle");                                                   //リズムオブジェクト取得
         this.rythm = RythmObj.GetComponent<Rythm>();                                                  //リズムのコード
@@ -106,8 +121,16 @@ public class PlayerMove : MonoBehaviour
         SpeedUpMashing = false;
         JumpMashing = false;
 
+<<<<<<< HEAD
         EnemyMax = GameObject.FindGameObjectsWithTag("Enemy").Length;
         EnemyUpdateCount = 0;
+=======
+        RythmFlg = this.rythm.rythmCheckFlag;
+        RythmSaveFlg = RythmFlg;
+        PlayerAnimation.Walk();
+        NormalModel();
+    }
+>>>>>>> ac80fc59d50ecb856359ffdfa34f34eba4e94ef9
 
         //初期位置設定
         Vector2 MobiusPos = Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center;
@@ -125,11 +148,34 @@ public class PlayerMove : MonoBehaviour
         }
 
 
+<<<<<<< HEAD
         angle = 360 - (StartPoint * 45);//始まりの位置を求める
         MobiusCol = false;
         jumpmove = 0;
         jumpmovesave = jumpmove;
         jumpcount = 0;
+=======
+                    if (jumpmove == 0)//ヒップドロップの場所
+                    {
+                        HipDropPos = this.transform.position;
+                    }
+
+                    //プレイヤーの移動
+                    if (!Stop)
+                    {
+                        if (RotateLeftFlg)
+                        {
+                            angle += (rotateSpeed * Speed) * Time.deltaTime;
+                        }
+                        else
+                        {
+                            angle -= (rotateSpeed * Speed) * Time.deltaTime;
+                        }
+                    }
+
+                    angle = AngleRangeSum(angle);
+                    
+>>>>>>> ac80fc59d50ecb856359ffdfa34f34eba4e94ef9
 
         Speed = NormalSpeed;
         SpacePress = false;
@@ -138,8 +184,18 @@ public class PlayerMove : MonoBehaviour
 
         SpeedUpFlg = false;
 
+<<<<<<< HEAD
         RythmFlg = this.rythm.rythmCheckFlag;
         RythmSaveFlg = RythmFlg;
+=======
+                    }
+                }
+                PositionSum();//場所を求める
+                NormalModel();
+                HipDropEffectDraw();
+            }
+        }
+>>>>>>> ac80fc59d50ecb856359ffdfa34f34eba4e94ef9
 
         cam = Camera.main;
         camerashake = cam.GetComponent<CameraShake>();
@@ -154,8 +210,16 @@ public class PlayerMove : MonoBehaviour
     {
         if (StartFlg)
         {
+<<<<<<< HEAD
             StartFlg = false;
         }
+=======
+            if (!Clear)
+            {
+                if (!CollisionState)
+                {
+                    RythmFlg = this.rythm.rythmCheckFlag;                        //リズム取得HipDrop
+>>>>>>> ac80fc59d50ecb856359ffdfa34f34eba4e94ef9
 
         NowMobiusColor = Mobius[NowMobius].GetComponent<MobiusColor>().GetNowColorNum();//松井君のスクリプトから変数取得
 
@@ -342,6 +406,14 @@ public class PlayerMove : MonoBehaviour
         }//if (TimingInput)
         else
         {
+<<<<<<< HEAD
+=======
+            if (RythmSaveFlg != RythmFlg)//タイミングがtrueになった瞬間
+            {
+                SpeedPress = false;
+                SpeedUpMashing = false;
+            }
+>>>>>>> ac80fc59d50ecb856359ffdfa34f34eba4e94ef9
 
             if (InsideFlg)//内側
             {
@@ -407,8 +479,22 @@ public class PlayerMove : MonoBehaviour
 
     void OnDrawGizmos()//当たり判定描画
     {
+<<<<<<< HEAD
         Gizmos.color = new Vector4(0, 1, 0, 0.5f); //色指定
         Gizmos.DrawSphere(transform.position, GetComponent<SphereCollider>().bounds.size.x / 2); //中心点とサイズ
+=======
+        HipDropCollisionObj.GetComponent<HipDropCol>().EnemyStanOn();
+        jumpmove = 0;
+        this.rythm.checkPlayerMove = false;
+        JumpOk = true;
+        HipDrop = false;
+        JumpFlg = false;
+        SmokeEffect.SetActive(true);
+        HipDropEffectTime = 1;
+        camerashake.OnShake();
+        SoundManager.PlaySeName("hipdrop");
+    }
+>>>>>>> ac80fc59d50ecb856359ffdfa34f34eba4e94ef9
 
     }
 
@@ -548,6 +634,29 @@ public class PlayerMove : MonoBehaviour
                             //Debug.Log("内側");
                         }
 
+<<<<<<< HEAD
+=======
+    //クリア時の移動処理
+    private void ClearMove()
+    {
+        if (!HipDrop)//移動させる
+        {
+            angle = 0;
+            InsideFlg = false;
+            RotateLeftFlg = false;
+            PositionSum();
+            HipDrop = true;
+            transform.position = new Vector3(0, 100, ClearPosition.z);
+            NormalModel();
+        }
+        else//ヒップドロップ中
+        {
+            if (!ClearOne)
+            {
+                //アニメーションをセット
+                PlayerAnimation.HipDrop();
+                ClearOne = true;
+>>>>>>> ac80fc59d50ecb856359ffdfa34f34eba4e94ef9
 
                         SideCnt = 0;
                     }//if (SideCnt>=2)//2回切り替えると
@@ -569,7 +678,12 @@ public class PlayerMove : MonoBehaviour
                 }//if ((hankei/3)+(InsideLength/2) > NextLength)//プレイヤーと移り先のメビウスの輪が当たった
 
 
+<<<<<<< HEAD
             }//if (hankei + hankei > VecLength)//メビウスの輪同士の当たり判定
+=======
+        DushEffect.SetActive(false);
+        //SmokeEffect.SetActive(false);
+>>>>>>> ac80fc59d50ecb856359ffdfa34f34eba4e94ef9
 
         }//for (int i = 0; i < Mobius.Length; i++)
 
@@ -584,7 +698,14 @@ public class PlayerMove : MonoBehaviour
 
         if (degree < 0)
         {
+<<<<<<< HEAD
             degree += 360;
+=======
+            NormalModel();
+            PauseModel();
+            HipDrop = true;
+            transform.position = new Vector3(PausePos.x, 50, PausePos.z);
+>>>>>>> ac80fc59d50ecb856359ffdfa34f34eba4e94ef9
         }
         return degree;
     }
@@ -607,6 +728,7 @@ public class PlayerMove : MonoBehaviour
 
             if (!StartFlg)
             {
+<<<<<<< HEAD
                 if (jumpmove == 0)//ジャンプしていなければ
                 {
                     if (other.GetComponent<EnemyMove>().GetNowMobiusNum() == NowMobius)//同じメビウスか
@@ -625,6 +747,12 @@ public class PlayerMove : MonoBehaviour
                     }
                 }
 
+=======
+                
+                y = PausePos.y;
+                Stop = true;
+                PlayerAnimation.Wait();
+>>>>>>> ac80fc59d50ecb856359ffdfa34f34eba4e94ef9
             }
         }
     }
@@ -734,4 +862,91 @@ public class PlayerMove : MonoBehaviour
 
         return true;
     }
+<<<<<<< HEAD
+=======
+
+    //クリアの処理を行う
+    public void ClearOn()
+    {
+
+        HipDropCollisionObj.GetComponent<HipDropCol>().SetClear();
+        if (!Clear)
+        {
+
+            PlayerAnimation.HipDrop();
+            Clear = true;
+        }
+    }
+
+    //クリアの動きが終わったかどうか
+    public bool GetStop()
+    {
+        return Stop;
+    }
+
+    //ヒップドロップ中の位置
+    public Vector3 GetHipDropPos()
+    {
+        return HipDropPos;
+    }
+    
+    public bool GetPause()
+    {
+        return Pause;
+    }
+
+
+    void NormalModel()
+    {
+        float InsideAngleSum = 0f;
+        if (GetInsideFlg())
+        {
+            InsideAngleSum = 180f;
+        }
+        else
+        {
+            InsideAngleSum = 0f;
+        }
+
+        if (GetRotateLeftFlg())
+        {
+            this.transform.eulerAngles = new Vector3(0, 180, 360f - GetModelAngle() + InsideAngleSum);
+        }
+        else
+        {
+            this.transform.eulerAngles = new Vector3(0, 0, GetModelAngle() + InsideAngleSum);
+        }
+
+        if (AngleY < InsideAngleSum)
+        {
+            AngleY += 10;
+        }
+        else if (AngleY > InsideAngleSum)
+        {
+            AngleY -= 10;
+        }
+
+        this.transform.Rotate(0, InsideAngleSum, 0);
+    }
+
+    void PauseModel()
+    {
+        NormalModel();
+        this.transform.Rotate(0, 90, 0);
+    }
+
+    void HipDropEffectDraw()
+    {
+        if (HipDropEffectTime > 0)
+        {
+            HipDropEffectTime += Time.deltaTime;
+
+            if (HipDropEffectTime > 1.5f)
+            {
+                SmokeEffect.SetActive(false);
+                HipDropEffectTime = 0;
+            }
+        }
+    }
+>>>>>>> ac80fc59d50ecb856359ffdfa34f34eba4e94ef9
 }
