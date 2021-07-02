@@ -14,8 +14,11 @@ public class GameMaster : MonoBehaviour
     GameObject UI;
     public int ScoreNum = 100;
 
-   private float frame_count = 0;
+    private float frame_count = 0;
     private int scoreUp = 0;
+    GameObject ScoreObj;
+    ObjectDraw objDraw;
+
     // public int DrowScore;
     private void Awake()
     {
@@ -39,7 +42,9 @@ public class GameMaster : MonoBehaviour
         UI = GameObject.Find("UI");
         NumControl.InitNum();
         SupureManager.ResetScore();
-        
+        ScoreObj = GameObject.Find("Score");
+        ScoreObj.GetComponent<ExpantionShrink>().musicOn = false;
+        objDraw = GetComponent<ObjectDraw>();
     }
 
     void OnStartBGM()
@@ -49,13 +54,16 @@ public class GameMaster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (frame_count % 3 == 0)
+        //if (frame_count % 3 == 0)
+        if (objDraw != null)
         {
-            if (scoreUp < (int)SupureManager.GetScore())
-            {
-                NumControl.DrawScore(scoreUp);
-                scoreUp++;
-            }
+            objDraw.Object_Draw_Update(SupureManager.GetScore());
+        }
+        if (scoreUp < (int)SupureManager.GetScore())
+        {
+            scoreUp++;
+            ScoreObj.GetComponent<ExpantionShrink>().isExpantion = true;
+            NumControl.DrawScore(scoreUp);
         }
         if (!UI.GetComponent<UIManeger>().GameClearFlg && !UI.GetComponent<UIManeger>().GameOverFlg && GameStart.Blinking_Flag)
         {

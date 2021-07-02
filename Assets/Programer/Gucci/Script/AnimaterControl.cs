@@ -6,7 +6,7 @@ public class AnimaterControl : MonoBehaviour
 {
     private CharacterController CharaContorler;
     private Animator Anim;
-    string NowStateFlg;
+    string NowStateFlg = "WaitFlg";
     string OldState;
 
     // Start is called before the first frame update
