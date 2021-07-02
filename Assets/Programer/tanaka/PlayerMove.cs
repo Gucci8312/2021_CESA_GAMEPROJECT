@@ -735,7 +735,7 @@ public class PlayerMove : MobiusOnObj
         {
             HipDropEffectTime += Time.deltaTime;
 
-            if (HipDropEffectTime > 2)
+            if (HipDropEffectTime > 1.5f)
             {
                 SmokeEffect.SetActive(false);
                 HipDropEffectTime = 0;
