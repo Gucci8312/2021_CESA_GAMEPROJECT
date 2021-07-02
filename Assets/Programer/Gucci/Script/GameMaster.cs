@@ -20,6 +20,7 @@ public class GameMaster : MonoBehaviour
     ObjectDraw objDraw;
 
     static public bool MenuFlag = false;                        //true:メニューが開いてる false:閉じてる
+    public float SlideTime = 0.25f;//スライドさせたい時間（秒
     // public int DrowScore;
     private void Awake()
     {
@@ -46,6 +47,11 @@ public class GameMaster : MonoBehaviour
         ScoreObj = GameObject.Find("Score");
         ScoreObj.GetComponent<ExpantionShrink>().musicOn = false;
         objDraw = GetComponent<ObjectDraw>();
+
+        if (this.GetComponent<ActiveUIManager>() == null)
+        {
+            this.gameObject.AddComponent<ActiveUIManager>();
+        }
     }
 
     void OnStartBGM()
@@ -68,9 +74,9 @@ public class GameMaster : MonoBehaviour
         }
         if (!UI.GetComponent<UIManeger>().GameClearFlg && !UI.GetComponent<UIManeger>().GameOverFlg && GameStart.Blinking_Flag)
         {
-            if (!ActiveMenu.SlideFlag)//メニューがスライドしてないとき
+            if (!ActiveUIManager.SlideFlag)//メニューがスライドしてないとき
             {
-                if (!ActiveMenu.MenuInOutFlag)//メニューが透明になったら
+                if (!ActiveUIManager.MenuInOutFlag)//メニューが透明になったら
                 {
                     Menu.SetActive(false);//メニューを消す
                 }
@@ -79,9 +85,9 @@ public class GameMaster : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Escape) || Controler.GetMenuButtonFlg())
                 {
                     Debug.Log("メニューボタン押された");
-                    ActiveMenu.SlideFlag = true;
+                    ActiveUIManager.SlideFlag = true;
 
-                    if (ActiveMenu.MenuInOutFlag)//メニューが開かれているとき
+                    if (ActiveUIManager.MenuInOutFlag)//メニューが開かれているとき
                     {
                         PauseManager.OffPause();
                     }
@@ -92,7 +98,7 @@ public class GameMaster : MonoBehaviour
                         PauseManager.OnPause();
 
                     }
-                    ActiveMenu.MenuInOutFlag = !ActiveMenu.MenuInOutFlag;
+                    ActiveUIManager.MenuInOutFlag = !ActiveUIManager.MenuInOutFlag;
 
 
                     //if (Menu.active == true)

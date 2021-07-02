@@ -4,9 +4,10 @@ using UnityEngine;
 
 //メニューをスライドさせるスクリプト
 //GameManagerに割り当てる
-public class ActiveMenu : MonoBehaviour
+public class ActiveUIManager : MonoBehaviour
 {
     /*public*/ GameObject Menu;
+    GameMaster GM;
 
     static public bool SlideFlag = false;//メニューをスライドさせるかどうか(メニューボタン押したときにtrueにすると動く)
     //static public bool MenuFlag = false;//メニューをスライドさせるかどうか(メニューボタン押したときにtrueにすると動く)
@@ -17,14 +18,15 @@ public class ActiveMenu : MonoBehaviour
 
     Transform MenuTransform;//メニューのTransform
 
-    public float SlideTime = 1.0f;//スライドさせたい時間（秒）
+    float SlideTime = 1.0f;//スライドさせたい時間（秒）
     private float NowSlideTime=0;//スライドしている時間（秒）
 
     List<SpriteRenderer> SpriteColor=new List<SpriteRenderer>();//メニューのスプライト
     // Start is called before the first frame update
     void Start()
     {
-        Menu = this.GetComponent<GameMaster>().Menu;
+        GM = this.GetComponent<GameMaster>();
+        Menu = GM.Menu;
         //Menu.SetActive(true);
         MenuTransform = Menu.GetComponent<Transform>();
         SlidePos = MenuTransform.position;
@@ -46,7 +48,7 @@ public class ActiveMenu : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
+        SlideTime = GM.SlideTime;
 
         if (SlideFlag)//スライドしてるとき
         {
