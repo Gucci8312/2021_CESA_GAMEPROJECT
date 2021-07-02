@@ -67,11 +67,13 @@ public class PlayerMove : MobiusOnObj
     bool SaveRotateFlg;
 
     float AngleY;
+    float HipDropEffectTime;
     protected override void Awake()
     {
         InitRot = transform.rotation;
         InLength = 50;
         OutLength = 0;
+        HipDropEffectTime = 0;
         base.Awake();
 
         RythmObj = GameObject.Find("rythm_circle");                                                   //リズムオブジェクト取得
@@ -228,6 +230,7 @@ public class PlayerMove : MobiusOnObj
                 }
                 PositionSum();//場所を求める
                 NormalModel();
+                HipDropEffectDraw();
             }
         }
 
@@ -387,7 +390,6 @@ public class PlayerMove : MobiusOnObj
             {
                 SpeedPress = false;
                 SpeedUpMashing = false;
-                SmokeEffect.SetActive(false);
             }
 
             if (Controler.GetRythmButtonFlg())//スピードアップのキー入力
@@ -466,6 +468,7 @@ public class PlayerMove : MobiusOnObj
         HipDrop = false;
         JumpFlg = false;
         SmokeEffect.SetActive(true);
+        HipDropEffectTime = 1;
         camerashake.OnShake();
         SoundManager.PlaySeName("hipdrop");
     }
@@ -557,7 +560,7 @@ public class PlayerMove : MobiusOnObj
         }
 
         DushEffect.SetActive(false);
-        SmokeEffect.SetActive(false);
+        //SmokeEffect.SetActive(false);
 
     }
 
@@ -724,5 +727,19 @@ public class PlayerMove : MobiusOnObj
     {
         NormalModel();
         this.transform.Rotate(0, 90, 0);
+    }
+
+    void HipDropEffectDraw()
+    {
+        if (HipDropEffectTime > 0)
+        {
+            HipDropEffectTime += Time.deltaTime;
+
+            if (HipDropEffectTime > 2)
+            {
+                SmokeEffect.SetActive(false);
+                HipDropEffectTime = 0;
+            }
+        }
     }
 }
