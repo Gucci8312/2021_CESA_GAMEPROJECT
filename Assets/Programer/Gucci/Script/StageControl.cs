@@ -38,9 +38,13 @@ public class StageControl : MonoBehaviour
     }
     static public void SetParcent(int _Idx, int _Parcent)
     {
-        if(StageParsent[_Idx]<=_Parcent)
+        if (StageParsent[_Idx] <= _Parcent)
         {
             StageParsent[_Idx] = _Parcent;
+        }
+        if (StageParsent[_Idx] == 100)
+        {
+            TimeAttackClearFlg[_Idx] = true;
         }
     }
     static public void SetClearFlg(int _Idx)
@@ -79,6 +83,7 @@ public class StageControl : MonoBehaviour
         for (int Idx = 0; Idx < 25; Idx++)
         {
             OpenStageFlg[Idx] = true;
+            TimeAttackClearFlg[Idx] = true;
         }
     }
 

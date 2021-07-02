@@ -65,11 +65,15 @@ public class PlayerMove : MobiusOnObj
 
     bool SaveInsideFlg;
     bool SaveRotateFlg;
+
+    float AngleY;
+    float HipDropEffectTime;
     protected override void Awake()
     {
         InitRot = transform.rotation;
         InLength = 50;
         OutLength = 0;
+        HipDropEffectTime = 0;
         base.Awake();
 
         RythmObj = GameObject.Find("rythm_circle");                                                   //リズムオブジェクト取得
@@ -107,6 +111,8 @@ public class PlayerMove : MobiusOnObj
 
         RythmFlg = this.rythm.rythmCheckFlag;
         RythmSaveFlg = RythmFlg;
+        PlayerAnimation.Walk();
+        NormalModel();
     }
 
     // Update is called once per frame
@@ -114,6 +120,37 @@ public class PlayerMove : MobiusOnObj
     {
 
         NowMobiusColor = Mobius[NowMobius].GetComponent<MobiusColor>().GetNowColorNum();//現在のメビウスの色を取得
+
+        //メニュー移動処理
+        if (Menu.activeSelf == true && !Clear)
+        {
+            if (!MenuOnOne)
+            {
+                SaveInsideFlg = InsideFlg;
+                SaveRotateFlg = RotateLeftFlg;
+                saveangle = angle;
+                MenuOnOne = true;
+            }
+            MenuOffOne = false;
+            InsideFlg = false;
+            RotateLeftFlg = false;
+            angle = 0;
+            if (!Stop) PauseMove();
+        }
+        else
+        {
+            if (!MenuOffOne)
+            {
+                angle = saveangle;
+                MenuOffOne = true;
+                InsideFlg = SaveInsideFlg;
+                RotateLeftFlg = SaveRotateFlg;
+                Stop = false;
+                HipDrop = false;
+            }
+
+            MenuOnOne = false;
+        }
 
         if (!Pause)
         {
@@ -163,6 +200,7 @@ public class PlayerMove : MobiusOnObj
                     }
 
                     angle = AngleRangeSum(angle);
+                    
 
                     if (SwitchMobius)
                     {
@@ -191,38 +229,12 @@ public class PlayerMove : MobiusOnObj
                     }
                 }
                 PositionSum();//場所を求める
+                NormalModel();
+                HipDropEffectDraw();
             }
         }
 
-        if (Menu.active == true && !Clear)
-        {
-            if (!MenuOnOne)
-            {
-                SaveInsideFlg = InsideFlg;
-                SaveRotateFlg = RotateLeftFlg;
-                saveangle = angle;
-                MenuOnOne = true;
-            }
-            MenuOffOne = false;
-            InsideFlg = false;
-            RotateLeftFlg = false;
-            angle = 0;
-            if (!Stop) PauseMove();
-        }
-        else
-        {
-            if (!MenuOffOne)
-            {
-                angle = saveangle;
-                MenuOffOne = true;
-                InsideFlg = SaveInsideFlg;
-                RotateLeftFlg = SaveRotateFlg;
-                Stop = false;
-                HipDrop = false;
-            }
-            
-            MenuOnOne = false;
-        }
+        
 
         //クリアの動き
         if (!Stop && !CollisionState && Clear)
@@ -240,7 +252,7 @@ public class PlayerMove : MobiusOnObj
             {
                 if (!CollisionState)
                 {
-                    RythmFlg = this.rythm.rythmCheckFlag;                        //リズム取得
+                    RythmFlg = this.rythm.rythmCheckFlag;                        //リズム取得HipDrop
 
                     SpeedUpInput();                                              //スピードアップ入力
 
@@ -378,7 +390,6 @@ public class PlayerMove : MobiusOnObj
             {
                 SpeedPress = false;
                 SpeedUpMashing = false;
-                SmokeEffect.SetActive(false);
             }
 
             if (Controler.GetRythmButtonFlg())//スピードアップのキー入力
@@ -457,6 +468,7 @@ public class PlayerMove : MobiusOnObj
         HipDrop = false;
         JumpFlg = false;
         SmokeEffect.SetActive(true);
+        HipDropEffectTime = 1;
         camerashake.OnShake();
         SoundManager.PlaySeName("hipdrop");
     }
@@ -522,6 +534,7 @@ public class PlayerMove : MobiusOnObj
             PositionSum();
             HipDrop = true;
             transform.position = new Vector3(0, 100, ClearPosition.z);
+            NormalModel();
         }
         else//ヒップドロップ中
         {
@@ -547,7 +560,7 @@ public class PlayerMove : MobiusOnObj
         }
 
         DushEffect.SetActive(false);
-        SmokeEffect.SetActive(false);
+        //SmokeEffect.SetActive(false);
 
     }
 
@@ -556,6 +569,8 @@ public class PlayerMove : MobiusOnObj
         
         if (!HipDrop)//移動させる
         {
+            NormalModel();
+            PauseModel();
             HipDrop = true;
             transform.position = new Vector3(PausePos.x, 50, PausePos.z);
         }
@@ -568,8 +583,10 @@ public class PlayerMove : MobiusOnObj
 
             if (y <= PausePos.y)
             {
+                
                 y = PausePos.y;
                 Stop = true;
+                PlayerAnimation.Wait();
             }
         }
         
@@ -667,4 +684,62 @@ public class PlayerMove : MobiusOnObj
         return HipDropPos;
     }
     
+    public bool GetPause()
+    {
+        return Pause;
+    }
+
+
+    void NormalModel()
+    {
+        float InsideAngleSum = 0f;
+        if (GetInsideFlg())
+        {
+            InsideAngleSum = 180f;
+        }
+        else
+        {
+            InsideAngleSum = 0f;
+        }
+
+        if (GetRotateLeftFlg())
+        {
+            this.transform.eulerAngles = new Vector3(0, 180, 360f - GetModelAngle() + InsideAngleSum);
+        }
+        else
+        {
+            this.transform.eulerAngles = new Vector3(0, 0, GetModelAngle() + InsideAngleSum);
+        }
+
+        if (AngleY < InsideAngleSum)
+        {
+            AngleY += 10;
+        }
+        else if (AngleY > InsideAngleSum)
+        {
+            AngleY -= 10;
+        }
+
+        this.transform.Rotate(0, InsideAngleSum, 0);
+    }
+
+    void PauseModel()
+    {
+        NormalModel();
+        this.transform.Rotate(0, 90, 0);
+    }
+
+    void HipDropEffectDraw()
+    {
+        if (HipDropEffectTime > 0)
+        {
+            HipDropEffectTime += Time.deltaTime;
+
+            if (HipDropEffectTime > 1.5f)
+            {
+                SmokeEffect.SetActive(false);
+                HipDropEffectTime = 0;
+            }
+        }
+    }
 }

@@ -13,8 +13,12 @@ public class Rythm : MonoBehaviour
     [SerializeField]
     GameObject m_sphere;
 
+    [Header("第１BPM")]
     public int BPM;                         //リズム拍指定
-
+    [Header("第２BPM")]
+    public int ChangeBPM;                   //リズム拍指定２
+    [Header("BPMが変わる秒数")]
+    float bpmChangeTime;
     Vector3 m_currentPos;
     Vector3 m_targetPos;
 
@@ -64,13 +68,14 @@ public class Rythm : MonoBehaviour
         checkPlayerMove = false;
         checkMoviusMove = false;
         m_soundStopFlg = false;
-
+        bpmChangeTime = 8.25f;
         m_startTime = Time.timeSinceLevelLoad;
 
         //Componentを取得
         audioSource = GetComponent<AudioSource>();
         this.mobius_script = MobiusObj.GetComponent<MoveMobius>();                                                  //リズムのコード
         StartCoroutine("SuccessCheck");
+        StartCoroutine("NortsMove");
 
         //音を再生・ループにする
         // stageBGM.Play();
@@ -105,7 +110,6 @@ public class Rythm : MonoBehaviour
     // @brief  一定フレームで呼び出し（Updateだと一定じゃないためずれがどうしても生じるため）
     private void FixedUpdate()
     {
-        m_changeColorScript.Flame_Color_Attenuation();
         //音の始まりを調整
         //音のループによる読み込み時の誤差を調整
         //if (stageBGM.time <= 0.05f)
@@ -113,10 +117,24 @@ public class Rythm : MonoBehaviour
         {
             m_startTime = Time.timeSinceLevelLoad;
             m_sphere.transform.position = new Vector3(m_currentPos.x, m_currentPos.y, m_currentPos.z);
-            if (SoundManager.m_bgmAudioSource.time > (m_time * 2.0f) / 2.0f)
+            if (SoundManager.m_bgmAudioSource.time >= m_time)
             {
                 m_soundStopFlg = true;
             }
+        }
+        m_changeColorScript.Flame_Color_Attenuation();
+
+        if(SoundManager.m_bgmAudioSource.time >= bpmChangeTime || SoundManager.m_bgmAudioSourceSub.time >= bpmChangeTime)
+        {
+            m_time = (60f / ChangeBPM);
+        }
+        else
+        {
+            m_time = (60f / BPM);
+        }
+        if(bpmChangeTime == 0 || ChangeBPM == 0)
+        {
+            m_time = (60f / BPM);
         }
         //if (!SoundManager.BgmIsPlaying())
         //{
@@ -124,31 +142,7 @@ public class Rythm : MonoBehaviour
         //    m_sphere.transform.position = new Vector3(m_currentPos.x, m_currentPos.y, m_currentPos.z);
         //    return;
         //}
-        //徐々に移動するように設定
-        float diff = Time.timeSinceLevelLoad - m_startTime;
-        float rate = (diff / m_time) + tansu;
-        //ノーツの現在位置を更新
-        m_sphere.transform.position = Vector3.Lerp(m_currentPos, m_targetPos, rate);
 
-        //越えたら　m_startTimeをその時の時間に設定
-        if (rate >= 1.0f)
-        {
-            m_startTime = Time.timeSinceLevelLoad;
-            tansu = rate - 1.0f;
-        }
-        //else
-        //{
-        //    tansu = 0.0f;
-        //}
-
-        //ゴール点に達した時
-        if (m_sphere.transform.position.x == m_targetPos.x)
-        {
-            m_targetPos = new Vector3(-m_sphere.transform.position.x, m_sphere.transform.position.y, m_sphere.transform.position.z);
-            m_currentPos = m_sphere.transform.position;
-        }
-        fram_bgmm = Time.timeSinceLevelLoad;
-        m_EmobiusBeatFlag = false;
     }
 
     // @name   CheckDistanceWall
@@ -172,6 +166,40 @@ public class Rythm : MonoBehaviour
             rythmCheckFlag = false;
         }
 
+    }
+
+    IEnumerator NortsMove()
+    {
+        while (true)
+        {
+
+            //徐々に移動するように設定
+            float diff = Time.timeSinceLevelLoad - m_startTime;
+            float rate = (diff / m_time) + tansu;
+            //ノーツの現在位置を更新
+            m_sphere.transform.position = Vector3.Lerp(m_currentPos, m_targetPos, rate);
+
+            //越えたら　m_startTimeをその時の時間に設定
+            if (rate >= 1.0f)
+            {
+                m_startTime = Time.timeSinceLevelLoad;
+                tansu = rate - 1.0f;
+            }
+            //else
+            //{
+            //    tansu = 0.0f;
+            //}
+
+            //ゴール点に達した時
+            if (m_sphere.transform.position.x == m_targetPos.x)
+            {
+                m_targetPos = new Vector3(-m_sphere.transform.position.x, m_sphere.transform.position.y, m_sphere.transform.position.z);
+                m_currentPos = m_sphere.transform.position;
+            }
+            fram_bgmm = Time.timeSinceLevelLoad;
+            m_EmobiusBeatFlag = false;
+            yield return new WaitForFixedUpdate();
+        }
     }
 
     // @name   SuccessCheck

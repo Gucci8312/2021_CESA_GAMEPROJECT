@@ -93,7 +93,7 @@ public class ChangeFlameColor : MonoBehaviour
 		_PointLight3.GetComponent<Light>().intensity = PointLightPower;
 
 		
-		if(TimeAttack.GetTime()<=10)
+		if(TimeAttack.GetTime()<=10&& TimeAttack.GetTime()!=0)
 		{
 			for(int i=0;i<Flame.Length; i++)
 			{
