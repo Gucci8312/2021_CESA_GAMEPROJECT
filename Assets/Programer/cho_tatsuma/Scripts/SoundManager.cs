@@ -10,6 +10,7 @@ using UnityEngine;
 // @brief  音を管理するクラス
 public class SoundManager : MonoBehaviour
 {
+    static float DELAY = 0.08f;
     [SerializeField, Range(0, 1), Tooltip("マスタ音量")]             //マスターボリューム用変数（Serializeでprivate化、Rangeで0 ~ 1 に変更, Tooltipでインスペクタービュー上でわかりやすく）
     static float masterVolume = 1.0f;
     [SerializeField, Range(0, 1), Tooltip("BGM音量")]                 //BGMボリューム用変数（Serializeでprivate化、Rangeで0 ~ 1 に変更, Tooltipでインスペクタービュー上でわかりやすく
@@ -24,7 +25,7 @@ public class SoundManager : MonoBehaviour
     static Dictionary<string, int> m_seIndex = new Dictionary<string, int>();    //C++でいうMap　この二つは簡単にアクセスする用
 
     static public AudioSource m_bgmAudioSource;                                       //BGMを鳴らすための変数
-    static AudioSource m_bgmAudioSourceSub;                                       //BGMを鳴らすための変数
+    static public AudioSource m_bgmAudioSourceSub;                                       //BGMを鳴らすための変数
     static AudioSource m_seAudioSource;                                        //SEを鳴らすための変数
 
     static int m_stageBgmNameNo;
@@ -176,7 +177,7 @@ public class SoundManager : MonoBehaviour
     {
         m_bgmAudioSource.clip = m_bgm[m_stageBgmNameNo];
         m_bgmAudioSourceSub.clip = m_bgm[m_stageBgmNameNo];
-        if (m_bgmAudioSource.time >= m_bgmAudioSource.clip.length - 0.08f)
+        if (m_bgmAudioSource.time >= m_bgmAudioSource.clip.length - DELAY)
         {
             if (!m_bgmAudioSourceSub.isPlaying)
             {
@@ -186,7 +187,7 @@ public class SoundManager : MonoBehaviour
             m_bgmAudioSource.time = 0.0f;
 
         }
-        else if (m_bgmAudioSourceSub.time >= m_bgmAudioSourceSub.clip.length - 0.08f)
+        else if (m_bgmAudioSourceSub.time >= m_bgmAudioSourceSub.clip.length - DELAY)
         {
             if (!m_bgmAudioSource.isPlaying)
             {
