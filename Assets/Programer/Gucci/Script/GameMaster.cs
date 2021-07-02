@@ -19,6 +19,7 @@ public class GameMaster : MonoBehaviour
     GameObject ScoreObj;
     ObjectDraw objDraw;
 
+    static public bool MenuFlag = false;                        //true:メニューが開いてる false:閉じてる
     // public int DrowScore;
     private void Awake()
     {
@@ -67,26 +68,62 @@ public class GameMaster : MonoBehaviour
         }
         if (!UI.GetComponent<UIManeger>().GameClearFlg && !UI.GetComponent<UIManeger>().GameOverFlg && GameStart.Blinking_Flag)
         {
-            if (Input.GetKeyDown(KeyCode.Escape) || Controler.GetMenuButtonFlg())
+            if (!ActiveMenu.SlideFlag)//メニューがスライドしてないとき
             {
-                Debug.Log("メニューボタン押された");
-                if (Menu.active == true)
+                if (!ActiveMenu.MenuInOutFlag)//メニューが透明になったら
                 {
-                    Menu.active = false;
-                    // Time.timeScale = 1.0f;
-                    PauseManager.OffPause();
+                    Menu.SetActive(false);//メニューを消す
                 }
-                else
+
+
+                if (Input.GetKeyDown(KeyCode.Escape) || Controler.GetMenuButtonFlg())
                 {
-                    Menu.active = true;
-                    // Time.timeScale = 0.0f;
-                    SoundManager.PlaySeName("メニュー開く");
-                    PauseManager.OnPause();
+                    Debug.Log("メニューボタン押された");
+                    ActiveMenu.SlideFlag = true;
+
+                    if (ActiveMenu.MenuInOutFlag)//メニューが開かれているとき
+                    {
+                        PauseManager.OffPause();
+                    }
+                    else//メニューが閉じられているとき
+                    {
+                        Menu.SetActive(true);
+                        SoundManager.PlaySeName("メニュー開く");
+                        PauseManager.OnPause();
+
+                    }
+                    ActiveMenu.MenuInOutFlag = !ActiveMenu.MenuInOutFlag;
+
+
+                    //if (Menu.active == true)
+                    //{
+                    //    Menu.active = false;
+                    //    // Time.timeScale = 1.0f;
+                    //    PauseManager.OffPause();
+                    //}
+                    //else
+                    //{
+                    //    Menu.active = true;
+                    //    // Time.timeScale = 0.0f;
+                    //    SoundManager.PlaySeName("メニュー開く");
+                    //    PauseManager.OnPause();
+                    //}
                 }
+
             }
         }
 
         frame_count++;
+
+
+        if (Menu.activeSelf)
+        {
+            MenuFlag = true;
+        }
+        else
+        {
+            MenuFlag = false;
+        }
     }
 
     private void FixedUpdate()

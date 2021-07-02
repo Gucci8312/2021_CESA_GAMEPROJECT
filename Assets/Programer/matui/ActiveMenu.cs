@@ -9,8 +9,8 @@ public class ActiveMenu : MonoBehaviour
     /*public*/ GameObject Menu;
 
     static public bool SlideFlag = false;//メニューをスライドさせるかどうか(メニューボタン押したときにtrueにすると動く)
-    static public bool MenuFlag = false;//メニューをスライドさせるかどうか(メニューボタン押したときにtrueにすると動く)
-    static public bool MenuInOutFlag = false;//メニューをスライドさせるかどうか(メニューボタン押したときにtrueにすると動く)
+    //static public bool MenuFlag = false;//メニューをスライドさせるかどうか(メニューボタン押したときにtrueにすると動く)
+    static public bool MenuInOutFlag = false;//true:フェードイン false:フェードアウト
 
     Vector3 SlidePos;//スライドさせる座標（初期座標）
     Vector3 OldSlidePos;//スライドさせる前の座標
@@ -63,14 +63,15 @@ public class ActiveMenu : MonoBehaviour
             float StartA, GoalA;//始点、終点アルファ
             StartA = GoalA = 0;
 
-            if (Menu.activeSelf == false)
+            if (!MenuInOutFlag)//メニューが閉じられるとき
             {
+                NowSlideTime += Time.deltaTime;
                 StartPos = SlidePos;
                 GoalPos = OldSlidePos;
                 StartA = 1;
                 GoalA = 0;
             }
-            if (Menu.activeSelf == true)
+            if (MenuInOutFlag)//メニューが開かれるとき
             {
                 GoalPos = SlidePos;
                 StartPos = OldSlidePos;
@@ -92,10 +93,10 @@ public class ActiveMenu : MonoBehaviour
         {
             NowSlideTime = 0;
 
-            if (Input.GetKeyDown(KeyCode.Escape) || Controler.GetMenuButtonFlg())
-            {
-                SlideFlag = true;
-            }
+            //if (Input.GetKeyDown(KeyCode.Escape) || Controler.GetMenuButtonFlg())
+            //{
+            //    SlideFlag = true;
+            //}
 
         }
     }
