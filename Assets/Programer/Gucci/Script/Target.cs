@@ -51,7 +51,7 @@ public class Target : MonoBehaviour
             WorldAngle.x = 0.0f;
             WorldAngle.y = 0.0f;
             WorldAngle.z = kaitenn;
-            transform.Rotate(WorldAngle);
+            //transform.Rotate(WorldAngle);
         }
         //kaitenn = 0.1f;
         //if (ColFlg)
