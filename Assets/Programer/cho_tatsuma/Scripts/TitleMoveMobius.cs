@@ -39,7 +39,7 @@ public class TitleMoveMobius : MonoBehaviour
 
         if (move_flg_to)
         {
-            Invoke("BackPos", 0.6f);
+            Invoke("BackPos", 0.1f);
         }
 
         if (this.gameObject.transform.position == m_InitPos && move_flg_to)
