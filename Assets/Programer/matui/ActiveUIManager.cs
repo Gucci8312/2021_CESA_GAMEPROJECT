@@ -4,27 +4,29 @@ using UnityEngine;
 
 //メニューをスライドさせるスクリプト
 //GameManagerに割り当てる
-public class ActiveMenu : MonoBehaviour
+public class ActiveUIManager : MonoBehaviour
 {
     /*public*/ GameObject Menu;
+    GameMaster GM;
 
     static public bool SlideFlag = false;//メニューをスライドさせるかどうか(メニューボタン押したときにtrueにすると動く)
-    static public bool MenuFlag = false;//メニューをスライドさせるかどうか(メニューボタン押したときにtrueにすると動く)
-    static public bool MenuInOutFlag = false;//メニューをスライドさせるかどうか(メニューボタン押したときにtrueにすると動く)
+    //static public bool MenuFlag = false;//メニューをスライドさせるかどうか(メニューボタン押したときにtrueにすると動く)
+    static public bool MenuInOutFlag = false;//true:フェードイン false:フェードアウト
 
     Vector3 SlidePos;//スライドさせる座標（初期座標）
     Vector3 OldSlidePos;//スライドさせる前の座標
 
     Transform MenuTransform;//メニューのTransform
 
-    public float SlideTime = 1.0f;//スライドさせたい時間（秒）
+    float SlideTime = 1.0f;//スライドさせたい時間（秒）
     private float NowSlideTime=0;//スライドしている時間（秒）
 
     List<SpriteRenderer> SpriteColor=new List<SpriteRenderer>();//メニューのスプライト
     // Start is called before the first frame update
     void Start()
     {
-        Menu = this.GetComponent<GameMaster>().Menu;
+        GM = this.GetComponent<GameMaster>();
+        Menu = GM.Menu;
         //Menu.SetActive(true);
         MenuTransform = Menu.GetComponent<Transform>();
         SlidePos = MenuTransform.position;
@@ -46,7 +48,7 @@ public class ActiveMenu : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
+        SlideTime = GM.SlideTime;
 
         if (SlideFlag)//スライドしてるとき
         {
@@ -63,14 +65,15 @@ public class ActiveMenu : MonoBehaviour
             float StartA, GoalA;//始点、終点アルファ
             StartA = GoalA = 0;
 
-            if (Menu.activeSelf == false)
+            if (!MenuInOutFlag)//メニューが閉じられるとき
             {
+                NowSlideTime += Time.deltaTime;
                 StartPos = SlidePos;
                 GoalPos = OldSlidePos;
                 StartA = 1;
                 GoalA = 0;
             }
-            if (Menu.activeSelf == true)
+            if (MenuInOutFlag)//メニューが開かれるとき
             {
                 GoalPos = SlidePos;
                 StartPos = OldSlidePos;
@@ -92,10 +95,10 @@ public class ActiveMenu : MonoBehaviour
         {
             NowSlideTime = 0;
 
-            if (Input.GetKeyDown(KeyCode.Escape) || Controler.GetMenuButtonFlg())
-            {
-                SlideFlag = true;
-            }
+            //if (Input.GetKeyDown(KeyCode.Escape) || Controler.GetMenuButtonFlg())
+            //{
+            //    SlideFlag = true;
+            //}
 
         }
     }
