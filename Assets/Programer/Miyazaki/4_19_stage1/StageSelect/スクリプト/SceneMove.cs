@@ -34,8 +34,10 @@ public class SceneMove : MonoBehaviour
     public int Select_Scene = 1;
     bool Activeflag;
 
-    // Start is called before the first frame update
-    void Start()
+	//GameObject stageringrotate;
+	//StageRingRotate srr;
+	// Start is called before the first frame update
+	void Start()
     {
         NumControl.InitNum();
 
@@ -58,12 +60,18 @@ public class SceneMove : MonoBehaviour
                 TimeAttackObj[i].SetActive(false);
             }
         }
-    }
+
+		//srr=stageringrotate.GetComponent<StageRingRotate>();
+
+	}
 
     // Update is called once per frame
     void Update()
     {
-        if (Select_Scene == 1 || Select_Scene == 2)
+		
+
+
+		if (Select_Scene == 1 || Select_Scene == 2)
         {
             Score.SetActive(false);
         }
@@ -320,8 +328,11 @@ public class SceneMove : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             float a = (i + 1) == num ? 1.0f : 0.005f;
-            ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * a);
-        }
+			
+		
+			ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * a);
+			ColorNum[i].SetColor("_EmissionColor", ColorNum[i + 6].color * a);
+		}
 
 
     }
