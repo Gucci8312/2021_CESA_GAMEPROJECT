@@ -12,30 +12,28 @@ public class CollisionMobius : MonoBehaviour
 {
     GameObject mobius;
     MobiusAttachPos m_mobiusPosScript;
-    public static bool m_hitFlg;                      //当たった情報
+    static bool m_hitFlg;                      //当たった情報
     // Start is called before the first frame update
     void Start()
     {
         mobius = GameObject.Find("mebiusu");
         m_mobiusPosScript = mobius.GetComponent<MobiusAttachPos>();
-        m_hitFlg = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
+       
         if (other.tag == "Wa" && !m_hitFlg)
         {
             if (m_mobiusPosScript.m_mobius[m_mobiusPosScript.m_nowMobiusNo].gameObject.name == other.gameObject.transform.parent.gameObject.name) return;
-            m_mobiusPosScript.MobiusCollisionOn(other.gameObject.transform.parent.gameObject,this.gameObject.transform.parent.gameObject);
+            m_mobiusPosScript.MobiusCollisionOn(other.gameObject.transform.parent.gameObject);
             m_hitFlg = true;
-            Debug.Log("当たっている");
-       //     SoundManager.PlaySeName("perfect_mobius");
         }
     }
 

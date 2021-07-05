@@ -1,31 +1,26 @@
-﻿// @file   SceneMove.cs
-// @brief  シーンセレクトのマネージャークラスの定義
-// @author T,Cho & M.Miyazaki & H.Wakabayashi
-// @date   2021/05/?? 作成
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// @name   SceneMove
-// @brief  シーンセレクト時のマネージャークラス
 public class SceneMove : MonoBehaviour
 {
-    public GameObject[] TimeAttackObj;
-    public GameObject[] stageNum;
-    public Material[] ColorNum;
-    bool TimeAttackFlg;
-    public GameObject Score;
+	public GameObject Stage1;
+	public GameObject Stage2;
+	public GameObject Stage3;
+	public GameObject Stage4;
 
-    public GameObject[] UI;
-    bool UI_Flag;
-    float UI_Time;
+	[SerializeField] GameObject[] stage_picture;
+	//public Material Stage1_color;
+	//public Material Stage2_color;
+	//public Material Stage3_color;
+	//public Material Stage4_color;
+	
 
-    const int LIGHT_OFF = 1;
-    const int LIGHT_ON = 10;
+	float LightPower;
 
-    public FedeOut fedeout;
-    public DollyDriver dollyDriver;
+	//StageSelect stage_select;
 
+<<<<<<< HEAD
 
     bool StopCamera = false;
     bool StopCamera1 = false;
@@ -338,62 +333,114 @@ public class SceneMove : MonoBehaviour
     }
 
     void Release_Stage()
+=======
+	int Select_Scene;
+	// Start is called before the first frame update
+	void Start()
     {
-        for (int i = 0; i < 25; i++)
+		Select_Scene = 1;
+	//	stage_select = GetComponent<StageSelect>();
+		//LightPower = Stage1.GetComponent<Light>().intensity;
+		//LightPower = Stage2.GetComponent<Light>().intensity;
+		//LightPower = Stage3.GetComponent<Light>().intensity;
+		//LightPower = Stage4.GetComponent<Light>().intensity;
+		//Stage1 = GameObject.Find("Stage1");
+		//Stage2 = GameObject.Find("Stage2");
+		//Stage3 = GameObject.Find("Stage3");
+		//Stage4 = GameObject.Find("Stage4");
+		for(int i= 0; i < stage_picture.Length; i++)
         {
-            int num = i;
-            if (StageControl.GetOpenFlg(i))
-            {
-                while (num >= 5)
-                {
-                    num += -5;
-                }
-                stageNum[i].GetComponent<Renderer>().material = ColorNum[num];
+			stage_picture[i].SetActive(false);
+		}
+		//stage4_picture.SetActive(false);
 
-            }
-            else
-            {
-                stageNum[i].GetComponent<Renderer>().material = ColorNum[5];
-            }
+	}
 
-        }
-    }
+	// Update is called once per frame
+	void Update()
+	{
+		float a = 10;
+		float b = 1;
+		if (Input.GetKeyDown(KeyCode.RightArrow))
+		{
+			if (Select_Scene != 4)
+			{
+				Select_Scene++;
+			}
 
-    void Blinking_UI()
+		}
+		if (Input.GetKeyDown(KeyCode.LeftArrow))
+		{
+			if (Select_Scene != 0)
+			{
+				Select_Scene--;
+			}
+
+		}
+
+		switch (Select_Scene)
+		{
+			case 1:
+				{
+					Stage1.GetComponent<Light>().intensity = a;
+					Stage2.GetComponent<Light>().intensity = b;
+					Stage3.GetComponent<Light>().intensity = b;
+					Stage4.GetComponent<Light>().intensity = b;
+					StagePictureActiveTrue(0);
+					break;
+				}
+			case 2:
+				{
+					Stage1.GetComponent<Light>().intensity = b;
+					Stage2.GetComponent<Light>().intensity = a;
+					Stage3.GetComponent<Light>().intensity = b;
+					Stage4.GetComponent<Light>().intensity = b;
+					StagePictureActiveTrue(1);
+
+					break;
+				}
+			case 3:
+				{
+					Stage1.GetComponent<Light>().intensity = b;
+					Stage2.GetComponent<Light>().intensity = b;
+					Stage3.GetComponent<Light>().intensity = a;
+					Stage4.GetComponent<Light>().intensity = b;
+					StagePictureActiveTrue(2);
+					break;
+				}
+			case 4:
+				{
+					Stage1.GetComponent<Light>().intensity = b;
+					Stage2.GetComponent<Light>().intensity = b;
+					Stage3.GetComponent<Light>().intensity = b;
+					Stage4.GetComponent<Light>().intensity = a;
+					AllStagePictureSetActiveFlase();
+					break;
+				}
+		}
+
+		if (Controler.SubMitButtonFlg())
+		{
+			StageSelect.LoadStage(1,this);
+		}
+	}
+
+	void AllStagePictureSetActiveFlase()
+>>>>>>> f5ab7ec7c429af89752733e72fb77e5076247480
     {
+		for (int i = 0; i < stage_picture.Length; i++)
+		{
+			stage_picture[i].SetActive(false);
+		}
+	}
 
-        UI_Time -= Time.deltaTime;
-        if (UI_Time <= 0.0)
-        {
-            UI_Time = 1.0f;
-
-            if (UI_Flag)
-            {
-                for (int i = 0; i < UI.Length; i++)
-                {
-                    UI[i].SetActive(UI_Flag);
-                }
-
-                UI_Flag = false;
-            }
-            else
-            {
-                for (int i = 0; i < UI.Length; i++)
-                {
-                    UI[i].SetActive(UI_Flag);
-                }
-                UI_Flag = true;
-            }
-
-
-            //ここに処理
-        }
-
-
-    }
-
-
+	void StagePictureActiveTrue(int _num)
+    {
+		if (!stage_picture[_num].activeSelf)
+		{
+			AllStagePictureSetActiveFlase();
+			stage_picture[_num].GetComponentInChildren<MaterialChangeColor>().Init();
+			stage_picture[_num].SetActive(true);
+		}
+	}
 }
-
-
-

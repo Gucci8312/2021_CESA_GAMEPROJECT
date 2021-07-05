@@ -38,7 +38,7 @@ public class Rythm : MonoBehaviour
     private int m_beatCount;                                //ビートの回数を取得
     public int EnemyTroughRing;                             //敵が何ビートによって進むのか（実装するかどうかわからない）
     static float tansu;                                     //音による誤差調整用
-    static float fram_bgmm;
+
     [SerializeField] AudioClip SE = default;
     AudioSource audioSource;
     [SerializeField] AudioSource stageBGM = default;
@@ -48,17 +48,9 @@ public class Rythm : MonoBehaviour
 
     private bool OneLRTriggerFlag;  //LRトリガー押し込みによる連続入力させない用
 
-    [SerializeField]
-    GameObject missPrefab;
-
-    [SerializeField]
-    GameObject successPrefab;
 
     GameObject m_frameManager;                              //ポストエフェクトのフレーム用
     ChangeFlameColor m_changeColorScript;                   //ポストエフェクトのフレーム用スクリプト
-
-    bool m_soundStopFlg = false;
-    float time = 0.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -67,8 +59,11 @@ public class Rythm : MonoBehaviour
         rythmCheckFlag = false;
         checkPlayerMove = false;
         checkMoviusMove = false;
+<<<<<<< HEAD
+=======
         m_soundStopFlg = false;
         bpmChangeTime = 8.25f;
+>>>>>>> ac80fc59d50ecb856359ffdfa34f34eba4e94ef9
         m_startTime = Time.timeSinceLevelLoad;
 
         //Componentを取得
@@ -82,8 +77,8 @@ public class Rythm : MonoBehaviour
         // stageBGM.loop = true;
 
         ////フレームマネージャーからソースを取得
-        m_frameManager = GameObject.Find("FrameManager");
-        m_changeColorScript = m_frameManager.GetComponent<ChangeFlameColor>();
+        //m_frameManager = GameObject.Find("FrameManager");
+        //m_changeColorScript = m_frameManager.GetComponent<ChangeFlameColor>();
     }
 
     private void Awake()
@@ -99,7 +94,7 @@ public class Rythm : MonoBehaviour
     private void OnEnable()
     {
         //入力されたBPMから一分間によるビート回数を取得
-        m_time = (60.0f / BPM);
+        m_time = (60.0f / (float)BPM);
         //目的地を設定
         m_targetPos = new Vector3(-m_sphere.transform.position.x, m_sphere.transform.position.y, m_sphere.transform.position.z);
         //現在位置を設定
@@ -113,10 +108,39 @@ public class Rythm : MonoBehaviour
         //音の始まりを調整
         //音のループによる読み込み時の誤差を調整
         //if (stageBGM.time <= 0.05f)
-        if (!m_soundStopFlg)
+        if (!SoundManager.BgmIsPlaying())
         {
             m_startTime = Time.timeSinceLevelLoad;
             m_sphere.transform.position = new Vector3(m_currentPos.x, m_currentPos.y, m_currentPos.z);
+<<<<<<< HEAD
+            return;
+        }
+        //徐々に移動するように設定
+        float diff = Time.timeSinceLevelLoad - m_startTime;
+        float rate = (diff / m_time) + tansu;
+        //ノーツの現在位置を更新
+        m_sphere.transform.position = Vector3.Lerp(m_currentPos, m_targetPos, rate);
+
+        //越えたら　m_startTimeをその時の時間に設定
+        if (rate >= 1.0f)
+        {
+            m_startTime = Time.timeSinceLevelLoad;
+            tansu = rate - 1.0f;
+        }
+        else
+        {
+            tansu = 0.0f;
+        }
+
+        //ゴール点に達した時
+        if (m_sphere.transform.position.x == m_targetPos.x)
+        {
+            m_targetPos = new Vector3(-m_sphere.transform.position.x, m_sphere.transform.position.y, m_sphere.transform.position.z);
+            m_currentPos = m_sphere.transform.position;
+        }
+
+        m_EmobiusBeatFlag = false;
+=======
             if (SoundManager.m_bgmAudioSource.time >= m_time)
             {
                 m_soundStopFlg = true;
@@ -143,6 +167,7 @@ public class Rythm : MonoBehaviour
         //    return;
         //}
 
+>>>>>>> ac80fc59d50ecb856359ffdfa34f34eba4e94ef9
     }
 
     // @name   CheckDistanceWall
@@ -209,24 +234,20 @@ public class Rythm : MonoBehaviour
         while (true)
         {
             CheckDistanceWall();
-			m_changeColorScript.Flame_Attenuation();
 
-			if (rythmCheckFlag)
+            if (rythmCheckFlag)
             {
-                if(Controler.GetJumpButtonFlg() || Controler.GetRythmButtonFlg())
+                //Entarキーで成功かどうかを判断する
+                if (Controler.SubMitButtonFlg() || LRTrigger())
                 {
-					m_changeColorScript.Flame_Success_Color();
-                    //Instantiate(successPrefab);
-
+                    checkPlayerMove = true;
+                    rythmCheckFlag = false;
+                    Debug.Log("距離：" + distance);
                 }
-            }
-            else
-            {
-                //Entarキーで失敗時の処理
-                if (Controler.GetJumpButtonFlg()|| Controler.GetRythmButtonFlg())
+                else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) || mobius_script.StickFlickInputFlag())
                 {
-					m_changeColorScript.Flame_Miss_Color();
-                    //Instantiate(missPrefab);
+                    checkMoviusMove = true;
+                    rythmCheckFlag = false;
                 }
             }
             yield return new WaitForSeconds(0.01f);
@@ -237,20 +258,60 @@ public class Rythm : MonoBehaviour
         //壁に当たった＝ビートのタイミングが来た
         if (collision.gameObject.tag == "Flag")
         {
+            //   Debug.Log("TriggerOn");
             m_EmobiusBeatFlag = true;
             m_beatCount++;
             m_changeColorScript.ChangeColor_Flame();
-            rythmSendCheckFlag = true;
-            time = Time.timeSinceLevelLoad;
+            //rythmCheckFlag = true;
+            if (m_beatCount >= EnemyTroughRing)
+            {
+                //田中くんのスクリプトにおくるよう
+                Invoke("TurnRythmSendCheckFlagTrue", 0.4f);
+            }
+            //     Invoke("TurnFalseSuccessCheck", SetSuccessInputTime);
         }
+    }
+    // @name   TurnRythmSendCheckFlagTrue
+    // @brief  敵の移動処理に使用
+    private void TurnRythmSendCheckFlagTrue()
+    {
+        rythmSendCheckFlag = true;
+        m_beatCount = 0;
     }
 
-    private void OnTriggerExit(Collider collision)
+    // @name   TurnRythmSendCheckFlagTrue
+    // @brief   リングがキー入力受付判定を越えた時 
+    private void TurnFalseSuccessCheck()
     {
-        //壁に当たった＝ビートのタイミングが来た
-        if (collision.gameObject.tag == "Flag")
-        {
-            rythmSendCheckFlag = false;
-        }
+        if (rythmCheckFlag)
+            rythmCheckFlag = false;
     }
+
+    // @name   LRTrigger
+    // @brief  LRトリガー処理　（松井君実装） 
+    private bool LRTrigger()
+    {
+        float LTrigger = Input.GetAxis("L_Trigger");//０～１
+        float RTrigger = Input.GetAxis("R_Trigger");//０～１
+
+
+        if (!OneLRTriggerFlag)
+        {
+            if (LTrigger == 1 || RTrigger == 1)
+            {
+                OneLRTriggerFlag = true;
+                return true;
+            }
+        }
+        else
+        {
+            if (LTrigger == 0 && RTrigger == 0)
+            {
+                OneLRTriggerFlag = false;
+            }
+        }
+
+        return false;
+    }
+
 }
