@@ -24,6 +24,8 @@ public class TitleManager : MonoBehaviour
     [SerializeField] GameObject m_loadTextObj = default;          //生成用プレハブ
     [SerializeField] GameObject m_SelectObj = default;          //生成用プレハブ
 
+    bool MenuFlag = false;                        //true:メニューが開いてる false:閉じてる
+    public float SlideTime = 0.25f;//スライドさせたい時間（秒
 
     private void Awake()
     {
@@ -49,6 +51,13 @@ public class TitleManager : MonoBehaviour
         m_SelectObj.GetComponent<SpriteRenderer>().enabled = false;
         Cursor.visible = false;
         m_SelectObj.SetActive(false);
+
+        if (this.GetComponent<ActiveUIManager>() == null)//ActiveUIManagerスクリプトがない場合追加
+        {
+            this.gameObject.AddComponent<ActiveUIManager>();
+        }
+        this.GetComponent<ActiveUIManager>().Menu = Window;
+
     }
 
     private void Update()
@@ -63,23 +72,58 @@ public class TitleManager : MonoBehaviour
             }
         }
 
-        if (Controler.GetMenuButtonFlg())
-        {
-            Bloom bloom_propaty;
-            bloom.profile.TryGet(out bloom_propaty);
-            if (bloom_propaty.intensity.value == 5f)
-                bloom_propaty.intensity.value = 0f;
-            else if (bloom_propaty.intensity.value == 0f)
-                bloom_propaty.intensity.value = 2f;
-        }
+        //if (Controler.GetMenuButtonFlg())
+        //{
+        //    Bloom bloom_propaty;
+        //    bloom.profile.TryGet(out bloom_propaty);
+        //    if (bloom_propaty.intensity.value == 5f)
+        //        bloom_propaty.intensity.value = 0f;
+        //    else if (bloom_propaty.intensity.value == 0f)
+        //        bloom_propaty.intensity.value = 2f;
+        //}
 
-        if (Controler.GetMenuButtonFlg())
+        //if (Controler.GetMenuButtonFlg())
+        //{
+        //    Window.SetActive(!Window.activeSelf);
+        //    if (Window.activeSelf)
+        //    {
+        //        SoundManager.PlaySeName("メニュー開く");
+        //    }
+        //}
+
+        if (!ActiveUIManager.SlideFlag)//メニューがスライドしてないとき
         {
-            Window.SetActive(!Window.activeSelf);
-            if (Window.activeSelf)
+            if (!ActiveUIManager.MenuInOutFlag)//メニューが透明になったら
             {
-                SoundManager.PlaySeName("メニュー開く");
+                Window.SetActive(false);//メニューを消す
             }
+
+            if (Controler.GetMenuButtonFlg())
+            {
+                Bloom bloom_propaty;
+                bloom.profile.TryGet(out bloom_propaty);
+                if (bloom_propaty.intensity.value == 5f)
+                    bloom_propaty.intensity.value = 0f;
+                else if (bloom_propaty.intensity.value == 0f)
+                    bloom_propaty.intensity.value = 2f;
+
+
+                ActiveUIManager.SlideFlag = true;
+                if (ActiveUIManager.MenuInOutFlag)//メニューが開かれているとき
+                {
+                    PauseManager.OffPause();
+                }
+                else//メニューが閉じられているとき
+                {
+                    Window.SetActive(true);
+                    SoundManager.PlaySeName("メニュー開く");
+                    PauseManager.OnPause();
+
+                }
+                ActiveUIManager.MenuInOutFlag = !ActiveUIManager.MenuInOutFlag;
+
+            }
+
         }
 
         //if (Controler.GetXButtonFlg())
@@ -94,5 +138,23 @@ public class TitleManager : MonoBehaviour
             m_loadTextObj.GetComponent<StageAnim>().enabled = true;
             m_SelectObj.GetComponent<SpriteRenderer>().enabled = true;
         }
+
+
+        if (Window.activeSelf)
+        {
+            MenuFlag = true;
+        }
+        else
+        {
+            MenuFlag = false;
+        }
+        ActiveUIManager.SlideTime = SlideTime;
+
     }
+
+    public bool GetMenuFlag()
+    {
+        return MenuFlag;
+    }
+
 }

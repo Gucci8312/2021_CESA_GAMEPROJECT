@@ -10,11 +10,20 @@ public class AreaSelectManeger : MonoBehaviour
     bool MenuFlg;
     public GameObject Menu;
 
+   ///* static public */bool MenuFlag = false;                        //true:メニューが開いてる false:閉じてる
+    public float SlideTime = 0.25f;//スライドさせたい時間（秒
     // Start is called before the first frame update
     void Start()
     {
         //SoundManager.StopBGM();
         SoundManager.PlayBgmName("stageselect");
+
+        if (this.GetComponent<ActiveUIManager>() == null)//ActiveUIManagerスクリプトがない場合追加
+        {
+            this.gameObject.AddComponent<ActiveUIManager>();
+        }
+        this.GetComponent<ActiveUIManager>().Menu = Menu;
+
     }
 
 
@@ -31,23 +40,59 @@ public class AreaSelectManeger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Controler.GetMenuButtonFlg())
+        if (!ActiveUIManager.SlideFlag)//メニューがスライドしてないとき
         {
-            MenuFlg = !MenuFlg;
-            Menu.SetActive(MenuFlg);
-            if (MenuFlg)
+            if (!ActiveUIManager.MenuInOutFlag)//メニューが透明になったら
             {
-                SoundManager.PlaySeName("メニュー開く");
+                Menu.SetActive(false);//メニューを消す
             }
+
+            if (Controler.GetMenuButtonFlg())
+            {
+                //MenuFlg = !MenuFlg;
+                //Menu.SetActive(MenuFlg);
+                //if (MenuFlg)
+                //{
+                //    SoundManager.PlaySeName("メニュー開く");
+                //}
+
+                ActiveUIManager.SlideFlag = true;
+                if (ActiveUIManager.MenuInOutFlag)//メニューが開かれているとき
+                {
+                    PauseManager.OffPause();
+                }
+                else//メニューが閉じられているとき
+                {
+                    Menu.SetActive(true);
+                    SoundManager.PlaySeName("メニュー開く");
+                    PauseManager.OnPause();
+
+                }
+                ActiveUIManager.MenuInOutFlag = !ActiveUIManager.MenuInOutFlag;
+
+            }
+
         }
+
+
+        if (Menu.activeSelf)
+        {
+            MenuFlg = true;
+        }
+        else
+        {
+            MenuFlg = false;
+        }
+
+        ActiveUIManager.SlideTime = SlideTime; 
     }
 
     public bool GetMenuFlg()
     {
-        if (Menu.activeSelf == false)
-        {
-            MenuFlg = false;
-        }
+        //if (Menu.activeSelf == false)
+        //{
+        //    MenuFlg = false;
+        //}
         return MenuFlg;
     }
 }
