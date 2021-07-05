@@ -1,0 +1,256 @@
+﻿// @file   Rythm.cs
+// @brief  リズム定義用スクリプト　（主に音と合わせたノーツの移動でBPMを図る）
+// @author T,Cho
+// @date   2021/03/10 作成
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+// @name   Rythm
+// @brief  リズムを定義するクラス
+public class Rythm : MonoBehaviour
+{
+    [SerializeField]
+    GameObject m_sphere;
+
+    [Header("第１BPM")]
+    public int BPM;                         //リズム拍指定
+    [Header("第２BPM")]
+    public int ChangeBPM;                   //リズム拍指定２
+    [Header("BPMが変わる秒数")]
+    float bpmChangeTime;
+    Vector3 m_currentPos;
+    Vector3 m_targetPos;
+
+    float m_startTime;                      //初期タイムを設定（０でいい）
+    float m_time;                           //１BPMに対する秒計算
+
+    public bool rythmCheckFlag;            //円が指定されたリズムに触れたことを返す
+    public bool rythmSendCheckFlag;          //円が指定されたリズムに触れたことを返す
+    public bool checkPlayerMove;                //リズムに合わせた反応が成功したかどうか
+    public bool checkMoviusMove;                //リズムに合わせた反応が成功したかどうか
+
+    //  public float SetSuccessInputTime;                    //入力待ち時間の引き伸ばし決め
+
+    public float distance;                                  //円との距離を図る
+
+    public bool m_EmobiusBeatFlag = false;                    //ビートが刻んだかどうか
+    private int m_beatCount;                                //ビートの回数を取得
+    public int EnemyTroughRing;                             //敵が何ビートによって進むのか（実装するかどうかわからない）
+    static float tansu;                                     //音による誤差調整用
+    static float fram_bgmm;
+    [SerializeField] AudioClip SE = default;
+    AudioSource audioSource;
+    [SerializeField] AudioSource stageBGM = default;
+
+    [SerializeField] GameObject MobiusObj = default;                                                                            //リズムオブジェクト
+    MoveMobius mobius_script;                                                                                    //リズムスクリプト取得用
+
+    private bool OneLRTriggerFlag;  //LRトリガー押し込みによる連続入力させない用
+
+    [SerializeField]
+    GameObject missPrefab;
+
+    [SerializeField]
+    GameObject successPrefab;
+
+    GameObject m_frameManager;                              //ポストエフェクトのフレーム用
+    ChangeFlameColor m_changeColorScript;                   //ポストエフェクトのフレーム用スクリプト
+
+    bool m_soundStopFlg = false;
+    float time = 0.0f;
+    // Start is called before the first frame update
+    void Start()
+    {
+        //変数の初期化
+        tansu = 0.0f;
+        rythmCheckFlag = false;
+        checkPlayerMove = false;
+        checkMoviusMove = false;
+        m_soundStopFlg = false;
+        bpmChangeTime = 8.25f;
+        m_startTime = Time.timeSinceLevelLoad;
+
+        //Componentを取得
+        audioSource = GetComponent<AudioSource>();
+        this.mobius_script = MobiusObj.GetComponent<MoveMobius>();                                                  //リズムのコード
+        StartCoroutine("SuccessCheck");
+        StartCoroutine("NortsMove");
+
+        //音を再生・ループにする
+        // stageBGM.Play();
+        // stageBGM.loop = true;
+
+        ////フレームマネージャーからソースを取得
+        m_frameManager = GameObject.Find("FrameManager");
+        m_changeColorScript = m_frameManager.GetComponent<ChangeFlameColor>();
+    }
+
+    private void Awake()
+    {
+        //フレームマネージャーからソースを取得
+        m_frameManager = GameObject.Find("FrameManager");
+        m_changeColorScript = m_frameManager.GetComponent<ChangeFlameColor>();
+    }
+
+
+    // @name   OnEnable
+    // @brief  インスペクタービューから情報を取得
+    private void OnEnable()
+    {
+        //入力されたBPMから一分間によるビート回数を取得
+        m_time = (60.0f / BPM);
+        //目的地を設定
+        m_targetPos = new Vector3(-m_sphere.transform.position.x, m_sphere.transform.position.y, m_sphere.transform.position.z);
+        //現在位置を設定
+        m_currentPos = m_sphere.transform.position;
+    }
+
+    // @name   FixedUpdate
+    // @brief  一定フレームで呼び出し（Updateだと一定じゃないためずれがどうしても生じるため）
+    private void FixedUpdate()
+    {
+        //音の始まりを調整
+        //音のループによる読み込み時の誤差を調整
+        //if (stageBGM.time <= 0.05f)
+        if (!m_soundStopFlg)
+        {
+            m_startTime = Time.timeSinceLevelLoad;
+            m_sphere.transform.position = new Vector3(m_currentPos.x, m_currentPos.y, m_currentPos.z);
+            if (SoundManager.m_bgmAudioSource.time >= m_time)
+            {
+                m_soundStopFlg = true;
+            }
+        }
+        m_changeColorScript.Flame_Color_Attenuation();
+
+        if(SoundManager.m_bgmAudioSource.time >= bpmChangeTime || SoundManager.m_bgmAudioSourceSub.time >= bpmChangeTime)
+        {
+            m_time = (60f / ChangeBPM);
+        }
+        else
+        {
+            m_time = (60f / BPM);
+        }
+        if(bpmChangeTime == 0 || ChangeBPM == 0)
+        {
+            m_time = (60f / BPM);
+        }
+        //if (!SoundManager.BgmIsPlaying())
+        //{
+        //    m_startTime = Time.timeSinceLevelLoad;
+        //    m_sphere.transform.position = new Vector3(m_currentPos.x, m_currentPos.y, m_currentPos.z);
+        //    return;
+        //}
+
+    }
+
+    // @name   CheckDistanceWall
+    // @brief  両端にある壁との距離を取得（距離で成功・失敗のタイミングを計る）
+    void CheckDistanceWall()
+    {
+        GameObject[] flagWall;
+        flagWall = GameObject.FindGameObjectsWithTag("Flag");
+
+
+        float diffLeft = Mathf.Abs(flagWall[0].transform.position.x) - Mathf.Abs(m_sphere.transform.position.x);
+        float diffRight = Mathf.Abs(flagWall[1].transform.position.x) - Mathf.Abs(m_sphere.transform.position.x);
+
+        if ((diffLeft < distance) || (diffRight < distance))
+        {
+            if (rythmCheckFlag) return;
+            rythmCheckFlag = true;
+        }
+        else if (rythmCheckFlag)
+        {
+            rythmCheckFlag = false;
+        }
+
+    }
+
+    IEnumerator NortsMove()
+    {
+        while (true)
+        {
+
+            //徐々に移動するように設定
+            float diff = Time.timeSinceLevelLoad - m_startTime;
+            float rate = (diff / m_time) + tansu;
+            //ノーツの現在位置を更新
+            m_sphere.transform.position = Vector3.Lerp(m_currentPos, m_targetPos, rate);
+
+            //越えたら　m_startTimeをその時の時間に設定
+            if (rate >= 1.0f)
+            {
+                m_startTime = Time.timeSinceLevelLoad;
+                tansu = rate - 1.0f;
+            }
+            //else
+            //{
+            //    tansu = 0.0f;
+            //}
+
+            //ゴール点に達した時
+            if (m_sphere.transform.position.x == m_targetPos.x)
+            {
+                m_targetPos = new Vector3(-m_sphere.transform.position.x, m_sphere.transform.position.y, m_sphere.transform.position.z);
+                m_currentPos = m_sphere.transform.position;
+            }
+            fram_bgmm = Time.timeSinceLevelLoad;
+            m_EmobiusBeatFlag = false;
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
+    // @name   SuccessCheck
+    // @brief  成功したかどうかを非同期処理で調べる
+    IEnumerator SuccessCheck()
+    {
+        while (true)
+        {
+            CheckDistanceWall();
+			m_changeColorScript.Flame_Attenuation();
+
+			if (rythmCheckFlag)
+            {
+                if(Controler.GetJumpButtonFlg() || Controler.GetRythmButtonFlg())
+                {
+					m_changeColorScript.Flame_Success_Color();
+                    //Instantiate(successPrefab);
+
+                }
+            }
+            else
+            {
+                //Entarキーで失敗時の処理
+                if (Controler.GetJumpButtonFlg()|| Controler.GetRythmButtonFlg())
+                {
+					m_changeColorScript.Flame_Miss_Color();
+                    //Instantiate(missPrefab);
+                }
+            }
+            yield return new WaitForSeconds(0.01f);
+        }
+    }
+    private void OnTriggerEnter(Collider collision)
+    {
+        //壁に当たった＝ビートのタイミングが来た
+        if (collision.gameObject.tag == "Flag")
+        {
+            m_EmobiusBeatFlag = true;
+            m_beatCount++;
+            m_changeColorScript.ChangeColor_Flame();
+            rythmSendCheckFlag = true;
+            time = Time.timeSinceLevelLoad;
+        }
+    }
+
+    private void OnTriggerExit(Collider collision)
+    {
+        //壁に当たった＝ビートのタイミングが来た
+        if (collision.gameObject.tag == "Flag")
+        {
+            rythmSendCheckFlag = false;
+        }
+    }
+}
