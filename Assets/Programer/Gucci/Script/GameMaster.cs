@@ -52,6 +52,7 @@ public class GameMaster : MonoBehaviour
         {
             this.gameObject.AddComponent<ActiveUIManager>();
         }
+        this.GetComponent<ActiveUIManager>().Menu = Menu;
     }
 
     void OnStartBGM()
@@ -130,6 +131,8 @@ public class GameMaster : MonoBehaviour
         {
             MenuFlag = false;
         }
+
+        ActiveUIManager.SlideTime = SlideTime;
     }
 
     private void FixedUpdate()
