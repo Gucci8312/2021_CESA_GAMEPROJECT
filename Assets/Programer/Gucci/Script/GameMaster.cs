@@ -19,7 +19,7 @@ public class GameMaster : MonoBehaviour
     GameObject ScoreObj;
     ObjectDraw objDraw;
 
-    static public bool MenuFlag = false;                        //true:メニューが開いてる false:閉じてる
+   /* static public */bool MenuFlag = false;                        //true:メニューが開いてる false:閉じてる
     public float SlideTime = 0.25f;//スライドさせたい時間（秒
     // public int DrowScore;
     private void Awake()
@@ -172,4 +172,10 @@ public class GameMaster : MonoBehaviour
         //Debug.Log("タイトルボタンが押された");
         SceneManager.LoadScene("TittleScene");
     }
+
+    public bool GetMenuFlag()
+    {
+        return MenuFlag;
+    }
+
 }
