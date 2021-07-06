@@ -68,6 +68,10 @@ public class PlayerMove : MobiusOnObj
 
     float AngleY;
     float HipDropEffectTime;
+    bool Clear2Motion;//２回目のモーション
+    [SerializeField] Vector3 ClearLastPos;
+    float Clear2MotionTime;
+
     protected override void Awake()
     {
         InitRot = transform.rotation;
@@ -99,6 +103,9 @@ public class PlayerMove : MobiusOnObj
         JumpMashing = false;
         Clear = false;
         ClearOne = false;
+        Clear2Motion = false;
+        Clear2MotionTime = 2.5f;
+
         Stop = false;
         jumpmove = 0;
         jumpmovesave = 0;
@@ -118,6 +125,10 @@ public class PlayerMove : MobiusOnObj
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            ClearOn();
+        }
 
         NowMobiusColor = Mobius[NowMobius].GetComponent<MobiusColor>().GetNowColorNum();//現在のメビウスの色を取得
 
@@ -240,6 +251,7 @@ public class PlayerMove : MobiusOnObj
         if (!Stop && !CollisionState && Clear)
         {
             ClearMove();
+            SmokeEffect.SetActive(false);
         }
 
     }
@@ -252,7 +264,7 @@ public class PlayerMove : MobiusOnObj
             {
                 if (!CollisionState)
                 {
-                    RythmFlg = this.rythm.rythmCheckFlag;                        //リズム取得HipDrop
+                    RythmFlg = this.rythm.rythmCheckFlag;                        //リズム取得
 
                     SpeedUpInput();                                              //スピードアップ入力
 
@@ -498,8 +510,8 @@ public class PlayerMove : MobiusOnObj
 
         for (int i = 0; i < Mobius.Length; i++)
         {
-            if (i == NowMobius) continue;//現在のメビウスの位置は処理を飛ばす
-            if (i == SaveMobius) continue;
+            if (i == NowMobius) continue;   //現在のメビウスの位置は処理を飛ばす
+            if (i == SaveMobius) continue;  //前のメビウスを飛ばす
 
             //メビウス同士当たっているかどうか
             MobiusCollision = CollisionSphere(Mobius[NowMobius].GetComponent<SphereCollider>().bounds.center,                                                  // 現在のメビウスの輪の位置を取得
@@ -526,41 +538,68 @@ public class PlayerMove : MobiusOnObj
     //クリア時の移動処理
     private void ClearMove()
     {
-        if (!HipDrop)//移動させる
-        {
-            angle = 0;
-            InsideFlg = false;
-            RotateLeftFlg = false;
-            PositionSum();
-            HipDrop = true;
-            transform.position = new Vector3(0, 100, ClearPosition.z);
-            NormalModel();
-        }
-        else//ヒップドロップ中
-        {
-            if (!ClearOne)
-            {
-                //アニメーションをセット
-                PlayerAnimation.HipDrop();
-                ClearOne = true;
 
+        if (!Clear2Motion)//ヒップドロップ処理
+        {
+            Clear2MotionTime -= Time.deltaTime;
+            if (Clear2MotionTime < 0f)
+            {
+                Clear2MotionTime = -1;
+                Clear2Motion = true;
             }
 
-            float ClearHipDropSpeed = 15.0f;
-            float y = transform.position.y;
-            y -= (ClearHipDropSpeed * ClearHipDropSpeed) * Time.deltaTime;
-            transform.position = new Vector3(0, y, ClearPosition.z);
+            if (!HipDrop)//移動させる
+            {
+                angle = 0;
+                InsideFlg = false;
+                RotateLeftFlg = false;
+                PositionSum();
+                HipDrop = true;
+                transform.position = new Vector3(0, 100, ClearPosition.z);
+                NormalModel();
+            }
+            else//ヒップドロップ中
+            {
+                if (!ClearOne)
+                {
+                    //アニメーションをセット
+                    PlayerAnimation.HipDrop();
+                    ClearOne = true;
 
-            if (y < ClearPosition.y)
+                }
+                
+
+                Vector3 vec = ClearPosition - transform.position;
+                vec = vec.normalized;
+                if (vec.y < 0 )
+                {
+                    transform.position += vec * 5.0f;
+                }
+                if (Clear2MotionTime<2.0f)
+                {
+                    PlayerAnimation.GameClearRightVer();
+                }
+            }
+        }
+        else//左に移動処理
+        {
+            Vector3 vec = ClearLastPos - this.transform.position;
+            vec = vec.normalized;
+
+           
+            if ( vec.x < 0)//移動中
+            {
+                this.transform.position += new Vector3(vec.x, 0, 0);
+            }
+            else//移動が終われば
             {
                 Stop = true;
-                PlayerAnimation.GameClearRightVer();
-                
+                PlayerAnimation.Wait();
+                //this.transform.Rotate(0, 90, 0);
             }
         }
-
         DushEffect.SetActive(false);
-        //SmokeEffect.SetActive(false);
+        SmokeEffect.SetActive(false);
 
     }
 
@@ -583,7 +622,6 @@ public class PlayerMove : MobiusOnObj
 
             if (y <= PausePos.y)
             {
-                
                 y = PausePos.y;
                 Stop = true;
                 PlayerAnimation.Wait();
@@ -666,7 +704,6 @@ public class PlayerMove : MobiusOnObj
         HipDropCollisionObj.GetComponent<HipDropCol>().SetClear();
         if (!Clear)
         {
-
             PlayerAnimation.HipDrop();
             Clear = true;
         }
