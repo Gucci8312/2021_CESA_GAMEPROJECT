@@ -84,6 +84,7 @@ public class SceneMove : MonoBehaviour
         else
         {
             TimeAttackClear.SetActive(false);
+
         }
 
         if (Select_Scene == 1 || Select_Scene == 2 )
