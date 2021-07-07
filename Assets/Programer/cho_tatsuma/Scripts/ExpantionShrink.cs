@@ -22,7 +22,7 @@ public class ExpantionShrink : MonoBehaviour
     float j = 1f;
     Transform myTransform;
     Vector3 initLocalScale;
-      
+    
     // Start is called before the first frame update
     void Start()
     {
