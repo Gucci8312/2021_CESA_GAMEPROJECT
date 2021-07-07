@@ -33,11 +33,14 @@ public class SceneMove : MonoBehaviour
 
     public int Select_Scene = 1;
     bool Activeflag;
+    GameObject TimeAttackStage;
+    GameObject NormalStage;
+    GameObject TimeAttackClear;
 
-	//GameObject stageringrotate;
-	//StageRingRotate srr;
-	// Start is called before the first frame update
-	void Start()
+    //GameObject stageringrotate;
+    //StageRingRotate srr;
+    // Start is called before the first frame update
+    void Start()
     {
         NumControl.InitNum();
 
@@ -61,17 +64,29 @@ public class SceneMove : MonoBehaviour
             }
         }
 
-		//srr=stageringrotate.GetComponent<StageRingRotate>();
-
-	}
+        //srr=stageringrotate.GetComponent<StageRingRotate>();
+        TimeAttackStage = GameObject.Find("TimeAttackStage");
+        NormalStage = GameObject.Find("NormalStage");
+        TimeAttackClear = GameObject.Find("TimeAttackClear");
+        TimeAttackClear.SetActive(false);
+    }
 
     // Update is called once per frame
     void Update()
     {
-		
+        if(TimeAttackFlg)
+        {
+            if (StageControl.GetTimeAttackClearFlg(Select_Scene - 1))
+            {
+                TimeAttackClear.SetActive(true);
+            }
+        }
+        else
+        {
+            TimeAttackClear.SetActive(false);
+        }
 
-
-		if (Select_Scene == 1 || Select_Scene == 2)
+        if (Select_Scene == 1 || Select_Scene == 2 )
         {
             Score.SetActive(false);
         }
@@ -274,11 +289,15 @@ public class SceneMove : MonoBehaviour
         {
             TimeAttackObj[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(true);
             stageNum[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(false);
+            TimeAttackStage.SetActive(true);
+            NormalStage.SetActive(false);
         }
         else if (TimeAttackFlg == false)
         {
             TimeAttackObj[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(false);
             stageNum[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(true);
+            TimeAttackStage.SetActive(false);
+            NormalStage.SetActive(true);
         }
 
     }
@@ -328,11 +347,11 @@ public class SceneMove : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             float a = (i + 1) == num ? 1.0f : 0.005f;
-			
-		
-			ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * a);
-			ColorNum[i].SetColor("_EmissionColor", ColorNum[i + 6].color * a);
-		}
+
+
+            ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * a);
+            ColorNum[i].SetColor("_EmissionColor", ColorNum[i + 6].color * a);
+        }
 
 
     }
