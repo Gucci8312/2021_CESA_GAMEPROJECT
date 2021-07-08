@@ -44,8 +44,6 @@ public class GameMaster : MonoBehaviour
         UI = GameObject.Find("UI");
         NumControl.InitNum();
         SupureManager.ResetScore();
-        ScoreObj = GameObject.Find("Score");
-        ScoreObj.GetComponent<ExpantionShrink>().musicOn = false;
         objDraw = GetComponent<ObjectDraw>();
 
         if (this.GetComponent<ActiveUIManager>() == null)
@@ -54,7 +52,12 @@ public class GameMaster : MonoBehaviour
         }
         this.GetComponent<ActiveUIManager>().Menu = Menu;
     }
+    private void OnEnable()
+    {
+        ScoreObj = GameObject.Find("Score");
+        ScoreObj.GetComponent<ExpantionShrink>().musicOn = false;
 
+    }
     void OnStartBGM()
     {
         SoundManager.PlayBgmName(BgmName);
