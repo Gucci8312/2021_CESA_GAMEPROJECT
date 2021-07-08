@@ -69,26 +69,28 @@ public class SceneMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(TimeAttackFlg)
+        if (TimeAttackFlg)
         {
             if (StageControl.GetTimeAttackClearFlg(Select_Scene - 1))
             {
                 TimeAttackClear.SetActive(true);
             }
-        }
-        else
-        {
-            TimeAttackClear.SetActive(false);
-        }
-
-        if (Select_Scene == 1 || Select_Scene == 2 )
-        {
             Score.SetActive(false);
         }
         else
         {
+            TimeAttackClear.SetActive(false);
             Score.SetActive(true);
         }
+
+        if (Select_Scene == 1 || Select_Scene == 2)
+        {
+            Score.SetActive(false);
+        }
+        //else
+        //{
+        //    Score.SetActive(true);
+        //}
 
         //+Debug.Log(Select_Scene);
         // スコア表示
