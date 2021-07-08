@@ -70,9 +70,9 @@ public class SceneMove : MonoBehaviour
         TimeAttackClear = GameObject.Find("TimeAttackClear");
         TimeAttackClear.SetActive(false);
     }
-
-    // Update is called once per frame
-    void Update()
+	
+	// Update is called once per frame
+	void Update()
     {
         if (TimeAttackFlg)
         {
@@ -346,17 +346,52 @@ public class SceneMove : MonoBehaviour
         {
             num += -5;
         }
-        for (int i = 0; i < 5; i++)
+		
+		for (int i = 0; i < 5; i++)
         {
-            float a = (i + 1) == num ? 1.0f : 0.005f;
+			//float a = (i + 1) == num ? 1.0f : 0.005f;
+			
+			if(i+1==num)
+			{
+				if (stageNum[i].GetComponent<StageRingRotate>().GetRotateFlg())
+				{
+					ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 1.0f);
+					ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
+				}
+				else
+				{
+					ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 1.0f);
+					ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
+				}
+				
+			
+				
+			}
+			else
+			{
+				ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
+				ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
+			}
+			//ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * a);
+			//
+			//if (stageNum[i].GetComponent<StageRingRotate>().GetRotateFlg())
+			//{
 
 
-            ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * a);
-            ColorNum[i].SetColor("_EmissionColor", ColorNum[i + 6].color * a);
-        }
+			//}
+			//else
+			//{
+			//	float a = (i+5 + 1) == num+5 ? 1.0f : 0.005f;
+			//	ColorNum[i+5].SetColor("_EmissionColor", ColorNum[i+5].color * a);
+			//}
 
 
-    }
+			//Debug.Log(stageNum[i].GetComponent<StageRingRotate>().GetRotateFlg());
+
+		}
+
+
+	}
 
     void Release_Stage()
     {
@@ -374,7 +409,7 @@ public class SceneMove : MonoBehaviour
             }
             else
             {
-                stageNum[i].GetComponent<Renderer>().material = ColorNum[5];
+                stageNum[i].GetComponent<Renderer>().material = ColorNum[10];
             }
 
         }
