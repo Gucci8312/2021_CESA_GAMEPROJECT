@@ -13,7 +13,7 @@ public class ScoreExpantion : MonoBehaviour
     {
         ScoreObj = GameObject.Find("Score");
         ScoreObj.GetComponent<ExpantionShrink>().musicOn = false;
-        ScoreObjAudio = ScoreObj.GetComponent<AudioSource>();
+      //  ScoreObjAudio = ScoreObj.GetComponent<AudioSource>();
 
     }
 
@@ -24,7 +24,7 @@ public class ScoreExpantion : MonoBehaviour
         {
             scoreUp++;
             ScoreObj.GetComponent<ExpantionShrink>().isExpantion = true;
-            ScoreObjAudio.Play();
+           // ScoreObjAudio.Play();
             NumControl.DrawScore(scoreUp);
         }
     }
