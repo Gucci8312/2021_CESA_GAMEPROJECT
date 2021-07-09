@@ -34,7 +34,7 @@ public class SceneMove : MonoBehaviour
     public int Select_Scene = 1;
     bool Activeflag;
     GameObject TimeAttackStage;
-    GameObject NormalStage;
+    //GameObject NormalStage;
     GameObject TimeAttackClear;
 
     //GameObject stageringrotate;
@@ -66,7 +66,7 @@ public class SceneMove : MonoBehaviour
 
         //srr=stageringrotate.GetComponent<StageRingRotate>();
         TimeAttackStage = GameObject.Find("TimeAttackStage");
-        NormalStage = GameObject.Find("NormalStage");
+        //NormalStage = GameObject.Find("NormalStage");
         TimeAttackClear = GameObject.Find("TimeAttackClear");
         TimeAttackClear.SetActive(false);
     }
@@ -292,14 +292,14 @@ public class SceneMove : MonoBehaviour
             TimeAttackObj[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(true);
             stageNum[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(false);
             TimeAttackStage.SetActive(true);
-            NormalStage.SetActive(false);
+            //NormalStage.SetActive(false);
         }
         else if (TimeAttackFlg == false)
         {
             TimeAttackObj[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(false);
             stageNum[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(true);
             TimeAttackStage.SetActive(false);
-            NormalStage.SetActive(true);
+            //NormalStage.SetActive(true);
         }
 
     }
