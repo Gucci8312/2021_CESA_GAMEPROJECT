@@ -590,12 +590,14 @@ public class PlayerMove : MobiusOnObj
             if ( vec.x < 0)//移動中
             {
                 this.transform.position += new Vector3(vec.x, 0, 0);
+                PlayerAnimation.Wait();
+                this.transform.Rotate(0, 5, 0);
             }
             else//移動が終われば
             {
                 Stop = true;
-                PlayerAnimation.Wait();
-                //this.transform.Rotate(0, 90, 0);
+               
+                
             }
         }
         DushEffect.SetActive(false);
