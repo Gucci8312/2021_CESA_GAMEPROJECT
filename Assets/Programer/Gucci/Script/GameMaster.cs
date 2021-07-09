@@ -16,6 +16,7 @@ public class GameMaster : MonoBehaviour
 
     private float frame_count = 0;
     ObjectDraw objDraw;
+    GameObject ScoreObj;
 
    /* static public */bool MenuFlag = false;                        //true:メニューが開いてる false:閉じてる
     public float SlideTime = 0.25f;//スライドさせたい時間（秒
@@ -50,7 +51,12 @@ public class GameMaster : MonoBehaviour
         }
         this.GetComponent<ActiveUIManager>().Menu = Menu;
     }
+    private void OnEnable()
+    {
+        ScoreObj = GameObject.Find("Score");
+        ScoreObj.GetComponent<ExpantionShrink>().musicOn = false;
 
+    }
     void OnStartBGM()
     {
         SoundManager.PlayBgmName(BgmName);
