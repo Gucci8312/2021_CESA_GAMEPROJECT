@@ -4781,7 +4781,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1364538999
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4868,7 +4868,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1384219541
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6107,6 +6107,7 @@ GameObject:
   - component: {fileID: 1894673259}
   - component: {fileID: 1894673260}
   - component: {fileID: 1894673261}
+  - component: {fileID: 1894673262}
   m_Layer: 0
   m_Name: GameManeger
   m_TagString: Untagged
@@ -6339,6 +6340,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   max_supure: 12
+--- !u!114 &1894673262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894673253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503eec87142964c4780294570c77edf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Score_Obj:
+  - gameobject: {fileID: 2004059336}
+    threshold: 30
+  - gameobject: {fileID: 1364538998}
+    threshold: 60
+  - gameobject: {fileID: 1384219540}
+    threshold: 100
 --- !u!1 &1933051582
 GameObject:
   m_ObjectHideFlags: 0
