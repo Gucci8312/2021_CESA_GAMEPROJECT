@@ -225,7 +225,7 @@ public class ActiveGameClear : MonoBehaviour
                 if (!NotScoreFlag)
                 {
                     ScoreObj.ThisTransform.position = ScorePos;
-                    ScoreObj.ThisTransform.localScale = new Vector3(3, 3, 1);
+                    //ScoreObj.ThisTransform.localScale = new Vector3(3, 3, 1);
                 }
 
                 //時間設定
