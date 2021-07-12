@@ -4,7 +4,7 @@ using UnityEngine;
 
 //ゲームクリア時の演出スクリプト
 //GameClearオブジェクトにつける
-//（子にGAMECLEAR,CLEARYAZIRUSI,NEXTSTAGE,StAGESELECTのUIが必要）
+//（子にGAMECLEAR,CLEARYAZIRUSI,NEXTSTAGE,StAGESELECT,BACKGROUNDのUIが必要）
 public class ActiveGameClear : MonoBehaviour
 {
     public enum ClearPhase//クリア時の演出順
@@ -36,6 +36,7 @@ public class ActiveGameClear : MonoBehaviour
     public ObjParameter ScoreObj;//スコアオブジェクト
     public ObjParameter GameClearObj;//ゲームクリアUIオブジェクト
     public ObjParameter[] StageSelectObj=new ObjParameter[3];//0:STAGESELECT,1:CLEARYASZIRUSI ,2:NEXTSTAGE（最終ステージの時は存在しない）
+    public ObjParameter BackGroundObj;//背景オブジェクト
 
     int SelectObjDownNum = 0;
 
@@ -206,6 +207,8 @@ public class ActiveGameClear : MonoBehaviour
         Vector3 AddPos=Vector3.zero;//下へ移動させる用の変数
         AddPos.y -= 1;
 
+        Color color;
+
         switch (NowProcess)
         {
             case Process.INIT:
@@ -216,10 +219,17 @@ public class ActiveGameClear : MonoBehaviour
                     ActiveOnOff(StageSelectObj[i].Obj, true);
 
                     //透明からスタートさせる
-                    Color color = StageSelectObj[i].SpriteColor.color;
+                    color = StageSelectObj[i].SpriteColor.color;
                     color.a = 0;
                     StageSelectObj[i].SpriteColor.color = color;
+
                 }
+                ActiveOnOff(BackGroundObj.Obj, true);
+
+                color = BackGroundObj.SpriteColor.color;
+                color.a = 0;
+                BackGroundObj.SpriteColor.color = color;
+
                 // ScoreObj.ThisTransform.position = new Vector3(100, 35, -300);
 
                 if (!NotScoreFlag)
@@ -250,10 +260,15 @@ public class ActiveGameClear : MonoBehaviour
                                 SenkeiHokan(StageSelectObj[i].InitPos, StageSelectObj[i].InitPos + AddPos, NowTime_2, 0, NextTime);
 
                         //フェードインする
-                        Color color = StageSelectObj[i].SpriteColor.color;
+                        color = StageSelectObj[i].SpriteColor.color;
                         color.a = SenkeiHokan(0, 1, NowTime_2, 0, NextTime);
                         StageSelectObj[i].SpriteColor.color = color;
+
                     }
+
+                    Color color2 = BackGroundObj.SpriteColor.color;
+                    color2.a = SenkeiHokan(0, 1, NowTime_2, 0, NextTime);
+                    BackGroundObj.SpriteColor.color = color2;
 
 
                     NowTime_2 += Time.deltaTime;
@@ -332,6 +347,14 @@ public class ActiveGameClear : MonoBehaviour
             ActiveOnOff(StageSelectObj[i].Obj, false);
 
         }
+
+        BackGroundObj.Obj = this.transform.Find("BACKGROUND").gameObject;
+        BackGroundObj.ThisTransform = BackGroundObj.Obj.GetComponent<Transform>();
+        BackGroundObj.SpriteColor = BackGroundObj.Obj.GetComponent<SpriteRenderer>();
+        BackGroundObj.InitPos = BackGroundObj.ThisTransform.localPosition;
+        BackGroundObj.InitScale = BackGroundObj.ThisTransform.localScale;
+        ActiveOnOff(BackGroundObj.Obj, false);
+
 
     }
 }
