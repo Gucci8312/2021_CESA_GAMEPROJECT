@@ -52,6 +52,8 @@ public class ActiveGameClear : MonoBehaviour
 
     float NextTime;//次のフェーズへ移行するための時間
 
+
+    public Vector3 ScorePos;
     // Start is called before the first frame update
     void Start()
     {
@@ -217,7 +219,8 @@ public class ActiveGameClear : MonoBehaviour
                     color.a = 0;
                     StageSelectObj[i].SpriteColor.color = color;
                 }
-                ScoreObj.ThisTransform.position = new Vector3(175, 100, -150);
+                // ScoreObj.ThisTransform.position = new Vector3(100, 35, -300);
+                ScoreObj.ThisTransform.position = ScorePos;
                 ScoreObj.ThisTransform.localScale = new Vector3(3, 3, 1);
 
                 //時間設定
