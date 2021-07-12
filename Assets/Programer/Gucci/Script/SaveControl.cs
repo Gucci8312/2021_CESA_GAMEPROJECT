@@ -21,7 +21,13 @@ public class SaveControl : MonoBehaviour
 
     static public void Load()
     {
+        //StreamReader sr = new StreamReader("./Assets/Data/SaveData.txt");
+        #if UNITY_EDITOR
         StreamReader sr = new StreamReader("./Assets/Data/SaveData.txt");
+        #elif UNITY_STANDALONE
+        StreamReader sr = new StreamReader("SaveData.txt");
+        #endif
+
         Debug.Log("Load");
         for (int Idx = 0; Idx < 25; Idx++)
         {
@@ -38,7 +44,11 @@ public class SaveControl : MonoBehaviour
 
     static public void NewGame()
     {
+#if UNITY_EDITOR
         StreamWriter sw = new StreamWriter("./Assets/Data/SaveData.txt");
+#elif UNITY_STANDALONE
+        StreamWriter sw = new StreamWriter("SaveData.txt");
+#endif
         Debug.Log("NewGame");
 
         for (int Idx = 0; Idx < 25; Idx++)
@@ -57,7 +67,12 @@ public class SaveControl : MonoBehaviour
 
     static public void Save()
     {
+    #if UNITY_EDITOR
         StreamWriter sw = new StreamWriter("./Assets/Data/SaveData.txt");
+    #elif UNITY_STANDALONE
+        StreamWriter sw = new StreamWriter("SaveData.txt");
+    #endif
+
         Debug.Log("Save");
 
         for (int Idx = 0; Idx < 25; Idx++)

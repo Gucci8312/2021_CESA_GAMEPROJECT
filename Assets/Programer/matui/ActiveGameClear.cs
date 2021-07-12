@@ -54,6 +54,7 @@ public class ActiveGameClear : MonoBehaviour
 
 
     public Vector3 ScorePos;
+    public bool NotScoreFlag = false;//true:スコアがない false:スコアがある
     // Start is called before the first frame update
     void Start()
     {
@@ -220,8 +221,12 @@ public class ActiveGameClear : MonoBehaviour
                     StageSelectObj[i].SpriteColor.color = color;
                 }
                 // ScoreObj.ThisTransform.position = new Vector3(100, 35, -300);
-                ScoreObj.ThisTransform.position = ScorePos;
-                ScoreObj.ThisTransform.localScale = new Vector3(3, 3, 1);
+
+                if (!NotScoreFlag)
+                {
+                    ScoreObj.ThisTransform.position = ScorePos;
+                    ScoreObj.ThisTransform.localScale = new Vector3(3, 3, 1);
+                }
 
                 //時間設定
                 NextTime = 0.5f;
@@ -299,13 +304,15 @@ public class ActiveGameClear : MonoBehaviour
         GameClearObj.InitScale = GameClearObj.ThisTransform.localScale;
         ActiveOnOff(GameClearObj.Obj,false);
 
-        ScoreObj.Obj = GameObject.Find("Score");
-        ScoreObj.ThisTransform = ScoreObj.Obj.GetComponent<Transform>();
-        ScoreObj.SpriteColor = ScoreObj.Obj.GetComponent<SpriteRenderer>();
-        ScoreObj.InitPos = ScoreObj.ThisTransform.localPosition;
-        ScoreObj.InitScale = ScoreObj.ThisTransform.localScale;
-        //ActiveOnOff(ScoreObj.Obj, false);
-
+        if (!NotScoreFlag)
+        {
+            ScoreObj.Obj = GameObject.Find("Score");
+            ScoreObj.ThisTransform = ScoreObj.Obj.GetComponent<Transform>();
+            ScoreObj.SpriteColor = ScoreObj.Obj.GetComponent<SpriteRenderer>();
+            ScoreObj.InitPos = ScoreObj.ThisTransform.localPosition;
+            ScoreObj.InitScale = ScoreObj.ThisTransform.localScale;
+            //ActiveOnOff(ScoreObj.Obj, false);
+        }
 
         StageSelectObj[0].Obj = this.transform.Find("CLEARYASZIRUSI").gameObject;
         StageSelectObj[1].Obj = this.transform.Find("STAGESELECT").gameObject;

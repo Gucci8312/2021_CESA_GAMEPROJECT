@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -838,6 +838,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 505566697335760299, guid: b8bed77f9ce13554d809377be5ff85c1,
+        type: 3}
+      propertyPath: NotScoreFlag
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1008526710041309335, guid: b8bed77f9ce13554d809377be5ff85c1,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -1193,6 +1198,7 @@ MonoBehaviour:
   Menu: {fileID: 1703147856}
   BgmName: Area1
   ScoreNum: 100
+  SlideTime: 0.25
 --- !u!4 &371337738
 Transform:
   m_ObjectHideFlags: 0
@@ -1276,7 +1282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c340e9782b8c544b8d27f5acc484927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SlideTime: 0.25
+  Menu: {fileID: 0}
 --- !u!1 &505649779
 GameObject:
   m_ObjectHideFlags: 0
