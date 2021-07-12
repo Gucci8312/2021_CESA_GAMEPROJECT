@@ -44,7 +44,7 @@ public class PlayerMove : MobiusOnObj
 
     GameObject DushEffect;                                  //ダッシュした時のエフェクト
     GameObject SmokeEffect;                                 //ヒップドロップ時のエフェクト
-    
+
     CameraShake camerashake;                                //カメラを揺らすスクリプト
 
     [SerializeField] GameObject missPrefab;                 //リズムに合わなかった時のUI
@@ -114,7 +114,7 @@ public class PlayerMove : MobiusOnObj
         SpeedPress = false;
         SpeedUpFlg = false;
         MenuOnOne = false;
-        MenuOffOne =true;
+        MenuOffOne = true;
 
         RythmFlg = this.rythm.rythmCheckFlag;
         RythmSaveFlg = RythmFlg;
@@ -135,33 +135,21 @@ public class PlayerMove : MobiusOnObj
         //メニュー移動処理
         if (Menu.activeSelf == true && !Clear)
         {
-            if (!MenuOnOne)
-            {
-                SaveInsideFlg = InsideFlg;
-                SaveRotateFlg = RotateLeftFlg;
-                saveangle = angle;
-                MenuOnOne = true;
-            }
             MenuOffOne = false;
-            InsideFlg = false;
-            RotateLeftFlg = false;
-            angle = 0;
             if (!Stop) PauseMove();
         }
         else
         {
             if (!MenuOffOne)
             {
-                angle = saveangle;
-                MenuOffOne = true;
-                InsideFlg = SaveInsideFlg;
-                RotateLeftFlg = SaveRotateFlg;
                 Stop = false;
                 HipDrop = false;
+                MenuOffOne = true;
             }
 
             MenuOnOne = false;
         }
+
 
         if (!Pause)
         {
@@ -211,7 +199,7 @@ public class PlayerMove : MobiusOnObj
                     }
 
                     angle = AngleRangeSum(angle);
-                    
+
 
                     if (SwitchMobius)
                     {
@@ -245,7 +233,7 @@ public class PlayerMove : MobiusOnObj
             }
         }
 
-        
+
 
         //クリアの動き
         if (!Stop && !CollisionState && Clear)
@@ -282,7 +270,7 @@ public class PlayerMove : MobiusOnObj
         //本体の当たり判定
         Gizmos.color = new Vector4(0, 1, 0, 0.8f); //色指定
         Gizmos.DrawSphere(transform.position + transform.GetComponent<SphereCollider>().center, GetComponent<SphereCollider>().bounds.size.x / 2);
-        
+
     }
 
     //ジャンプキー入力
@@ -567,15 +555,15 @@ public class PlayerMove : MobiusOnObj
                     ClearOne = true;
 
                 }
-                
+
 
                 Vector3 vec = ClearPosition - transform.position;
                 vec = vec.normalized;
-                if (vec.y < 0 )
+                if (vec.y < 0)
                 {
                     transform.position += vec * 5.0f;
                 }
-                if (Clear2MotionTime<2.0f)
+                if (Clear2MotionTime < 2.0f)
                 {
                     PlayerAnimation.GameClearRightVer();
                 }
@@ -586,8 +574,8 @@ public class PlayerMove : MobiusOnObj
             Vector3 vec = ClearLastPos - this.transform.position;
             vec = vec.normalized;
 
-           
-            if ( vec.x < 0)//移動中
+
+            if (vec.x < 0)//移動中
             {
                 this.transform.position += new Vector3(vec.x, 0, 0);
                 PlayerAnimation.Wait();
@@ -596,8 +584,8 @@ public class PlayerMove : MobiusOnObj
             else//移動が終われば
             {
                 Stop = true;
-               
-                
+
+
             }
         }
         DushEffect.SetActive(false);
@@ -607,29 +595,26 @@ public class PlayerMove : MobiusOnObj
 
     private void PauseMove()
     {
-        
+
+        PauseModel();
         if (!HipDrop)//移動させる
         {
-            NormalModel();
-            PauseModel();
             HipDrop = true;
-            transform.position = new Vector3(PausePos.x, 50, PausePos.z);
+            transform.position = new Vector3(PausePos.x, PausePos.y+50, PausePos.z);
         }
         else//ヒップドロップ中
         {
-            float ClearHipDropSpeed = 20.0f;
-            float y = transform.position.y;
-            y -= (ClearHipDropSpeed * ClearHipDropSpeed) * Time.deltaTime;
-            transform.position = new Vector3(PausePos.x, y, PausePos.z);
+            Vector3 vec = PausePos - transform.position;
+            vec = vec.normalized;
 
-            if (y <= PausePos.y)
+            transform.position += vec * 5.0f;
+            if (vec.y < 0)
             {
-                y = PausePos.y;
                 Stop = true;
                 PlayerAnimation.Wait();
             }
         }
-        
+
     }
 
 
@@ -722,7 +707,7 @@ public class PlayerMove : MobiusOnObj
     {
         return HipDropPos;
     }
-    
+
     public bool GetPause()
     {
         return Pause;
@@ -764,8 +749,7 @@ public class PlayerMove : MobiusOnObj
 
     void PauseModel()
     {
-        NormalModel();
-        this.transform.Rotate(0, 90, 0);
+        transform.eulerAngles = new Vector3(0f, 90f, 0f);
     }
 
     void HipDropEffectDraw()
