@@ -28,7 +28,7 @@ public class Cusour : MonoBehaviour
     void Update()
     {
         Vector3 Pos = this.gameObject.transform.position;
-        transform.position = new Vector3(Pos.x, WindowButton[Idx].transform.position.y, Pos.z);
+        transform.position = new Vector3(WindowButton[Idx].transform.position.x, WindowButton[Idx].transform.position.y, Pos.z);
 
         if (!SoundFlg)
         {
