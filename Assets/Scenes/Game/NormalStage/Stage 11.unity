@@ -3690,7 +3690,7 @@ PrefabInstance:
     - target: {fileID: 3088328858986160655, guid: 977286c5fe9be2a45bafb7c4d419c4de,
         type: 3}
       propertyPath: m_Name
-      value: Num
+      value: Score
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 977286c5fe9be2a45bafb7c4d419c4de, type: 3}
@@ -5868,6 +5868,7 @@ GameObject:
   - component: {fileID: 1894673258}
   - component: {fileID: 1894673259}
   - component: {fileID: 1894673260}
+  - component: {fileID: 1894673261}
   m_Layer: 0
   m_Name: GameManeger
   m_TagString: Untagged
@@ -6087,6 +6088,19 @@ MonoBehaviour:
     threshold: 30
   - gameobject: {fileID: 700390845}
     threshold: 60
+--- !u!114 &1894673261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894673253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fe21e0992bd23d499047e0faa15f6fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  max_supure: 26
 --- !u!1001 &1970835500
 PrefabInstance:
   m_ObjectHideFlags: 0
