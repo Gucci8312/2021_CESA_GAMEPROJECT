@@ -41,6 +41,10 @@ public class Score : MonoBehaviour
     public void Collision()
     {
         if (col) return ;
+        if(this.gameObject.transform.parent != null)
+        {
+            this.gameObject.transform.parent = null;
+        }
         SupureManager.get_supure++;
         // this.gameObject.SetActive(false);
         audi.Play();
