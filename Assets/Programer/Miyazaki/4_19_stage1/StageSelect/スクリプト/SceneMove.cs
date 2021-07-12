@@ -13,8 +13,10 @@ public class SceneMove : MonoBehaviour
     public GameObject[] TimeAttackObj;
     public GameObject[] stageNum;
     public Material[] ColorNum;
+    public GameObject[] LightNum;
     bool TimeAttackFlg;
     public GameObject Score;
+
 
     public GameObject[] UI;
     bool UI_Flag;
@@ -253,7 +255,10 @@ public class SceneMove : MonoBehaviour
 
             AllStageLightOff();
             //stageNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
-            stageNum[(Select_Scene - 1)].GetComponentInChildren<Light>().intensity = LIGHT_ON;
+            //stageNum[(Select_Scene - 1)].GetComponentInChildren<Light>().intensity = LIGHT_ON;
+
+            LightNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
+            //LightNum[(Select_Scene - 1)].SetActive(true);
             ChangeColor();
 
 
@@ -308,11 +313,12 @@ public class SceneMove : MonoBehaviour
     // @brief  すべてのステージのライトをオフにする
     void AllStageLightOff()
     {
-        for (int i = 0; i < stageNum.Length; i++)
+        for (int i = 0; i < LightNum.Length; i++)
         {
             //stageNum[i].GetComponent<Light>().intensity = LIGHT_OFF;
-            stageNum[i].GetComponentInChildren<Light>().intensity = LIGHT_OFF;
-
+            //stageNum[i].GetComponentInChildren<Light>().intensity = LIGHT_OFF;
+            LightNum[i].GetComponent<Light>().intensity = LIGHT_OFF;
+            //LightNum[(Select_Scene - 1)].SetActive(false);
         }
     }
 
