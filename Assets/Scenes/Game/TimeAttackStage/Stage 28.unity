@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -375,6 +375,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1609908145}
     m_Modifications:
+    - target: {fileID: 3707733214990297228, guid: 8ec52b7f3937ffd42bdabed3e5a6f5f9,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707733214990297228, guid: 8ec52b7f3937ffd42bdabed3e5a6f5f9,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707733214990297228, guid: 8ec52b7f3937ffd42bdabed3e5a6f5f9,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5224182388560007185, guid: 8ec52b7f3937ffd42bdabed3e5a6f5f9,
         type: 3}
       propertyPath: m_Name
@@ -527,7 +542,7 @@ PrefabInstance:
     - target: {fileID: 1008526710995014902, guid: b8bed77f9ce13554d809377be5ff85c1,
         type: 3}
       propertyPath: NextStageNum
-      value: 4
+      value: 29
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8bed77f9ce13554d809377be5ff85c1, type: 3}
@@ -1822,7 +1837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09e0be3494742c34885ccb47ac7a6ae2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeLimit: 30
+  timeLimit: 17
 --- !u!1 &899096687
 GameObject:
   m_ObjectHideFlags: 0
@@ -2139,6 +2154,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1693186249}
     m_Modifications:
+    - target: {fileID: 3707733214990297228, guid: 8ec52b7f3937ffd42bdabed3e5a6f5f9,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707733214990297228, guid: 8ec52b7f3937ffd42bdabed3e5a6f5f9,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707733214990297228, guid: 8ec52b7f3937ffd42bdabed3e5a6f5f9,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5224182388560007185, guid: 8ec52b7f3937ffd42bdabed3e5a6f5f9,
         type: 3}
       propertyPath: m_Name
@@ -3542,6 +3572,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 226745677384210544, guid: fa19cfecec978b549978b8f54e0ea002,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 226745677384210544, guid: fa19cfecec978b549978b8f54e0ea002,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 226745677384210544, guid: fa19cfecec978b549978b8f54e0ea002,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 226745678772324136, guid: fa19cfecec978b549978b8f54e0ea002,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 226745678772324136, guid: fa19cfecec978b549978b8f54e0ea002,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 226745678772324136, guid: fa19cfecec978b549978b8f54e0ea002,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8274971882371146010, guid: fa19cfecec978b549978b8f54e0ea002,
         type: 3}
       propertyPath: m_Name
@@ -3952,6 +4012,7 @@ MonoBehaviour:
   Menu: {fileID: 1369153478}
   BgmName: Area1
   ScoreNum: 100
+  SlideTime: 0.25
 --- !u!4 &1780746166
 Transform:
   m_ObjectHideFlags: 0
@@ -4039,7 +4100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c340e9782b8c544b8d27f5acc484927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SlideTime: 0.25
+  Menu: {fileID: 0}
 --- !u!1 &1788964033
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Target : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class Target : MonoBehaviour
     Vector3 ColPos;
     GameObject GetChackPointEffect;
     float kaitenn;
+    public VisualEffect vfx;
+    GameObject RythmObj;                                    //リズムオブジェクト
+    Rythm rythm;                                            //リズムスクリプト取得用
 
     // Start is called before the first frame update
     void Start()
@@ -19,11 +23,18 @@ public class Target : MonoBehaviour
         CheckPointUi = GameObject.Find("CheckPointCount").GetComponent<CheckPointCount>();
         player = GameObject.Find("Player").GetComponent<PlayerMove>();
         GetChackPointEffect = GameObject.Find("GetCheckPointEffect");
+        //vfx = RythmObj.GetComponent<VisualEffect>();
+        RythmObj = GameObject.Find("rythm_circle");                                                   //リズムオブジェクト取得
+        this.rythm = RythmObj.GetComponent<Rythm>();                                                  //リズムのコード
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(this.rythm.rythmSendCheckFlag)
+        {
+            vfx.SendEvent("PlayDenki");
+        }
         //何故か親オブジェクトについていかないので、代入してあげて追従させている
         this.transform.localPosition = LocalPos;
 
@@ -33,15 +44,15 @@ public class Target : MonoBehaviour
         //transform.Rotate(0.0f, transform.localRotation.y * kaitenn, 0.0f);
         if (ColFlg)
         {
-            kaitenn-=1.0f;
+            kaitenn -= 1.0f;
             Vector3 WorldAngle = transform.localEulerAngles;
             WorldAngle.x = 0.0f;
             WorldAngle.y = 0.0f;
             WorldAngle.z = kaitenn;
             transform.Rotate(WorldAngle);
-           // gameObject.GetComponent<Rigidbody>().AddForce(0.0f, 10000.0f, 0.0f);
+            // gameObject.GetComponent<Rigidbody>().AddForce(0.0f, 10000.0f, 0.0f);
             //Vector3 Pos = gameObject.transform.position;
-           // gameObject.transform.Translate(Pos.x, Pos.y+kaitenn, Pos.z);
+            // gameObject.transform.Translate(Pos.x, Pos.y+kaitenn, Pos.z);
 
         }
         else
@@ -51,7 +62,7 @@ public class Target : MonoBehaviour
             WorldAngle.x = 0.0f;
             WorldAngle.y = 0.0f;
             WorldAngle.z = kaitenn;
-            transform.Rotate(WorldAngle);
+            //transform.Rotate(WorldAngle);
         }
         //kaitenn = 0.1f;
         //if (ColFlg)
@@ -66,7 +77,7 @@ public class Target : MonoBehaviour
         //WorldAngle.z = kaitenn;
         ////transform.eulerAngles = WorldAngle;
         //transform.Rotate(WorldAngle);
-
+        
     }
 
     // 衝突時
@@ -85,7 +96,7 @@ public class Target : MonoBehaviour
                     ColFlg = true;
                     ColPos = other.ClosestPointOnBounds(this.transform.position);
                     SoundManager.PlaySeName("checkpoint_sin");
-                   Destroy(GetComponent<CapsuleCollider>());
+                    Destroy(GetComponent<CapsuleCollider>());
                     Invoke("Delete", 1.0f);
                 }
             }

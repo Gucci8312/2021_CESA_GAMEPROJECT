@@ -17,9 +17,6 @@ public class StageRingRotate : MonoBehaviour
     {
         InitPos = this.transform.position;
     }
-    //BufOut[index].x = cos(ToRad((float)index)) * BufInMoveData[0].Speed.x;
-    //BufOut[index].y = sin(ToRad((float)index)) * BufInMoveData[0].Speed.y;
-    //BufOut[index].z = cos(ToRad(BufInMoveData[0].Angle.z)) * BufInMoveData[0].Speed.z;
 
     // Update is called once per frame
     void Update()
@@ -56,8 +53,8 @@ public class StageRingRotate : MonoBehaviour
             //int Angle = 0;
 
             //Pos.x = Mathf.Cos(Angle) * Index;
-            Pos.y = InitPos.y + Mathf.Sin(Mathf.Deg2Rad * Angle) * OffSet;
-            Pos.z = InitPos.z + Mathf.Cos(Mathf.Deg2Rad * Angle) * OffSet;
+            Pos.y = InitPos.y + Mathf.Sin(Mathf.Deg2Rad * Angle) * OffSet+1;
+            Pos.z = InitPos.z + Mathf.Cos(Mathf.Deg2Rad * Angle) * OffSet-1;
 
             //this.transform.Translate(Pos.x, Pos.y, 10);
             this.transform.position = Pos;

@@ -16,7 +16,10 @@ public class GameMaster : MonoBehaviour
 
     private float frame_count = 0;
     ObjectDraw objDraw;
+    GameObject ScoreObj;
 
+   /* static public */bool MenuFlag = false;                        //true:メニューが開いてる false:閉じてる
+    public float SlideTime = 0.25f;//スライドさせたい時間（秒
     // public int DrowScore;
     private void Awake()
     {
@@ -41,8 +44,19 @@ public class GameMaster : MonoBehaviour
         NumControl.InitNum();
         SupureManager.ResetScore();
         objDraw = GetComponent<ObjectDraw>();
-    }
 
+        if (this.GetComponent<ActiveUIManager>() == null)
+        {
+            this.gameObject.AddComponent<ActiveUIManager>();
+        }
+        this.GetComponent<ActiveUIManager>().Menu = Menu;
+    }
+    private void OnEnable()
+    {
+        ScoreObj = GameObject.Find("Score");
+        ScoreObj.GetComponent<ExpantionShrink>().musicOn = false;
+
+    }
     void OnStartBGM()
     {
         SoundManager.PlayBgmName(BgmName);
@@ -57,26 +71,64 @@ public class GameMaster : MonoBehaviour
         }
         if (!UI.GetComponent<UIManeger>().GameClearFlg && !UI.GetComponent<UIManeger>().GameOverFlg && GameStart.Blinking_Flag)
         {
-            if (Input.GetKeyDown(KeyCode.Escape) || Controler.GetMenuButtonFlg())
+            if (!ActiveUIManager.SlideFlag)//メニューがスライドしてないとき
             {
-                Debug.Log("メニューボタン押された");
-                if (Menu.active == true)
+                if (!ActiveUIManager.MenuInOutFlag)//メニューが透明になったら
                 {
-                    Menu.active = false;
-                    // Time.timeScale = 1.0f;
-                    PauseManager.OffPause();
+                    Menu.SetActive(false);//メニューを消す
                 }
-                else
+
+
+                if (Input.GetKeyDown(KeyCode.Escape) || Controler.GetMenuButtonFlg())
                 {
-                    Menu.active = true;
-                    // Time.timeScale = 0.0f;
-                    SoundManager.PlaySeName("メニュー開く");
-                    PauseManager.OnPause();
+                    Debug.Log("メニューボタン押された");
+                    ActiveUIManager.SlideFlag = true;
+
+                    if (ActiveUIManager.MenuInOutFlag)//メニューが開かれているとき
+                    {
+                        PauseManager.OffPause();
+                    }
+                    else//メニューが閉じられているとき
+                    {
+                        Menu.SetActive(true);
+                        SoundManager.PlaySeName("メニュー開く");
+                        PauseManager.OnPause();
+
+                    }
+                    ActiveUIManager.MenuInOutFlag = !ActiveUIManager.MenuInOutFlag;
+
+
+                    //if (Menu.active == true)
+                    //{
+                    //    Menu.active = false;
+                    //    // Time.timeScale = 1.0f;
+                    //    PauseManager.OffPause();
+                    //}
+                    //else
+                    //{
+                    //    Menu.active = true;
+                    //    // Time.timeScale = 0.0f;
+                    //    SoundManager.PlaySeName("メニュー開く");
+                    //    PauseManager.OnPause();
+                    //}
                 }
+
             }
         }
 
         frame_count++;
+
+
+        if (Menu.activeSelf)
+        {
+            MenuFlag = true;
+        }
+        else
+        {
+            MenuFlag = false;
+        }
+
+        ActiveUIManager.SlideTime = SlideTime;
     }
 
     private void FixedUpdate()
@@ -116,4 +168,10 @@ public class GameMaster : MonoBehaviour
         //Debug.Log("タイトルボタンが押された");
         SceneManager.LoadScene("TittleScene");
     }
+
+    public bool GetMenuFlag()
+    {
+        return MenuFlag;
+    }
+
 }

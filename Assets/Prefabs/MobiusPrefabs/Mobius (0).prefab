@@ -510,7 +510,7 @@ MonoBehaviour:
   - {fileID: 0}
   Line: []
   cl: []
-  MoveLineObj: {fileID: 0}
+  GimicLineObj: {fileID: 0}
   MovePos: {x: 0, y: 0, z: 0}
   OldMovePos: {x: 0, y: 0, z: 0}
   ColPos: {x: 0, y: 0, z: 0}
@@ -528,7 +528,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aac1e65371108848b1cd9d18b677d34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnemyBeatFlag: 0
   MaxBeatNum: 12
+  BeatCount: 0
 --- !u!114 &4411899844125424283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -744,3 +746,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MIN_SHRINK: 0.8
+  musicOn: 0
+  isExpantion: 0
