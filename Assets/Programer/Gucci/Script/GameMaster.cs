@@ -54,8 +54,10 @@ public class GameMaster : MonoBehaviour
     private void OnEnable()
     {
         ScoreObj = GameObject.Find("Score");
-        ScoreObj.GetComponent<ExpantionShrink>().musicOn = false;
-
+        if(ScoreObj!=null)
+        {
+            ScoreObj.GetComponent<ExpantionShrink>().musicOn = false;
+        }
     }
     void OnStartBGM()
     {
