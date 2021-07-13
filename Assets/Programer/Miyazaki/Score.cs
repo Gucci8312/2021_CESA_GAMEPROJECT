@@ -9,18 +9,17 @@ public class Score : MonoBehaviour
     // Start is called before the first frame update
     GameObject scoreObj;
     public bool col;
-   // AudioSource audi;
+    // AudioSource audi;
     void Start()
     {
         col = false;
-        scoreObj = GameObject.Find("Score");
-       // audi = gameObject.GetComponent<AudioSource>();
+        // audi = gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+   
     }
 
 
@@ -40,14 +39,11 @@ public class Score : MonoBehaviour
 
     public void Collision()
     {
-        if (col) return ;
-        if(this.gameObject.transform.parent != null)
-        {
-            this.gameObject.transform.parent = null;
-        }
+        if (col) return;
+        this.gameObject.transform.parent = null;
         SupureManager.get_supure++;
         // this.gameObject.SetActive(false);
-       // audi.Play();
+        // audi.Play();
         col = true;
     }
 }
