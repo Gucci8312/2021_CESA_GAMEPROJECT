@@ -5,14 +5,12 @@ using UnityEngine;
 public class ScoreExpantion : MonoBehaviour
 {
     private int scoreUp = 0;
-    GameObject ScoreObj;
     AudioSource ScoreObjAudio;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
-        ScoreObj = GameObject.Find("Score");
-        ScoreObj.GetComponent<ExpantionShrink>().musicOn = false;
+        this.gameObject.GetComponent<ExpantionShrink>().musicOn = false;
       //  ScoreObjAudio = ScoreObj.GetComponent<AudioSource>();
 
     }
@@ -23,7 +21,7 @@ public class ScoreExpantion : MonoBehaviour
         if (scoreUp < (int)SupureManager.GetScore())
         {
             scoreUp++;
-            ScoreObj.GetComponent<ExpantionShrink>().isExpantion = true;
+            this.gameObject.GetComponent<ExpantionShrink>().isExpantion = true;
            // ScoreObjAudio.Play();
             NumControl.DrawScore(scoreUp);
         }
