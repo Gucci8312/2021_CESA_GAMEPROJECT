@@ -38,7 +38,7 @@ public class ActiveGameClear : MonoBehaviour
     public ObjParameter[] StageSelectObj=new ObjParameter[3];//0:STAGESELECT,1:CLEARYASZIRUSI ,2:NEXTSTAGE（最終ステージの時は存在しない）
     public ObjParameter BackGroundObj;//背景オブジェクト
 
-    int SelectObjDownNum = 0;
+    int SelectObjDownNum = 0;//最終ステージのNEXTSTAGEを含めないよう（初期Activeのフラグで判断）
 
     public bool ClearFlag = false;
 
@@ -72,16 +72,11 @@ public class ActiveGameClear : MonoBehaviour
         //StageSelectObj.Obj.SetActive(false);
 
     }
-    //void Awake()
-    //{
-    //    if (!this.gameObject.activeSelf)
-    //    {
-    //        this.gameObject.SetActive(true);
-    //    }
-    //    this.gameObject.SetActive(true);
-
-    //    this.transform.localScale = new Vector3(1, 1, 1);
-    //}
+    void Awake()
+    {
+        this.GetComponent<GameClear>().enabled = false;//GameClearコンポーネントを消しとく
+    }
+    
 
 
     // Update is called once per frame
@@ -312,6 +307,8 @@ public class ActiveGameClear : MonoBehaviour
     //初期化（初回のみ）
     private void Init()
     {
+        //各オブジェクトの値、コンポーネント、初期値を取得
+
         GameClearObj.Obj = this.transform.Find("GAMECLEAR").gameObject;
         GameClearObj.ThisTransform = GameClearObj.Obj.GetComponent<Transform>();
         GameClearObj.SpriteColor = GameClearObj.Obj.GetComponent<SpriteRenderer>();
@@ -319,7 +316,12 @@ public class ActiveGameClear : MonoBehaviour
         GameClearObj.InitScale = GameClearObj.ThisTransform.localScale;
         ActiveOnOff(GameClearObj.Obj,false);
 
-        if (!NotScoreFlag)
+        if (GameObject.Find("Time"))//タイムがあれば（タイムアタックのステージ）
+        {
+            NotScoreFlag = true;//スコア表示させないようにする
+        }
+
+        if (!NotScoreFlag)//スコアのオブジェクトがあれば
         {
             ScoreObj.Obj = GameObject.Find("Score");
             ScoreObj.ThisTransform = ScoreObj.Obj.GetComponent<Transform>();
@@ -333,9 +335,9 @@ public class ActiveGameClear : MonoBehaviour
         StageSelectObj[1].Obj = this.transform.Find("STAGESELECT").gameObject;
         StageSelectObj[2].Obj = this.transform.Find("NEXTSTAGE").gameObject;
 
-        if (!StageSelectObj[2].Obj.activeSelf)
+        if (!StageSelectObj[2].Obj.activeSelf)//NEXTSTAGEが無ければ
         {
-            SelectObjDownNum += 1;
+            SelectObjDownNum += 1;//NEXTSTAGEを含めないようにする
         }
 
         for (int i = 0; i < StageSelectObj.Length - SelectObjDownNum; i++)
