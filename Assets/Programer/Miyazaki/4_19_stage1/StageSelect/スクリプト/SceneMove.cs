@@ -16,7 +16,7 @@ public class SceneMove : MonoBehaviour
     public GameObject[] LightNum;
     bool TimeAttackFlg;
     public GameObject Score;
-
+    public int ThisArea;
 
     public GameObject[] UI;
     bool UI_Flag;
@@ -76,6 +76,7 @@ public class SceneMove : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
+        ThisArea = 1+(Select_Scene - 1) / 5;
         if (TimeAttackFlg)
         {
             if (StageControl.GetTimeAttackClearFlg(Select_Scene - 1))
