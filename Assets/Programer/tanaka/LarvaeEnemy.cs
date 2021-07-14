@@ -16,6 +16,8 @@ public class LarvaeEnemy : EnemyMove
         base.Awake();
         Deth = false;
         type = (int)EnemyType.Larvae;
+        InsideLength = 25;
+        OutLength = 10;
     }
 
     protected override void Start()
@@ -84,6 +86,7 @@ public class LarvaeEnemy : EnemyMove
             }
 
         }
+        Mobius[NowMobius].GetComponent<MoveMobius>().EnemyOnflag = true;
     }
     
     private void OnTriggerEnter(Collider other)
@@ -156,5 +159,32 @@ public class LarvaeEnemy : EnemyMove
         AdultRotateLeftFlg = rotateleftflg;
     }
 
-    
+    void NormalModel()
+    {
+        if (InsideFlg)
+        {
+            this.transform.Rotate(this.transform.rotation.x - 90, this.transform.rotation.y - 90, this.transform.rotation.z + 90);
+            if (RotateLeftFlg)
+            {
+
+            }
+            else
+            {
+                this.transform.Rotate(this.transform.rotation.x, this.transform.rotation.y - 180, this.transform.rotation.z);
+            }
+        }
+        else
+        {
+            this.transform.Rotate(this.transform.rotation.x + 90, this.transform.rotation.y + 90, this.transform.rotation.z + 90);
+            if (RotateLeftFlg)
+            {
+
+            }
+            else
+            {
+                this.transform.Rotate(this.transform.rotation.x, this.transform.rotation.y + 180, this.transform.rotation.z);
+            }
+        }
+
+    }
 }
