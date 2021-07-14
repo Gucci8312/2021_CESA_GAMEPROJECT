@@ -18,6 +18,7 @@ public class LarvaeEnemy : EnemyMove
         type = (int)EnemyType.Larvae;
         InsideLength = 25;
         OutLength = 10;
+        NormalModel();
     }
 
     protected override void Start()
@@ -30,7 +31,7 @@ public class LarvaeEnemy : EnemyMove
     {
         if (!Pause)
         {
-            
+
             PositionSum();
 
             //外内で速度調整
@@ -43,7 +44,7 @@ public class LarvaeEnemy : EnemyMove
                 Speed = NormalSpeed;
             }
 
-            //移動計算// アニメーションの処理
+            //移動計算
             if (RotateLeftFlg)
             {
                 angle += (rotateSpeed * Speed) * Time.deltaTime;
@@ -54,6 +55,15 @@ public class LarvaeEnemy : EnemyMove
             }
 
             angle = AngleRangeSum(angle);
+            NormalModel();
+        }
+            
+    }
+
+    private void Update()
+    {
+        if (!Pause)
+        {
 
             if (SwitchMobius)
             {
@@ -88,7 +98,7 @@ public class LarvaeEnemy : EnemyMove
         }
         Mobius[NowMobius].GetComponent<MoveMobius>().EnemyOnFlag = true;
     }
-    
+
     private void OnTriggerEnter(Collider other)
     {
         if (InvincibilityTime == 0)
