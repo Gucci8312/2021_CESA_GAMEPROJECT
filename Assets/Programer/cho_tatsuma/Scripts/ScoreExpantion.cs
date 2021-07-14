@@ -18,6 +18,7 @@ public class ScoreExpantion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        this.gameObject.GetComponent<ExpantionShrink>().musicOn = false;
         if (scoreUp < (int)SupureManager.GetScore())
         {
             scoreUp++;
