@@ -42,11 +42,6 @@ public class ActiveGameClear : MonoBehaviour
 
     public bool ClearFlag = false;
 
-    //Transform ThisTransform;
-
-    //Vector3 InitPos;
-    //Vector3 InitScale;
-
     //各フェーズで使う時間
     float NowTime_1=0;
     float NowTime_2=0;

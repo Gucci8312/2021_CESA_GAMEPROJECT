@@ -55,6 +55,17 @@ public class ActiveUI : MonoBehaviour
             UiColors = UIColors.TEXT;
         }
 
+
+        if (!ActiveUIManager.MenuInOutFlag)//メニューが閉じられるとき
+        {
+            ThisTransform.localPosition = OldSlidePos;
+            AlphaColorChange(0);
+        }
+        if (ActiveUIManager.MenuInOutFlag)//メニューが開かれるとき
+        {
+            ThisTransform.localPosition = SlidePos;
+            AlphaColorChange(1);
+        }
     }
 
     // Update is called once per frame
