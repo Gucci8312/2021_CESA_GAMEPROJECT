@@ -13,7 +13,8 @@ public class MoveMobius : MonoBehaviour
     GameObject player;
     PlayerMove pm;                                                           //PlayerMoveスクリプト
 
-    [HideInInspector] public bool EnemyMoveFlag;                             //エネミーによる移動判定用
+    public bool EnemyOnFlag;                                                 //エネミーが乗っているかどうか
+    /*[HideInInspector] */public bool EnemyMoveFlag;                         //エネミーによる移動判定用（EnemyMove側でも操作する）
     private bool GetEnemyBeatFlag = false;                                   ///エネミーのビートで動くかどうか（EnemyMobiusが操作する）
     public GameObject[] Enemy = new GameObject[2];                           //エネミーオブジェクト（シーンごとの敵の数に応じてサイズ変更）
 
@@ -22,9 +23,9 @@ public class MoveMobius : MonoBehaviour
     private bool FlickMoveFlag = false;                                       //弾き移動をさせるかどうか
     bool OneFlickFlag = false;                                                //スティック入力を連続でさせない用
 
-    public List<GameObject> Line = new List<GameObject>();                    //線のオブジェクト（CollisionLineが操作する）
-    public List<CrossLine> cl = new List<CrossLine>();                        //CrossLineスクリプト（CollisionLineが操作する）
-    [HideInInspector] public GameObject GimicLineObj;                         //動く線のオブジェクト格納用（MoveLineが操作する）
+    [HideInInspector] public List<GameObject> Line = new List<GameObject>(); //線のオブジェクト（CollisionLineが操作する）
+    [HideInInspector] public List<CrossLine> cl = new List<CrossLine>();     //CrossLineスクリプト（CollisionLineが操作する）
+    [HideInInspector] public GameObject GimicLineObj;                        //動く線のオブジェクト格納用（MoveLineが操作する）
     int MobiusMoveCrossPosNum;                                               //メビウスが移動する交点の要素番号
 
     private Rigidbody Rb;
@@ -134,7 +135,8 @@ public class MoveMobius : MonoBehaviour
         }
 
         PlayerMoveFlg = false;
-        EnemyMoveFlag = false;
+        //EnemyMoveFlag = false;
+        //EnemyOnFlag = false;
 
         int num = player.GetComponent<PlayerMove>().GetNowMobiusNum();//プレイヤーオブジェクトから現在のメビウスの輪の数字取得
 
@@ -146,15 +148,32 @@ public class MoveMobius : MonoBehaviour
 
         for (int i = 0; i < Enemy.Length; i++)
         {
-            num = Enemy[i].GetComponent<EnemyMove>().GetNowMobiusNum();
-            if (this.name == "Mobius (" + num + ")" && !PlayerMoveFlg)//エネミーが乗っていたら
+            if (Enemy[i] != null)//エネミーオブジェクトが割り当てられたら
             {
-                EnemyMoveFlag = true;
+                num = Enemy[i].GetComponent<EnemyMove>().GetNowMobiusNum();
+                if (this.name == "Mobius (" + num + ")" && !PlayerMoveFlg)//エネミーが乗っていたら
+                {
+                    //EnemyMoveFlag = true;
+                    EnemyOnFlag = true;
+                }
             }
         }
+
+        if (EnemyOnFlag)
+        {
+            EnemyMoveFlag = true;
+            EnemyOnFlag = false;
+        }
+        else
+        {
+            EnemyMoveFlag = false;
+
+        }
+
         //OldPos = this.transform.position;
         MobiusStrip();//メビウスの輪になっているかを調べる
         BlockCheak();
+
     }
 
     private void CrossPosMove()//交点へ移動する処理

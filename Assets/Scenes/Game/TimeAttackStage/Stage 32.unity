@@ -321,7 +321,7 @@ PrefabInstance:
     - target: {fileID: 2091470672856779397, guid: 3659251827a31d3429bb79fa84a2fbf0,
         type: 3}
       propertyPath: BPM
-      value: 140
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 2091470672856779397, guid: 3659251827a31d3429bb79fa84a2fbf0,
         type: 3}
@@ -1770,7 +1770,7 @@ PrefabInstance:
     - target: {fileID: 1008526710995014902, guid: b8bed77f9ce13554d809377be5ff85c1,
         type: 3}
       propertyPath: NextStageNum
-      value: 8
+      value: 33
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8bed77f9ce13554d809377be5ff85c1, type: 3}
@@ -3723,8 +3723,9 @@ MonoBehaviour:
   m_soundManagerPrefab: {fileID: 3703435764166897674, guid: 79b0c470f6d1f984d99dbadf4d2d4c87,
     type: 3}
   Menu: {fileID: 1321440896}
-  BgmName: Area2
+  BgmName: stage2_time
   ScoreNum: 100
+  SlideTime: 0.25
 --- !u!4 &1898667830
 Transform:
   m_ObjectHideFlags: 0
@@ -3798,7 +3799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c340e9782b8c544b8d27f5acc484927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SlideTime: 0.25
+  Menu: {fileID: 0}
 --- !u!1 &1900088905
 GameObject:
   m_ObjectHideFlags: 0
