@@ -26,7 +26,7 @@ public class LarvaeEnemy : EnemyMove
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!Pause)
         {
@@ -43,7 +43,7 @@ public class LarvaeEnemy : EnemyMove
                 Speed = NormalSpeed;
             }
 
-            //移動計算
+            //移動計算// アニメーションの処理
             if (RotateLeftFlg)
             {
                 angle += (rotateSpeed * Speed) * Time.deltaTime;
@@ -86,7 +86,7 @@ public class LarvaeEnemy : EnemyMove
             }
 
         }
-        Mobius[NowMobius].GetComponent<MoveMobius>().EnemyOnflag = true;
+        Mobius[NowMobius].GetComponent<MoveMobius>().EnemyOnFlag = true;
     }
     
     private void OnTriggerEnter(Collider other)
@@ -117,6 +117,7 @@ public class LarvaeEnemy : EnemyMove
                 {
                     if (other.GetComponent<LarvaeEnemy>().GetRotateFlg() ==true)
                     {
+                        // エフェクトの処理
                         Destroy(other.gameObject);
                         GameObject NewAdultEnemy = Instantiate(AdultEnemyObj);
                         NewAdultEnemy.GetComponent<AdultEnemy>().SetMakeState(AdultRotateLeftFlg, NowMobius, InsideFlg, angle,SideCnt);

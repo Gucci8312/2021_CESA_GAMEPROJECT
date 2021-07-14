@@ -66,7 +66,7 @@ public class AdultEnemy : EnemyMove
                 CollisonMobius();//移り先のメビウスの輪を探す
             }
         }
-        Mobius[NowMobius].GetComponent<MoveMobius>().EnemyOnflag = true;
+        Mobius[NowMobius].GetComponent<MoveMobius>().EnemyOnFlag = true;
     }
 
     
