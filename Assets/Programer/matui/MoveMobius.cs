@@ -13,8 +13,8 @@ public class MoveMobius : MonoBehaviour
     GameObject player;
     PlayerMove pm;                                                           //PlayerMoveスクリプト
 
-    public bool EnemyOnFlag;                                                 //エネミーが乗っているかどうか
-    /*[HideInInspector] */public bool EnemyMoveFlag;                         //エネミーによる移動判定用（EnemyMove側でも操作する）
+    public bool EnemyOnFlag;                                                 //エネミーが乗っているかどうか（EnemyMove側でも操作する）
+    /*[HideInInspector] */public bool EnemyMoveFlag;                         //エネミーによる移動判定用
     private bool GetEnemyBeatFlag = false;                                   ///エネミーのビートで動くかどうか（EnemyMobiusが操作する）
     public GameObject[] Enemy = new GameObject[2];                           //エネミーオブジェクト（シーンごとの敵の数に応じてサイズ変更）
 
@@ -62,6 +62,7 @@ public class MoveMobius : MonoBehaviour
     SupureCollision Sc;                                                      //SupureCollisionスクリプト
 
     Transform ThisTransform;
+
     void Start()
     {
         ThisTransform = this.GetComponent<Transform>();
