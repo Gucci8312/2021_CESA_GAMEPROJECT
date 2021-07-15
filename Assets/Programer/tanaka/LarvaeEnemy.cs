@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class LarvaeEnemy : EnemyMove
 {
@@ -9,7 +10,7 @@ public class LarvaeEnemy : EnemyMove
     bool AdultRotateLeftFlg;
     float InvincibilityTime ;
     [SerializeField] GameObject AdultEnemyObj;
-
+    public VisualEffect vfx;
 
     protected override void Awake()
     {
