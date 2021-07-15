@@ -54,30 +54,51 @@ public class Cusour : MonoBehaviour
             {
                 if (!UI.GetComponent<UIManeger>().GameClearFlg && !UI.GetComponent<UIManeger>().GameOverFlg)
                 {
-                    if (Controler.GetCanselButtonFlg())
+                    if (!ActiveUIManager.SlideFlag)//メニューがスライドしてないとき
                     {
-                        Window.SetActive(!Window.activeSelf);
-                        //Time.timeScale = 1.0f;
-                        PauseManager.OffPause();
-                        //if(SoundFlg)
-                        //{
-                        //    Destroy(SoundObj);
-                        //}
+                        if (Controler.GetCanselButtonFlg())
+                        {
+                            Debug.Log("キャンセルボタン押された");
+
+                            if (ActiveUIManager.MenuInOutFlag)//メニューが開かれているとき
+                            {
+                                ActiveUIManager.SlideFlag = true;
+                                PauseManager.OffPause();
+                                ActiveUIManager.MenuInOutFlag = !ActiveUIManager.MenuInOutFlag;
+                            }
+                        }
+
                     }
                 }
             }
             else
             {
-                if (Controler.GetCanselButtonFlg())
+                if (!ActiveUIManager.SlideFlag)//メニューがスライドしてないとき
                 {
-                    Window.SetActive(!Window.activeSelf);
-                    //Time.timeScale = 1.0f;
-                    PauseManager.OffPause();
-                    //if(SoundFlg)
-                    //{
-                    //    Destroy(SoundObj);
-                    //}
+                    if (Controler.GetCanselButtonFlg())
+                    {
+                        Debug.Log("キャンセルボタン押された");
+
+                        if (ActiveUIManager.MenuInOutFlag)//メニューが開かれているとき
+                        {
+                            ActiveUIManager.SlideFlag = true;
+                            PauseManager.OffPause();
+                            ActiveUIManager.MenuInOutFlag = !ActiveUIManager.MenuInOutFlag;
+                        }
+                    }
+
                 }
+
+                //if (Controler.GetCanselButtonFlg())
+                //{
+                //    Window.SetActive(!Window.activeSelf);
+                //    //Time.timeScale = 1.0f;
+                //    PauseManager.OffPause();
+                //    //if(SoundFlg)
+                //    //{
+                //    //    Destroy(SoundObj);
+                //    //}
+                //}
             }
 
         }
