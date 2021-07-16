@@ -8,10 +8,13 @@ public class AdultEnemy : EnemyMove
     protected override void Awake()
     {
         base.Awake();
+        NormalModel();
         type = (int)EnemyType.Adult;
+        InsideLength = 25;
+        OutLength = 10;
     }
-    // Update is called once per frame
-    void Update()
+
+    private void FixedUpdate()
     {
         if (!Pause)
         {
@@ -38,31 +41,40 @@ public class AdultEnemy : EnemyMove
             }
 
             angle = AngleRangeSum(angle);
+            NormalModel();
+        }
 
-            if (SwitchMobius)
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        if (SwitchMobius)
+        {
+            float MaxCounter = 0.2f;//切り替えることができる時間
+
+            counter += Time.deltaTime;
+
+            //移ったときに元のメビウスの輪に戻らないようにカウントする
+            if (counter > MaxCounter)
             {
-                float MaxCounter = 0.2f;//切り替えることができる時間
-
-                counter += Time.deltaTime;
-
-                //移ったときに元のメビウスの輪に戻らないようにカウントする
-                if (counter > MaxCounter)
+                float AngleMoveWide = 90;//移動の範囲
+                if (angle > saveangle + AngleMoveWide || angle < saveangle - AngleMoveWide)//９０度以上移動したかどうか
                 {
-                    float AngleMoveWide = 90;//移動の範囲
-                    if (angle > saveangle + AngleMoveWide || angle < saveangle - AngleMoveWide)//９０度以上移動したかどうか
-                    {
-                        //移り変わることができるようにする
-                        SaveMobius = NowMobius;
-                        counter = 0;
-                        SwitchMobius = false;
-                    }
+                    //移り変わることができるようにする
+                    SaveMobius = NowMobius;
+                    counter = 0;
+                    SwitchMobius = false;
                 }
             }
-            else
-            {
-                CollisonMobius();//移り先のメビウスの輪を探す
-            }
         }
+        else
+        {
+            CollisonMobius();//移り先のメビウスの輪を探す
+        }
+
+        Mobius[NowMobius].GetComponent<MoveMobius>().EnemyOnFlag = true;
     }
 
     
@@ -106,6 +118,35 @@ public class AdultEnemy : EnemyMove
         NewLarvaeEnemy2.GetComponent<LarvaeEnemy>().SetAdultRotateLeftFlg(RotateLeftFlg);
 
         Destroy(this.gameObject);
+    }
+
+    void NormalModel()
+    {
+        if (InsideFlg)
+        {
+            this.transform.Rotate(this.transform.rotation.x - 90, this.transform.rotation.y - 90, this.transform.rotation.z + 90);
+            if (RotateLeftFlg)
+            {
+
+            }
+            else
+            {
+                this.transform.Rotate(this.transform.rotation.x, this.transform.rotation.y - 180, this.transform.rotation.z);
+            }
+        }
+        else
+        {
+            this.transform.Rotate(this.transform.rotation.x + 90, this.transform.rotation.y + 90, this.transform.rotation.z + 90);
+            if (RotateLeftFlg)
+            {
+
+            }
+            else
+            {
+                this.transform.Rotate(this.transform.rotation.x, this.transform.rotation.y + 180, this.transform.rotation.z);
+            }
+        }
+        
     }
 
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class LarvaeEnemy : EnemyMove
 {
@@ -9,13 +10,16 @@ public class LarvaeEnemy : EnemyMove
     bool AdultRotateLeftFlg;
     float InvincibilityTime ;
     [SerializeField] GameObject AdultEnemyObj;
-
+    public VisualEffect vfx;
 
     protected override void Awake()
     {
         base.Awake();
         Deth = false;
         type = (int)EnemyType.Larvae;
+        InsideLength = 25;
+        OutLength = 10;
+        NormalModel();
     }
 
     protected override void Start()
@@ -24,11 +28,11 @@ public class LarvaeEnemy : EnemyMove
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!Pause)
         {
-            
+
             PositionSum();
 
             //外内で速度調整
@@ -52,6 +56,15 @@ public class LarvaeEnemy : EnemyMove
             }
 
             angle = AngleRangeSum(angle);
+            NormalModel();
+        }
+            
+    }
+
+    private void Update()
+    {
+        if (!Pause)
+        {
 
             if (SwitchMobius)
             {
@@ -84,8 +97,9 @@ public class LarvaeEnemy : EnemyMove
             }
 
         }
+        Mobius[NowMobius].GetComponent<MoveMobius>().EnemyOnFlag = true;
     }
-    
+
     private void OnTriggerEnter(Collider other)
     {
         if (InvincibilityTime == 0)
@@ -114,6 +128,7 @@ public class LarvaeEnemy : EnemyMove
                 {
                     if (other.GetComponent<LarvaeEnemy>().GetRotateFlg() ==true)
                     {
+                        // エフェクトの処理
                         Destroy(other.gameObject);
                         GameObject NewAdultEnemy = Instantiate(AdultEnemyObj);
                         NewAdultEnemy.GetComponent<AdultEnemy>().SetMakeState(AdultRotateLeftFlg, NowMobius, InsideFlg, angle,SideCnt);
@@ -156,5 +171,32 @@ public class LarvaeEnemy : EnemyMove
         AdultRotateLeftFlg = rotateleftflg;
     }
 
-    
+    void NormalModel()
+    {
+        if (InsideFlg)
+        {
+            this.transform.Rotate(this.transform.rotation.x - 90, this.transform.rotation.y - 90, this.transform.rotation.z + 90);
+            if (RotateLeftFlg)
+            {
+
+            }
+            else
+            {
+                this.transform.Rotate(this.transform.rotation.x, this.transform.rotation.y - 180, this.transform.rotation.z);
+            }
+        }
+        else
+        {
+            this.transform.Rotate(this.transform.rotation.x + 90, this.transform.rotation.y + 90, this.transform.rotation.z + 90);
+            if (RotateLeftFlg)
+            {
+
+            }
+            else
+            {
+                this.transform.Rotate(this.transform.rotation.x, this.transform.rotation.y + 180, this.transform.rotation.z);
+            }
+        }
+
+    }
 }
