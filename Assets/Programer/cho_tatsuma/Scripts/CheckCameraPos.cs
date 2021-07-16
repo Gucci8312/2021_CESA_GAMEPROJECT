@@ -25,7 +25,7 @@ public class CheckCameraPos : MonoBehaviour
         isStop();
     }
 
-    static bool isStop()
+    static public bool isStop()
     {
         if (Mathf.Abs(m_oldPosition.x - mainCamera.transform.position.x) < 0.1f)
         {

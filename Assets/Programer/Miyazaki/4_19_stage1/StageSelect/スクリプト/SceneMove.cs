@@ -79,7 +79,7 @@ public class SceneMove : MonoBehaviour
         ThisArea = 1 + (Select_Scene - 1) / 5;
         if (TimeAttackFlg)
         {
-            if (StageControl.GetTimeAttackClearFlg(Select_Scene - 1) /*&& ControlCamera.GetPosFlg()*/)
+            if (StageControl.GetTimeAttackClearFlg(Select_Scene - 1) /*&& CheckCameraPos.isStop()*/)
             {
                 TimeAttackClear.SetActive(true);
             }
@@ -88,7 +88,14 @@ public class SceneMove : MonoBehaviour
         else
         {
             TimeAttackClear.SetActive(false);
+
             Score.SetActive(true);
+        }
+        if(!CheckCameraPos.isStop())
+        {
+            TimeAttackClear.SetActive(false);
+            Score.SetActive(false);
+            TimeAttackStage.SetActive(false);
         }
 
         if (Select_Scene == 1 || Select_Scene == 2)
