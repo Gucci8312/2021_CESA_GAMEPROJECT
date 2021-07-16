@@ -16,6 +16,9 @@ public class Target : MonoBehaviour
     GameObject RythmObj;                                    //リズムオブジェクト
     Rythm rythm;                                            //リズムスクリプト取得用
 
+   GameObject DirectionLight;
+   float incity;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +29,8 @@ public class Target : MonoBehaviour
         //vfx = RythmObj.GetComponent<VisualEffect>();
         RythmObj = GameObject.Find("rythm_circle");                                                   //リズムオブジェクト取得
         this.rythm = RythmObj.GetComponent<Rythm>();                                                  //リズムのコード
+        DirectionLight= GameObject.Find("DL");
+
     }
 
     // Update is called once per frame
@@ -86,20 +91,25 @@ public class Target : MonoBehaviour
         // プレイヤーに当たった時
         if (other.gameObject.tag == "Player")
         {
-            // if (!player.GetStartFlg())
+            
+            if (!other.gameObject.GetComponent<PlayerMove>().GetJumpNow())//プレイヤーがジャンプして取れちゃうバグを制限
             {
-                if (!other.gameObject.GetComponent<PlayerMove>().GetJumpNow())//プレイヤーがジャンプして取れちゃうバグを制限
-                {
-                    Debug.Log("チェックポイント通過");
-                    CheckPointUi.CheckPointNum++;
-                    //Destroy(this.gameObject);
-                    ColFlg = true;
-                    ColPos = other.ClosestPointOnBounds(this.transform.position);
-                    SoundManager.PlaySeName("checkpoint_sin");
-                    Destroy(GetComponent<CapsuleCollider>());
-                    Invoke("Delete", 1.0f);
-                }
+                CheckPointUi.Incity();
+            
+                Debug.Log(CheckPointUi.GetIncity());
+                DirectionLight.GetComponent<Light>().intensity = CheckPointUi.GetIncity();
+                Debug.Log("チェックポイント通過");
+                CheckPointUi.CheckPointNum++;
+                //Destroy(this.gameObject);
+                ColFlg = true;
+                ColPos = other.ClosestPointOnBounds(this.transform.position);
+                SoundManager.PlaySeName("checkpoint_sin");
+                Destroy(GetComponent<CapsuleCollider>());
+                Invoke("Delete", 1.0f);
+               
+
             }
+            //LightNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
         }
     }
 

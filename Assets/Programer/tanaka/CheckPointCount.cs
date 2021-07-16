@@ -6,13 +6,23 @@ using UnityEngine.UI;
 public class CheckPointCount : MonoBehaviour
 {
     public int CheckPointNum;//通過したチェックポイント数
-
+    float Inci;
     // Start is called before the first frame update
     void Start()
     {
         CheckPointNum = 0;
     }
 
+    public void Incity()
+	{
+        Inci += 0.1f;
+
+    }
+
+    public float GetIncity()
+	{
+        return Inci;
+	}
     // Update is called once per frame
     void Update()
     {
