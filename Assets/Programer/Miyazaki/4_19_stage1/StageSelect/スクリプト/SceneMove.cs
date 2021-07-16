@@ -72,14 +72,14 @@ public class SceneMove : MonoBehaviour
         TimeAttackClear = GameObject.Find("TimeAttackClear");
         TimeAttackClear.SetActive(false);
     }
-	
-	// Update is called once per frame
-	void Update()
+
+    // Update is called once per frame
+    void Update()
     {
-        ThisArea = 1+(Select_Scene - 1) / 5;
+        ThisArea = 1 + (Select_Scene - 1) / 5;
         if (TimeAttackFlg)
         {
-            if (StageControl.GetTimeAttackClearFlg(Select_Scene - 1))
+            if (StageControl.GetTimeAttackClearFlg(Select_Scene - 1) /*&& ControlCamera.GetPosFlg()*/)
             {
                 TimeAttackClear.SetActive(true);
             }
@@ -288,6 +288,7 @@ public class SceneMove : MonoBehaviour
                     Select_Scene += 25;
                 }
                 StageSelect.LoadStage(Select_Scene, this);
+                return;
             }
         }
 
@@ -355,153 +356,153 @@ public class SceneMove : MonoBehaviour
         }
 
 
-		if(Select_Scene>=0&&Select_Scene <= 5)
-		{
-			for (int i = 0; i < 5; i++)
-			{
+        if (Select_Scene >= 0 && Select_Scene <= 5)
+        {
+            for (int i = 0; i < 5; i++)
+            {
 
 
-				if (i + 1 == num)
-				{
-					if (stageNum[i].GetComponent<StageRingRotate>().GetRotateFlg())
-					{
-						ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 1.0f);
-						ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
-					}
-					else
-					{
-						ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 1.0f);
-						ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
-					}
+                if (i + 1 == num)
+                {
+                    if (stageNum[i].GetComponent<StageRingRotate>().GetRotateFlg())
+                    {
+                        ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 1.0f);
+                        ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
+                    }
+                    else
+                    {
+                        ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 1.0f);
+                        ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
+                    }
 
-				}
-				else
-				{
-					ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
-					ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
-				}
+                }
+                else
+                {
+                    ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
+                    ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
+                }
 
-			}
-		}
-		else if (Select_Scene >= 5&&Select_Scene <= 10)
-		{
-			for (int i = 0; i < 5; i++)
-			{
-
-
-				if (i + 1 == num)
-				{
-					if (stageNum[i+5].GetComponent<StageRingRotate>().GetRotateFlg())
-					{
-						ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 1.0f);
-						ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
-					}
-					else
-					{
-						ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 1.0f);
-						ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
-					}
-
-				}
-				else
-				{
-					ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
-					ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
-				}
-
-			}
-		}
-		else if (Select_Scene >= 10 && Select_Scene <= 15)
-		{
-			for (int i = 0; i < 5; i++)
-			{
+            }
+        }
+        else if (Select_Scene >= 5 && Select_Scene <= 10)
+        {
+            for (int i = 0; i < 5; i++)
+            {
 
 
-				if (i + 1 == num)
-				{
-					if (stageNum[i + 10].GetComponent<StageRingRotate>().GetRotateFlg())
-					{
-						ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 1.0f);
-						ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
-					}
-					else
-					{
-						ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 1.0f);
-						ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
-					}
+                if (i + 1 == num)
+                {
+                    if (stageNum[i + 5].GetComponent<StageRingRotate>().GetRotateFlg())
+                    {
+                        ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 1.0f);
+                        ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
+                    }
+                    else
+                    {
+                        ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 1.0f);
+                        ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
+                    }
 
-				}
-				else
-				{
-					ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
-					ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
-				}
+                }
+                else
+                {
+                    ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
+                    ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
+                }
 
-			}
-		}
-		else if (Select_Scene >= 15 && Select_Scene <= 20)
-		{
-			for (int i = 0; i < 5; i++)
-			{
-
-
-				if (i + 1 == num)
-				{
-					if (stageNum[i + 15].GetComponent<StageRingRotate>().GetRotateFlg())
-					{
-						ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 1.0f);
-						ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
-					}
-					else
-					{
-						ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 1.0f);
-						ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
-					}
-
-				}
-				else
-				{
-					ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
-					ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
-				}
-
-			}
-		}
-		else if (Select_Scene >= 20 && Select_Scene <= 25)
-		{
-			for (int i = 0; i < 5; i++)
-			{
+            }
+        }
+        else if (Select_Scene >= 10 && Select_Scene <= 15)
+        {
+            for (int i = 0; i < 5; i++)
+            {
 
 
-				if (i + 1 == num)
-				{
-					if (stageNum[i + 20].GetComponent<StageRingRotate>().GetRotateFlg())
-					{
-						ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 1.0f);
-						ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
-					}
-					else
-					{
-						ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 1.0f);
-						ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
-					}
+                if (i + 1 == num)
+                {
+                    if (stageNum[i + 10].GetComponent<StageRingRotate>().GetRotateFlg())
+                    {
+                        ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 1.0f);
+                        ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
+                    }
+                    else
+                    {
+                        ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 1.0f);
+                        ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
+                    }
 
-				}
-				else
-				{
-					ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
-					ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
-				}
+                }
+                else
+                {
+                    ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
+                    ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
+                }
 
-			}
-		}
+            }
+        }
+        else if (Select_Scene >= 15 && Select_Scene <= 20)
+        {
+            for (int i = 0; i < 5; i++)
+            {
 
 
+                if (i + 1 == num)
+                {
+                    if (stageNum[i + 15].GetComponent<StageRingRotate>().GetRotateFlg())
+                    {
+                        ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 1.0f);
+                        ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
+                    }
+                    else
+                    {
+                        ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 1.0f);
+                        ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
+                    }
 
+                }
+                else
+                {
+                    ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
+                    ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
+                }
+
+            }
+        }
+        else if (Select_Scene >= 20 && Select_Scene <= 25)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+
+
+                if (i + 1 == num)
+                {
+                    if (stageNum[i + 20].GetComponent<StageRingRotate>().GetRotateFlg())
+                    {
+                        ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 1.0f);
+                        ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
+                    }
+                    else
+                    {
+                        ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 1.0f);
+                        ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
+                    }
+
+                }
+                else
+                {
+                    ColorNum[i].SetColor("_EmissionColor", ColorNum[i].color * 0.005f);
+                    ColorNum[i + 5].SetColor("_EmissionColor", ColorNum[i + 5].color * 0.005f);
+                }
+
+            }
+        }
 
 
 
-	}
+
+
+
+    }
 
     void Release_Stage()
     {

@@ -5,6 +5,7 @@ using UnityEngine;
 public class ControlCamera : MonoBehaviour
 {
     public GameObject SceneManeger;
+    static bool PosFlg;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,11 +14,19 @@ public class ControlCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch(SceneManeger.GetComponent<SceneMove>().ThisArea)
+        switch (SceneManeger.GetComponent<SceneMove>().ThisArea)
         {
             case 1:
                 //this.transform.rotation = Quaternion.Euler(0,-90,0);
-                this.transform.localEulerAngles = new Vector3(0,-180,0);
+                this.transform.localEulerAngles = new Vector3(0, -180, 0);
+                if (gameObject.transform.position.x == 17.2)
+                {
+                    PosFlg = true;
+                }
+                else
+                {
+                    PosFlg = false;
+                }
                 break;
             case 2:
                 this.transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -32,5 +41,10 @@ public class ControlCamera : MonoBehaviour
                 this.transform.rotation = Quaternion.Euler(0, 180, 0);
                 break;
         }
+    }
+
+    static public bool GetPosFlg()
+    {
+        return PosFlg;
     }
 }
