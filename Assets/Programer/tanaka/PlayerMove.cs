@@ -232,7 +232,11 @@ public class PlayerMove : MobiusOnObj
                 HipDropEffectDraw();
             }
         }
-
+        else
+        {
+            DushEffect.SetActive(false);
+            SmokeEffect.SetActive(false);
+        }
 
 
         //クリアの動き
