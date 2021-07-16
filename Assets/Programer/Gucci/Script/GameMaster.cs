@@ -17,9 +17,11 @@ public class GameMaster : MonoBehaviour
     private float frame_count = 0;
     ObjectDraw objDraw;
     GameObject ScoreObj;
-
-   /* static public */bool MenuFlag = false;                        //true:メニューが開いてる false:閉じてる
+    CheckPointCount CheckPoint;
+    /* static public */
+    bool MenuFlag = false;                        //true:メニューが開いてる false:閉じてる
     public float SlideTime = 0.25f;//スライドさせたい時間（秒
+    public float light;
     // public int DrowScore;
     private void Awake()
     {
@@ -34,6 +36,8 @@ public class GameMaster : MonoBehaviour
     void Start()
     {
         //   Menu= GameObject.Find("Menu");
+        CheckPoint = GameObject.Find("CheckPointCount").GetComponent<CheckPointCount>();
+        CheckPoint.inci(light);
         Player = GameObject.Find("Player");                                        //全てのメビウス取得
                                                                                    // Menu = GameObject.Find("Menu");                                        //全てのメビウス取得
         PauseManager.GameObjectFindInit();

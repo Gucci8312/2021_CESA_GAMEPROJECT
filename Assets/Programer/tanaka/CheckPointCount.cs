@@ -7,15 +7,22 @@ public class CheckPointCount : MonoBehaviour
 {
     public int CheckPointNum;//通過したチェックポイント数
     float Inci;
+    public float inci_s;
     // Start is called before the first frame update
     void Start()
     {
         CheckPointNum = 0;
     }
 
+    public void inci(float a)
+	{
+        inci_s = a;
+
+    }
     public void Incity()
 	{
-        Inci += 0.1f;
+
+        Inci += inci_s;
 
     }
 
