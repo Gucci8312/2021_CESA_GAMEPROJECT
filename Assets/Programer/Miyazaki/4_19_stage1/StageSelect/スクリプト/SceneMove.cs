@@ -91,12 +91,12 @@ public class SceneMove : MonoBehaviour
 
             Score.SetActive(true);
         }
-        if(!CheckCameraPos.isStop())
-        {
-            TimeAttackClear.SetActive(false);
-            Score.SetActive(false);
-            TimeAttackStage.SetActive(false);
-        }
+        //if(!CheckCameraPos.isStop())
+        //{
+        //    TimeAttackClear.SetActive(false);
+        //    Score.SetActive(false);
+        //    TimeAttackStage.SetActive(false);
+        //}
 
         if (Select_Scene == 1 || Select_Scene == 2)
         {

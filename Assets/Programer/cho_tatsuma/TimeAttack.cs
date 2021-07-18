@@ -59,6 +59,11 @@ public class TimeAttack : MonoBehaviour
     {
         return MaxTime;
     }
-
+    static public void SetTimer(int _Time)
+    {
+        m_time = _Time;
+        MaxTime = _Time;
+        timeUp = false;
+    }
 }
 
