@@ -18,7 +18,7 @@ public class ControlCamera : MonoBehaviour
         {
             case 1:
                 //this.transform.rotation = Quaternion.Euler(0,-90,0);
-                this.transform.localEulerAngles = new Vector3(0, -180, 0);
+                this.transform.localEulerAngles = new Vector3(0, -90, 0);
                 if (gameObject.transform.position.x == 17.2)
                 {
                     PosFlg = true;
@@ -38,7 +38,7 @@ public class ControlCamera : MonoBehaviour
                 this.transform.rotation = Quaternion.Euler(0, 0, 0);
                 break;
             case 5:
-                this.transform.rotation = Quaternion.Euler(0, 180, 0);
+                this.transform.rotation = Quaternion.Euler(0, 90, 0);
                 break;
         }
     }
