@@ -71,7 +71,7 @@ public class PlayerMove : MobiusOnObj
     bool Clear2Motion;//２回目のモーション
     [SerializeField] Vector3 ClearLastPos;
     float Clear2MotionTime;
-
+    bool PauseHipDrop;
     protected override void Awake()
     {
         InitRot = transform.rotation;
@@ -111,6 +111,7 @@ public class PlayerMove : MobiusOnObj
         jumpmovesave = 0;
         jumpmove_prev = 0;
         HipDropSpeed = HipDropSpeed * 100f;
+        PauseHipDrop = false;
         SpeedPress = false;
         SpeedUpFlg = false;
         MenuOnOne = false;
@@ -135,6 +136,7 @@ public class PlayerMove : MobiusOnObj
         //メニュー移動処理
         if (Menu.activeSelf == true && !Clear)
         {
+            
             MenuOffOne = false;
             if (!Stop) PauseMove();
         }
@@ -145,6 +147,7 @@ public class PlayerMove : MobiusOnObj
                 Stop = false;
                 HipDrop = false;
                 MenuOffOne = true;
+                PauseHipDrop = false;
             }
 
             MenuOnOne = false;
@@ -600,11 +603,11 @@ public class PlayerMove : MobiusOnObj
 
     private void PauseMove()
     {
-
+        PlayerAnimation.Wait();
         PauseModel();
-        if (!HipDrop)//移動させる
+        if (!PauseHipDrop)//移動させる
         {
-            HipDrop = true;
+            PauseHipDrop = true;
             transform.position = new Vector3(PausePos.x, PausePos.y+50, PausePos.z);
         }
         else//ヒップドロップ中
@@ -616,7 +619,7 @@ public class PlayerMove : MobiusOnObj
             if (vec.y < 0)
             {
                 Stop = true;
-                PlayerAnimation.Wait();
+                
             }
         }
 
