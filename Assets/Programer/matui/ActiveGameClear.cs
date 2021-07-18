@@ -59,8 +59,8 @@ public class ActiveGameClear : MonoBehaviour
         ////各初期値を取得
         //InitPos = ThisTransform.position;
         //InitScale = ThisTransform.localScale;
-        this.transform.localScale = new Vector3(1, 1, 1);
-        Init();
+        //this.transform.localScale = new Vector3(1, 1, 1);//座標を更新させるためにスケールをセットする
+        //Init();
 
         //ScoreObj.Obj.SetActive(false);
         //GameClearObj.Obj.SetActive(false);
@@ -70,8 +70,12 @@ public class ActiveGameClear : MonoBehaviour
     void Awake()
     {
         this.GetComponent<GameClear>().enabled = false;//GameClearコンポーネントを消しとく
+
+        this.transform.localScale = new Vector3(1, 1, 1);//座標を更新させるためにスケールをセットする
+        Init();
+
     }
-    
+
 
 
     // Update is called once per frame
@@ -216,6 +220,7 @@ public class ActiveGameClear : MonoBehaviour
                 }
                 ActiveOnOff(BackGroundObj.Obj, true);
 
+                //透明からスタートさせる
                 color = BackGroundObj.SpriteColor.color;
                 color.a = 0;
                 BackGroundObj.SpriteColor.color = color;
@@ -224,7 +229,7 @@ public class ActiveGameClear : MonoBehaviour
 
                 if (!NotScoreFlag)
                 {
-                    ScoreObj.ThisTransform.position = ScorePos;
+                    ScoreObj.ThisTransform.position = ScorePos;//スコアを指定した座標へ移動
                     //ScoreObj.ThisTransform.localScale = new Vector3(3, 3, 1);
                 }
 
@@ -256,6 +261,7 @@ public class ActiveGameClear : MonoBehaviour
 
                     }
 
+                    //フェードインする
                     Color color2 = BackGroundObj.SpriteColor.color;
                     color2.a = SenkeiHokan(0, 1, NowTime_2, 0, NextTime);
                     BackGroundObj.SpriteColor.color = color2;
@@ -309,7 +315,7 @@ public class ActiveGameClear : MonoBehaviour
         GameClearObj.SpriteColor = GameClearObj.Obj.GetComponent<SpriteRenderer>();
         GameClearObj.InitPos = GameClearObj.ThisTransform.localPosition;
         GameClearObj.InitScale = GameClearObj.ThisTransform.localScale;
-        ActiveOnOff(GameClearObj.Obj,false);
+        ActiveOnOff(GameClearObj.Obj, false);
 
         if (GameObject.Find("Time"))//タイムがあれば（タイムアタックのステージ）
         {
@@ -339,10 +345,15 @@ public class ActiveGameClear : MonoBehaviour
         {
             StageSelectObj[i].ThisTransform = StageSelectObj[i].Obj.GetComponent<Transform>();
             StageSelectObj[i].SpriteColor = StageSelectObj[i].Obj.GetComponent<SpriteRenderer>();
+        }
+
+        StageSelectInitPosSet();//初期位置をセット
+
+        for (int i = 0; i < StageSelectObj.Length - SelectObjDownNum; i++)
+        {
             StageSelectObj[i].InitPos = StageSelectObj[i].ThisTransform.localPosition;
             StageSelectObj[i].InitScale = StageSelectObj[i].ThisTransform.localScale;
             ActiveOnOff(StageSelectObj[i].Obj, false);
-
         }
 
         BackGroundObj.Obj = this.transform.Find("BACKGROUND").gameObject;
@@ -353,5 +364,35 @@ public class ActiveGameClear : MonoBehaviour
         ActiveOnOff(BackGroundObj.Obj, false);
 
 
+    }
+
+    //各ステージセレクトの初期位置をセット
+    private void StageSelectInitPosSet()
+    {
+        Vector3 Pos;//UIの初期位置を指定する用
+        float Add=0;//座標を加算用（スコアがあれば加算量 0）
+
+        if (NotScoreFlag)//スコアがない場合
+        {
+            Add = 1.5f;
+        }
+
+        //STAGESELECTの初期位置をセット
+        Pos = StageSelectObj[1].ThisTransform.localPosition;
+        Pos.y = -1.8f + Add;
+        StageSelectObj[1].ThisTransform.localPosition = Pos;
+
+        if (SelectObjDownNum == 0)
+        {
+            //NEXTSTAGEの初期位置をセット
+            Pos = StageSelectObj[2].ThisTransform.localPosition;
+            Pos.y = -0.5f + Add;
+            StageSelectObj[2].ThisTransform.localPosition = Pos;
+        }
+
+
+        //CLEARYASZIRUSIはCusourの処理で固定
+        //CLEARYASZIRUSIの初期位置をセット
+        //StageSelectObj[0].ThisTransform.localPosition = StageSelectObj[1].ThisTransform.localPosition;
     }
 }
