@@ -244,6 +244,7 @@ public class PlayerMove : MobiusOnObj
         {
             ClearMove();
             SmokeEffect.SetActive(false);
+            DushEffect.SetActive(false);
         }
 
     }
