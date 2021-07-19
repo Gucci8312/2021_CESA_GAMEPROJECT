@@ -5,8 +5,8 @@ using Cinemachine;
 public class CheckCameraPos : MonoBehaviour
 {
     static private GameObject mainCamera;
-
     static private Vector3 m_oldPosition;
+    static private float speed;
     static private float m_framCount;
     // Start is called before the first frame update
     void Start()
@@ -17,19 +17,15 @@ public class CheckCameraPos : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (m_framCount % 10 == 0)
-        {
-            m_oldPosition = mainCamera.transform.position;
-        }
+        speed = ((mainCamera.transform.position - m_oldPosition) / Time.deltaTime).magnitude;
+        m_oldPosition = mainCamera.transform.position;
         m_framCount++;
-        isStop();
     }
 
     static public bool isStop()
     {
-        if (Mathf.Abs(m_oldPosition.x - mainCamera.transform.position.x) < 0.1f)
+        if(speed <= 0.2f)
         {
-            Debug.Log("true");
             return true;
         }
         Debug.Log("false");
