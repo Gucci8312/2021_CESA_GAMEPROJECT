@@ -99,6 +99,9 @@ public class VideoPlay : MonoBehaviour
 
     static public bool GetThisActive()
     {
+        if(mPlayer != null)
         return mPlayer.isPlaying;
+
+        return false;
     }
 }
