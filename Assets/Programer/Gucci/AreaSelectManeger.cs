@@ -5,12 +5,12 @@ using UnityEngine;
 public class AreaSelectManeger : MonoBehaviour
 {
     [SerializeField] GameObject m_soundManagerPrefab;          //生成用プレハブ
-
+    [SerializeField] GameObject[] DisapperUI;
 
     bool MenuFlg;
     public GameObject Menu;
 
-   ///* static public */bool MenuFlag = false;                        //true:メニューが開いてる false:閉じてる
+    ///* static public */bool MenuFlag = false;                        //true:メニューが開いてる false:閉じてる
     public float SlideTime = 0.25f;//スライドさせたい時間（秒
     // Start is called before the first frame update
     void Start()
@@ -40,6 +40,22 @@ public class AreaSelectManeger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (CheckCameraPos.isStop())
+        {
+            foreach (var activeUI in DisapperUI)
+            {
+                if (activeUI.activeSelf)
+                    activeUI.SetActive(true);
+            }
+        }
+        else
+        {
+            foreach (var activeUI in DisapperUI)
+            {
+                if (activeUI.activeSelf)
+                    activeUI.SetActive(false);
+            }
+        }
         if (!ActiveUIManager.SlideFlag)//メニューがスライドしてないとき
         {
             if (!ActiveUIManager.MenuInOutFlag)//メニューが透明になったら
@@ -84,7 +100,7 @@ public class AreaSelectManeger : MonoBehaviour
             MenuFlg = false;
         }
 
-        ActiveUIManager.SlideTime = SlideTime; 
+        ActiveUIManager.SlideTime = SlideTime;
     }
 
     public bool GetMenuFlg()
