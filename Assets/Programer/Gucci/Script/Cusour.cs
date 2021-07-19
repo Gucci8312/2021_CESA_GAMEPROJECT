@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Cusour : MonoBehaviour
+public class CUSOUR : MonoBehaviour
 {
     public GameObject[] WindowButton;
     public GameObject Window;
@@ -14,6 +14,7 @@ public class Cusour : MonoBehaviour
     // GameObject SoundRes;
     GameObject UI;
     Vector3 Scale;
+    public bool ControlFlg = true;
 
     // Start is called before the first frame update
     void Start()
@@ -30,8 +31,11 @@ public class Cusour : MonoBehaviour
     void Update()
     {
         Vector3 Pos = this.gameObject.transform.position;
-        gameObject.transform.localScale = Scale;
-        transform.position = new Vector3(WindowButton[Idx].transform.position.x, WindowButton[Idx].transform.position.y, Pos.z);
+        if(ControlFlg)
+        {
+            gameObject.transform.localScale = Scale;
+            transform.position = new Vector3(WindowButton[Idx].transform.position.x, WindowButton[Idx].transform.position.y, Pos.z);
+        }
 
         if (!SoundFlg)
         {

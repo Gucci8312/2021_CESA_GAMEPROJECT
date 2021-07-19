@@ -148,6 +148,7 @@ Transform:
   m_LocalPosition: {x: 33, y: -10, z: 12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1752828456}
   - {fileID: 1202784144}
   - {fileID: 420570020}
   m_Father: {fileID: 0}
@@ -658,7 +659,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 64030849}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &464548482
 GameObject:
@@ -1093,6 +1094,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.y
       value: -18.999996
+      objectReference: {fileID: 0}
+    - target: {fileID: 425683883617350485, guid: 078674571b524f24f8d93e42a0b39fa1,
+        type: 3}
+      propertyPath: ControlFlg
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 425683883617350485, guid: 078674571b524f24f8d93e42a0b39fa1,
         type: 3}
@@ -1675,10 +1681,9 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -66, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1752828456}
+  m_Children: []
   m_Father: {fileID: 64030849}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1514026252
 GameObject:
@@ -2054,7 +2059,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 773ba445083baeb458775a358cedb14c, type: 2}
+  - {fileID: 2100000, guid: cc999e7b5c83b304b8e3eca418bca283, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2171,10 +2176,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1752828455}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -66, y: 3, z: 0}
   m_LocalScale: {x: 1.7814, y: 1.9522521, z: 1}
   m_Children: []
-  m_Father: {fileID: 1202784144}
+  m_Father: {fileID: 64030849}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1752828458
@@ -2195,6 +2200,7 @@ MonoBehaviour:
   Window: {fileID: 64030848}
   NextStageNum: 0
   SoundObj: {fileID: 786288921}
+  ControlFlg: 1
 --- !u!212 &1752828459
 SpriteRenderer:
   m_ObjectHideFlags: 0

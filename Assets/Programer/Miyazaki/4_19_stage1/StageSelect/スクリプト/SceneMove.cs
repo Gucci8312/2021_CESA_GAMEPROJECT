@@ -38,8 +38,9 @@ public class SceneMove : MonoBehaviour
     GameObject TimeAttackStage;
     //GameObject NormalStage;
     GameObject TimeAttackClear;
+    public GameObject[] AreaRight;
 
-    static public bool StageSelectPushFlag=false;   //ステージ決定ボタンを押したかどうか
+    static public bool StageSelectPushFlag = false;   //ステージ決定ボタンを押したかどうか
     //GameObject stageringrotate;
     //StageRingRotate srr;
     // Start is called before the first frame update
@@ -118,22 +119,27 @@ public class SceneMove : MonoBehaviour
         if (Select_Scene >= 1 && Select_Scene <= 5)
         {
             dollyDriver.StageNum0();
+            SetAreaRight(0);
         }
         if (Select_Scene >= 6 && Select_Scene <= 10)
         {
             dollyDriver.StageNum1();
+            SetAreaRight(1);
         }
         if (Select_Scene >= 11 && Select_Scene <= 15)
         {
             dollyDriver.StageNum2();
+            SetAreaRight(2);
         }
         if (Select_Scene >= 16 && Select_Scene <= 20)
         {
             dollyDriver.StageNum3();
+            SetAreaRight(3);
         }
         if (Select_Scene >= 21 && Select_Scene <= 25)
         {
             dollyDriver.StageNum4();
+            SetAreaRight(4);
         }
 
         if (Controler.GetLBButtonFlg())
@@ -568,7 +574,14 @@ public class SceneMove : MonoBehaviour
 
 
     }
-
+    void SetAreaRight(int _Idx)
+    {
+        for (int Idx = 0; Idx < 5; Idx++)
+        {
+            AreaRight[Idx].SetActive(false);
+        }
+        AreaRight[_Idx].SetActive(true);
+    }
 
 }
 

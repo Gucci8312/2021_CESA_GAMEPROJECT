@@ -112,13 +112,14 @@ public class TitleManager : MonoBehaviour
                 if (ActiveUIManager.MenuInOutFlag)//メニューが開かれているとき
                 {
                     PauseManager.OffPause();
+                    m_SelectObj.GetComponent<CUSOUR>().enabled = true;
                 }
                 else//メニューが閉じられているとき
                 {
                     Window.SetActive(true);
                     SoundManager.PlaySeName("メニュー開く");
                     PauseManager.OnPause();
-
+                    m_SelectObj.GetComponent<CUSOUR>().enabled = false;
                 }
                 ActiveUIManager.MenuInOutFlag = !ActiveUIManager.MenuInOutFlag;
 
