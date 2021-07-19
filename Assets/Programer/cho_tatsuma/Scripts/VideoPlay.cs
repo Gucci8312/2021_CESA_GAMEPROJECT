@@ -50,16 +50,16 @@ public class VideoPlay : MonoBehaviour
             endVideo = true;
         }
 
-        if (Controler.GetMenuButtonFlg()) {
-            if (mPlayer.isPlaying)
-            {
-                mPlayer.Pause();
-            }
-            else if(mPlayer.isPaused)
-            {
-                mPlayer.Play();
-            }
-        }
+        //if (Controler.GetMenuButtonFlg()) {
+        //    if (mPlayer.isPlaying)
+        //    {
+        //        mPlayer.Pause();
+        //    }
+        //    else if(mPlayer.isPaused)
+        //    {
+        //        mPlayer.Play();
+        //    }
+        //}
     }
 
 
@@ -97,7 +97,7 @@ public class VideoPlay : MonoBehaviour
         return false;
     }
 
-    static bool GetThisActive()
+    static public bool GetThisActive()
     {
         return mPlayer.isPlaying;
     }

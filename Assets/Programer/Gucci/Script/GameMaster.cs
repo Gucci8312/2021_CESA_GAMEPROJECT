@@ -71,7 +71,7 @@ public class GameMaster : MonoBehaviour
         {
             objDraw.Object_Draw_Update(SupureManager.GetScore());
         }
-        if (!UI.GetComponent<UIManeger>().GameClearFlg && !UI.GetComponent<UIManeger>().GameOverFlg && GameStart.Blinking_Flag)
+        if (!UI.GetComponent<UIManeger>().GameClearFlg && !UI.GetComponent<UIManeger>().GameOverFlg && GameStart.Blinking_Flag&&!VideoPlay.GetThisActive())
         {
             if (!ActiveUIManager.SlideFlag)//メニューがスライドしてないとき
             {
