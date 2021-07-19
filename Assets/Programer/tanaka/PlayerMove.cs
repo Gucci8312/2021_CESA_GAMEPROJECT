@@ -148,6 +148,8 @@ public class PlayerMove : MobiusOnObj
                 HipDrop = false;
                 MenuOffOne = true;
                 PauseHipDrop = false;
+                PositionSum();//場所を求める
+                NormalModel();
             }
 
             MenuOnOne = false;
