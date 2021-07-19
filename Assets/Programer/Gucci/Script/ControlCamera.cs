@@ -32,7 +32,7 @@ public class ControlCamera : MonoBehaviour
                 this.transform.rotation = Quaternion.Euler(0, 0, 0);
                 break;
             case 3:
-                this.transform.rotation = Quaternion.Euler(0, 224, 0);
+                this.transform.rotation = Quaternion.Euler(0, 90, 0);
                 break;
             case 4:
                 this.transform.rotation = Quaternion.Euler(0, 0, 0);
