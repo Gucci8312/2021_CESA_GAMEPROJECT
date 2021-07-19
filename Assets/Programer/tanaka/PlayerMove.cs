@@ -86,6 +86,7 @@ public class PlayerMove : MobiusOnObj
         DushEffect = transform.GetChild(1).gameObject;                                                //ダッシュエフェクト取得
         SmokeEffect = transform.GetChild(2).gameObject;                                               //煙エフェクト取得
         camerashake = Camera.main.GetComponent<CameraShake>();                                        //カメラを揺らす取得
+        NormalModel();
     }
 
     protected override void Start()
