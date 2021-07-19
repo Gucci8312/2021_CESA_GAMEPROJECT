@@ -127,11 +127,7 @@ public class PlayerMove : MobiusOnObj
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            ClearOn();
-        }
-
+        
         NowMobiusColor = Mobius[NowMobius].GetComponent<MobiusColor>().GetNowColorNum();//現在のメビウスの色を取得
 
         //メニュー移動処理
