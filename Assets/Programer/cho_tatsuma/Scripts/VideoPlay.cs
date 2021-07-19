@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class VideoPlay : MonoBehaviour
 {
     //　VideoPlayerコンポーネント
-    private VideoPlayer mPlayer;
+   static private VideoPlayer mPlayer;
     public bool endVideo;
 
     float m_time;
@@ -95,5 +95,10 @@ public class VideoPlay : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    static bool GetThisActive()
+    {
+        return mPlayer.isPlaying;
     }
 }
