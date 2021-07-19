@@ -19,7 +19,6 @@ public class CheckCameraPos : MonoBehaviour
     {
         speed = ((mainCamera.transform.position - m_oldPosition) / Time.deltaTime).magnitude;
         m_oldPosition = mainCamera.transform.position;
-        m_framCount++;
     }
 
     static public bool isStop()
