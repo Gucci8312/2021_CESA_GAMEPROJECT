@@ -39,6 +39,7 @@ public class SceneMove : MonoBehaviour
     //GameObject NormalStage;
     GameObject TimeAttackClear;
 
+    static public bool StageSelectPushFlag=false;   //ステージ決定ボタンを押したかどうか
     //GameObject stageringrotate;
     //StageRingRotate srr;
     // Start is called before the first frame update
@@ -71,6 +72,8 @@ public class SceneMove : MonoBehaviour
         //NormalStage = GameObject.Find("NormalStage");
         TimeAttackClear = GameObject.Find("TimeAttackClear");
         TimeAttackClear.SetActive(false);
+
+        StageSelectPushFlag = false;
     }
 
     // Update is called once per frame
@@ -173,7 +176,7 @@ public class SceneMove : MonoBehaviour
         {
             fedeout.FedeOut_Update();
 
-            if (Controler.GetRightButtonFlg())
+            if (Controler.GetRightButtonFlg() && !StageSelectPushFlag)
             {
                 //TimeAttackObj[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(false);
                 //stageNum[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(false);
@@ -199,7 +202,7 @@ public class SceneMove : MonoBehaviour
                 }
                 SoundManager.PlaySeName("選択する際のカーソルが移動する時");
             }
-            else if (Controler.GetLeftButtonFlg())
+            else if (Controler.GetLeftButtonFlg() && !StageSelectPushFlag)
             {
                 //TimeAttackObj[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(false);
                 //stageNum[Select_Scene - 1].GetComponent<StageRingRotate>().SetRotateFlg(false);
@@ -232,14 +235,14 @@ public class SceneMove : MonoBehaviour
                 dollyDriver.OnMinus();
                 StopCamera1 = false;
             }
-            if (Controler.GetUpButtonFlg())
+            if (Controler.GetUpButtonFlg() && !StageSelectPushFlag)
             {
                 if (StageControl.GetTimeAttackClearFlg(Select_Scene - 1))
                 {
                     TimeAttackFlg = !TimeAttackFlg;
                 }
             }
-            else if (Controler.GetDownButtonFlg())
+            else if (Controler.GetDownButtonFlg() && !StageSelectPushFlag)
             {
                 if (StageControl.GetTimeAttackClearFlg(Select_Scene - 1))
                 {
@@ -247,7 +250,7 @@ public class SceneMove : MonoBehaviour
                 }
             }
 
-            if (Controler.GetXButtonFlg() && Controler.GetZButtonFlg())
+            if (Controler.GetXButtonFlg() && Controler.GetZButtonFlg() && !StageSelectPushFlag)
             {
                 StageControl.AllStageOpen();
                 for (int i = 0; i < 25; i++)
@@ -276,15 +279,15 @@ public class SceneMove : MonoBehaviour
             //stageNum[(Select_Scene - 1)].GetComponent<Light>().intensity = LIGHT_ON;
             StagePictureActiveTrue(Select_Scene - 1);
 
-            if (Controler.SubMitButtonFlg())
+            if (Controler.SubMitButtonFlg() && !StageSelectPushFlag)
             {
                 Activeflag = false;
                 AllStagePictureSetActiveFlase();
                 fedeout.FedeOut_On();
-
+                StageSelectPushFlag = true;
             }
 
-            if (Controler.GetCanselButtonFlg())
+            if (Controler.GetCanselButtonFlg() && !StageSelectPushFlag)
             {
                 StageSelect.GoTitleScene(this);
             }
