@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -148,7 +148,6 @@ Transform:
   m_LocalPosition: {x: 33, y: -10, z: 12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1752828456}
   - {fileID: 1202784144}
   - {fileID: 420570020}
   m_Father: {fileID: 0}
@@ -659,7 +658,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 64030849}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &464548482
 GameObject:
@@ -873,12 +872,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &786288921 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3700983979319290938, guid: 078674571b524f24f8d93e42a0b39fa1,
-    type: 3}
-  m_PrefabInstance: {fileID: 858680675}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &824840536
 GameObject:
   m_ObjectHideFlags: 0
@@ -1681,9 +1674,10 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -66, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1752828456}
   m_Father: {fileID: 64030849}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1514026252
 GameObject:
@@ -2176,10 +2170,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1752828455}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -66, y: 3, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.7814, y: 1.9522521, z: 1}
   m_Children: []
-  m_Father: {fileID: 64030849}
+  m_Father: {fileID: 1202784144}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1752828458
@@ -2197,9 +2191,9 @@ MonoBehaviour:
   WindowButton:
   - {fileID: 1202784141}
   - {fileID: 420570017}
-  Window: {fileID: 64030848}
+  Window: {fileID: 0}
   NextStageNum: 0
-  SoundObj: {fileID: 786288921}
+  SoundObj: {fileID: 0}
   ControlFlg: 1
 --- !u!212 &1752828459
 SpriteRenderer:
