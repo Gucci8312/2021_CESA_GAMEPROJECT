@@ -13,6 +13,7 @@ public class Cusour : MonoBehaviour
     public GameObject SoundObj;
     // GameObject SoundRes;
     GameObject UI;
+    Vector3 Scale;
 
     // Start is called before the first frame update
     void Start()
@@ -22,12 +23,14 @@ public class Cusour : MonoBehaviour
         // SoundRes = (GameObject)Resources.Load("VolumeSettings");
         PauseManager.GameObjectFindInit();
         UI = GameObject.Find("UI");
+        Scale = gameObject.transform.localScale;
     }
 
     // Update is called once per frame
     void Update()
     {
         Vector3 Pos = this.gameObject.transform.position;
+        gameObject.transform.localScale = Scale;
         transform.position = new Vector3(WindowButton[Idx].transform.position.x, WindowButton[Idx].transform.position.y, Pos.z);
 
         if (!SoundFlg)
@@ -54,30 +57,51 @@ public class Cusour : MonoBehaviour
             {
                 if (!UI.GetComponent<UIManeger>().GameClearFlg && !UI.GetComponent<UIManeger>().GameOverFlg)
                 {
-                    if (Controler.GetCanselButtonFlg())
+                    if (!ActiveUIManager.SlideFlag)//メニューがスライドしてないとき
                     {
-                        Window.SetActive(!Window.activeSelf);
-                        //Time.timeScale = 1.0f;
-                        PauseManager.OffPause();
-                        //if(SoundFlg)
-                        //{
-                        //    Destroy(SoundObj);
-                        //}
+                        if (Controler.GetCanselButtonFlg())
+                        {
+                            Debug.Log("キャンセルボタン押された");
+
+                            if (ActiveUIManager.MenuInOutFlag)//メニューが開かれているとき
+                            {
+                                ActiveUIManager.SlideFlag = true;
+                                PauseManager.OffPause();
+                                ActiveUIManager.MenuInOutFlag = !ActiveUIManager.MenuInOutFlag;
+                            }
+                        }
+
                     }
                 }
             }
             else
             {
-                if (Controler.GetCanselButtonFlg())
+                if (!ActiveUIManager.SlideFlag)//メニューがスライドしてないとき
                 {
-                    Window.SetActive(!Window.activeSelf);
-                    //Time.timeScale = 1.0f;
-                    PauseManager.OffPause();
-                    //if(SoundFlg)
-                    //{
-                    //    Destroy(SoundObj);
-                    //}
+                    if (Controler.GetCanselButtonFlg())
+                    {
+                        Debug.Log("キャンセルボタン押された");
+
+                        if (ActiveUIManager.MenuInOutFlag)//メニューが開かれているとき
+                        {
+                            ActiveUIManager.SlideFlag = true;
+                            PauseManager.OffPause();
+                            ActiveUIManager.MenuInOutFlag = !ActiveUIManager.MenuInOutFlag;
+                        }
+                    }
+
                 }
+
+                //if (Controler.GetCanselButtonFlg())
+                //{
+                //    Window.SetActive(!Window.activeSelf);
+                //    //Time.timeScale = 1.0f;
+                //    PauseManager.OffPause();
+                //    //if(SoundFlg)
+                //    //{
+                //    //    Destroy(SoundObj);
+                //    //}
+                //}
             }
 
         }

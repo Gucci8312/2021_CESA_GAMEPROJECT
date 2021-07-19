@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1005,6 +1005,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: -270, y: 90.00001, z: -90.00001}
+--- !u!1 &350816205 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3979921871998456678, guid: 05cdcd1d956ec3540a72ddf34d163cc1,
+    type: 3}
+  m_PrefabInstance: {fileID: 488624202}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &367025818
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7483,6 +7489,8 @@ MonoBehaviour:
   - {fileID: 1052448795}
   - {fileID: 536125084}
   - {fileID: 993088834}
+  - {fileID: 350816205}
+  - {fileID: 2098282522}
   plane: {fileID: 285600043}
   StartTime: 2
 --- !u!114 &1780746169
@@ -8031,7 +8039,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8309c4a6d12e9254085a737fbd118332, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -8253,6 +8261,12 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &2098282522 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8062454191395882787, guid: 3fae1e9c4242f9548b23ce2deabeb308,
+    type: 3}
+  m_PrefabInstance: {fileID: 921416969}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3937572689005680396
 PrefabInstance:
   m_ObjectHideFlags: 0

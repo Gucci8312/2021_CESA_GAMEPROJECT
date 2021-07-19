@@ -40,6 +40,7 @@ public class AreaSelectManeger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (!ActiveUIManager.SlideFlag)//メニューがスライドしてないとき
         {
             if (!ActiveUIManager.MenuInOutFlag)//メニューが透明になったら
@@ -47,7 +48,7 @@ public class AreaSelectManeger : MonoBehaviour
                 Menu.SetActive(false);//メニューを消す
             }
 
-            if (Controler.GetMenuButtonFlg())
+            if (Controler.GetMenuButtonFlg() && !SceneMove.StageSelectPushFlag)
             {
                 //MenuFlg = !MenuFlg;
                 //Menu.SetActive(MenuFlg);
@@ -84,7 +85,7 @@ public class AreaSelectManeger : MonoBehaviour
             MenuFlg = false;
         }
 
-        ActiveUIManager.SlideTime = SlideTime; 
+        ActiveUIManager.SlideTime = SlideTime;
     }
 
     public bool GetMenuFlg()

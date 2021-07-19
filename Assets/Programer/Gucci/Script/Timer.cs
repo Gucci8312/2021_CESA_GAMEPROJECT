@@ -13,6 +13,6 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        NumControl.DrawTime(TimeAttack.GetTime());
+        //NumControl.DrawTime(TimeAttack.GetTime());
     }
 }

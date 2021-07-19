@@ -394,11 +394,14 @@ public class CrossLine : MonoBehaviour
         float Min = 10000;//最小値
         for (int i = 0; i < CrossPos.Count; i++)
         {
+            //if (CrossPos[i] == Vector2.zero) continue;
+
             distance.Add((SerchPos - CrossPos[i]).magnitude);
 
-            if (distance[i] == 0)//差がない（同じ座標）場合
+            if (distance[i] == 0 ||CrossPos[i] == Vector2.zero)//差がない（同じ座標）場合か　交点が０なら
             {
                 distance[i] = 10000;//適当に大きい値を入れて最小の値として取得させないようにする
+                if (CrossPos[i] == Vector2.zero) Debug.Log("交点" + CrossPos[i]);
             }
 
             if (distance[i] <= Min)//取得している最小の値より小さければ
@@ -415,7 +418,6 @@ public class CrossLine : MonoBehaviour
                 return CrossPos[i];
             }
         }
-
         outnum = 0;
         return SerchPos;
     }
